@@ -1,27 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Journey — A1 ao C2</title>
+    <title>English Path — A1 ao C2</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        bg: '#0C1015',
-                        card: '#141B24',
-                        'card-h': '#1A2332',
-                        brd: '#1E2A38',
-                        fg: '#EDE9E0',
-                        muted: '#6B7A8D',
-                        accent: '#E8A838',
-                        'accent-h': '#F0B84D',
-                    },
                     fontFamily: {
                         display: ['Playfair Display', 'serif'],
                         body: ['DM Sans', 'sans-serif'],
@@ -31,746 +20,660 @@
         }
     </script>
     <style>
-        *, *::before, *::after { box-sizing: border-box; }
+        /* ===== TEMA CLARO / ESCURO ===== */
+        :root {
+            --bg: #070D1A;
+            --bg2: #0C1425;
+            --card: #111C32;
+            --card-h: #162240;
+            --border: #1C2D4A;
+            --fg: #F1F5F9;
+            --fg2: #CBD5E1;
+            --muted: #64748B;
+            --accent: #DC2626;
+            --accent-h: #EF4444;
+            --accent-glow: rgba(220,38,38,0.2);
+            --navy: #012169;
+            --navy-light: #1A3A7A;
+            --cross: rgba(220,38,38,0.04);
+            --hero-grad: radial-gradient(ellipse at 50% 30%, rgba(1,33,105,0.25) 0%, transparent 65%);
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        [data-theme="light"] {
+            --bg: #F8FAFC;
+            --bg2: #EFF3F8;
+            --card: #FFFFFF;
+            --card-h: #F8FAFC;
+            --border: #D6DEE8;
+            --fg: #0F172A;
+            --fg2: #334155;
+            --muted: #64748B;
+            --accent: #DC2626;
+            --accent-h: #B91C1C;
+            --accent-glow: rgba(220,38,38,0.12);
+            --navy: #012169;
+            --navy-light: #1A3A7A;
+            --cross: rgba(1,33,105,0.04);
+            --hero-grad: radial-gradient(ellipse at 50% 30%, rgba(1,33,105,0.08) 0%, transparent 65%);
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; }
         body {
             font-family: 'DM Sans', sans-serif;
-            background: #0C1015;
-            color: #EDE9E0;
+            background: var(--bg);
+            color: var(--fg);
             overflow-x: hidden;
+            transition: background 0.4s ease, color 0.4s ease;
         }
-        ::selection { background: rgba(232,168,56,0.3); color: #fff; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0C1015; }
-        ::-webkit-scrollbar-thumb { background: #1E2A38; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #2A3A4E; }
+        ::selection { background: var(--accent-glow); color: var(--accent); }
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-        /* Formas flutuantes do hero */
-        .float-shape {
+        /* Classes de cor utilitárias */
+        .c-bg { background: var(--bg); }
+        .c-bg2 { background: var(--bg2); }
+        .c-card { background: var(--card); }
+        .c-card-h:hover { background: var(--card-h); }
+        .c-border { border-color: var(--border); }
+        .c-fg { color: var(--fg); }
+        .c-fg2 { color: var(--fg2); }
+        .c-muted { color: var(--muted); }
+        .c-accent { color: var(--accent); }
+        .c-accent-bg { background: var(--accent-glow); }
+        .c-navy { color: var(--navy); }
+
+        /* Cruz de São Jorge no hero */
+        .st-george-cross {
             position: absolute;
-            border: 1px solid rgba(232,168,56,0.1);
-            background: rgba(232,168,56,0.02);
+            inset: 0;
             pointer-events: none;
-            will-change: transform;
+            overflow: hidden;
         }
-        .float-shape.circle { border-radius: 50%; }
-        .float-shape.square { border-radius: 20%; }
-
-        @keyframes drift1 {
-            0%, 100% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(30px,-40px) rotate(90deg); }
-            50% { transform: translate(-20px,-70px) rotate(180deg); }
-            75% { transform: translate(-40px,-20px) rotate(270deg); }
-        }
-        @keyframes drift2 {
-            0%, 100% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(-40px,30px) rotate(-90deg); }
-            50% { transform: translate(20px,60px) rotate(-180deg); }
-            75% { transform: translate(50px,10px) rotate(-270deg); }
-        }
-        @keyframes drift3 {
-            0%, 100% { transform: translate(0,0) scale(1); }
-            33% { transform: translate(25px,-35px) scale(1.05); }
-            66% { transform: translate(-30px,20px) scale(0.95); }
-        }
-
-        /* Gradiente animado do texto */
-        .gradient-text {
-            background: linear-gradient(135deg, #E8A838, #F0B84D, #FFD700, #E8A838);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 4s ease infinite;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Glow sutil nos cards de nível */
-        .level-card {
-            position: relative;
-            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease;
-        }
-        .level-card::before {
+        .st-george-cross::before {
             content: '';
             position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
+            top: 0; bottom: 0;
+            left: 50%;
+            width: 120px;
+            margin-left: -60px;
+            background: var(--cross);
         }
-        .level-card:hover {
-            transform: translateY(-8px);
-        }
-        .level-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Reveal na scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Badge pulsante */
-        .pulse-badge {
-            animation: pulseBadge 3s ease-in-out infinite;
-        }
-        @keyframes pulseBadge {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(232,168,56,0.3); }
-            50% { box-shadow: 0 0 0 12px rgba(232,168,56,0); }
-        }
-
-        /* Grid de fundo sutil */
-        .grid-bg {
-            background-image:
-                linear-gradient(rgba(30,42,56,0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(30,42,56,0.3) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        /* Linha de jornada entre níveis */
-        .journey-line {
+        .st-george-cross::after {
+            content: '';
             position: absolute;
+            left: 0; right: 0;
             top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(232,168,56,0.15), rgba(232,168,56,0.3), rgba(232,168,56,0.15), transparent);
-            z-index: 0;
+            height: 120px;
+            margin-top: -60px;
+            background: var(--cross);
+        }
+
+        /* Grid sutil */
+        .subtle-grid {
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.2;
+            position: absolute;
+            inset: 0;
             pointer-events: none;
         }
-
-        /* Modal */
-        .modal-overlay {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            transition: opacity 0.3s ease;
-        }
-        .modal-content {
-            animation: modalIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.92) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        /* Toast */
-        .toast-container { pointer-events: none; }
-        .toast {
-            pointer-events: auto;
-            animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
-        }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(60px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes toastOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(60px); }
-        }
-
-        /* Dificuldade dots */
-        .diff-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            border: 1.5px solid currentColor;
-            transition: background 0.3s ease;
-        }
-        .diff-dot.filled { background: currentColor; }
 
         /* Nav glass */
         .nav-glass {
-            background: rgba(12,16,21,0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(30,42,56,0.5);
+            background: color-mix(in srgb, var(--bg) 85%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s ease;
         }
 
-        /* Tabela admin */
-        .admin-table { font-size: 0.8rem; }
-        .admin-table th {
-            background: #1A2332;
-            position: sticky;
-            top: 0;
-            z-index: 2;
+        /* Cards de nível */
+        .level-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(.25,.46,.45,.94), box-shadow 0.4s ease, border-color 0.3s ease;
+        }
+        .level-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
         }
 
-        /* Stat bar chart */
-        .chart-bar {
-            transition: height 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        /* Badge de dificuldade */
+        .diff-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            border: 1.5px solid currentColor;
+            transition: background 0.3s;
+        }
+        .diff-dot.on { background: currentColor; }
+
+        /* Skill cards */
+        .skill-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
         }
 
-        /* Reduzir movimento se preferido */
+        /* Topic pill */
+        .topic-pill {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--fg2);
+            transition: all 0.25s ease;
+        }
+        .topic-pill:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        /* Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.25,.46,.45,.94);
+        }
+        .reveal.vis { opacity: 1; transform: translateY(0); }
+
+        /* Toggle switch */
+        .theme-toggle {
+            width: 52px; height: 28px;
+            border-radius: 14px;
+            background: var(--border);
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: none;
+            padding: 0;
+        }
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            transition: transform 0.3s cubic-bezier(.4,.0,.2,1);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+        [data-theme="light"] .theme-toggle::after {
+            transform: translateX(24px);
+        }
+
+        /* Pulse badge */
+        .pulse-ring {
+            animation: pulseRing 3s ease-in-out infinite;
+        }
+        @keyframes pulseRing {
+            0%,100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+            50% { box-shadow: 0 0 0 10px transparent; }
+        }
+
+        /* Float shapes */
+        .float-s {
+            position: absolute;
+            border: 1px solid var(--border);
+            border-radius: 20%;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        @keyframes fDrift1 {
+            0%,100%{transform:translate(0,0) rotate(0deg)}
+            50%{transform:translate(20px,-30px) rotate(180deg)}
+        }
+        @keyframes fDrift2 {
+            0%,100%{transform:translate(0,0) rotate(0deg)}
+            50%{transform:translate(-25px,20px) rotate(-180deg)}
+        }
+
+        /* Modal */
+        .modal-bg { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .modal-box { animation: mIn 0.35s cubic-bezier(.25,.46,.45,.94); }
+        @keyframes mIn { from{opacity:0;transform:scale(0.93) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+        /* Toast */
+        .toast-item {
+            animation: tIn 0.35s ease, tOut 0.35s ease 2.6s forwards;
+            pointer-events: auto;
+        }
+        @keyframes tIn { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes tOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(50px)} }
+
+        /* Admin table */
+        .adm-tbl { font-size: 0.78rem; }
+        .adm-tbl th { background: var(--bg2); position: sticky; top: 0; z-index: 2; }
+
+        /* Chart bar */
+        .c-bar { transition: height 0.6s cubic-bezier(.25,.46,.45,.94); }
+
+        *:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Focus visible */
-        *:focus-visible {
-            outline: 2px solid #E8A838;
-            outline-offset: 2px;
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- ========== NAVEGAÇÃO ========== -->
+    <!-- NAV -->
     <nav class="nav-glass fixed top-0 left-0 right-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2.5 group" aria-label="English Journey - Início">
-                <div class="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
-                    <i class="fa-solid fa-book-open text-accent text-sm"></i>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2" aria-label="Home">
+                <div class="w-8 h-8 rounded-lg c-accent-bg flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap c-accent text-xs"></i>
                 </div>
-                <span class="font-display font-bold text-lg text-fg">English<span class="text-accent">Journey</span></span>
+                <span class="font-display font-bold text-base c-fg">English<span class="c-accent">Path</span></span>
             </a>
-            <div class="hidden sm:flex items-center gap-8">
-                <a href="#hero" class="text-muted hover:text-fg transition-colors text-sm font-medium">Início</a>
-                <a href="#niveis" class="text-muted hover:text-fg transition-colors text-sm font-medium">Níveis</a>
-                <a href="#recursos" class="text-muted hover:text-fg transition-colors text-sm font-medium">Recursos</a>
+            <div class="hidden md:flex items-center gap-6">
+                <a href="#niveis" class="c-muted hover:c-fg transition-colors text-sm">Niveis</a>
+                <a href="#habilidades" class="c-muted hover:c-fg transition-colors text-sm">Habilidades</a>
+                <a href="#topicos" class="c-muted hover:c-fg transition-colors text-sm">Topicos</a>
             </div>
-            <button onclick="openAdmin()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-brd hover:border-accent/40 hover:bg-card-h transition-all text-sm text-muted hover:text-fg" aria-label="Painel Administrativo">
-                <i class="fa-solid fa-shield-halved text-xs"></i>
-                <span class="hidden sm:inline">Admin</span>
-            </button>
+            <div class="flex items-center gap-3">
+                <!-- Toggle tema -->
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-moon text-[10px] c-muted"></i>
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema claro/escuro"></button>
+                    <i class="fa-solid fa-sun text-[10px] c-muted"></i>
+                </div>
+                <!-- Admin -->
+                <button onclick="openAdmin()" class="w-8 h-8 rounded-lg c-card c-border flex items-center justify-center c-muted hover:c-accent transition-colors text-xs" aria-label="Admin" title="Painel Administrativo">
+                    <i class="fa-solid fa-lock"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- ========== HERO ========== -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+    <!-- HERO -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="st-george-cross"></div>
+        <div class="subtle-grid"></div>
+        <div class="absolute inset-0" style="background:var(--hero-grad)"></div>
+
         <!-- Formas flutuantes -->
-        <div class="float-shape circle" style="width:220px;height:220px;top:10%;left:5%;animation:drift1 18s ease-in-out infinite;"></div>
-        <div class="float-shape square" style="width:140px;height:140px;top:20%;right:10%;animation:drift2 22s ease-in-out infinite;"></div>
-        <div class="float-shape circle" style="width:300px;height:300px;bottom:10%;left:50%;animation:drift3 25s ease-in-out infinite;border-color:rgba(232,168,56,0.06);"></div>
-        <div class="float-shape square" style="width:80px;height:80px;top:60%;left:15%;animation:drift2 16s ease-in-out infinite;"></div>
-        <div class="float-shape circle" style="width:180px;height:180px;top:40%;right:25%;animation:drift1 20s ease-in-out infinite;border-color:rgba(232,168,56,0.07);"></div>
-        <div class="float-shape square" style="width:100px;height:100px;bottom:25%;right:5%;animation:drift3 19s ease-in-out infinite;"></div>
+        <div class="float-s" style="width:160px;height:160px;top:12%;left:6%;animation:fDrift1 20s ease-in-out infinite"></div>
+        <div class="float-s" style="width:100px;height:100px;top:22%;right:8%;animation:fDrift2 24s ease-in-out infinite"></div>
+        <div class="float-s" style="width:200px;height:200px;bottom:15%;left:60%;animation:fDrift1 28s ease-in-out infinite;opacity:0.2"></div>
 
-        <!-- Gradiente radial de fundo -->
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,168,56,0.06)_0%,transparent_70%)]"></div>
+        <!-- Cruz decorativa maior no canto -->
+        <div class="absolute top-20 right-10 w-24 h-24 opacity-[0.06] pointer-events-none hidden lg:block">
+            <div class="absolute top-0 bottom-0 left-1/2 w-4 -translate-x-1/2 c-accent rounded"></div>
+            <div class="absolute left-0 right-0 top-1/2 h-4 -translate-y-1/2 c-accent rounded"></div>
+        </div>
 
-        <!-- Conteúdo -->
-        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
-            <div class="pulse-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-medium mb-8">
-                <i class="fa-solid fa-sparkles text-[10px]"></i>
-                Plataforma Completa de Inglês
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-14">
+            <div class="pulse-ring inline-flex items-center gap-2 px-4 py-1.5 rounded-full c-accent-bg border border-[var(--accent)] text-[var(--accent)] text-[11px] font-medium mb-8">
+                <i class="fa-solid fa-flag text-[9px]"></i>
+                Aprenda Ingles de verdade
             </div>
 
-            <h1 class="font-display font-900 text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
-                <span class="block text-fg">Sua Jornada do</span>
-                <span class="gradient-text">A1 ao C2</span>
+            <h1 class="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-5 c-fg">
+                Do <span style="color:var(--navy-light)">A1</span> ao <span class="c-accent">C2</span>
             </h1>
-
-            <p class="text-muted text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-                Do primeiro "Hello" à fluência total. Seis níveis cuidadosamente estruturados para transformar seu inglês de forma progressiva e consistente.
+            <p class="c-muted text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-light">
+                Topicos organizados por habilidade e nivel. Estude no seu ritmo, do basico ao avancado.
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                <a href="#niveis" class="px-8 py-3.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all hover:shadow-[0_0_30px_rgba(232,168,56,0.25)]">
-                    Explorar Níveis <i class="fa-solid fa-arrow-down ml-2 text-xs"></i>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-14">
+                <a href="#niveis" class="px-7 py-3 rounded-xl text-white font-bold text-sm transition-all hover:shadow-[0_0_30px_var(--accent-glow)]" style="background:var(--accent)">
+                    Comecar Agora <i class="fa-solid fa-arrow-down ml-2 text-xs"></i>
                 </a>
-                <a href="#recursos" class="px-8 py-3.5 rounded-xl border border-brd hover:border-accent/40 text-fg font-medium text-sm transition-all hover:bg-card">
-                    Saiba Mais
+                <a href="#topicos" class="px-7 py-3 rounded-xl c-card c-border c-fg font-medium text-sm transition-all hover:border-[var(--accent)]">
+                    Ver Topicos
                 </a>
             </div>
 
-            <!-- Estatísticas -->
-            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-12">
+            <div class="flex flex-wrap items-center justify-center gap-5 sm:gap-10">
                 <div class="text-center">
-                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="6">0</div>
-                    <div class="text-muted text-xs mt-1">Níveis CEFR</div>
+                    <div class="font-display font-bold text-2xl sm:text-3xl c-fg" data-count="6">0</div>
+                    <div class="c-muted text-[11px] mt-0.5">Niveis</div>
                 </div>
-                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="w-px h-7 c-border hidden sm:block"></div>
                 <div class="text-center">
-                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="120">0</div>
-                    <div class="text-muted text-xs mt-1">Aulas Práticas</div>
+                    <div class="font-display font-bold text-2xl sm:text-3xl c-fg" data-count="6">0</div>
+                    <div class="c-muted text-[11px] mt-0.5">Habilidades</div>
                 </div>
-                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="w-px h-7 c-border hidden sm:block"></div>
                 <div class="text-center">
-                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="500">0</div>
-                    <div class="text-muted text-xs mt-1">Exercícios</div>
+                    <div class="font-display font-bold text-2xl sm:text-3xl c-accent" data-count="50">0</div>
+                    <div class="c-muted text-[11px] mt-0.5">Topicos</div>
                 </div>
-                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="w-px h-7 c-border hidden sm:block"></div>
                 <div class="text-center">
-                    <div class="font-display font-bold text-2xl sm:text-3xl text-accent" data-count="100">0</div>
-                    <div class="text-muted text-xs mt-1">% Online</div>
+                    <div class="font-display font-bold text-2xl sm:text-3xl c-fg" data-count="100">0</div>
+                    <div class="c-muted text-[11px] mt-0.5">% Gratuito</div>
                 </div>
             </div>
         </div>
 
-        <!-- Seta de scroll -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <i class="fa-solid fa-chevron-down text-muted/40 text-lg"></i>
+        <div class="absolute bottom-7 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fa-solid fa-chevron-down c-muted text-sm opacity-40"></i>
         </div>
-    </section>
+    </header>
 
-    <!-- ========== NÍVEIS ========== -->
-    <section id="niveis" class="relative py-24 sm:py-32">
+    <!-- NIVEIS -->
+    <section id="niveis" class="py-20 sm:py-28" style="background:var(--bg2);transition:background 0.4s">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="inline-flex items-center gap-2 text-accent text-xs font-medium uppercase tracking-widest mb-4">
-                    <span class="w-8 h-px bg-accent/40"></span>
-                    Níveis CEFR
-                    <span class="w-8 h-px bg-accent/40"></span>
+            <div class="text-center mb-12 reveal">
+                <div class="inline-flex items-center gap-2 c-accent text-[11px] font-medium uppercase tracking-widest mb-3">
+                    <span class="w-6 h-px c-accent opacity-40"></span> CEFR
+                    <span class="w-6 h-px c-accent opacity-40"></span>
                 </div>
-                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
-                    Cada etapa, uma conquista
-                </h2>
-                <p class="text-muted max-w-xl mx-auto">
-                    Do básico ao avançado, cada nível foi projetado para construir habilidades sólidas sobre a anterior.
-                </p>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl c-fg mb-3">Seis niveis, uma jornada</h2>
+                <p class="c-muted max-w-lg mx-auto text-sm">Cada nivel possui topicos organizados pelas seis habilidades da lingua inglesa.</p>
             </div>
 
-            <!-- Grid de níveis -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 relative">
-                <!-- Linha de jornada (apenas desktop) -->
-                <div class="journey-line hidden lg:block"></div>
-
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 <!-- A1 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:0ms;" onclick="window.location.href='a1.html'">
-                    <div style="--glow:rgba(74,222,128,0.15);" class="before:bg-[var(--glow)] before:inset-[-1px] before:rounded-2xl before:absolute">
+                <a href="a1.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:0ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(34,197,94,0.1)">
+                        <i class="fa-solid fa-seedling text-green-500"></i>
                     </div>
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
-                            <i class="fa-solid fa-seedling text-green-400 text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-green-500/10 text-green-400 text-xs font-bold tracking-wide">A1</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2" style="background:rgba(34,197,94,0.1);color:#22c55e">A1</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Beginner</h3>
+                    <div class="flex justify-center gap-1 text-green-500">
+                        <div class="diff-dot on"></div><div class="diff-dot"></div><div class="diff-dot"></div><div class="diff-dot"></div><div class="diff-dot"></div>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Beginner</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Frases simples, apresentações pessoais, vocabulário do dia a dia e compreensão de instruções básicas.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Greetings</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Numbers</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Daily Life</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-green-400">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
-                    </div>
-                </div>
-
+                </a>
                 <!-- A2 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:80ms;" onclick="window.location.href='a2.html'">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                            <i class="fa-solid fa-leaf text-emerald-400 text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-bold tracking-wide">A2</span>
+                <a href="a2.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:60ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(16,185,129,0.1)">
+                        <i class="fa-solid fa-leaf text-emerald-500"></i>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Elementary</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Conversas sobre rotinas, compras, viagens curtas e descrição de experiências pessoais simples.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Routines</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Shopping</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Travel</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2" style="background:rgba(16,185,129,0.1);color:#10b981">A2</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Elementary</h3>
+                    <div class="flex justify-center gap-1 text-emerald-500">
+                        <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot"></div><div class="diff-dot"></div><div class="diff-dot"></div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-emerald-400">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
-                    </div>
-                </div>
-
+                </a>
                 <!-- B1 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:160ms;" onclick="window.location.href='b1.html'">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-                            <i class="fa-solid fa-water text-cyan-400 text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-wide">B1</span>
+                <a href="b1.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:120ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(6,182,212,0.1)">
+                        <i class="fa-solid fa-water text-cyan-500"></i>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Intermediate</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Opiniões sobre temas conhecidos, viagens independentes e compreensão de textos claros e padronizados.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Opinions</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Grammar</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Listening</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2" style="background:rgba(6,182,212,0.1);color:#06b6d4">B1</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Intermediate</h3>
+                    <div class="flex justify-center gap-1 text-cyan-500">
+                        <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot"></div><div class="diff-dot"></div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-cyan-400">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot"></div>
-                            <div class="diff-dot"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
-                    </div>
-                </div>
-
+                </a>
                 <!-- B2 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:240ms;" onclick="window.location.href='b2.html'">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                            <i class="fa-solid fa-fire text-amber-400 text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-bold tracking-wide">B2</span>
+                <a href="b2.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:180ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(245,158,11,0.1)">
+                        <i class="fa-solid fa-fire text-amber-500"></i>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Upper Intermediate</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Fluência em conversas complexas, argumentação, compreensão de notícias e textos técnicos.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Debate</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">News</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Writing</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2" style="background:rgba(245,158,11,0.1);color:#f59e0b">B2</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Upper Int.</h3>
+                    <div class="flex justify-center gap-1 text-amber-500">
+                        <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot"></div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-amber-400">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
-                    </div>
-                </div>
-
+                </a>
                 <!-- C1 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:320ms;" onclick="window.location.href='c1.html'">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                            <i class="fa-solid fa-bolt text-orange-400 text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-orange-500/10 text-orange-400 text-xs font-bold tracking-wide">C1</span>
+                <a href="c1.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:240ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(249,115,22,0.1)">
+                        <i class="fa-solid fa-bolt text-orange-500"></i>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Advanced</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Expressão flexível e espontânea, compreensão de textos longos e complexos, linguagem acadêmica e profissional.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Academic</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Idioms</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Nuance</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2" style="background:rgba(249,115,22,0.1);color:#f97316">C1</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Advanced</h3>
+                    <div class="flex justify-center gap-1 text-orange-500">
+                        <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-orange-400">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
-                    </div>
-                </div>
-
+                </a>
                 <!-- C2 -->
-                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:400ms;" onclick="window.location.href='c2.html'">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                            <i class="fa-solid fa-crown text-accent text-lg"></i>
-                        </div>
-                        <span class="px-3 py-1 rounded-lg bg-accent/10 text-accent text-xs font-bold tracking-wide">C2</span>
+                <a href="c2.html" class="level-card rounded-2xl p-4 sm:p-5 text-center group reveal" style="transition-delay:300ms">
+                    <div class="w-10 h-10 rounded-xl mx-auto mb-3 flex items-center justify-center c-accent-bg">
+                        <i class="fa-solid fa-crown c-accent"></i>
                     </div>
-                    <h3 class="font-display font-bold text-xl text-fg mb-2">Proficiency</h3>
-                    <p class="text-muted text-sm leading-relaxed mb-4">Domínio quase nativo. Compreensão de tudo que lê ou ouve, expressão precisa em qualquer contexto.</p>
-                    <div class="flex flex-wrap gap-1.5 mb-5">
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Mastery</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Literature</span>
-                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Culture</span>
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mb-2 c-accent-bg c-accent">C2</span>
+                    <h3 class="font-display font-bold text-sm c-fg mb-1">Proficiency</h3>
+                    <div class="flex justify-center gap-1 c-accent">
+                        <div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div><div class="diff-dot on"></div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex gap-1.5 text-accent">
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                            <div class="diff-dot filled"></div>
-                        </div>
-                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="py-20 sm:py-28 c-bg" style="transition:background 0.4s">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <div class="inline-flex items-center gap-2 c-accent text-[11px] font-medium uppercase tracking-widest mb-3">
+                    <span class="w-6 h-px c-accent opacity-40"></span> Skills
+                    <span class="w-6 h-px c-accent opacity-40"></span>
+                </div>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl c-fg mb-3">Seis habilidades, fluencia completa</h2>
+                <p class="c-muted max-w-lg mx-auto text-sm">Cada topico trabalha uma ou mais habilidades essenciais da lingua inglesa.</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:0ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 c-accent-bg flex items-center justify-center">
+                        <i class="fa-solid fa-headphones c-accent"></i>
                     </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Listening</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Compreensao auditiva</p>
+                </div>
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:60ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(1,33,105,0.1)">
+                        <i class="fa-solid fa-book-open" style="color:var(--navy-light)"></i>
+                    </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Reading</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Compreensao leitora</p>
+                </div>
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:120ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(139,92,246,0.1)">
+                        <i class="fa-solid fa-pen-nib text-violet-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Writing</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Producao escrita</p>
+                </div>
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:180ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(34,197,94,0.1)">
+                        <i class="fa-solid fa-microphone text-green-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Speaking</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Producao oral</p>
+                </div>
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:240ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(245,158,11,0.1)">
+                        <i class="fa-solid fa-puzzle-piece text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Grammar</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Estrutura gramatical</p>
+                </div>
+                <div class="skill-card rounded-2xl p-4 sm:p-5 text-center reveal" style="transition-delay:300ms">
+                    <div class="w-11 h-11 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(6,182,212,0.1)">
+                        <i class="fa-solid fa-spell-check text-cyan-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm c-fg mb-1">Vocabulary</h3>
+                    <p class="c-muted text-[11px] leading-relaxed">Vocabulario e lexico</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== RECURSOS ========== -->
-    <section id="recursos" class="relative py-24 sm:py-32 border-t border-brd">
-        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(232,168,56,0.03)_0%,transparent_60%)]"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <div class="inline-flex items-center gap-2 text-accent text-xs font-medium uppercase tracking-widest mb-4">
-                    <span class="w-8 h-px bg-accent/40"></span>
-                    Por que escolher
-                    <span class="w-8 h-px bg-accent/40"></span>
+    <!-- TOPICOS -->
+    <section id="topicos" class="py-20 sm:py-28" style="background:var(--bg2);transition:background 0.4s">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 reveal">
+                <div class="inline-flex items-center gap-2 c-accent text-[11px] font-medium uppercase tracking-widest mb-3">
+                    <span class="w-6 h-px c-accent opacity-40"></span> Topics
+                    <span class="w-6 h-px c-accent opacity-40"></span>
                 </div>
-                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
-                    Recursos que fazem a diferença
-                </h2>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl c-fg mb-3">Topicos disponiveis</h2>
+                <p class="c-muted max-w-lg mx-auto text-sm">Explore os topicos por nivel e habilidade. Clique para acessar a aula.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:0ms;">
-                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                        <i class="fa-solid fa-headphones text-accent"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-fg text-lg mb-2">Audio Imersivo</h3>
-                    <p class="text-muted text-sm leading-relaxed">Escutas gravadas por nativos com diferentes sotaques e velocidades para treinamento real.</p>
-                </div>
+            <!-- Filtro de nivel -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-8 reveal">
+                <button onclick="filterTopics('all')" class="topic-filter active px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="all">Todos</button>
+                <button onclick="filterTopics('A1')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="A1">A1</button>
+                <button onclick="filterTopics('A2')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="A2">A2</button>
+                <button onclick="filterTopics('B1')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="B1">B1</button>
+                <button onclick="filterTopics('B2')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="B2">B2</button>
+                <button onclick="filterTopics('C1')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="C1">C1</button>
+                <button onclick="filterTopics('C2')" class="topic-filter px-3 py-1.5 rounded-lg text-xs font-medium transition-all" data-filter="C2">C2</button>
+            </div>
 
-                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:100ms;">
-                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                        <i class="fa-solid fa-pen-fancy text-accent"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-fg text-lg mb-2">Escrita Guiada</h3>
-                    <p class="text-muted text-sm leading-relaxed">Templates e atividades de writing que evoluem junto com seu nível, do e-mail ao ensaio acadêmico.</p>
-                </div>
-
-                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:200ms;">
-                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                        <i class="fa-solid fa-chart-line text-accent"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-fg text-lg mb-2">Progresso Visível</h3>
-                    <p class="text-muted text-sm leading-relaxed">Dashboard com suas estatísticas, pontos fortes e áreas que precisam de reforço em cada habilidade.</p>
-                </div>
-
-                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:300ms;">
-                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-                        <i class="fa-solid fa-certificate text-accent"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-fg text-lg mb-2">Certificação</h3>
-                    <p class="text-muted text-sm leading-relaxed">Certificado ao completar cada nível, alinhado com os padrões internacionais do CEFR.</p>
-                </div>
+            <!-- Grid de topicos -->
+            <div id="topicsGrid" class="flex flex-wrap justify-center gap-2 sm:gap-2.5 reveal">
+                <!-- Gerados via JS -->
             </div>
         </div>
     </section>
 
-    <!-- ========== CTA ========== -->
-    <section class="py-24 sm:py-32 border-t border-brd">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center reveal">
-            <div class="bg-card rounded-3xl border border-brd p-10 sm:p-16 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent/3 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+    <!-- CTA -->
+    <section class="py-20 sm:py-28 c-bg" style="transition:background 0.4s">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center reveal">
+            <div class="c-card rounded-3xl c-border p-10 sm:p-14 relative overflow-hidden" style="box-shadow:var(--shadow)">
+                <div class="absolute -top-20 -right-20 w-48 h-48 c-accent-bg rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-16 -left-16 w-40 h-40 rounded-full blur-3xl" style="background:rgba(1,33,105,0.08)"></div>
                 <div class="relative">
-                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-fg mb-4">Pronto para comecar?</h2>
-                    <p class="text-muted mb-8 max-w-md mx-auto">Escolha seu nível e comece agora. Cada aula foi feita para você aprender de verdade, no seu ritmo.</p>
-                    <a href="#niveis" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all hover:shadow-[0_0_30px_rgba(232,168,56,0.25)]">
-                        Comecar Agora <i class="fa-solid fa-arrow-right text-xs"></i>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl c-fg mb-3">Pronto para comecar?</h2>
+                    <p class="c-muted text-sm mb-7 max-w-md mx-auto">Escolha seu nivel e explore os topicos. Cada aula foi feita para voce aprender de verdade.</p>
+                    <a href="#niveis" class="inline-flex items-center gap-2 px-7 py-3 rounded-xl text-white font-bold text-sm transition-all hover:shadow-[0_0_30px_var(--accent-glow)]" style="background:var(--accent)">
+                        Escolher Nivel <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="border-t border-brd py-12">
+    <!-- FOOTER -->
+    <footer style="background:var(--bg2);border-top:1px solid var(--border);transition:background 0.4s,border-color 0.4s" class="py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-                <div>
-                    <div class="flex items-center gap-2.5 mb-4">
-                        <div class="w-8 h-8 rounded-lg bg-accent/15 flex items-center justify-center">
-                            <i class="fa-solid fa-book-open text-accent text-xs"></i>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2 sm:col-span-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-7 h-7 rounded-lg c-accent-bg flex items-center justify-center">
+                            <i class="fa-solid fa-graduation-cap c-accent text-[10px]"></i>
                         </div>
-                        <span class="font-display font-bold text-fg">English<span class="text-accent">Journey</span></span>
+                        <span class="font-display font-bold text-sm c-fg">English<span class="c-accent">Path</span></span>
                     </div>
-                    <p class="text-muted text-sm leading-relaxed">Plataforma completa de inglês do A1 ao C2, pensada para quem quer resultados reais.</p>
+                    <p class="c-muted text-xs leading-relaxed">Plataforma de ingles do A1 ao C2 com topicos por habilidade.</p>
                 </div>
                 <div>
-                    <h4 class="text-fg font-bold text-sm mb-4">Níveis</h4>
-                    <ul class="space-y-2">
-                        <li><a href="colors.html" class="text-muted text-sm hover:text-fg transition-colors">A1 — Beginner</a></li>
-                        <li><a href="a2.html" class="text-muted text-sm hover:text-fg transition-colors">A2 — Elementary</a></li>
-                        <li><a href="b1.html" class="text-muted text-sm hover:text-fg transition-colors">B1 — Intermediate</a></li>
-                        <li><a href="b2.html" class="text-muted text-sm hover:text-fg transition-colors">B2 — Upper Int.</a></li>
-                        <li><a href="c1.html" class="text-muted text-sm hover:text-fg transition-colors">C1 — Advanced</a></li>
-                        <li><a href="c2.html" class="text-muted text-sm hover:text-fg transition-colors">C2 — Proficiency</a></li>
+                    <h4 class="c-fg font-bold text-xs mb-3 uppercase tracking-wider">Niveis</h4>
+                    <ul class="space-y-1.5">
+                        <li><a href="a1.html" class="c-muted text-xs hover:c-fg transition-colors">A1 Beginner</a></li>
+                        <li><a href="a2.html" class="c-muted text-xs hover:c-fg transition-colors">A2 Elementary</a></li>
+                        <li><a href="b1.html" class="c-muted text-xs hover:c-fg transition-colors">B1 Intermediate</a></li>
+                        <li><a href="b2.html" class="c-muted text-xs hover:c-fg transition-colors">B2 Upper Int.</a></li>
+                        <li><a href="c1.html" class="c-muted text-xs hover:c-fg transition-colors">C1 Advanced</a></li>
+                        <li><a href="c2.html" class="c-muted text-xs hover:c-fg transition-colors">C2 Proficiency</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-fg font-bold text-sm mb-4">Habilidades</h4>
-                    <ul class="space-y-2">
-                        <li><span class="text-muted text-sm">Listening</span></li>
-                        <li><span class="text-muted text-sm">Reading</span></li>
-                        <li><span class="text-muted text-sm">Writing</span></li>
-                        <li><span class="text-muted text-sm">Speaking</span></li>
-                        <li><span class="text-muted text-sm">Grammar</span></li>
-                        <li><span class="text-muted text-sm">Vocabulary</span></li>
+                    <h4 class="c-fg font-bold text-xs mb-3 uppercase tracking-wider">Habilidades</h4>
+                    <ul class="space-y-1.5">
+                        <li><span class="c-muted text-xs">Listening</span></li>
+                        <li><span class="c-muted text-xs">Reading</span></li>
+                        <li><span class="c-muted text-xs">Writing</span></li>
+                        <li><span class="c-muted text-xs">Speaking</span></li>
+                        <li><span class="c-muted text-xs">Grammar</span></li>
+                        <li><span class="c-muted text-xs">Vocabulary</span></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-fg font-bold text-sm mb-4">Plataforma</h4>
-                    <ul class="space-y-2">
-                        <li><span class="text-muted text-sm">Sobre</span></li>
-                        <li><span class="text-muted text-sm">Contato</span></li>
-                        <li><span class="text-muted text-sm">FAQ</span></li>
-                        <li><span class="text-muted text-sm">Termos de Uso</span></li>
+                    <h4 class="c-fg font-bold text-xs mb-3 uppercase tracking-wider">Info</h4>
+                    <ul class="space-y-1.5">
+                        <li><span class="c-muted text-xs">Sobre</span></li>
+                        <li><span class="c-muted text-xs">Contato</span></li>
+                        <li><span class="c-muted text-xs">FAQ</span></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-brd pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-muted text-xs">&copy; 2025 EnglishJourney. Todos os direitos reservados.</p>
-                <div class="flex items-center gap-4">
-                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <div style="border-top:1px solid var(--border)" class="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="c-muted text-[11px]">&copy; 2025 EnglishPath. Todos os direitos reservados.</p>
+                <div class="flex items-center gap-3">
+                    <a href="#" class="c-muted hover:c-fg transition-colors text-sm" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="c-muted hover:c-fg transition-colors text-sm" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- ========== MODAL ADMIN ========== -->
+    <!-- MODAL ADMIN -->
     <div id="adminModal" class="fixed inset-0 z-[100] hidden">
-        <div class="modal-overlay absolute inset-0 bg-black/60" onclick="closeAdmin()"></div>
+        <div class="modal-bg absolute inset-0 bg-black/50" onclick="closeAdmin()"></div>
         <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
-            <div class="modal-content bg-card rounded-2xl border border-brd w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="modal-box c-card rounded-2xl c-border w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col" style="box-shadow:var(--shadow)">
 
-                <!-- Estado: Login -->
-                <div id="adminLogin" class="p-8 sm:p-10">
-                    <div class="flex items-center justify-between mb-8">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                                <i class="fa-solid fa-shield-halved text-accent"></i>
-                            </div>
+                <!-- LOGIN -->
+                <div id="admLogin" class="p-7 sm:p-9">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-9 h-9 rounded-xl c-accent-bg flex items-center justify-center"><i class="fa-solid fa-shield-halved c-accent text-sm"></i></div>
                             <div>
-                                <h3 class="font-display font-bold text-fg text-lg">Acesso Administrativo</h3>
-                                <p class="text-muted text-xs">Insira a senha para continuar</p>
+                                <h3 class="font-display font-bold c-fg">Acesso Admin</h3>
+                                <p class="c-muted text-[11px]">Insira a senha</p>
                             </div>
                         </div>
-                        <button onclick="closeAdmin()" class="w-8 h-8 rounded-lg bg-bg flex items-center justify-center text-muted hover:text-fg transition-colors" aria-label="Fechar">
-                            <i class="fa-solid fa-xmark text-sm"></i>
-                        </button>
+                        <button onclick="closeAdmin()" class="w-7 h-7 rounded-lg flex items-center justify-center c-muted hover:c-fg transition-colors" style="background:var(--bg)" aria-label="Fechar"><i class="fa-solid fa-xmark text-xs"></i></button>
                     </div>
-                    <div class="max-w-sm">
-                        <label for="adminPass" class="block text-sm text-muted mb-2">Senha</label>
+                    <div class="max-w-xs">
+                        <label for="admPass" class="block text-xs c-muted mb-1.5">Senha</label>
                         <div class="relative">
-                            <input type="password" id="adminPass" placeholder="Digite a senha" class="w-full px-4 py-3 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm" onkeydown="if(event.key==='Enter')attemptLogin()">
-                            <button onclick="togglePassVis('adminPass', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg transition-colors" aria-label="Mostrar senha">
-                                <i class="fa-solid fa-eye text-xs"></i>
-                            </button>
+                            <input type="password" id="admPass" placeholder="Digite a senha" class="w-full px-3.5 py-2.5 rounded-xl c-border text-sm c-fg focus:outline-none transition-colors" style="background:var(--bg)" onkeydown="if(event.key==='Enter')tryLogin()">
+                            <button onclick="toggleEye('admPass',this)" class="absolute right-3 top-1/2 -translate-y-1/2 c-muted hover:c-fg transition-colors" aria-label="Mostrar senha"><i class="fa-solid fa-eye text-[10px]"></i></button>
                         </div>
-                        <p id="loginError" class="text-red-400 text-xs mt-2 hidden">Senha incorreta. Tente novamente.</p>
-                        <button onclick="attemptLogin()" class="mt-4 w-full py-3 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all">
-                            Entrar
-                        </button>
+                        <p id="loginErr" class="text-red-400 text-[11px] mt-1.5 hidden">Senha incorreta.</p>
+                        <button onclick="tryLogin()" class="mt-3 w-full py-2.5 rounded-xl text-white font-bold text-sm transition-all" style="background:var(--accent)">Entrar</button>
                     </div>
                 </div>
 
-                <!-- Estado: Dashboard -->
-                <div id="adminDash" class="hidden flex flex-col" style="max-height:90vh;">
-                    <!-- Header -->
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-brd shrink-0">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                                <i class="fa-solid fa-chart-pie text-accent text-sm"></i>
-                            </div>
-                            <h3 class="font-display font-bold text-fg">Painel Admin</h3>
-                        </div>
-                        <button onclick="logoutAdmin()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg text-muted hover:text-red-400 transition-colors text-xs">
-                            <i class="fa-solid fa-right-from-bracket"></i> Sair
-                        </button>
+                <!-- DASHBOARD -->
+                <div id="admDash" class="hidden flex flex-col" style="max-height:90vh">
+                    <div class="flex items-center justify-between px-5 py-3 shrink-0" style="border-bottom:1px solid var(--border)">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-chart-pie c-accent text-xs"></i><span class="font-display font-bold text-sm c-fg">Painel</span></div>
+                        <button onclick="admLogout()" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] c-muted hover:text-red-400 transition-colors" style="background:var(--bg)"><i class="fa-solid fa-right-from-bracket text-[9px]"></i>Sair</button>
                     </div>
-
-                    <!-- Tabs -->
-                    <div class="flex border-b border-brd shrink-0">
-                        <button onclick="switchTab('visitas')" class="admin-tab px-5 py-3 text-sm font-medium text-accent border-b-2 border-accent" data-tab="visitas">
-                            <i class="fa-solid fa-users mr-1.5 text-xs"></i>Visitantes
-                        </button>
-                        <button onclick="switchTab('stats')" class="admin-tab px-5 py-3 text-sm font-medium text-muted border-b-2 border-transparent hover:text-fg transition-colors" data-tab="stats">
-                            <i class="fa-solid fa-chart-bar mr-1.5 text-xs"></i>Estatísticas
-                        </button>
-                        <button onclick="switchTab('config')" class="admin-tab px-5 py-3 text-sm font-medium text-muted border-b-2 border-transparent hover:text-fg transition-colors" data-tab="config">
-                            <i class="fa-solid fa-gear mr-1.5 text-xs"></i>Configurações
-                        </button>
+                    <div class="flex shrink-0" style="border-bottom:1px solid var(--border)">
+                        <button onclick="admTab('visitas')" class="atb px-4 py-2.5 text-xs font-medium c-accent" style="border-bottom:2px solid var(--accent)" data-t="visitas"><i class="fa-solid fa-users mr-1 text-[10px]"></i>Visitantes</button>
+                        <button onclick="admTab('stats')" class="atb px-4 py-2.5 text-xs font-medium c-muted" style="border-bottom:2px solid transparent" data-t="stats"><i class="fa-solid fa-chart-bar mr-1 text-[10px]"></i>Stats</button>
+                        <button onclick="admTab('config')" class="atb px-4 py-2.5 text-xs font-medium c-muted" style="border-bottom:2px solid transparent" data-t="config"><i class="fa-solid fa-gear mr-1 text-[10px]"></i>Senha</button>
                     </div>
-
-                    <!-- Conteúdo das tabs -->
                     <div class="flex-1 overflow-y-auto">
-                        <!-- Tab: Visitas -->
-                        <div id="tabVisitas" class="admin-tab-content p-5">
-                            <div class="flex items-center justify-between mb-4">
-                                <p class="text-muted text-xs">Log de acessos registrados (mais recentes primeiro)</p>
-                                <button onclick="clearLogs()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs hover:bg-red-500/20 transition-colors">
-                                    <i class="fa-solid fa-trash text-[10px]"></i> Limpar
-                                </button>
+                        <div id="tVisitas" class="atc p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="c-muted text-[11px]">Logs de acesso</span>
+                                <button onclick="clearLogs()" class="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] text-red-400 hover:bg-red-500/10 transition-colors"><i class="fa-solid fa-trash text-[9px]"></i>Limpar</button>
                             </div>
-                            <div class="overflow-x-auto rounded-xl border border-brd">
-                                <table class="admin-table w-full text-left">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-3 py-2.5 text-muted font-medium rounded-tl-xl">ID</th>
-                                            <th class="px-3 py-2.5 text-muted font-medium">Data / Hora</th>
-                                            <th class="px-3 py-2.5 text-muted font-medium">Navegador</th>
-                                            <th class="px-3 py-2.5 text-muted font-medium">Tela</th>
-                                            <th class="px-3 py-2.5 text-muted font-medium">Idioma</th>
-                                            <th class="px-3 py-2.5 text-muted font-medium rounded-tr-xl">Duração</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="visitsTableBody" class="divide-y divide-brd">
-                                        <tr><td colspan="6" class="px-3 py-6 text-center text-muted text-sm">Carregando...</td></tr>
-                                    </tbody>
+                            <div class="overflow-x-auto rounded-xl c-border" style="border:1px solid var(--border)">
+                                <table class="adm-tbl w-full text-left">
+                                    <thead><tr><th class="px-2.5 py-2 c-muted font-medium">ID</th><th class="px-2.5 py-2 c-muted font-medium">Data/Hora</th><th class="px-2.5 py-2 c-muted font-medium">Browser</th><th class="px-2.5 py-2 c-muted font-medium">Tela</th><th class="px-2.5 py-2 c-muted font-medium">Idioma</th><th class="px-2.5 py-2 c-muted font-medium">Duracao</th></tr></thead>
+                                    <tbody id="vBody"><tr><td colspan="6" class="px-2.5 py-5 text-center c-muted text-xs">Carregando...</td></tr></tbody>
                                 </table>
                             </div>
-                            <p class="text-muted/50 text-[10px] mt-3">Rastreamento baseado em fingerprint do navegador. Dados armazenados localmente.</p>
                         </div>
-
-                        <!-- Tab: Estatísticas -->
-                        <div id="tabStats" class="admin-tab-content p-5 hidden">
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                                <div class="bg-bg rounded-xl p-4 border border-brd">
-                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Total Visitas</p>
-                                    <p id="statTotal" class="font-display font-bold text-2xl text-fg">0</p>
-                                </div>
-                                <div class="bg-bg rounded-xl p-4 border border-brd">
-                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Visitantes Únicos</p>
-                                    <p id="statUnique" class="font-display font-bold text-2xl text-fg">0</p>
-                                </div>
-                                <div class="bg-bg rounded-xl p-4 border border-brd">
-                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Visitas Hoje</p>
-                                    <p id="statToday" class="font-display font-bold text-2xl text-accent">0</p>
-                                </div>
-                                <div class="bg-bg rounded-xl p-4 border border-brd">
-                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Sessão Média</p>
-                                    <p id="statAvg" class="font-display font-bold text-2xl text-fg">0s</p>
-                                </div>
+                        <div id="tStats" class="atc p-4 hidden">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5">
+                                <div class="rounded-xl p-3" style="background:var(--bg);border:1px solid var(--border)"><p class="c-muted text-[9px] uppercase tracking-wider mb-0.5">Total</p><p id="sTotal" class="font-display font-bold text-xl c-fg">0</p></div>
+                                <div class="rounded-xl p-3" style="background:var(--bg);border:1px solid var(--border)"><p class="c-muted text-[9px] uppercase tracking-wider mb-0.5">Unicos</p><p id="sUniq" class="font-display font-bold text-xl c-fg">0</p></div>
+                                <div class="rounded-xl p-3" style="background:var(--bg);border:1px solid var(--border)"><p class="c-muted text-[9px] uppercase tracking-wider mb-0.5">Hoje</p><p id="sToday" class="font-display font-bold text-xl c-accent">0</p></div>
+                                <div class="rounded-xl p-3" style="background:var(--bg);border:1px solid var(--border)"><p class="c-muted text-[9px] uppercase tracking-wider mb-0.5">Media</p><p id="sAvg" class="font-display font-bold text-xl c-fg">0s</p></div>
                             </div>
-                            <h4 class="text-fg font-bold text-sm mb-3">Visitas dos últimos 7 dias</h4>
-                            <div id="chartContainer" class="flex items-end gap-2 h-40 bg-bg rounded-xl border border-brd p-4">
-                                <!-- Barras geradas via JS -->
-                            </div>
+                            <p class="c-fg font-bold text-xs mb-2">Ultimos 7 dias</p>
+                            <div id="chartBox" class="flex items-end gap-1.5 h-32 rounded-xl p-3" style="background:var(--bg);border:1px solid var(--border)"></div>
                         </div>
-
-                        <!-- Tab: Configurações -->
-                        <div id="tabConfig" class="admin-tab-content p-5 hidden">
-                            <div class="max-w-sm">
-                                <h4 class="text-fg font-bold text-sm mb-1">Alterar Senha de Acesso</h4>
-                                <p class="text-muted text-xs mb-5">Mantenha sua senha segura. Mínimo de 4 caracteres.</p>
-                                <div class="space-y-3">
-                                    <div>
-                                        <label for="currentPass" class="block text-xs text-muted mb-1.5">Senha Atual</label>
-                                        <input type="password" id="currentPass" placeholder="Senha atual" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
-                                    </div>
-                                    <div>
-                                        <label for="newPass" class="block text-xs text-muted mb-1.5">Nova Senha</label>
-                                        <input type="password" id="newPass" placeholder="Nova senha" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
-                                    </div>
-                                    <div>
-                                        <label for="confirmPass" class="block text-xs text-muted mb-1.5">Confirmar Nova Senha</label>
-                                        <input type="password" id="confirmPass" placeholder="Confirme a nova senha" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
-                                    </div>
-                                    <p id="passMsg" class="text-xs hidden"></p>
-                                    <button onclick="changePassword()" class="w-full py-2.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all mt-2">
-                                        Salvar Nova Senha
-                                    </button>
+                        <div id="tConfig" class="atc p-4 hidden">
+                            <div class="max-w-xs">
+                                <h4 class="c-fg font-bold text-sm mb-1">Alterar Senha</h4>
+                                <p class="c-muted text-[11px] mb-4">Minimo 4 caracteres.</p>
+                                <div class="space-y-2.5">
+                                    <div><label class="block text-[11px] c-muted mb-1">Senha Atual</label><input type="password" id="cpCur" class="w-full px-3 py-2 rounded-xl c-border text-sm c-fg focus:outline-none" style="background:var(--bg)"></div>
+                                    <div><label class="block text-[11px] c-muted mb-1">Nova Senha</label><input type="password" id="cpNew" class="w-full px-3 py-2 rounded-xl c-border text-sm c-fg focus:outline-none" style="background:var(--bg)"></div>
+                                    <div><label class="block text-[11px] c-muted mb-1">Confirmar</label><input type="password" id="cpConf" class="w-full px-3 py-2 rounded-xl c-border text-sm c-fg focus:outline-none" style="background:var(--bg)"></div>
+                                    <p id="cpMsg" class="text-[11px] hidden"></p>
+                                    <button onclick="changePwd()" class="w-full py-2.5 rounded-xl text-white font-bold text-sm" style="background:var(--accent)">Salvar</button>
                                 </div>
                             </div>
                         </div>
@@ -780,434 +683,296 @@
         </div>
     </div>
 
-    <!-- ========== TOAST CONTAINER ========== -->
-    <div id="toastContainer" class="toast-container fixed bottom-6 right-6 z-[200] flex flex-col gap-2"></div>
+    <!-- TOAST -->
+    <div id="toastBox" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- ========== SCRIPTS ========== -->
     <script>
-        /* =============================================
-           SISTEMA DE RASTREAMENTO DE VISITANTES
-           ============================================= */
-        const Tracking = {
-            // Gera um fingerprint simplificado do visitante
-            getFingerprint() {
-                const data = [
-                    screen.width, screen.height, screen.colorDepth,
-                    navigator.language, navigator.platform,
-                    new Date().getTimezoneOffset(),
-                    navigator.hardwareConcurrency || 0
-                ];
-                let hash = 0;
-                for (let i = 0; i < data.length; i++) {
-                    const str = String(data[i]);
-                    for (let j = 0; j < str.length; j++) {
-                        hash = ((hash << 5) - hash) + str.charCodeAt(j);
-                        hash |= 0;
-                    }
-                }
-                return 'V-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 8);
-            },
+    /* =========================================
+       DADOS DOS TOPICOS
+       ========================================= */
+    const TOPICS = [
+        // A1 — Vocabulary
+        { name:'Colors', level:'A1', skill:'Vocabulary', icon:'fa-palette', file:'colors.html' },
+        { name:'Numbers 1-100', level:'A1', skill:'Vocabulary', icon:'fa-hashtag', file:'numbers.html' },
+        { name:'Family', level:'A1', skill:'Vocabulary', icon:'fa-people-roof', file:'a1-family.html' },
+        { name:'Body Parts', level:'A1', skill:'Vocabulary', icon:'fa-person', file:'a1-body.html' },
+        { name:'Animals', level:'A1', skill:'Vocabulary', icon:'fa-paw', file:'a1-animals.html' },
+        { name:'Food & Drinks', level:'A1', skill:'Vocabulary', icon:'fa-utensils', file:'a1-food.html' },
+        { name:'Clothes', level:'A1', skill:'Vocabulary', icon:'fa-shirt', file:'a1-clothes.html' },
+        { name:'House & Rooms', level:'A1', skill:'Vocabulary', icon:'fa-house', file:'a1-house.html' },
+        { name:'Days & Months', level:'A1', skill:'Vocabulary', icon:'fa-calendar-days', file:'a1-days.html' },
+        { name:'Classroom Objects', level:'A1', skill:'Vocabulary', icon:'fa-pencil', file:'a1-classroom.html' },
+        // A1 — Grammar
+        { name:'Verb To Be', level:'A1', skill:'Grammar', icon:'fa-equals', file:'a1-tobe.html' },
+        { name:'Articles a/an/the', level:'A1', skill:'Grammar', icon:'fa-font', file:'a1-articles.html' },
+        { name:'Subject Pronouns', level:'A1', skill:'Grammar', icon:'fa-user', file:'a1-pronouns.html' },
+        { name:'Simple Present', level:'A1', skill:'Grammar', icon:'fa-clock', file:'a1-present.html' },
+        { name:'Possessive Adj.', level:'A1', skill:'Grammar', icon:'fa-hand', file:'a1-possessive.html' },
+        { name:'Prepositions', level:'A1', skill:'Grammar', icon:'fa-location-dot', file:'a1-prep.html' },
+        // A1 — Listening
+        { name:'Greetings Audio', level:'A1', skill:'Listening', icon:'fa-headphones', file:'a1-listen-greet.html' },
+        { name:'Numbers Dictation', level:'A1', skill:'Listening', icon:'fa-ear-listen', file:'a1-listen-numbers.html' },
+        // A1 — Reading
+        { name:'Short Dialogs', level:'A1', skill:'Reading', icon:'fa-comments', file:'a1-read-dialogs.html' },
+        { name:'Signs & Labels', level:'A1', skill:'Reading', icon:'fa-signs-post', file:'a1-read-signs.html' },
+        // A1 — Writing
+        { name:'Alphabet Practice', level:'A1', skill:'Writing', icon:'fa-a', file:'a1-write-alpha.html' },
+        { name:'My Profile', level:'A1', skill:'Writing', icon:'fa-id-card', file:'a1-write-profile.html' },
+        // A1 — Speaking
+        { name:'Self Introduction', level:'A1', skill:'Speaking', icon:'fa-microphone', file:'a1-speak-intro.html' },
+        { name:'Basic Greetings', level:'A1', skill:'Speaking', icon:'fa-handshake', file:'a1-speak-greet.html' },
 
-            // Identifica o navegador
-            parseBrowser() {
-                const ua = navigator.userAgent;
-                if (ua.includes('Edg')) return 'Edge';
-                if (ua.includes('OPR') || ua.includes('Opera')) return 'Opera';
-                if (ua.includes('Chrome')) return 'Chrome';
-                if (ua.includes('Firefox')) return 'Firefox';
-                if (ua.includes('Safari')) return 'Safari';
-                return 'Outro';
-            },
+        // A2
+        { name:'Daily Routines', level:'A2', skill:'Vocabulary', icon:'fa-clock-rotate-left', file:'a2-routines.html' },
+        { name:'Weather', level:'A2', skill:'Vocabulary', icon:'fa-cloud-sun', file:'a2-weather.html' },
+        { name:'Shopping', level:'A2', skill:'Vocabulary', icon:'fa-cart-shopping', file:'a2-shopping.html' },
+        { name:'Past Simple', level:'A2', skill:'Grammar', icon:'fa-backward', file:'a2-past.html' },
+        { name:'Comparatives', level:'A2', skill:'Grammar', icon:'fa-scale-balanced', file:'a2-comparatives.html' },
+        { name:'Future (will/going to)', level:'A2', skill:'Grammar', icon:'fa-forward', file:'a2-future.html' },
+        { name:'Restaurant Dialogs', level:'A2', skill:'Listening', icon:'fa-headphones', file:'a2-listen-restaurant.html' },
+        { name:'Travel Reading', level:'A2', skill:'Reading', icon:'fa-book-open', file:'a2-read-travel.html' },
+        { name:'Email Writing', level:'A2', skill:'Writing', icon:'fa-envelope', file:'a2-write-email.html' },
+        { name:'Asking Directions', level:'A2', skill:'Speaking', icon:'fa-microphone', file:'a2-speak-directions.html' },
 
-            // Registra a visita
-            logVisit() {
-                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
-                const visit = {
-                    id: this.getFingerprint(),
-                    timestamp: new Date().toISOString(),
-                    browser: this.parseBrowser(),
-                    screen: screen.width + 'x' + screen.height,
-                    language: navigator.language,
-                    platform: navigator.platform,
-                    duration: 0,
-                    exitTime: null
-                };
-                visits.push(visit);
-                // Manter no máximo 500 registros
-                if (visits.length > 500) visits.splice(0, visits.length - 500);
-                localStorage.setItem('ej_visits', JSON.stringify(visits));
-                // Salvar índice da visita atual para atualizar a duração depois
-                sessionStorage.setItem('ej_visitIdx', String(visits.length - 1));
-            },
+        // B1
+        { name:'Work & Careers', level:'B1', skill:'Vocabulary', icon:'fa-briefcase', file:'b1-careers.html' },
+        { name:'Health & Illness', level:'B1', skill:'Vocabulary', icon:'fa-heart-pulse', file:'b1-health.html' },
+        { name:'Present Perfect', level:'B1', skill:'Grammar', icon:'fa-check-double', file:'b1-perfect.html' },
+        { name:'Conditionals (if)', level:'B1', skill:'Grammar', icon:'fa-code-branch', file:'b1-conditionals.html' },
+        { name:'Passive Voice', level:'B1', skill:'Grammar', icon:'fa-rotate', file:'b1-passive.html' },
+        { name:'News Listening', level:'B1', skill:'Listening', icon:'fa-headphones', file:'b1-listen-news.html' },
+        { name:'Article Comprehension', level:'B1', skill:'Reading', icon:'fa-newspaper', file:'b1-read-article.html' },
+        { name:'Opinion Essay', level:'B1', skill:'Writing', icon:'fa-pen-nib', file:'b1-write-opinion.html' },
+        { name:'Giving Opinions', level:'B1', skill:'Speaking', icon:'fa-microphone', file:'b1-speak-opinion.html' },
 
-            // Rastreia a duração da sessão
-            trackDuration() {
-                const startTime = Date.now();
-                window.addEventListener('beforeunload', () => {
-                    const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
-                    const idx = parseInt(sessionStorage.getItem('ej_visitIdx'));
-                    if (visits[idx]) {
-                        visits[idx].duration = Math.round((Date.now() - startTime) / 1000);
-                        visits[idx].exitTime = new Date().toISOString();
-                        localStorage.setItem('ej_visits', JSON.stringify(visits));
-                    }
-                });
-            },
+        // B2
+        { name:'Technology & Internet', level:'B2', skill:'Vocabulary', icon:'fa-microchip', file:'b2-tech.html' },
+        { name:'Environment', level:'B2', skill:'Vocabulary', icon:'fa-leaf', file:'b2-environment.html' },
+        { name:'Reported Speech', level:'B2', skill:'Grammar', icon:'fa-quote-left', file:'b2-reported.html' },
+        { name:'Relative Clauses', level:'B2', skill:'Grammar', icon:'fa-link', file:'b2-relatives.html' },
+        { name:'TED Talk Analysis', level:'B2', skill:'Listening', icon:'fa-headphones', file:'b2-listen-ted.html' },
+        { name:'Academic Reading', level:'B2', skill:'Reading', icon:'fa-book', file:'b2-read-academic.html' },
+        { name:'Formal Writing', level:'B2', skill:'Writing', icon:'fa-pen-nib', file:'b2-write-formal.html' },
+        { name:'Debate Practice', level:'B2', skill:'Speaking', icon:'fa-microphone', file:'b2-speak-debate.html' },
 
-            // Retorna estatísticas gerais
-            getStats() {
-                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
-                const unique = new Set(visits.map(v => v.id)).size;
-                const today = new Date().toDateString();
-                const todayCount = visits.filter(v => new Date(v.timestamp).toDateString() === today).length;
-                const avgDuration = visits.length > 0
-                    ? Math.round(visits.reduce((s, v) => s + (v.duration || 0), 0) / visits.length)
-                    : 0;
-                return { total: visits.length, unique, today: todayCount, avgDuration };
-            },
+        // C1
+        { name:'Idioms & Phrasal Verbs', level:'C1', skill:'Vocabulary', icon:'fa-lightbulb', file:'c1-idioms.html' },
+        { name:'Abstract Concepts', level:'C1', skill:'Vocabulary', icon:'fa-brain', file:'c1-abstract.html' },
+        { name:'Inversion & Emphasis', level:'C1', skill:'Grammar', icon:'fa-exclamation', file:'c1-inversion.html' },
+        { name:'Mixed Conditionals', level:'C1', skill:'Grammar', icon:'fa-shuffle', file:'c1-mixed-cond.html' },
+        { name:'Podcast Comprehension', level:'C1', skill:'Listening', icon:'fa-headphones', file:'c1-listen-podcast.html' },
+        { name:'Literary Texts', level:'C1', skill:'Reading', icon:'fa-feather', file:'c1-read-literary.html' },
+        { name:'Critical Essay', level:'C1', skill:'Writing', icon:'fa-pen-nib', file:'c1-write-critical.html' },
+        { name:'Presentation Skills', level:'C1', skill:'Speaking', icon:'fa-microphone', file:'c1-speak-present.html' },
 
-            // Retorna visitas dos últimos 7 dias agrupadas por dia
-            getWeeklyData() {
-                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
-                const days = [];
-                for (let i = 6; i >= 0; i--) {
-                    const d = new Date();
-                    d.setDate(d.getDate() - i);
-                    const key = d.toDateString();
-                    const label = d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' });
-                    const count = visits.filter(v => new Date(v.timestamp).toDateString() === key).length;
-                    days.push({ label: label.replace('.', ''), count });
-                }
-                return days;
-            },
+        // C2
+        { name:'Nuanced Vocabulary', level:'C2', skill:'Vocabulary', icon:'fa-gem', file:'c2-nuance.html' },
+        { name:'Cultural References', level:'C2', skill:'Vocabulary', icon:'fa-landmark', file:'c2-culture.html' },
+        { name:'Stylistic Devices', level:'C2', skill:'Grammar', icon:'fa-wand-magic-sparkles', file:'c2-stylistic.html' },
+        { name:'Discourse Analysis', level:'C2', skill:'Grammar', icon:'fa-magnifying-glass', file:'c2-discourse.html' },
+        { name:'Native-speed Audio', level:'C2', skill:'Listening', icon:'fa-headphones', file:'c2-listen-native.html' },
+        { name:'Shakespeare Excerpts', level:'C2', skill:'Reading', icon:'fa-book', file:'c2-read-shakespeare.html' },
+        { name:'Research Paper', level:'C2', skill:'Writing', icon:'fa-pen-nib', file:'c2-write-research.html' },
+        { name:'Nuanced Debate', level:'C2', skill:'Speaking', icon:'fa-microphone', file:'c2-speak-nuance.html' },
+    ];
 
-            // Inicializa o rastreamento
-            init() {
-                this.logVisit();
-                this.trackDuration();
-            }
-        };
+    /* Cores por nível */
+    const LEVEL_COLORS = {
+        A1:'#22c55e', A2:'#10b981', B1:'#06b6d4', B2:'#f59e0b', C1:'#f97316', C2:'#dc2626'
+    };
+    const SKILL_ICONS = {
+        Listening:'fa-headphones', Reading:'fa-book-open', Writing:'fa-pen-nib',
+        Speaking:'fa-microphone', Grammar:'fa-puzzle-piece', Vocabulary:'fa-spell-check'
+    };
 
-        /* =============================================
-           SISTEMA ADMINISTRATIVO
-           ============================================= */
-        const Admin = {
-            getPassword() {
-                return localStorage.getItem('ej_admin_pass') || '123456';
-            },
-            setPassword(pass) {
-                localStorage.setItem('ej_admin_pass', pass);
-            },
-            isLoggedIn() {
-                return sessionStorage.getItem('ej_admin_auth') === 'true';
-            },
-            login(pass) {
-                if (pass === this.getPassword()) {
-                    sessionStorage.setItem('ej_admin_auth', 'true');
-                    return true;
-                }
-                return false;
-            },
-            logout() {
-                sessionStorage.removeItem('ej_admin_auth');
-            },
-            changePassword(current, newPass, confirm) {
-                if (current !== this.getPassword()) {
-                    return { ok: false, msg: 'Senha atual incorreta.', type: 'error' };
-                }
-                if (newPass.length < 4) {
-                    return { ok: false, msg: 'A nova senha deve ter pelo menos 4 caracteres.', type: 'error' };
-                }
-                if (newPass !== confirm) {
-                    return { ok: false, msg: 'As senhas nao conferem.', type: 'error' };
-                }
-                this.setPassword(newPass);
-                return { ok: true, msg: 'Senha alterada com sucesso!', type: 'success' };
-            }
-        };
+    /* =========================================
+       RENDERIZAR TOPICOS
+       ========================================= */
+    let currentFilter = 'all';
 
-        /* =============================================
-           FUNÇÕES DO MODAL ADMIN
-           ============================================= */
-        function openAdmin() {
-            const modal = document.getElementById('adminModal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+    function renderTopics() {
+        const grid = document.getElementById('topicsGrid');
+        const filtered = currentFilter === 'all' ? TOPICS : TOPICS.filter(t => t.level === currentFilter);
 
-            if (Admin.isLoggedIn()) {
-                showDashboard();
-            } else {
-                showLogin();
-            }
+        if (filtered.length === 0) {
+            grid.innerHTML = '<p class="c-muted text-sm py-8">Nenhum topico neste nivel ainda.</p>';
+            return;
         }
 
-        function closeAdmin() {
-            const modal = document.getElementById('adminModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
-            document.getElementById('adminPass').value = '';
-            document.getElementById('loginError').classList.add('hidden');
-        }
+        grid.innerHTML = filtered.map(t => {
+            const c = LEVEL_COLORS[t.level];
+            return `<a href="${t.file}" class="topic-pill inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px]" title="${t.level} — ${t.skill}">
+                <i class="fa-solid ${t.icon} text-[10px]" style="color:${c}"></i>
+                <span>${t.name}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded" style="background:${c}15;color:${c}">${t.level}</span>
+            </a>`;
+        }).join('');
+    }
 
-        function showLogin() {
-            document.getElementById('adminLogin').classList.remove('hidden');
-            document.getElementById('adminDash').classList.add('hidden');
-            document.getElementById('adminPass').focus();
-        }
+    function filterTopics(level) {
+        currentFilter = level;
+        document.querySelectorAll('.topic-filter').forEach(btn => {
+            const isActive = btn.dataset.filter === level;
+            btn.style.background = isActive ? 'var(--accent)' : 'var(--card)';
+            btn.style.color = isActive ? '#fff' : 'var(--muted)';
+            btn.style.border = isActive ? '1px solid var(--accent)' : '1px solid var(--border)';
+        });
+        renderTopics();
+    }
 
-        function showDashboard() {
-            document.getElementById('adminLogin').classList.add('hidden');
-            document.getElementById('adminDash').classList.remove('hidden');
-            renderVisitsTable();
-            renderStats();
-            renderChart();
-        }
+    /* =========================================
+       TEMA CLARO / ESCURO
+       ========================================= */
+    function toggleTheme() {
+        const html = document.documentElement;
+        const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+        html.dataset.theme = next;
+        localStorage.setItem('ep_theme', next);
+    }
 
-        function attemptLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if (Admin.login(pass)) {
-                showDashboard();
-                showToast('Logado com sucesso', 'success');
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-                document.getElementById('adminPass').value = '';
-                document.getElementById('adminPass').focus();
-            }
-        }
+    // Aplicar tema salvo
+    (function() {
+        const saved = localStorage.getItem('ep_theme');
+        if (saved) document.documentElement.dataset.theme = saved;
+    })();
 
-        function logoutAdmin() {
-            Admin.logout();
-            showLogin();
-            showToast('Sessao encerrada', 'info');
-        }
-
-        // Alternar visibilidade da senha
-        function togglePassVis(inputId, btn) {
-            const input = document.getElementById(inputId);
-            const icon = btn.querySelector('i');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        // Trocar tabs do dashboard
-        function switchTab(tabName) {
-            // Atualizar botões
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.remove('text-muted', 'border-transparent');
-                    tab.classList.add('text-accent', 'border-accent');
-                } else {
-                    tab.classList.remove('text-accent', 'border-accent');
-                    tab.classList.add('text-muted', 'border-transparent');
-                }
+    /* =========================================
+       RASTREAMENTO
+       ========================================= */
+    const Track = {
+        fp() {
+            const d = [screen.width,screen.height,screen.colorDepth,navigator.language,navigator.platform,new Date().getTimezoneOffset(),navigator.hardwareConcurrency||0];
+            let h=0;
+            d.forEach(v=>{String(v).split('').forEach(c=>{h=((h<<5)-h)+c.charCodeAt(0);h|=0})});
+            return 'V-'+Math.abs(h).toString(36).toUpperCase().slice(0,8);
+        },
+        browser() {
+            const u=navigator.userAgent;
+            if(u.includes('Edg'))return'Edge';if(u.includes('OPR'))return'Opera';if(u.includes('Chrome'))return'Chrome';if(u.includes('Firefox'))return'Firefox';if(u.includes('Safari'))return'Safari';return'Outro';
+        },
+        log() {
+            const v=JSON.parse(localStorage.getItem('ep_visits')||'[]');
+            v.push({id:this.fp(),ts:new Date().toISOString(),br:this.browser(),scr:screen.width+'x'+screen.height,lang:navigator.language,dur:0});
+            if(v.length>500)v.splice(0,v.length-500);
+            localStorage.setItem('ep_visits',JSON.stringify(v));
+            sessionStorage.setItem('ep_vi',String(v.length-1));
+        },
+        dur() {
+            const t=Date.now();
+            addEventListener('beforeunload',()=>{
+                const v=JSON.parse(localStorage.getItem('ep_visits')||'[]');
+                const i=parseInt(sessionStorage.getItem('ep_vi'));
+                if(v[i]){v[i].dur=Math.round((Date.now()-t)/1000);localStorage.setItem('ep_visits',JSON.stringify(v))}
             });
-            // Atualizar conteúdo
-            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
-            const map = { visitas: 'tabVisitas', stats: 'tabStats', config: 'tabConfig' };
-            document.getElementById(map[tabName]).classList.remove('hidden');
+        },
+        stats() {
+            const v=JSON.parse(localStorage.getItem('ep_visits')||'[]');
+            const u=new Set(v.map(x=>x.id)).size;
+            const td=new Date().toDateString();
+            return{total:v.length,unique:u,today:v.filter(x=>new Date(x.ts).toDateString()===td).length,avg:v.length?Math.round(v.reduce((s,x)=>s+(x.dur||0),0)/v.length):0};
+        },
+        weekly() {
+            const v=JSON.parse(localStorage.getItem('ep_visits')||'[]');
+            const days=[];
+            for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=d.toDateString();days.push({label:d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit'}).replace('.',''),count:v.filter(x=>new Date(x.ts).toDateString()===k).length})}
+            return days;
+        },
+        init(){this.log();this.dur();}
+    };
 
-            // Re-renderizar dados ao trocar de tab
-            if (tabName === 'visitas') renderVisitsTable();
-            if (tabName === 'stats') { renderStats(); renderChart(); }
+    /* =========================================
+       ADMIN
+       ========================================= */
+    const Adm = {
+        pwd:()=>localStorage.getItem('ep_pwd')||'123456',
+        setPwd:p=>localStorage.setItem('ep_pwd',p),
+        ok:()=>sessionStorage.getItem('ep_auth')==='1',
+        login:p=>{if(p===this.pwd()){sessionStorage.setItem('ep_auth','1');return true}return false},
+        out:()=>sessionStorage.removeItem('ep_auth'),
+        change(c,n,cf){
+            if(c!==this.pwd())return{ok:false,m:'Senha atual incorreta.',t:'e'};
+            if(n.length<4)return{ok:false,m:'Minimo 4 caracteres.',t:'e'};
+            if(n!==cf)return{ok:false,m:'Senhas nao conferem.',t:'e'};
+            this.setPwd(n);return{ok:true,m:'Senha alterada!',t:'s'};
         }
+    };
 
-        // Renderizar tabela de visitas
-        function renderVisitsTable() {
-            const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
-            const tbody = document.getElementById('visitsTableBody');
+    function openAdmin(){document.getElementById('adminModal').classList.remove('hidden');document.body.style.overflow='hidden';Adm.ok()?showDash():showLoginF()}
+    function closeAdmin(){document.getElementById('adminModal').classList.add('hidden');document.body.style.overflow='';document.getElementById('admPass').value='';document.getElementById('loginErr').classList.add('hidden')}
+    function showLoginF(){document.getElementById('admLogin').classList.remove('hidden');document.getElementById('admDash').classList.add('hidden');document.getElementById('admPass').focus()}
+    function showDash(){document.getElementById('admLogin').classList.add('hidden');document.getElementById('admDash').classList.remove('hidden');renderVTable();renderS();renderC()}
+    function tryLogin(){if(Adm.login(document.getElementById('admPass').value)){showDash();toast('Logado','s')}else{document.getElementById('loginErr').classList.remove('hidden');document.getElementById('admPass').value='';document.getElementById('admPass').focus()}}
+    function admLogout(){Adm.out();showLoginF();toast('Sessao encerrada','i')}
+    function toggleEye(id,btn){const i=document.getElementById(id),ic=btn.querySelector('i');if(i.type==='password'){i.type='text';ic.classList.replace('fa-eye','fa-eye-slash')}else{i.type='password';ic.classList.replace('fa-eye-slash','fa-eye')}}
 
-            if (visits.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="px-3 py-6 text-center text-muted text-sm">Nenhuma visita registrada ainda.</td></tr>';
-                return;
-            }
+    function admTab(t){
+        document.querySelectorAll('.atb').forEach(b=>{if(b.dataset.t===t){b.style.color='var(--accent)';b.style.borderBottomColor='var(--accent)'}else{b.style.color='var(--muted)';b.style.borderBottomColor='transparent'}});
+        document.querySelectorAll('.atc').forEach(c=>c.classList.add('hidden'));
+        const m={visitas:'tVisitas',stats:'tStats',config:'tConfig'};
+        document.getElementById(m[t]).classList.remove('hidden');
+        if(t==='visitas')renderVTable();if(t==='stats'){renderS();renderC()}
+    }
 
-            // Mostrar mais recentes primeiro
-            const reversed = [...visits].reverse();
-            tbody.innerHTML = reversed.map(v => {
-                const date = new Date(v.timestamp);
-                const dateStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                const dur = v.duration > 0 ? formatDuration(v.duration) : '<span class="text-muted/50">Em curso</span>';
-                return `<tr class="hover:bg-card-h/50 transition-colors">
-                    <td class="px-3 py-2.5 font-mono text-accent text-[11px]">${v.id}</td>
-                    <td class="px-3 py-2.5 text-fg whitespace-nowrap">${dateStr} ${timeStr}</td>
-                    <td class="px-3 py-2.5 text-fg">${v.browser}</td>
-                    <td class="px-3 py-2.5 text-muted">${v.screen}</td>
-                    <td class="px-3 py-2.5 text-muted">${v.language}</td>
-                    <td class="px-3 py-2.5 text-fg">${dur}</td>
-                </tr>`;
-            }).join('');
-        }
+    function fmtDur(s){if(s<60)return s+'s';const m=Math.floor(s/60),r=s%60;if(m<60)return m+'min'+(r?' '+r+'s':'');return Math.floor(m/60)+'h'+(m%60?' '+m%60+'min':'')}
 
-        // Renderizar estatísticas
-        function renderStats() {
-            const s = Tracking.getStats();
-            document.getElementById('statTotal').textContent = s.total;
-            document.getElementById('statUnique').textContent = s.unique;
-            document.getElementById('statToday').textContent = s.today;
-            document.getElementById('statAvg').textContent = formatDuration(s.avgDuration);
-        }
+    function renderVTable(){
+        const v=JSON.parse(localStorage.getItem('ep_visits')||'[]'),tb=document.getElementById('vBody');
+        if(!v.length){tb.innerHTML='<tr><td colspan="6" class="px-2.5 py-5 text-center c-muted text-xs">Nenhuma visita.</td></tr>';return}
+        tb.innerHTML=[...v].reverse().map(x=>{const d=new Date(x.ts);return`<tr style="border-bottom:1px solid var(--border)" class="hover:opacity-80 transition-opacity"><td class="px-2.5 py-2 font-mono c-accent text-[10px]">${x.id}</td><td class="px-2.5 py-2 c-fg whitespace-nowrap">${d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'})} ${d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</td><td class="px-2.5 py-2 c-fg">${x.br}</td><td class="px-2.5 py-2 c-muted">${x.scr}</td><td class="px-2.5 py-2 c-muted">${x.lang}</td><td class="px-2.5 py-2 c-fg">${x.dur?fmtDur(x.dur):'<span style="opacity:0.4">...</span>'}</td></tr>`}).join('');
+    }
 
-        // Renderizar gráfico de barras semanal
-        function renderChart() {
-            const data = Tracking.getWeeklyData();
-            const container = document.getElementById('chartContainer');
-            const maxCount = Math.max(...data.map(d => d.count), 1);
+    function renderS(){const s=Track.stats();document.getElementById('sTotal').textContent=s.total;document.getElementById('sUniq').textContent=s.unique;document.getElementById('sToday').textContent=s.today;document.getElementById('sAvg').textContent=fmtDur(s.avg)}
+    function renderC(){const d=Track.weekly(),mx=Math.max(...d.map(x=>x.count),1),box=document.getElementById('chartBox');box.innerHTML=d.map(x=>`<div class="flex-1 flex flex-col items-center justify-end h-full gap-0.5"><span class="text-[9px] font-bold ${x.count?'c-accent':'c-muted'}" style="${x.count?'':'opacity:0.3'}">${x.count}</span><div class="c-bar w-full max-w-[36px] rounded-t-md" style="height:${Math.max(4,x.count/mx*100)}%;background:var(--accent);opacity:${x.count?0.7:0.15}"></div><span class="text-[9px] c-muted capitalize">${x.label}</span></div>`).join('')}
+    function clearLogs(){localStorage.removeItem('ep_visits');renderVTable();renderS();renderC();toast('Logs apagados','i')}
 
-            container.innerHTML = data.map(d => {
-                const h = Math.max(4, (d.count / maxCount) * 100);
-                return `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1">
-                    <span class="text-[10px] font-bold ${d.count > 0 ? 'text-accent' : 'text-muted/30'}">${d.count}</span>
-                    <div class="chart-bar w-full max-w-[40px] rounded-t-md bg-accent/70 hover:bg-accent transition-colors" style="height:${h}%;min-height:4px;"></div>
-                    <span class="text-[10px] text-muted mt-1 capitalize">${d.label}</span>
-                </div>`;
-            }).join('');
-        }
+    function changePwd(){
+        const r=Adm.change(document.getElementById('cpCur').value,document.getElementById('cpNew').value,document.getElementById('cpConf').value);
+        const el=document.getElementById('cpMsg');el.textContent=r.m;el.style.color=r.t==='s'?'#22c55e':'#ef4444';el.classList.remove('hidden');
+        if(r.ok){toast(r.m,'s');document.getElementById('cpCur').value='';document.getElementById('cpNew').value='';document.getElementById('cpConf').value='';setTimeout(()=>el.classList.add('hidden'),4000)}
+    }
 
-        // Limpar logs
-        function clearLogs() {
-            localStorage.removeItem('ej_visits');
-            renderVisitsTable();
-            renderStats();
-            renderChart();
-            showToast('Logs de visitas apagados', 'info');
-        }
+    /* =========================================
+       TOAST
+       ========================================= */
+    function toast(msg,type){
+        const c=document.getElementById('toastBox');
+        const col={s:'background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:#22c55e',e:'background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:#ef4444',i:'background:var(--accent-glow);border:1px solid var(--accent);color:var(--accent)'};
+        const ic={s:'fa-check-circle',e:'fa-exclamation-circle',i:'fa-info-circle'};
+        const d=document.createElement('div');d.className='toast-item flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs backdrop-blur-sm';d.style.cssText=col[type]||col.i;
+        d.innerHTML=`<i class="fa-solid ${ic[type]||ic.i} text-[10px]"></i>${msg}`;c.appendChild(d);setTimeout(()=>d.remove(),3200);
+    }
 
-        // Alterar senha
-        function changePassword() {
-            const current = document.getElementById('currentPass').value;
-            const newP = document.getElementById('newPass').value;
-            const confirm = document.getElementById('confirmPass').value;
-            const msgEl = document.getElementById('passMsg');
+    /* =========================================
+       SCROLL REVEAL + CONTADORES
+       ========================================= */
+    function initReveal(){
+        const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+        document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    }
 
-            const result = Admin.changePassword(current, newP, confirm);
-            msgEl.textContent = result.msg;
-            msgEl.className = 'text-xs ' + (result.type === 'error' ? 'text-red-400' : 'text-green-400');
-            msgEl.classList.remove('hidden');
+    function initCounters(){
+        const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!e.target.dataset.done){e.target.dataset.done='1';const tgt=parseInt(e.target.dataset.count),dur=1600,st=performance.now();(function up(now){const p=Math.min((now-st)/dur,1),ease=1-Math.pow(1-p,3);e.target.textContent=Math.round(ease*tgt)+(tgt>=50?'+':'');if(p<1)requestAnimationFrame(up)})(st)}})},{threshold:0.5});
+        document.querySelectorAll('[data-count]').forEach(c=>obs.observe(c));
+    }
 
-            if (result.ok) {
-                showToast(result.msg, 'success');
-                document.getElementById('currentPass').value = '';
-                document.getElementById('newPass').value = '';
-                document.getElementById('confirmPass').value = '';
-                setTimeout(() => msgEl.classList.add('hidden'), 4000);
-            }
-        }
+    /* =========================================
+       SMOOTH SCROLL
+       ========================================= */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
 
-        // Formatar duração em segundos para formato legível
-        function formatDuration(seconds) {
-            if (seconds < 60) return seconds + 's';
-            const m = Math.floor(seconds / 60);
-            const s = seconds % 60;
-            if (m < 60) return m + 'min ' + (s > 0 ? s + 's' : '');
-            const h = Math.floor(m / 60);
-            const rm = m % 60;
-            return h + 'h ' + (rm > 0 ? rm + 'min' : '');
-        }
+    /* ESC fecha modal */
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdmin()});
 
-        /* =============================================
-           SISTEMA DE TOAST
-           ============================================= */
-        function showToast(message, type) {
-            const container = document.getElementById('toastContainer');
-            const colors = {
-                success: 'bg-green-500/15 border-green-500/30 text-green-400',
-                error: 'bg-red-500/15 border-red-500/30 text-red-400',
-                info: 'bg-accent/15 border-accent/30 text-accent'
-            };
-            const icons = {
-                success: 'fa-check-circle',
-                error: 'fa-exclamation-circle',
-                info: 'fa-info-circle'
-            };
-            const toast = document.createElement('div');
-            toast.className = `toast flex items-center gap-2.5 px-4 py-3 rounded-xl border ${colors[type] || colors.info} text-sm backdrop-blur-sm`;
-            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-xs"></i> ${message}`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3200);
-        }
-
-        /* =============================================
-           ANIMAÇÕES DE SCROLL (IntersectionObserver)
-           ============================================= */
-        function initScrollReveal() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Aplica delay escalonado se houver transition-delay
-                        const delay = entry.target.style.transitionDelay || '0ms';
-                        entry.target.style.transitionDelay = delay;
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        }
-
-        /* =============================================
-           CONTADORES ANIMADOS DO HERO
-           ============================================= */
-        function initCounters() {
-            const counters = document.querySelectorAll('[data-count]');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.dataset.counted) {
-                        entry.target.dataset.counted = 'true';
-                        const target = parseInt(entry.target.dataset.count);
-                        const duration = 1800;
-                        const start = performance.now();
-
-                        function update(now) {
-                            const elapsed = now - start;
-                            const progress = Math.min(elapsed / duration, 1);
-                            // Easing: ease-out cubic
-                            const eased = 1 - Math.pow(1 - progress, 3);
-                            const current = Math.round(eased * target);
-                            entry.target.textContent = current + (target >= 100 ? '+' : '');
-                            if (progress < 1) requestAnimationFrame(update);
-                        }
-                        requestAnimationFrame(update);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            counters.forEach(c => observer.observe(c));
-        }
-
-        /* =============================================
-           SMOOTH SCROLL PARA LINKS INTERNOS
-           ============================================= */
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        /* =============================================
-           FECHAR MODAL COM ESC
-           ============================================= */
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAdmin();
-        });
-
-        /* =============================================
-           INICIALIZAÇÃO
-           ============================================= */
-        document.addEventListener('DOMContentLoaded', () => {
-            Tracking.init();
-            initScrollReveal();
-            initCounters();
-        });
+    /* =========================================
+       INIT
+       ========================================= */
+    document.addEventListener('DOMContentLoaded',()=>{
+        Track.init();
+        renderTopics();
+        filterTopics('all');
+        initReveal();
+        initCounters();
+    });
     </script>
 </body>
 </html>
