@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Hello & Goodbye - EnglishPath</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --primary: #22c55e;
+            --secondary: #3b82f6;
+        }
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #cbd5e1;
+            --text: #0f172a;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+        }
+        .c-card { background: var(--card); border: 1px solid var(--border); }
+        .c-text { color: var(--text); }
+        .c-primary { color: var(--primary); }
+        .c-primary-bg { background: var(--primary); }
+        .option-btn {
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .option-btn.correct {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+        .option-btn.wrong {
+            background: #ef4444;
+            border-color: #ef4444;
+        }
+        .voice-btn {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 h-2 bg-gray-700">
+        <div class="h-full c-primary-bg transition-all" style="width: 25%"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="pt-6 pb-4 px-4">
+        <div class="max-w-2xl mx-auto flex items-center justify-between">
+            <a href="a1.html" class="w-10 h-10 rounded-full c-card border border-gray-600 flex items-center justify-center hover:bg-gray-700">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+            <div class="flex-1 mx-4">
+                <div class="h-3 bg-gray-700 rounded-full overflow-hidden">
+                    <div class="h-full c-primary-bg rounded-full" style="width: 25%"></div>
+                </div>
+            </div>
+            <div class="flex items-center gap-1 c-text-muted">
+                <i class="fa-solid fa-heart text-red-500"></i>
+                <span class="font-bold">5</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-2xl mx-auto px-4 py-8 w-full">
+        
+        <!-- Question 1 -->
+        <div id="question1" class="space-y-6">
+            <h2 class="font-display font-bold text-2xl text-center mb-8">
+                Como se diz "Olá" em inglês?
+            </h2>
+
+            <div class="grid gap-4">
+                <button onclick="checkAnswer(this, false)" class="option-btn c-card rounded-xl p-6 text-left border-2 border-transparent hover:border-gray-600">
+                    <span class="font-bold text-lg">Goodbye</span>
+                </button>
+                <button onclick="checkAnswer(this, true)" class="option-btn c-card rounded-xl p-6 text-left border-2 border-transparent hover:border-gray-600">
+                    <span class="font-bold text-lg">Hello</span>
+                </button>
+                <button onclick="checkAnswer(this, false)" class="option-btn c-card rounded-xl p-6 text-left border-2 border-transparent hover:border-gray-600">
+                    <span class="font-bold text-lg">Thank you</span>
+                </button>
+                <button onclick="checkAnswer(this, false)" class="option-btn c-card rounded-xl p-6 text-left border-2 border-transparent hover:border-gray-600">
+                    <span class="font-bold text-lg">Please</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 2 (Hidden initially) -->
+        <div id="question2" class="space-y-6 hidden">
+            <h2 class="font-display font-bold text-2xl text-center mb-4">
+                Complete a frase:
+            </h2>
+            <div class="c-card rounded-2xl p-8 text-center">
+                <p class="text-xl mb-6">"_____, my name is Maria"</p>
+                <div class="flex justify-center gap-3">
+                    <button onclick="checkAnswer2(this, true)" class="option-btn c-card rounded-xl px-6 py-4 font-bold text-lg border-2 border-transparent hover:border-gray-600">
+                        Hi
+                    </button>
+                    <button onclick="checkAnswer2(this, false)" class="option-btn c-card rounded-xl px-6 py-4 font-bold text-lg border-2 border-transparent hover:border-gray-600">
+                        Bye
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 (Hidden initially) -->
+        <div id="question3" class="space-y-6 hidden">
+            <h2 class="font-display font-bold text-2xl text-center mb-4">
+                Ouça e repita:
+            </h2>
+            <div class="c-card rounded-2xl p-8 text-center">
+                <button class="voice-btn w-20 h-20 rounded-full c-primary-bg flex items-center justify-center text-3xl mx-auto mb-6">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <p class="text-2xl font-bold mb-6">"Good morning!"</p>
+                <p class="c-text-muted mb-6">Bom dia!</p>
+                <button onclick="nextQuestion()" class="c-primary-bg text-white rounded-xl px-8 py-3 font-bold w-full">
+                    Continuar
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="hidden text-center py-12">
+            <div class="text-6xl mb-4">🎉</div>
+            <h2 class="font-display font-bold text-3xl mb-2">Lição Completa!</h2>
+            <p class="c-text-muted mb-6">Você ganhou 50 XP</p>
+            <div class="flex justify-center gap-2 mb-8">
+                <div class="w-16 h-16 rounded-xl c-primary-bg flex items-center justify-center text-2xl">
+                    ⚡
+                </div>
+            </div>
+            <a href="a1.html" class="c-primary-bg text-white rounded-xl px-8 py-3 font-bold inline-block">
+                Voltar para o A1
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Bottom Check Button -->
+    <div id="checkContainer" class="fixed bottom-0 left-0 right-0 p-4 c-card border-t border-gray-700">
+        <div class="max-w-2xl mx-auto">
+            <button onclick="checkAnswer(null, null)" class="c-primary-bg text-white rounded-xl px-8 py-3 font-bold w-full">
+                Verificar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+
+        function checkAnswer(btn, isCorrect) {
+            if (btn) {
+                // Remove previous selections
+                document.querySelectorAll('#question1 .option-btn').forEach(b => {
+                    b.classList.remove('correct', 'wrong');
+                    b.classList.add('border-transparent');
+                });
+                
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    setTimeout(() => {
+                        document.getElementById('question1').classList.add('hidden');
+                        document.getElementById('question2').classList.remove('hidden');
+                        updateProgress(50);
+                    }, 1000);
+                } else {
+                    btn.classList.add('wrong');
+                }
+            }
+        }
+
+        function checkAnswer2(btn, isCorrect) {
+            document.querySelectorAll('#question2 .option-btn').forEach(b => {
+                b.classList.remove('correct', 'wrong');
+            });
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                setTimeout(() => {
+                    document.getElementById('question2').classList.add('hidden');
+                    document.getElementById('question3').classList.remove('hidden');
+                    updateProgress(75);
+                }, 1000);
+            } else {
+                btn.classList.add('wrong');
+            }
+        }
+
+        function nextQuestion() {
+            document.getElementById('question3').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+            document.getElementById('checkContainer').classList.add('hidden');
+            updateProgress(100);
+        }
+
+        function updateProgress(percent) {
+            document.querySelector('.fixed.top-0 .c-primary-bg').style.width = percent + '%';
+            document.querySelector('.h-3.bg-gray-700 .c-primary-bg').style.width = percent + '%';
+        }
+    </script>
+</body>
+</html>
