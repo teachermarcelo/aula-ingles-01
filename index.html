@@ -3,51 +3,1211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English with Marcelo</title>
+    <title>English Journey — A1 ao C2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#0C1015',
+                        card: '#141B24',
+                        'card-h': '#1A2332',
+                        brd: '#1E2A38',
+                        fg: '#EDE9E0',
+                        muted: '#6B7A8D',
+                        accent: '#E8A838',
+                        'accent-h': '#F0B84D',
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        body: ['DM Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .header { text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 20px; margin-bottom: 30px; }
-        .header h1 { margin: 0; font-size: 2.5em; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-        .card { background: white; padding: 30px; border-radius: 15px; text-align: center; text-decoration: none; color: #333; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-        .icon { font-size: 4em; margin-bottom: 10px; display: block; }
-        h2 { color: #667eea; margin: 10px 0; }
-        .level { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #0C1015;
+            color: #EDE9E0;
+            overflow-x: hidden;
+        }
+        ::selection { background: rgba(232,168,56,0.3); color: #fff; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0C1015; }
+        ::-webkit-scrollbar-thumb { background: #1E2A38; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2A3A4E; }
+
+        /* Formas flutuantes do hero */
+        .float-shape {
+            position: absolute;
+            border: 1px solid rgba(232,168,56,0.1);
+            background: rgba(232,168,56,0.02);
+            pointer-events: none;
+            will-change: transform;
+        }
+        .float-shape.circle { border-radius: 50%; }
+        .float-shape.square { border-radius: 20%; }
+
+        @keyframes drift1 {
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(30px,-40px) rotate(90deg); }
+            50% { transform: translate(-20px,-70px) rotate(180deg); }
+            75% { transform: translate(-40px,-20px) rotate(270deg); }
+        }
+        @keyframes drift2 {
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(-40px,30px) rotate(-90deg); }
+            50% { transform: translate(20px,60px) rotate(-180deg); }
+            75% { transform: translate(50px,10px) rotate(-270deg); }
+        }
+        @keyframes drift3 {
+            0%, 100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(25px,-35px) scale(1.05); }
+            66% { transform: translate(-30px,20px) scale(0.95); }
+        }
+
+        /* Gradiente animado do texto */
+        .gradient-text {
+            background: linear-gradient(135deg, #E8A838, #F0B84D, #FFD700, #E8A838);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glow sutil nos cards de nível */
+        .level-card {
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s ease;
+        }
+        .level-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        .level-card:hover {
+            transform: translateY(-8px);
+        }
+        .level-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Reveal na scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Badge pulsante */
+        .pulse-badge {
+            animation: pulseBadge 3s ease-in-out infinite;
+        }
+        @keyframes pulseBadge {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(232,168,56,0.3); }
+            50% { box-shadow: 0 0 0 12px rgba(232,168,56,0); }
+        }
+
+        /* Grid de fundo sutil */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(30,42,56,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30,42,56,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Linha de jornada entre níveis */
+        .journey-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(232,168,56,0.15), rgba(232,168,56,0.3), rgba(232,168,56,0.15), transparent);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            animation: modalIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Toast */
+        .toast-container { pointer-events: none; }
+        .toast {
+            pointer-events: auto;
+            animation: toastIn 0.4s ease, toastOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(60px); }
+        }
+
+        /* Dificuldade dots */
+        .diff-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid currentColor;
+            transition: background 0.3s ease;
+        }
+        .diff-dot.filled { background: currentColor; }
+
+        /* Nav glass */
+        .nav-glass {
+            background: rgba(12,16,21,0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(30,42,56,0.5);
+        }
+
+        /* Tabela admin */
+        .admin-table { font-size: 0.8rem; }
+        .admin-table th {
+            background: #1A2332;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        /* Stat bar chart */
+        .chart-bar {
+            transition: height 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+
+        /* Reduzir movimento se preferido */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus visible */
+        *:focus-visible {
+            outline: 2px solid #E8A838;
+            outline-offset: 2px;
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <div class="header">
-        <h1>📚 English Lessons</h1>
-        <p>Escolha uma aula para começar!</p>
+    <!-- ========== NAVEGAÇÃO ========== -->
+    <nav class="nav-glass fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group" aria-label="English Journey - Início">
+                <div class="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
+                    <i class="fa-solid fa-book-open text-accent text-sm"></i>
+                </div>
+                <span class="font-display font-bold text-lg text-fg">English<span class="text-accent">Journey</span></span>
+            </a>
+            <div class="hidden sm:flex items-center gap-8">
+                <a href="#hero" class="text-muted hover:text-fg transition-colors text-sm font-medium">Início</a>
+                <a href="#niveis" class="text-muted hover:text-fg transition-colors text-sm font-medium">Níveis</a>
+                <a href="#recursos" class="text-muted hover:text-fg transition-colors text-sm font-medium">Recursos</a>
+            </div>
+            <button onclick="openAdmin()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-brd hover:border-accent/40 hover:bg-card-h transition-all text-sm text-muted hover:text-fg" aria-label="Painel Administrativo">
+                <i class="fa-solid fa-shield-halved text-xs"></i>
+                <span class="hidden sm:inline">Admin</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+        <!-- Formas flutuantes -->
+        <div class="float-shape circle" style="width:220px;height:220px;top:10%;left:5%;animation:drift1 18s ease-in-out infinite;"></div>
+        <div class="float-shape square" style="width:140px;height:140px;top:20%;right:10%;animation:drift2 22s ease-in-out infinite;"></div>
+        <div class="float-shape circle" style="width:300px;height:300px;bottom:10%;left:50%;animation:drift3 25s ease-in-out infinite;border-color:rgba(232,168,56,0.06);"></div>
+        <div class="float-shape square" style="width:80px;height:80px;top:60%;left:15%;animation:drift2 16s ease-in-out infinite;"></div>
+        <div class="float-shape circle" style="width:180px;height:180px;top:40%;right:25%;animation:drift1 20s ease-in-out infinite;border-color:rgba(232,168,56,0.07);"></div>
+        <div class="float-shape square" style="width:100px;height:100px;bottom:25%;right:5%;animation:drift3 19s ease-in-out infinite;"></div>
+
+        <!-- Gradiente radial de fundo -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,168,56,0.06)_0%,transparent_70%)]"></div>
+
+        <!-- Conteúdo -->
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto pt-16">
+            <div class="pulse-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-medium mb-8">
+                <i class="fa-solid fa-sparkles text-[10px]"></i>
+                Plataforma Completa de Inglês
+            </div>
+
+            <h1 class="font-display font-900 text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
+                <span class="block text-fg">Sua Jornada do</span>
+                <span class="gradient-text">A1 ao C2</span>
+            </h1>
+
+            <p class="text-muted text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+                Do primeiro "Hello" à fluência total. Seis níveis cuidadosamente estruturados para transformar seu inglês de forma progressiva e consistente.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <a href="#niveis" class="px-8 py-3.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all hover:shadow-[0_0_30px_rgba(232,168,56,0.25)]">
+                    Explorar Níveis <i class="fa-solid fa-arrow-down ml-2 text-xs"></i>
+                </a>
+                <a href="#recursos" class="px-8 py-3.5 rounded-xl border border-brd hover:border-accent/40 text-fg font-medium text-sm transition-all hover:bg-card">
+                    Saiba Mais
+                </a>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-12">
+                <div class="text-center">
+                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="6">0</div>
+                    <div class="text-muted text-xs mt-1">Níveis CEFR</div>
+                </div>
+                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="120">0</div>
+                    <div class="text-muted text-xs mt-1">Aulas Práticas</div>
+                </div>
+                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-2xl sm:text-3xl text-fg" data-count="500">0</div>
+                    <div class="text-muted text-xs mt-1">Exercícios</div>
+                </div>
+                <div class="w-px h-8 bg-brd hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display font-bold text-2xl sm:text-3xl text-accent" data-count="100">0</div>
+                    <div class="text-muted text-xs mt-1">% Online</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seta de scroll -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-muted/40 text-lg"></i>
+        </div>
+    </section>
+
+    <!-- ========== NÍVEIS ========== -->
+    <section id="niveis" class="relative py-24 sm:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 text-accent text-xs font-medium uppercase tracking-widest mb-4">
+                    <span class="w-8 h-px bg-accent/40"></span>
+                    Níveis CEFR
+                    <span class="w-8 h-px bg-accent/40"></span>
+                </div>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
+                    Cada etapa, uma conquista
+                </h2>
+                <p class="text-muted max-w-xl mx-auto">
+                    Do básico ao avançado, cada nível foi projetado para construir habilidades sólidas sobre a anterior.
+                </p>
+            </div>
+
+            <!-- Grid de níveis -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 relative">
+                <!-- Linha de jornada (apenas desktop) -->
+                <div class="journey-line hidden lg:block"></div>
+
+                <!-- A1 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:0ms;" onclick="window.location.href='a1.html'">
+                    <div style="--glow:rgba(74,222,128,0.15);" class="before:bg-[var(--glow)] before:inset-[-1px] before:rounded-2xl before:absolute">
+                    </div>
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-seedling text-green-400 text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-green-500/10 text-green-400 text-xs font-bold tracking-wide">A1</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Beginner</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Frases simples, apresentações pessoais, vocabulário do dia a dia e compreensão de instruções básicas.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Greetings</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Numbers</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Daily Life</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-green-400">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+
+                <!-- A2 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:80ms;" onclick="window.location.href='a2.html'">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-leaf text-emerald-400 text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-bold tracking-wide">A2</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Elementary</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Conversas sobre rotinas, compras, viagens curtas e descrição de experiências pessoais simples.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Routines</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Shopping</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Travel</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-emerald-400">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+
+                <!-- B1 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:160ms;" onclick="window.location.href='b1.html'">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-water text-cyan-400 text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 text-xs font-bold tracking-wide">B1</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Intermediate</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Opiniões sobre temas conhecidos, viagens independentes e compreensão de textos claros e padronizados.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Opinions</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Grammar</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Listening</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-cyan-400">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot"></div>
+                            <div class="diff-dot"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+
+                <!-- B2 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:240ms;" onclick="window.location.href='b2.html'">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-fire text-amber-400 text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-amber-500/10 text-amber-400 text-xs font-bold tracking-wide">B2</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Upper Intermediate</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Fluência em conversas complexas, argumentação, compreensão de notícias e textos técnicos.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Debate</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">News</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Writing</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-amber-400">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+
+                <!-- C1 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:320ms;" onclick="window.location.href='c1.html'">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-bolt text-orange-400 text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-orange-500/10 text-orange-400 text-xs font-bold tracking-wide">C1</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Advanced</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Expressão flexível e espontânea, compreensão de textos longos e complexos, linguagem acadêmica e profissional.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Academic</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Idioms</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Nuance</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-orange-400">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+
+                <!-- C2 -->
+                <div class="level-card reveal bg-card rounded-2xl border border-brd p-6 group cursor-pointer" style="transition-delay:400ms;" onclick="window.location.href='c2.html'">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                            <i class="fa-solid fa-crown text-accent text-lg"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-lg bg-accent/10 text-accent text-xs font-bold tracking-wide">C2</span>
+                    </div>
+                    <h3 class="font-display font-bold text-xl text-fg mb-2">Proficiency</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">Domínio quase nativo. Compreensão de tudo que lê ou ouve, expressão precisa em qualquer contexto.</p>
+                    <div class="flex flex-wrap gap-1.5 mb-5">
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Mastery</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Literature</span>
+                        <span class="px-2.5 py-0.5 rounded-md bg-bg text-muted text-[11px]">Culture</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-1.5 text-accent">
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                            <div class="diff-dot filled"></div>
+                        </div>
+                        <span class="text-muted text-xs group-hover:text-accent transition-colors">Acessar <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== RECURSOS ========== -->
+    <section id="recursos" class="relative py-24 sm:py-32 border-t border-brd">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(232,168,56,0.03)_0%,transparent_60%)]"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 text-accent text-xs font-medium uppercase tracking-widest mb-4">
+                    <span class="w-8 h-px bg-accent/40"></span>
+                    Por que escolher
+                    <span class="w-8 h-px bg-accent/40"></span>
+                </div>
+                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
+                    Recursos que fazem a diferença
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:0ms;">
+                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                        <i class="fa-solid fa-headphones text-accent"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-fg text-lg mb-2">Audio Imersivo</h3>
+                    <p class="text-muted text-sm leading-relaxed">Escutas gravadas por nativos com diferentes sotaques e velocidades para treinamento real.</p>
+                </div>
+
+                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:100ms;">
+                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                        <i class="fa-solid fa-pen-fancy text-accent"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-fg text-lg mb-2">Escrita Guiada</h3>
+                    <p class="text-muted text-sm leading-relaxed">Templates e atividades de writing que evoluem junto com seu nível, do e-mail ao ensaio acadêmico.</p>
+                </div>
+
+                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:200ms;">
+                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                        <i class="fa-solid fa-chart-line text-accent"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-fg text-lg mb-2">Progresso Visível</h3>
+                    <p class="text-muted text-sm leading-relaxed">Dashboard com suas estatísticas, pontos fortes e áreas que precisam de reforço em cada habilidade.</p>
+                </div>
+
+                <div class="reveal bg-card rounded-2xl border border-brd p-6 hover:border-accent/20 transition-colors group" style="transition-delay:300ms;">
+                    <div class="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                        <i class="fa-solid fa-certificate text-accent"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-fg text-lg mb-2">Certificação</h3>
+                    <p class="text-muted text-sm leading-relaxed">Certificado ao completar cada nível, alinhado com os padrões internacionais do CEFR.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="py-24 sm:py-32 border-t border-brd">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center reveal">
+            <div class="bg-card rounded-3xl border border-brd p-10 sm:p-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-accent/3 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+                <div class="relative">
+                    <h2 class="font-display font-bold text-3xl sm:text-4xl text-fg mb-4">Pronto para comecar?</h2>
+                    <p class="text-muted mb-8 max-w-md mx-auto">Escolha seu nível e comece agora. Cada aula foi feita para você aprender de verdade, no seu ritmo.</p>
+                    <a href="#niveis" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all hover:shadow-[0_0_30px_rgba(232,168,56,0.25)]">
+                        Comecar Agora <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="border-t border-brd py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-accent/15 flex items-center justify-center">
+                            <i class="fa-solid fa-book-open text-accent text-xs"></i>
+                        </div>
+                        <span class="font-display font-bold text-fg">English<span class="text-accent">Journey</span></span>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed">Plataforma completa de inglês do A1 ao C2, pensada para quem quer resultados reais.</p>
+                </div>
+                <div>
+                    <h4 class="text-fg font-bold text-sm mb-4">Níveis</h4>
+                    <ul class="space-y-2">
+                        <li><a href="a1.html" class="text-muted text-sm hover:text-fg transition-colors">A1 — Beginner</a></li>
+                        <li><a href="a2.html" class="text-muted text-sm hover:text-fg transition-colors">A2 — Elementary</a></li>
+                        <li><a href="b1.html" class="text-muted text-sm hover:text-fg transition-colors">B1 — Intermediate</a></li>
+                        <li><a href="b2.html" class="text-muted text-sm hover:text-fg transition-colors">B2 — Upper Int.</a></li>
+                        <li><a href="c1.html" class="text-muted text-sm hover:text-fg transition-colors">C1 — Advanced</a></li>
+                        <li><a href="c2.html" class="text-muted text-sm hover:text-fg transition-colors">C2 — Proficiency</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-fg font-bold text-sm mb-4">Habilidades</h4>
+                    <ul class="space-y-2">
+                        <li><span class="text-muted text-sm">Listening</span></li>
+                        <li><span class="text-muted text-sm">Reading</span></li>
+                        <li><span class="text-muted text-sm">Writing</span></li>
+                        <li><span class="text-muted text-sm">Speaking</span></li>
+                        <li><span class="text-muted text-sm">Grammar</span></li>
+                        <li><span class="text-muted text-sm">Vocabulary</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-fg font-bold text-sm mb-4">Plataforma</h4>
+                    <ul class="space-y-2">
+                        <li><span class="text-muted text-sm">Sobre</span></li>
+                        <li><span class="text-muted text-sm">Contato</span></li>
+                        <li><span class="text-muted text-sm">FAQ</span></li>
+                        <li><span class="text-muted text-sm">Termos de Uso</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-brd pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-muted text-xs">&copy; 2025 EnglishJourney. Todos os direitos reservados.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="text-muted hover:text-fg transition-colors text-sm" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== MODAL ADMIN ========== -->
+    <div id="adminModal" class="fixed inset-0 z-[100] hidden">
+        <div class="modal-overlay absolute inset-0 bg-black/60" onclick="closeAdmin()"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+            <div class="modal-content bg-card rounded-2xl border border-brd w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+
+                <!-- Estado: Login -->
+                <div id="adminLogin" class="p-8 sm:p-10">
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-shield-halved text-accent"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold text-fg text-lg">Acesso Administrativo</h3>
+                                <p class="text-muted text-xs">Insira a senha para continuar</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAdmin()" class="w-8 h-8 rounded-lg bg-bg flex items-center justify-center text-muted hover:text-fg transition-colors" aria-label="Fechar">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+                    <div class="max-w-sm">
+                        <label for="adminPass" class="block text-sm text-muted mb-2">Senha</label>
+                        <div class="relative">
+                            <input type="password" id="adminPass" placeholder="Digite a senha" class="w-full px-4 py-3 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm" onkeydown="if(event.key==='Enter')attemptLogin()">
+                            <button onclick="togglePassVis('adminPass', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-fg transition-colors" aria-label="Mostrar senha">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                            </button>
+                        </div>
+                        <p id="loginError" class="text-red-400 text-xs mt-2 hidden">Senha incorreta. Tente novamente.</p>
+                        <button onclick="attemptLogin()" class="mt-4 w-full py-3 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all">
+                            Entrar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Estado: Dashboard -->
+                <div id="adminDash" class="hidden flex flex-col" style="max-height:90vh;">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-6 py-4 border-b border-brd shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-pie text-accent text-sm"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-fg">Painel Admin</h3>
+                        </div>
+                        <button onclick="logoutAdmin()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-bg text-muted hover:text-red-400 transition-colors text-xs">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sair
+                        </button>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-brd shrink-0">
+                        <button onclick="switchTab('visitas')" class="admin-tab px-5 py-3 text-sm font-medium text-accent border-b-2 border-accent" data-tab="visitas">
+                            <i class="fa-solid fa-users mr-1.5 text-xs"></i>Visitantes
+                        </button>
+                        <button onclick="switchTab('stats')" class="admin-tab px-5 py-3 text-sm font-medium text-muted border-b-2 border-transparent hover:text-fg transition-colors" data-tab="stats">
+                            <i class="fa-solid fa-chart-bar mr-1.5 text-xs"></i>Estatísticas
+                        </button>
+                        <button onclick="switchTab('config')" class="admin-tab px-5 py-3 text-sm font-medium text-muted border-b-2 border-transparent hover:text-fg transition-colors" data-tab="config">
+                            <i class="fa-solid fa-gear mr-1.5 text-xs"></i>Configurações
+                        </button>
+                    </div>
+
+                    <!-- Conteúdo das tabs -->
+                    <div class="flex-1 overflow-y-auto">
+                        <!-- Tab: Visitas -->
+                        <div id="tabVisitas" class="admin-tab-content p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <p class="text-muted text-xs">Log de acessos registrados (mais recentes primeiro)</p>
+                                <button onclick="clearLogs()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs hover:bg-red-500/20 transition-colors">
+                                    <i class="fa-solid fa-trash text-[10px]"></i> Limpar
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto rounded-xl border border-brd">
+                                <table class="admin-table w-full text-left">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-3 py-2.5 text-muted font-medium rounded-tl-xl">ID</th>
+                                            <th class="px-3 py-2.5 text-muted font-medium">Data / Hora</th>
+                                            <th class="px-3 py-2.5 text-muted font-medium">Navegador</th>
+                                            <th class="px-3 py-2.5 text-muted font-medium">Tela</th>
+                                            <th class="px-3 py-2.5 text-muted font-medium">Idioma</th>
+                                            <th class="px-3 py-2.5 text-muted font-medium rounded-tr-xl">Duração</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="visitsTableBody" class="divide-y divide-brd">
+                                        <tr><td colspan="6" class="px-3 py-6 text-center text-muted text-sm">Carregando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-muted/50 text-[10px] mt-3">Rastreamento baseado em fingerprint do navegador. Dados armazenados localmente.</p>
+                        </div>
+
+                        <!-- Tab: Estatísticas -->
+                        <div id="tabStats" class="admin-tab-content p-5 hidden">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                                <div class="bg-bg rounded-xl p-4 border border-brd">
+                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Total Visitas</p>
+                                    <p id="statTotal" class="font-display font-bold text-2xl text-fg">0</p>
+                                </div>
+                                <div class="bg-bg rounded-xl p-4 border border-brd">
+                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Visitantes Únicos</p>
+                                    <p id="statUnique" class="font-display font-bold text-2xl text-fg">0</p>
+                                </div>
+                                <div class="bg-bg rounded-xl p-4 border border-brd">
+                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Visitas Hoje</p>
+                                    <p id="statToday" class="font-display font-bold text-2xl text-accent">0</p>
+                                </div>
+                                <div class="bg-bg rounded-xl p-4 border border-brd">
+                                    <p class="text-muted text-[10px] uppercase tracking-wider mb-1">Sessão Média</p>
+                                    <p id="statAvg" class="font-display font-bold text-2xl text-fg">0s</p>
+                                </div>
+                            </div>
+                            <h4 class="text-fg font-bold text-sm mb-3">Visitas dos últimos 7 dias</h4>
+                            <div id="chartContainer" class="flex items-end gap-2 h-40 bg-bg rounded-xl border border-brd p-4">
+                                <!-- Barras geradas via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Tab: Configurações -->
+                        <div id="tabConfig" class="admin-tab-content p-5 hidden">
+                            <div class="max-w-sm">
+                                <h4 class="text-fg font-bold text-sm mb-1">Alterar Senha de Acesso</h4>
+                                <p class="text-muted text-xs mb-5">Mantenha sua senha segura. Mínimo de 4 caracteres.</p>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label for="currentPass" class="block text-xs text-muted mb-1.5">Senha Atual</label>
+                                        <input type="password" id="currentPass" placeholder="Senha atual" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="newPass" class="block text-xs text-muted mb-1.5">Nova Senha</label>
+                                        <input type="password" id="newPass" placeholder="Nova senha" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="confirmPass" class="block text-xs text-muted mb-1.5">Confirmar Nova Senha</label>
+                                        <input type="password" id="confirmPass" placeholder="Confirme a nova senha" class="w-full px-4 py-2.5 rounded-xl bg-bg border border-brd text-fg placeholder:text-muted/50 focus:border-accent/50 focus:outline-none transition-colors text-sm">
+                                    </div>
+                                    <p id="passMsg" class="text-xs hidden"></p>
+                                    <button onclick="changePassword()" class="w-full py-2.5 rounded-xl bg-accent hover:bg-accent-h text-bg font-bold text-sm transition-all mt-2">
+                                        Salvar Nova Senha
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="grid">
-        <!-- Link para aula de cores -->
-        <a href="colors.html" class="card">
-            <span class="icon">🎨</span>
-            <h2>Colors</h2>
-            <p>Aprenda as cores</p>
-            <span class="level">Nível A1</span>
-        </a>
+    <!-- ========== TOAST CONTAINER ========== -->
+    <div id="toastContainer" class="toast-container fixed bottom-6 right-6 z-[200] flex flex-col gap-2"></div>
 
-        <!-- Link para aula de números -->
-        <a href="numbers.html" class="card">
-            <span class="icon">🔢</span>
-            <h2>Numbers</h2>
-            <p>Conte de 1 a 10</p>
-            <span class="level">Nível A1</span>
-        </a>
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        /* =============================================
+           SISTEMA DE RASTREAMENTO DE VISITANTES
+           ============================================= */
+        const Tracking = {
+            // Gera um fingerprint simplificado do visitante
+            getFingerprint() {
+                const data = [
+                    screen.width, screen.height, screen.colorDepth,
+                    navigator.language, navigator.platform,
+                    new Date().getTimezoneOffset(),
+                    navigator.hardwareConcurrency || 0
+                ];
+                let hash = 0;
+                for (let i = 0; i < data.length; i++) {
+                    const str = String(data[i]);
+                    for (let j = 0; j < str.length; j++) {
+                        hash = ((hash << 5) - hash) + str.charCodeAt(j);
+                        hash |= 0;
+                    }
+                }
+                return 'V-' + Math.abs(hash).toString(36).toUpperCase().slice(0, 8);
+            },
 
-        <!-- Link para aula de animais (você criará depois) -->
-        <a href="animals.html" class="card">
-            <span class="icon">🦁</span>
-            <h2>Animals</h2>
-            <p>Em breve!</p>
-            <span class="level">Nível A1</span>
-        </a>
-    </div>
+            // Identifica o navegador
+            parseBrowser() {
+                const ua = navigator.userAgent;
+                if (ua.includes('Edg')) return 'Edge';
+                if (ua.includes('OPR') || ua.includes('Opera')) return 'Opera';
+                if (ua.includes('Chrome')) return 'Chrome';
+                if (ua.includes('Firefox')) return 'Firefox';
+                if (ua.includes('Safari')) return 'Safari';
+                return 'Outro';
+            },
 
+            // Registra a visita
+            logVisit() {
+                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
+                const visit = {
+                    id: this.getFingerprint(),
+                    timestamp: new Date().toISOString(),
+                    browser: this.parseBrowser(),
+                    screen: screen.width + 'x' + screen.height,
+                    language: navigator.language,
+                    platform: navigator.platform,
+                    duration: 0,
+                    exitTime: null
+                };
+                visits.push(visit);
+                // Manter no máximo 500 registros
+                if (visits.length > 500) visits.splice(0, visits.length - 500);
+                localStorage.setItem('ej_visits', JSON.stringify(visits));
+                // Salvar índice da visita atual para atualizar a duração depois
+                sessionStorage.setItem('ej_visitIdx', String(visits.length - 1));
+            },
+
+            // Rastreia a duração da sessão
+            trackDuration() {
+                const startTime = Date.now();
+                window.addEventListener('beforeunload', () => {
+                    const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
+                    const idx = parseInt(sessionStorage.getItem('ej_visitIdx'));
+                    if (visits[idx]) {
+                        visits[idx].duration = Math.round((Date.now() - startTime) / 1000);
+                        visits[idx].exitTime = new Date().toISOString();
+                        localStorage.setItem('ej_visits', JSON.stringify(visits));
+                    }
+                });
+            },
+
+            // Retorna estatísticas gerais
+            getStats() {
+                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
+                const unique = new Set(visits.map(v => v.id)).size;
+                const today = new Date().toDateString();
+                const todayCount = visits.filter(v => new Date(v.timestamp).toDateString() === today).length;
+                const avgDuration = visits.length > 0
+                    ? Math.round(visits.reduce((s, v) => s + (v.duration || 0), 0) / visits.length)
+                    : 0;
+                return { total: visits.length, unique, today: todayCount, avgDuration };
+            },
+
+            // Retorna visitas dos últimos 7 dias agrupadas por dia
+            getWeeklyData() {
+                const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
+                const days = [];
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    const key = d.toDateString();
+                    const label = d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' });
+                    const count = visits.filter(v => new Date(v.timestamp).toDateString() === key).length;
+                    days.push({ label: label.replace('.', ''), count });
+                }
+                return days;
+            },
+
+            // Inicializa o rastreamento
+            init() {
+                this.logVisit();
+                this.trackDuration();
+            }
+        };
+
+        /* =============================================
+           SISTEMA ADMINISTRATIVO
+           ============================================= */
+        const Admin = {
+            getPassword() {
+                return localStorage.getItem('ej_admin_pass') || '123456';
+            },
+            setPassword(pass) {
+                localStorage.setItem('ej_admin_pass', pass);
+            },
+            isLoggedIn() {
+                return sessionStorage.getItem('ej_admin_auth') === 'true';
+            },
+            login(pass) {
+                if (pass === this.getPassword()) {
+                    sessionStorage.setItem('ej_admin_auth', 'true');
+                    return true;
+                }
+                return false;
+            },
+            logout() {
+                sessionStorage.removeItem('ej_admin_auth');
+            },
+            changePassword(current, newPass, confirm) {
+                if (current !== this.getPassword()) {
+                    return { ok: false, msg: 'Senha atual incorreta.', type: 'error' };
+                }
+                if (newPass.length < 4) {
+                    return { ok: false, msg: 'A nova senha deve ter pelo menos 4 caracteres.', type: 'error' };
+                }
+                if (newPass !== confirm) {
+                    return { ok: false, msg: 'As senhas nao conferem.', type: 'error' };
+                }
+                this.setPassword(newPass);
+                return { ok: true, msg: 'Senha alterada com sucesso!', type: 'success' };
+            }
+        };
+
+        /* =============================================
+           FUNÇÕES DO MODAL ADMIN
+           ============================================= */
+        function openAdmin() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            if (Admin.isLoggedIn()) {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        function closeAdmin() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('adminPass').value = '';
+            document.getElementById('loginError').classList.add('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('adminLogin').classList.remove('hidden');
+            document.getElementById('adminDash').classList.add('hidden');
+            document.getElementById('adminPass').focus();
+        }
+
+        function showDashboard() {
+            document.getElementById('adminLogin').classList.add('hidden');
+            document.getElementById('adminDash').classList.remove('hidden');
+            renderVisitsTable();
+            renderStats();
+            renderChart();
+        }
+
+        function attemptLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if (Admin.login(pass)) {
+                showDashboard();
+                showToast('Logado com sucesso', 'success');
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+                document.getElementById('adminPass').value = '';
+                document.getElementById('adminPass').focus();
+            }
+        }
+
+        function logoutAdmin() {
+            Admin.logout();
+            showLogin();
+            showToast('Sessao encerrada', 'info');
+        }
+
+        // Alternar visibilidade da senha
+        function togglePassVis(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Trocar tabs do dashboard
+        function switchTab(tabName) {
+            // Atualizar botões
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.remove('text-muted', 'border-transparent');
+                    tab.classList.add('text-accent', 'border-accent');
+                } else {
+                    tab.classList.remove('text-accent', 'border-accent');
+                    tab.classList.add('text-muted', 'border-transparent');
+                }
+            });
+            // Atualizar conteúdo
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+            const map = { visitas: 'tabVisitas', stats: 'tabStats', config: 'tabConfig' };
+            document.getElementById(map[tabName]).classList.remove('hidden');
+
+            // Re-renderizar dados ao trocar de tab
+            if (tabName === 'visitas') renderVisitsTable();
+            if (tabName === 'stats') { renderStats(); renderChart(); }
+        }
+
+        // Renderizar tabela de visitas
+        function renderVisitsTable() {
+            const visits = JSON.parse(localStorage.getItem('ej_visits') || '[]');
+            const tbody = document.getElementById('visitsTableBody');
+
+            if (visits.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="px-3 py-6 text-center text-muted text-sm">Nenhuma visita registrada ainda.</td></tr>';
+                return;
+            }
+
+            // Mostrar mais recentes primeiro
+            const reversed = [...visits].reverse();
+            tbody.innerHTML = reversed.map(v => {
+                const date = new Date(v.timestamp);
+                const dateStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const dur = v.duration > 0 ? formatDuration(v.duration) : '<span class="text-muted/50">Em curso</span>';
+                return `<tr class="hover:bg-card-h/50 transition-colors">
+                    <td class="px-3 py-2.5 font-mono text-accent text-[11px]">${v.id}</td>
+                    <td class="px-3 py-2.5 text-fg whitespace-nowrap">${dateStr} ${timeStr}</td>
+                    <td class="px-3 py-2.5 text-fg">${v.browser}</td>
+                    <td class="px-3 py-2.5 text-muted">${v.screen}</td>
+                    <td class="px-3 py-2.5 text-muted">${v.language}</td>
+                    <td class="px-3 py-2.5 text-fg">${dur}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Renderizar estatísticas
+        function renderStats() {
+            const s = Tracking.getStats();
+            document.getElementById('statTotal').textContent = s.total;
+            document.getElementById('statUnique').textContent = s.unique;
+            document.getElementById('statToday').textContent = s.today;
+            document.getElementById('statAvg').textContent = formatDuration(s.avgDuration);
+        }
+
+        // Renderizar gráfico de barras semanal
+        function renderChart() {
+            const data = Tracking.getWeeklyData();
+            const container = document.getElementById('chartContainer');
+            const maxCount = Math.max(...data.map(d => d.count), 1);
+
+            container.innerHTML = data.map(d => {
+                const h = Math.max(4, (d.count / maxCount) * 100);
+                return `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1">
+                    <span class="text-[10px] font-bold ${d.count > 0 ? 'text-accent' : 'text-muted/30'}">${d.count}</span>
+                    <div class="chart-bar w-full max-w-[40px] rounded-t-md bg-accent/70 hover:bg-accent transition-colors" style="height:${h}%;min-height:4px;"></div>
+                    <span class="text-[10px] text-muted mt-1 capitalize">${d.label}</span>
+                </div>`;
+            }).join('');
+        }
+
+        // Limpar logs
+        function clearLogs() {
+            localStorage.removeItem('ej_visits');
+            renderVisitsTable();
+            renderStats();
+            renderChart();
+            showToast('Logs de visitas apagados', 'info');
+        }
+
+        // Alterar senha
+        function changePassword() {
+            const current = document.getElementById('currentPass').value;
+            const newP = document.getElementById('newPass').value;
+            const confirm = document.getElementById('confirmPass').value;
+            const msgEl = document.getElementById('passMsg');
+
+            const result = Admin.changePassword(current, newP, confirm);
+            msgEl.textContent = result.msg;
+            msgEl.className = 'text-xs ' + (result.type === 'error' ? 'text-red-400' : 'text-green-400');
+            msgEl.classList.remove('hidden');
+
+            if (result.ok) {
+                showToast(result.msg, 'success');
+                document.getElementById('currentPass').value = '';
+                document.getElementById('newPass').value = '';
+                document.getElementById('confirmPass').value = '';
+                setTimeout(() => msgEl.classList.add('hidden'), 4000);
+            }
+        }
+
+        // Formatar duração em segundos para formato legível
+        function formatDuration(seconds) {
+            if (seconds < 60) return seconds + 's';
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            if (m < 60) return m + 'min ' + (s > 0 ? s + 's' : '');
+            const h = Math.floor(m / 60);
+            const rm = m % 60;
+            return h + 'h ' + (rm > 0 ? rm + 'min' : '');
+        }
+
+        /* =============================================
+           SISTEMA DE TOAST
+           ============================================= */
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const colors = {
+                success: 'bg-green-500/15 border-green-500/30 text-green-400',
+                error: 'bg-red-500/15 border-red-500/30 text-red-400',
+                info: 'bg-accent/15 border-accent/30 text-accent'
+            };
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            const toast = document.createElement('div');
+            toast.className = `toast flex items-center gap-2.5 px-4 py-3 rounded-xl border ${colors[type] || colors.info} text-sm backdrop-blur-sm`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info} text-xs"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3200);
+        }
+
+        /* =============================================
+           ANIMAÇÕES DE SCROLL (IntersectionObserver)
+           ============================================= */
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Aplica delay escalonado se houver transition-delay
+                        const delay = entry.target.style.transitionDelay || '0ms';
+                        entry.target.style.transitionDelay = delay;
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        /* =============================================
+           CONTADORES ANIMADOS DO HERO
+           ============================================= */
+        function initCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.dataset.counted) {
+                        entry.target.dataset.counted = 'true';
+                        const target = parseInt(entry.target.dataset.count);
+                        const duration = 1800;
+                        const start = performance.now();
+
+                        function update(now) {
+                            const elapsed = now - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            // Easing: ease-out cubic
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = Math.round(eased * target);
+                            entry.target.textContent = current + (target >= 100 ? '+' : '');
+                            if (progress < 1) requestAnimationFrame(update);
+                        }
+                        requestAnimationFrame(update);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(c => observer.observe(c));
+        }
+
+        /* =============================================
+           SMOOTH SCROLL PARA LINKS INTERNOS
+           ============================================= */
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        /* =============================================
+           FECHAR MODAL COM ESC
+           ============================================= */
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAdmin();
+        });
+
+        /* =============================================
+           INICIALIZAÇÃO
+           ============================================= */
+        document.addEventListener('DOMContentLoaded', () => {
+            Tracking.init();
+            initScrollReveal();
+            initCounters();
+        });
+    </script>
 </body>
 </html>
