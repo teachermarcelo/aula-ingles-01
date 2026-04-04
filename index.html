@@ -3,176 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula de Inglês - Colors</title>
+    <title>English with Marcelo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        h1 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .color-card {
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .color-card:hover {
-            transform: translateY(-5px);
-        }
-        .color-card h3 {
-            margin-bottom: 10px;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        .red { background: #e74c3c; }
-        .blue { background: #3498db; }
-        .green { background: #2ecc71; }
-        .yellow { background: #f1c40f; }
-        .audio-btn {
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 20px;
-            margin-top: 10px;
-        }
-        .quiz {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-        }
-        .quiz h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .option {
-            display: block;
-            padding: 12px;
-            margin: 8px 0;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .option:hover {
-            background: #e3f2fd;
-            border-color: #2196f3;
-        }
-        .correct {
-            background: #4caf50 !important;
-            color: white;
-            border-color: #4caf50 !important;
-        }
-        .wrong {
-            background: #f44336 !important;
-            color: white;
-            border-color: #f44336 !important;
-        }
-        @media (max-width: 600px) {
-            .color-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .header { text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 20px; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-size: 2.5em; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { background: white; padding: 30px; border-radius: 15px; text-align: center; text-decoration: none; color: #333; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .icon { font-size: 4em; margin-bottom: 10px; display: block; }
+        h2 { color: #667eea; margin: 10px 0; }
+        .level { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎨 Colors - Cores</h1>
-        <p class="subtitle">Nível A1 - Clique para ouvir!</p>
-        
-        <div class="color-grid">
-            <div class="color-card red">
-                <h3>RED</h3>
-                <p>Vermelho</p>
-                <button class="audio-btn" onclick="speak('Red')">🔊</button>
-            </div>
-            <div class="color-card blue">
-                <h3>BLUE</h3>
-                <p>Azul</p>
-                <button class="audio-btn" onclick="speak('Blue')">🔊</button>
-            </div>
-            <div class="color-card green">
-                <h3>GREEN</h3>
-                <p>Verde</p>
-                <button class="audio-btn" onclick="speak('Green')">🔊</button>
-            </div>
-            <div class="color-card yellow">
-                <h3>YELLOW</h3>
-                <p>Amarelo</p>
-                <button class="audio-btn" onclick="speak('Yellow')">🔊</button>
-            </div>
-        </div>
 
-        <div class="quiz">
-            <h2>📝 Quiz: What color is this?</h2>
-            <p style="margin-bottom: 15px;"><strong>Question:</strong> The sky is...</p>
-            <label class="option" onclick="check(this, false)">
-                🔴 Red
-            </label>
-            <label class="option" onclick="check(this, true)">
-                🔵 Blue
-            </label>
-            <label class="option" onclick="check(this, false)">
-                🟢 Green
-            </label>
-        </div>
+    <div class="header">
+        <h1>📚 English Lessons</h1>
+        <p>Escolha uma aula para começar!</p>
     </div>
 
-    <script>
-        function speak(word) {
-            const utterance = new SpeechSynthesisUtterance(word);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8;
-            speechSynthesis.speak(utterance);
-        }
+    <div class="grid">
+        <!-- Link para aula de cores -->
+        <a href="colors.html" class="card">
+            <span class="icon">🎨</span>
+            <h2>Colors</h2>
+            <p>Aprenda as cores</p>
+            <span class="level">Nível A1</span>
+        </a>
 
-        function check(element, isCorrect) {
-            if (isCorrect) {
-                element.classList.add('correct');
-                element.innerHTML += ' ✅ Correct!';
-                speak('Correct! Well done!');
-            } else {
-                element.classList.add('wrong');
-                element.innerHTML += ' ❌ Try again!';
-                speak('Try again!');
-            }
-        }
-    </script>
+        <!-- Link para aula de números -->
+        <a href="numbers.html" class="card">
+            <span class="icon">🔢</span>
+            <h2>Numbers</h2>
+            <p>Conte de 1 a 10</p>
+            <span class="level">Nível A1</span>
+        </a>
+
+        <!-- Link para aula de animais (você criará depois) -->
+        <a href="animals.html" class="card">
+            <span class="icon">🦁</span>
+            <h2>Animals</h2>
+            <p>Em breve!</p>
+            <span class="level">Nível A1</span>
+        </a>
+    </div>
+
 </body>
 </html>
