@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishPath — Aprenda Inglês Jogando</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
         tailwind.config = {
@@ -14,108 +14,39 @@
                     fontFamily: {
                         display: ['Fredoka', 'sans-serif'],
                         body: ['Nunito', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 3s ease-in-out infinite',
-                        'confetti': 'confetti 1s ease-out forwards',
-                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        confetti: {
-                            '0%': { transform: 'translateY(-100px) rotate(0deg)', opacity: 1 },
-                            '100%': { transform: 'translateY(100vh) rotate(720deg)', opacity: 0 },
-                        },
-                        shake: {
-                            '10%, 90%': { transform: 'translateX(-1px)' },
-                            '20%, 80%': { transform: 'translateX(2px)' },
-                            '30%, 50%, 70%': { transform: 'translateX(-4px)' },
-                            '40%, 60%': { transform: 'translateX(4px)' }
-                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* ===== THEME SYSTEM ===== */
         :root {
-            --bg: #0f172a;
-            --bg-grad: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --card: #1e293b;
-            --card-hover: #334155;
-            --border: #334155;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #64748b;
             --primary: #22c55e;
-            --primary-dark: #16a34a;
             --secondary: #3b82f6;
             --accent: #f59e0b;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --warning: #f59e0b;
             --gem: #8b5cf6;
             --streak: #f97316;
             --xp: #06b6d4;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-            --glow-primary: 0 0 15px rgba(34, 197, 94, 0.4);
-            --glow-secondary: 0 0 15px rgba(59, 130, 246, 0.4);
         }
-        
-        [data-theme="light"] {
-            --bg: #f8fafc;
-            --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            --card: #ffffff;
-            --card-hover: #f1f5f9;
-            --border: #cbd5e1;
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --primary: #16a34a;
-            --primary-dark: #15803d;
-            --secondary: #2563eb;
-            --accent: #d97706;
-            --danger: #dc2626;
-            --success: #16a34a;
-            --warning: #d97706;
-            --gem: #7c3aed;
-            --streak: #ea580c;
-            --xp: #0891b2;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --glow-primary: 0 0 15px rgba(22, 163, 74, 0.3);
-            --glow-secondary: 0 0 15px rgba(37, 99, 235, 0.3);
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Nunito', sans-serif;
             background: var(--bg);
-            background-image: var(--bg-grad);
             color: var(--text);
-            overflow-x: hidden;
-            transition: background 0.4s ease, color 0.4s ease;
-            min-height: 100vh;
-            padding-bottom: 70px; /* Space for bottom nav */
+            transition: all 0.3s ease;
         }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-        
-        /* Selection */
-        ::selection { background: var(--primary); color: white; }
-        
-        /* Utility classes */
         .c-card { background: var(--card); border: 1px solid var(--border); }
-        .c-card-hover:hover { background: var(--card-hover); border-color: var(--primary); }
-        .c-border { border-color: var(--border); }
         .c-text { color: var(--text); }
         .c-text-muted { color: var(--text-muted); }
         .c-primary { color: var(--primary); }
@@ -123,614 +54,26 @@
         .c-secondary { color: var(--secondary); }
         .c-secondary-bg { background: var(--secondary); }
         .c-accent { color: var(--accent); }
-        .c-accent-bg { background: var(--accent); }
-        .c-danger { color: var(--danger); }
         .c-gem { color: var(--gem); }
         .c-streak { color: var(--streak); }
         .c-xp { color: var(--xp); }
         
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: none;
-            box-shadow: var(--shadow);
-        }
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--glow-primary);
-        }
-        .btn-secondary {
-            background: var(--secondary);
-            color: white;
-        }
-        .btn-secondary:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: var(--glow-secondary);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--border);
-            color: var(--text);
-        }
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(34, 197, 94, 0.1);
-        }
-        .btn:active { transform: translateY(1px); }
-        
-        /* Cards */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 1.25rem;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
-        }
-        .card-glow {
-            position: relative;
-            overflow: hidden;
-        }
-        .card-glow::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            border-radius: 50%;
-        }
-        .card-glow:hover::before { opacity: 1; }
-        
-        /* Path Nodes (Duolingo style) */
-        .path-container {
-            position: relative;
-            padding: 2rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2.5rem;
-        }
-        .path-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--border);
-            transform: translateX(-50%);
-            border-radius: 2px;
-            z-index: 0;
-        }
-        .path-line::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 35%;
-            width: 100%;
-            background: var(--primary);
-            border-radius: 2px 2px 0 0;
-            transition: height 0.5s ease;
-        }
-        .path-node {
-            position: relative;
-            z-index: 1;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: white;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 4px solid var(--card);
-            animation: float 3s ease-in-out infinite;
-        }
-        .path-node:nth-child(even) { margin-left: 25%; }
-        .path-node:nth-child(odd) { margin-right: 25%; }
-        .path-node.completed {
-            background: var(--primary);
-            box-shadow: var(--glow-primary);
-        }
-        .path-node.current {
-            background: var(--secondary);
-            box-shadow: var(--glow-secondary);
-            animation: pulse-slow;
-            transform: scale(1.1);
-        }
-        .path-node.locked {
-            background: var(--border);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .path-node:hover:not(.locked) {
-            transform: scale(1.15) translateY(-5px);
-            z-index: 10;
-        }
-        .path-node::after {
-            content: attr(data-level);
-            position: absolute;
-            bottom: -28px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-        
-        /* Gamification Elements */
-        .xp-bar {
-            height: 8px;
-            background: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        .xp-fill {
-            height: 100%;
-            background: var(--xp);
-            border-radius: 4px;
-            width: 65%;
-            transition: width 0.5s ease;
-            position: relative;
-        }
-        .xp-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shine 2s infinite;
-        }
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .streak-flame {
-            animation: flame 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes flame {
-            from { transform: scale(1); opacity: 0.8; }
-            to { transform: scale(1.1); opacity: 1; }
-        }
-        
-        .gem-icon {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .gem-icon::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(139,92,246,0.4) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            opacity: 0.7;
-        }
-        
-        /* Skill Progress */
-        .skill-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 16px;
-            transition: all 0.2s ease;
-        }
-        .skill-item:hover {
-            background: var(--card-hover);
-            transform: translateX(4px);
-        }
-        .skill-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        .skill-progress {
-            flex: 1;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .skill-progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-        
-        /* Daily Quests */
-        .quest-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 16px;
-            border-left: 3px solid var(--border);
-            transition: all 0.2s ease;
-        }
-        .quest-item.completed {
-            border-left-color: var(--success);
-            opacity: 0.8;
-        }
-        .quest-item:hover:not(.completed) {
-            background: var(--card-hover);
-            border-left-color: var(--primary);
-        }
-        .quest-reward {
-            background: var(--gem);
-            color: white;
-            font-weight: 700;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        /* Bottom Navigation (Mobile) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.75rem 0;
-            z-index: 100;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.5rem;
-            border-radius: 16px;
-            transition: all 0.2s ease;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .nav-item.active, .nav-item:hover {
-            color: var(--primary);
-            background: rgba(34, 197, 94, 0.1);
-        }
-        .nav-item i {
-            font-size: 1.25rem;
-        }
-        
-        /* Confetti Animation */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 2px;
-            pointer-events: none;
-            z-index: 1000;
-            animation: confetti 1s ease-out forwards;
-        }
-        
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        /* Responsive */
-        @media (min-width: 768px) {
-            body { padding-bottom: 0; }
-            .bottom-nav { display: none; }
-            .path-node:nth-child(even) { margin-left: 0; }
-            .path-node:nth-child(odd) { margin-right: 0; }
-            .path-container {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 1.5rem;
-            }
-            .path-line {
-                left: 0;
-                right: 0;
-                top: 50%;
-                bottom: auto;
-                width: auto;
-                height: 4px;
-                transform: translateY(-50%);
-            }
-            .path-line::after {
-                height: 100%;
-                width: 40%;
-                border-radius: 2px 0 0 2px;
-            }
-        }
-        
-        /* Admin Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background: var(--card);
-            border-radius: 24px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-            border: 1px solid var(--border);
-        }
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        /* Toast Notifications */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--card);
-            border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            z-index: 2000;
-            transform: translateX(200%);
-            transition: transform 0.3s ease;
-            max-width: 350px;
-        }
-        .toast.show {
-            transform: translateX(0);
-        }
-        .toast.success { border-left-color: var(--success); }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.warning { border-left-color: var(--warning); }
-        
-        /* Mascot Character */
-        .mascot {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1.5rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        .mascot-body {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: var(--primary);
-            border-radius: 50%;
-            bottom: 0;
-            left: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            box-shadow: var(--glow-primary);
-            border: 4px solid var(--card);
-        }
-        .mascot-eyes {
-            position: absolute;
-            top: 35px;
-            display: flex;
-            gap: 15px;
-        }
-        .mascot-eye {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-        }
-        .mascot-pupil {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #0f172a;
-            border-radius: 50%;
-            bottom: 3px;
-            left: 5px;
-            transition: transform 0.2s ease;
-        }
-        .mascot-smile {
-            position: absolute;
-            bottom: 25px;
-            width: 40px;
-            height: 20px;
-            border-bottom: 4px solid white;
-            border-radius: 0 0 40px 40px;
-        }
-        
-        /* Level Badges */
-        .level-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-weight: 800;
-            font-size: 0.875rem;
-            color: white;
-            flex-shrink: 0;
-        }
-        .level-A1 { background: #22c55e; }
-        .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; }
-        .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; }
-        .level-C2 { background: #dc2626; }
-        
-        /* Lesson Card */
         .lesson-card {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 20px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            text-decoration: none;
         }
         .lesson-card:hover {
-            background: var(--card-hover);
-            transform: translateX(4px);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .lesson-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-            color: white;
-            font-weight: 700;
-        }
-        .lesson-content {
-            flex: 1;
-        }
-        .lesson-title {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        .lesson-desc {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        .lesson-xp {
-            background: var(--xp);
-            color: white;
-            font-weight: 700;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        /* Header Stats */
-        .header-stats {
-            display: flex;
-            justify-content: space-around;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 1.5rem;
-        }
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        .stat-value {
-            font-weight: 800;
-            font-size: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: var(--glow-primary);
-            z-index: 90;
+        .path-node {
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: all 0.2s ease;
-            animation: pulse-slow;
         }
-        .fab:hover {
+        .path-node:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
         }
-        
-        /* Theme Toggle */
         .theme-toggle {
             width: 52px;
             height: 28px;
@@ -739,7 +82,6 @@
             position: relative;
             cursor: pointer;
             border: none;
-            padding: 0;
             transition: background 0.3s;
         }
         .theme-toggle::after {
@@ -751,791 +93,249 @@
             height: 22px;
             border-radius: 50%;
             background: var(--primary);
-            transition: transform 0.3s cubic-bezier(.4,.0,.2,1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
         }
-        [data-theme="light"] .theme-toggle::after {
+        [data-theme="dark"] .theme-toggle::after {
             transform: translateX(24px);
-            background: var(--secondary);
-        }
-        
-        /* Progress Ring */
-        .progress-ring {
-            position: relative;
-            width: 60px;
-            height: 60px;
-        }
-        .progress-ring-circle {
-            fill: none;
-            stroke: var(--border);
-            stroke-width: 4;
-        }
-        .progress-ring-fill {
-            fill: none;
-            stroke: var(--primary);
-            stroke-width: 4;
-            stroke-linecap: round;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-        .progress-ring-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: 800;
-            font-size: 0.875rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header with Stats -->
-    <header class="sticky top-0 z-40 c-card border-b c-border">
-        <div class="max-w-4xl mx-auto px-4 py-3">
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center font-bold text-lg">EP</div>
+    <!-- Header -->
+    <header class="sticky top-0 z-40 c-card border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-4xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center font-bold text-xl text-white">EP</div>
                     <div>
-                        <h1 class="font-display font-bold text-lg">EnglishPath</h1>
+                        <h1 class="font-display font-bold text-xl">EnglishPath</h1>
                         <p class="text-xs c-text-muted">Do A1 ao C2 jogando</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema"></button>
-                    <button onclick="openAdmin()" class="w-9 h-9 rounded-xl c-card c-border flex items-center justify-center c-text-muted hover:c-primary transition-colors" aria-label="Admin">
-                        <i class="fa-solid fa-crown text-sm"></i>
-                    </button>
+                <button class="theme-toggle" onclick="toggleTheme()"></button>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="text-center">
+                    <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt text-sm"></i> 1,240</div>
+                    <div class="text-xs c-text-muted">XP</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire text-sm"></i> 7</div>
+                    <div class="text-xs c-text-muted">Dias</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem text-sm"></i> 42</div>
+                    <div class="text-xs c-text-muted">Gemas</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold">B1</div>
+                    <div class="text-xs c-text-muted">Nível</div>
                 </div>
             </div>
             
-            <!-- User Stats -->
-            <div class="header-stats">
-                <div class="stat-item">
-                    <div class="stat-value c-xp">
-                        <i class="fa-solid fa-bolt text-xs"></i>
-                        <span id="userXp">1,240</span>
-                    </div>
-                    <div class="stat-label">XP</div>
+            <!-- XP Bar -->
+            <div>
+                <div class="flex justify-between text-xs mb-2">
+                    <span class="c-text-muted">Próximo nível</span>
+                    <span class="font-bold">1,850/2,500 XP</span>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value c-streak">
-                        <i class="fa-solid fa-fire streak-flame text-xs"></i>
-                        <span id="userStreak">7</span>
-                    </div>
-                    <div class="stat-label">Dias</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value c-gem">
-                        <i class="fa-solid fa-gem text-xs"></i>
-                        <span id="userGems">42</span>
-                    </div>
-                    <div class="stat-label">Gemas</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">
-                        <span id="userLevel">B1</span>
-                    </div>
-                    <div class="stat-label">Nível</div>
-                </div>
-            </div>
-            
-            <!-- XP Progress Bar -->
-            <div class="flex items-center gap-3">
-                <div class="flex-1">
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="c-text-muted">Próximo nível</span>
-                        <span class="font-bold">1,850/2,500 XP</span>
-                    </div>
-                    <div class="xp-bar">
-                        <div class="xp-fill" style="width: 74%"></div>
-                    </div>
-                </div>
-                <div class="progress-ring">
-                    <svg class="progress-ring-circle" viewBox="0 0 60 60">
-                        <circle class="progress-ring-fill" cx="30" cy="30" r="26" 
-                                stroke-dasharray="163.36" 
-                                stroke-dashoffset="42.47" />
-                    </svg>
-                    <div class="progress-ring-text">74%</div>
+                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="h-full c-primary-bg rounded-full transition-all" style="width: 74%"></div>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-6">
-        <!-- Mascot Character -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Welcome -->
         <div class="text-center mb-8">
-            <div class="mascot">
-                <div class="mascot-body">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div class="mascot-eyes">
-                    <div class="mascot-eye"><div class="mascot-pupil"></div></div>
-                    <div class="mascot-eye"><div class="mascot-pupil"></div></div>
-                </div>
-                <div class="mascot-smile"></div>
-            </div>
-            <h2 class="font-display font-bold text-2xl mb-2">Olá, Olivia! 👋</h2>
+            <h2 class="font-display font-bold text-3xl mb-2">Olá, Olivia! 👋</h2>
             <p class="c-text-muted">Continue sua jornada no inglês. Você está indo muito bem!</p>
         </div>
 
-        <!-- Learning Path (Duolingo Style) -->
-        <div class="card mb-8">
+        <!-- Learning Path -->
+        <div class="c-card rounded-2xl p-6 mb-8">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="font-display font-bold text-xl">Sua Jornada</h3>
                 <span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary">B1 Intermediate</span></span>
             </div>
             
-            <div class="path-container">
-                <div class="path-line"></div>
-                
-                <!-- Path Nodes -->
-                <div class="path-node completed" data-level="A1">
-                    <i class="fa-solid fa-seedling"></i>
+            <div class="flex items-center justify-center gap-4 flex-wrap">
+                <a href="a1.html" class="path-node flex flex-col items-center gap-2">
+                    <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white shadow-lg">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <span class="text-sm font-bold">A1</span>
+                </a>
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                    <div class="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-2xl text-white">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <span class="text-sm font-bold">A2</span>
                 </div>
-                <div class="path-node completed" data-level="A2">
-                    <i class="fa-solid fa-leaf"></i>
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="path-node flex flex-col items-center gap-2">
+                    <div class="w-16 h-16 rounded-full c-secondary-bg flex items-center justify-center text-2xl text-white shadow-lg animate-pulse">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                    <span class="text-sm font-bold">B1</span>
                 </div>
-                <div class="path-node current" data-level="B1">
-                    <i class="fa-solid fa-water"></i>
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <span class="text-sm font-bold">B2</span>
                 </div>
-                <div class="path-node locked" data-level="B2">
-                    <i class="fa-solid fa-fire"></i>
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <span class="text-sm font-bold">C1</span>
                 </div>
-                <div class="path-node locked" data-level="C1">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div class="path-node locked" data-level="C2">
-                    <i class="fa-solid fa-crown"></i>
+                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <span class="text-sm font-bold">C2</span>
                 </div>
             </div>
         </div>
 
         <!-- Today's Lessons -->
-        <div class="card mb-8">
-            <div class="flex items-center justify-between mb-5">
+        <div class="c-card rounded-2xl p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
                 <h3 class="font-display font-bold text-xl">Lições de Hoje</h3>
                 <span class="text-sm c-text-muted">3 disponíveis</span>
             </div>
             
-            <!-- Lesson 1 -->
-            <div class="lesson-card">
-                <div class="lesson-icon c-primary-bg">
-                    <i class="fa-solid fa-comments"></i>
+            <!-- Lesson 1 - Link para A1 -->
+            <a href="a1.html" class="lesson-card c-card rounded-xl p-4 block mb-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-xl c-primary-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-lg mb-1">Nível A1 - Primeiros Passos</h4>
+                        <p class="text-sm c-text-muted">Saudações, apresentações e vocabulário básico</p>
+                    </div>
+                    <div class="c-primary-bg text-white px-4 py-2 rounded-full text-sm font-bold">
+                        <i class="fa-solid fa-bolt"></i> +600 XP
+                    </div>
                 </div>
-                <div class="lesson-content">
-                    <div class="lesson-title">Conversação: No Restaurante</div>
-                    <div class="lesson-desc">Pratique pedir comida e bebidas em inglês</div>
-                </div>
-                <div class="lesson-xp">
-                    <i class="fa-solid fa-bolt text-xs"></i>
-                    +25 XP
-                </div>
-            </div>
-            
-            <!-- Lesson 2 -->
-            <div class="lesson-card">
-                <div class="lesson-icon c-secondary-bg">
-                    <i class="fa-solid fa-headphones"></i>
-                </div>
-                <div class="lesson-content">
-                    <div class="lesson-title">Listening: Notícias Curtas</div>
-                    <div class="lesson-desc">Melhore sua compreensão auditiva com notícias</div>
-                </div>
-                <div class="lesson-xp">
-                    <i class="fa-solid fa-bolt text-xs"></i>
-                    +30 XP
-                </div>
-            </div>
-            
-            <!-- Lesson 3 -->
-            <div class="lesson-card">
-                <div class="lesson-icon c-accent-bg">
-                    <i class="fa-solid fa-puzzle-piece"></i>
-                </div>
-                <div class="lesson-content">
-                    <div class="lesson-title">Gramática: Present Perfect</div>
-                    <div class="lesson-desc">Domine o uso do Present Perfect em contextos reais</div>
-                </div>
-                <div class="lesson-xp">
-                    <i class="fa-solid fa-bolt text-xs"></i>
-                    +35 XP
-                </div>
-            </div>
-            
-            <button class="btn btn-primary w-full mt-4">
-                <i class="fa-solid fa-play"></i>
-                Começar Lição
-            </button>
-        </div>
+            </a>
 
-        <!-- Skills Progress -->
-        <div class="card mb-8">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="font-display font-bold text-xl">Suas Habilidades</h3>
-                <button class="text-sm c-primary font-bold hover:underline">Ver todas</button>
-            </div>
-            
-            <div class="space-y-3">
-                <!-- Skill 1 -->
-                <div class="skill-item">
-                    <div class="skill-icon c-primary-bg">
+            <!-- Lesson 2 -->
+            <div class="lesson-card c-card rounded-xl p-4 block mb-4 opacity-75">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-xl c-secondary-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
                         <i class="fa-solid fa-headphones"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="font-bold mb-1">Listening</div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-fill c-primary-bg" style="width: 75%"></div>
+                        <h4 class="font-bold text-lg mb-1">Listening: Notícias Curtas</h4>
+                        <p class="text-sm c-text-muted">Melhore sua compreensão auditiva</p>
+                    </div>
+                    <div class="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-bold">
+                        Em breve
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lesson 3 -->
+            <div class="lesson-card c-card rounded-xl p-4 block opacity-75">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-xl c-accent-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-lg mb-1">Gramática: Present Perfect</h4>
+                        <p class="text-sm c-text-muted">Domine o Present Perfect</p>
+                    </div>
+                    <div class="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-bold">
+                        Em breve
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="c-card rounded-2xl p-6">
+            <h3 class="font-display font-bold text-xl mb-6">Suas Habilidades</h3>
+            <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-white">
+                        <i class="fa-solid fa-headphones"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">Listening</span>
+                            <span class="c-text-muted">75%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full c-primary-bg rounded-full" style="width: 75%"></div>
                         </div>
                     </div>
-                    <span class="font-bold text-sm">75%</span>
                 </div>
                 
-                <!-- Skill 2 -->
-                <div class="skill-item">
-                    <div class="skill-icon c-secondary-bg">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl c-secondary-bg flex items-center justify-center text-white">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="font-bold mb-1">Reading</div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-fill c-secondary-bg" style="width: 60%"></div>
+                        <div class="flex justify-between mb-2">
+                            <span class="font-bold">Reading</span>
+                            <span class="c-text-muted">60%</span>
+                        </div>
+                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="h-full c-secondary-bg rounded-full" style="width: 60%"></div>
                         </div>
                     </div>
-                    <span class="font-bold text-sm">60%</span>
-                </div>
-                
-                <!-- Skill 3 -->
-                <div class="skill-item">
-                    <div class="skill-icon c-accent-bg">
-                        <i class="fa-solid fa-microphone"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold mb-1">Speaking</div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-fill c-accent-bg" style="width: 45%"></div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-sm">45%</span>
-                </div>
-                
-                <!-- Skill 4 -->
-                <div class="skill-item">
-                    <div class="skill-icon c-gem">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold mb-1">Writing</div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-fill" style="background: var(--gem); width: 30%"></div>
-                        </div>
-                    </div>
-                    <span class="font-bold text-sm">30%</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Daily Quests -->
-        <div class="card mb-8">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="font-display font-bold text-xl">Missões Diárias</h3>
-                <span class="text-sm c-text-muted">Recompensa: <span class="font-bold c-gem">+15 gemas</span></span>
-            </div>
-            
-            <div class="space-y-3">
-                <div class="quest-item completed">
-                    <div class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center c-success">
-                        <i class="fa-solid fa-check text-xs"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold">Complete 1 lição</div>
-                        <div class="text-xs c-text-muted">Recompensa: +10 XP</div>
-                    </div>
-                    <div class="quest-reward">
-                        <i class="fa-solid fa-bolt text-xs"></i>
-                        10 XP
-                    </div>
-                </div>
-                
-                <div class="quest-item">
-                    <div class="w-6 h-6 rounded-full border-2 border-dashed c-border flex items-center justify-center c-text-muted">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold">Pratique vocabulário por 5 min</div>
-                        <div class="text-xs c-text-muted">Recompensa: +5 gemas</div>
-                    </div>
-                    <div class="quest-reward">
-                        <i class="fa-solid fa-gem text-xs"></i>
-                        5
-                    </div>
-                </div>
-                
-                <div class="quest-item">
-                    <div class="w-6 h-6 rounded-full border-2 border-dashed c-border flex items-center justify-center c-text-muted">
-                        <i class="fa-solid fa-plus text-xs"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="font-bold">Mantenha sua sequência de 7 dias</div>
-                        <div class="text-xs c-text-muted">Recompensa: +10 gemas</div>
-                    </div>
-                    <div class="quest-reward">
-                        <i class="fa-solid fa-gem text-xs"></i>
-                        10
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Achievements Preview -->
-        <div class="card">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="font-display font-bold text-xl">Conquistas</h3>
-                <button class="text-sm c-primary font-bold hover:underline">Ver todas</button>
-            </div>
-            
-            <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                <div class="text-center p-2 rounded-xl c-card-hover">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-green-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-seedling c-success text-lg"></i>
-                    </div>
-                    <div class="text-xs font-bold">Iniciante</div>
-                </div>
-                <div class="text-center p-2 rounded-xl c-card-hover">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-blue-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-fire c-streak text-lg"></i>
-                    </div>
-                    <div class="text-xs font-bold">7 Dias</div>
-                </div>
-                <div class="text-center p-2 rounded-xl c-card-hover">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-purple-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-gem c-gem text-lg"></i>
-                    </div>
-                    <div class="text-xs font-bold">Colecionador</div>
-                </div>
-                <div class="text-center p-2 rounded-xl opacity-50">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-gray-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-lock text-lg c-text-muted"></i>
-                    </div>
-                    <div class="text-xs font-bold c-text-muted">B2 Master</div>
-                </div>
-                <div class="text-center p-2 rounded-xl opacity-50">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-gray-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-lock text-lg c-text-muted"></i>
-                    </div>
-                    <div class="text-xs font-bold c-text-muted">Fluente</div>
-                </div>
-                <div class="text-center p-2 rounded-xl opacity-50">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-gray-500/20 flex items-center justify-center mb-2">
-                        <i class="fa-solid fa-lock text-lg c-text-muted"></i>
-                    </div>
-                    <div class="text-xs font-bold c-text-muted">Mestre</div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Floating Action Button -->
-    <button class="fab" id="practiceBtn" aria-label="Praticar agora">
+    <!-- Floating Button -->
+    <button onclick="speak('Keep going! You are doing great!', 'en-US')" 
+            class="fixed bottom-6 right-6 w-14 h-14 rounded-full c-primary-bg text-white shadow-lg flex items-center justify-center text-2xl hover:scale-110 transition-transform">
         <i class="fa-solid fa-bolt"></i>
     </button>
 
-    <!-- Bottom Navigation (Mobile) -->
-    <nav class="bottom-nav">
-        <button class="nav-item active">
-            <i class="fa-solid fa-house"></i>
-            <span>Início</span>
-        </button>
-        <button class="nav-item">
-            <i class="fa-solid fa-compass"></i>
-            <span>Explorar</span>
-        </button>
-        <button class="nav-item">
-            <i class="fa-solid fa-trophy"></i>
-            <span>Ranking</span>
-        </button>
-        <button class="nav-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Perfil</span>
-        </button>
-    </nav>
-
-    <!-- Admin Modal -->
-    <div class="modal-overlay" id="adminModal">
-        <div class="modal-content">
-            <!-- Login Screen -->
-            <div id="adminLogin" class="p-6">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 mx-auto rounded-2xl c-primary-bg flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-shield-halved text-2xl"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-xl mb-1">Acesso Administrativo</h3>
-                    <p class="c-text-muted">Insira a senha para acessar o painel</p>
-                </div>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Senha</label>
-                        <div class="relative">
-                            <input type="password" id="adminPassword" 
-                                   class="w-full px-4 py-3 rounded-xl c-card c-border focus:outline-none focus:ring-2 focus:ring-primary"
-                                   placeholder="Digite a senha"
-                                   onkeydown="if(event.key==='Enter') verifyAdmin()">
-                            <button type="button" onclick="togglePasswordVisibility()" 
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 c-text-muted hover:c-primary">
-                                <i class="fa-solid fa-eye" id="passwordIcon"></i>
-                            </button>
-                        </div>
-                        <p id="loginError" class="text-danger text-sm mt-2 hidden">
-                            <i class="fa-solid fa-circle-exclamation mr-1"></i>
-                            Senha incorreta. Tente novamente.
-                        </p>
-                    </div>
-                    
-                    <button onclick="verifyAdmin()" 
-                            class="btn btn-primary w-full py-3 text-base">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        Entrar
-                    </button>
-                    
-                    <p class="text-center text-xs c-text-muted">
-                        Senha padrão: <span class="font-mono bg-gray-500/20 px-1.5 py-0.5 rounded">123456</span>
-                    </p>
-                </div>
-            </div>
-            
-            <!-- Dashboard (Hidden by default) -->
-            <div id="adminDashboard" class="hidden p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display font-bold text-xl">Painel Administrativo</h3>
-                    <button onclick="closeAdmin()" class="w-8 h-8 rounded-lg c-card c-border flex items-center justify-center c-text-muted hover:c-danger transition-colors">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                
-                <!-- Stats Overview -->
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-primary mb-1" id="totalUsers">1,248</div>
-                        <div class="text-xs c-text-muted">Usuários</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-secondary mb-1" id="activeToday">328</div>
-                        <div class="text-xs c-text-muted">Ativos hoje</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-accent mb-1" id="lessonsCompleted">12.4K</div>
-                        <div class="text-xs c-text-muted">Lições</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-gem mb-1" id="avgProgress">68%</div>
-                        <div class="text-xs c-text-muted">Progresso médio</div>
-                    </div>
-                </div>
-                
-                <!-- Quick Actions -->
-                <div class="mb-6">
-                    <h4 class="font-bold mb-3">Ações Rápidas</h4>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button class="c-card rounded-xl p-3 text-left hover:bg-primary/10 transition-colors">
-                            <div class="font-bold text-sm mb-1">Gerenciar Usuários</div>
-                            <div class="text-xs c-text-muted">Editar, banir, resetar</div>
-                        </button>
-                        <button class="c-card rounded-xl p-3 text-left hover:bg-primary/10 transition-colors">
-                            <div class="font-bold text-sm mb-1">Conteúdo</div>
-                            <div class="text-xs c-text-muted">Adicionar lições</div>
-                        </button>
-                        <button class="c-card rounded-xl p-3 text-left hover:bg-primary/10 transition-colors">
-                            <div class="font-bold text-sm mb-1">Relatórios</div>
-                            <div class="text-xs c-text-muted">Estatísticas detalhadas</div>
-                        </button>
-                        <button class="c-card rounded-xl p-3 text-left hover:bg-primary/10 transition-colors">
-                            <div class="font-bold text-sm mb-1">Configurações</div>
-                            <div class="text-xs c-text-muted">Sistema e aparência</div>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Recent Activity -->
-                <div>
-                    <h4 class="font-bold mb-3">Atividade Recente</h4>
-                    <div class="space-y-2 max-h-48 overflow-y-auto pr-2">
-                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-card-hover">
-                            <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-user text-blue-500 text-xs"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="font-bold text-sm truncate">Maria completou "Food Vocabulary"</div>
-                                <div class="text-xs c-text-muted">Há 2 minutos</div>
-                            </div>
-                            <div class="text-xs font-bold c-primary">+25 XP</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-card-hover">
-                            <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-user text-green-500 text-xs"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="font-bold text-sm truncate">João manteve streak de 15 dias</div>
-                                <div class="text-xs c-text-muted">Há 15 minutos</div>
-                            </div>
-                            <div class="text-xs font-bold c-streak">🔥</div>
-                        </div>
-                        <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-card-hover">
-                            <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-user text-purple-500 text-xs"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="font-bold text-sm truncate">Ana alcançou nível B1</div>
-                                <div class="text-xs c-text-muted">Há 1 hora</div>
-                            </div>
-                            <div class="text-xs font-bold c-accent">🎉</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <button onclick="logoutAdmin()" class="btn btn-outline w-full mt-6">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Sair do Painel
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
-        <div>
-            <div class="font-bold" id="toastTitle">Sucesso!</div>
-            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada com sucesso.</div>
-        </div>
-    </div>
-
     <script>
-        // ===== THEME MANAGEMENT =====
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-        
-        // Load saved theme
-        const savedTheme = localStorage.getItem('ep_theme') || 'dark';
-        html.setAttribute('data-theme', savedTheme);
-        
-        themeToggle.addEventListener('click', () => {
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('ep_theme', newTheme);
-            showToast('Tema alterado', `Modo ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado`, 'success');
-        });
-        
-        // ===== MASCOT EYE TRACKING =====
-        document.addEventListener('mousemove', (e) => {
-            const pupils = document.querySelectorAll('.mascot-pupil');
-            const rect = document.querySelector('.mascot').getBoundingClientRect();
-            const mascotCenterX = rect.left + rect.width / 2;
-            const mascotCenterY = rect.top + rect.height / 2;
-            
-            const deltaX = (e.clientX - mascotCenterX) / 20;
-            const deltaY = (e.clientY - mascotCenterY) / 20;
-            
-            pupils.forEach(pupil => {
-                pupil.style.transform = `translate(${Math.max(-5, Math.min(5, deltaX))}px, ${Math.max(-5, Math.min(5, deltaY))}px)`;
-            });
-        });
-        
-        // ===== ADMIN PANEL =====
-        function openAdmin() {
-            document.getElementById('adminModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('loginError').classList.add('hidden');
+            localStorage.setItem('theme', newTheme);
         }
-        
-        function closeAdmin() {
-            document.getElementById('adminModal').classList.remove('active');
-            document.body.style.overflow = '';
-            document.getElementById('adminPassword').value = '';
-        }
-        
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('adminPassword');
-            const passwordIcon = document.getElementById('passwordIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordIcon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                passwordIcon.classList.replace('fa-eye-slash', 'fa-eye');
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // TTS Function
+        function speak(text, lang = 'en-US') {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
             }
         }
-        
-        function verifyAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            const correctPassword = '123456'; // Senha funcional conforme solicitado
-            
-            if (password === correctPassword) {
-                document.getElementById('adminLogin').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                showToast('Acesso concedido', 'Bem-vindo ao painel administrativo', 'success');
-                createConfetti();
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-                document.getElementById('adminPassword').classList.add('animate-shake');
-                setTimeout(() => {
-                    document.getElementById('adminPassword').classList.remove('animate-shake');
-                }, 500);
-                showToast('Acesso negado', 'Senha incorreta. Tente novamente.', 'error');
-            }
-        }
-        
-        function logoutAdmin() {
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('adminLogin').classList.remove('hidden');
-            closeAdmin();
-            showToast('Sessão encerrada', 'Você saiu do painel administrativo', 'warning');
-        }
-        
-        // Close modal when clicking outside
-        document.getElementById('adminModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('adminModal')) {
-                closeAdmin();
-            }
-        });
-        
-        // ===== TOAST NOTIFICATIONS =====
-        function showToast(title, message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastIcon = document.getElementById('toastIcon');
-            const toastTitle = document.getElementById('toastTitle');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            // Set content
-            toastTitle.textContent = title;
-            toastMessage.textContent = message;
-            
-            // Set icon and style based on type
-            toast.className = 'toast';
-            toast.classList.add(type, 'show');
-            
-            switch(type) {
-                case 'success':
-                    toastIcon.className = 'fa-solid fa-circle-check text-lg c-success';
-                    break;
-                case 'error':
-                    toastIcon.className = 'fa-solid fa-circle-exclamation text-lg c-danger';
-                    break;
-                case 'warning':
-                    toastIcon.className = 'fa-solid fa-triangle-exclamation text-lg c-warning';
-                    break;
-            }
-            
-            // Auto hide after 4 seconds
+
+        // Welcome message with TTS
+        window.addEventListener('load', () => {
             setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-        
-        // ===== CONFETTI EFFECT =====
-        function createConfetti() {
-            const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
-            
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = `${Math.random() * 100}%`;
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = `${Math.random() * 10 + 5}px`;
-                confetti.style.height = confetti.style.width;
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                document.body.appendChild(confetti);
-                
-                // Remove after animation
-                setTimeout(() => {
-                    confetti.remove();
-                }, 3000);
-            }
-        }
-        
-        // ===== INTERACTIVE ELEMENTS =====
-        // Practice button
-        document.getElementById('practiceBtn').addEventListener('click', () => {
-            showToast('Prática iniciada!', 'Boa sorte com sua lição de hoje', 'success');
-            createConfetti();
-        });
-        
-        // Lesson cards
-        document.querySelectorAll('.lesson-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const title = card.querySelector('.lesson-title').textContent;
-                showToast('Lição selecionada', `Iniciando: ${title}`, 'success');
-            });
-        });
-        
-        // Path nodes
-        document.querySelectorAll('.path-node:not(.locked)').forEach(node => {
-            node.addEventListener('click', () => {
-                if (node.classList.contains('current')) {
-                    showToast('Nível atual', 'Continue sua jornada no nível B1', 'success');
-                } else if (node.classList.contains('completed')) {
-                    showToast('Nível concluído', 'Parabéns por completar este nível!', 'success');
-                    createConfetti();
-                }
-            });
-        });
-        
-        // ===== ANIMATIONS ON SCROLL =====
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        
-        // Observe cards for animation
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            observer.observe(card);
-        });
-        
-        // ===== INITIALIZATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Show welcome toast
-            setTimeout(() => {
-                showToast('Bem-vinda de volta, Olivia!', 'Continue sua jornada no inglês hoje', 'success');
+                speak('Hello Olivia! Welcome back to English Path', 'en-US');
             }, 1000);
-            
-            // Simulate XP progress animation
-            setTimeout(() => {
-                document.querySelector('.xp-fill').style.width = '78%';
-            }, 1500);
-            
-            // Update streak animation
-            const streakElement = document.getElementById('userStreak');
-            let streak = 7;
-            setInterval(() => {
-                streakElement.textContent = streak;
-                streak = streak === 7 ? 8 : 7;
-            }, 3000);
-        });
-        
-        // Close modal with ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeAdmin();
-            }
         });
     </script>
 </body>
