@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A1 Beginner — EnglishPath</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { display: ['Playfair Display','serif'], body: ['DM Sans','sans-serif'] } } } }
+    </script>
+    <style>
+        :root{--bg:#070D1A;--bg2:#0C1425;--card:#111C32;--card-h:#162240;--border:#1C2D4A;--fg:#F1F5F9;--fg2:#CBD5E1;--muted:#64748B;--accent:#DC2626;--accent-h:#EF4444;--accent-glow:rgba(220,38,38,0.2);--navy:#012169;--navy-light:#1A3A7A;--shadow:0 4px 24px rgba(0,0,0,0.4)}
+        [data-theme="light"]{--bg:#F8FAFC;--bg2:#EFF3F8;--card:#FFFFFF;--card-h:#F8FAFC;--border:#D6DEE8;--fg:#0F172A;--fg2:#334155;--muted:#64748B;--accent:#DC2626;--accent-h:#B91C1C;--accent-glow:rgba(220,38,38,0.12);--shadow:0 4px 24px rgba(0,0,0,0.08)}
+        *{box-sizing:border-box;margin:0}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden;transition:background .4s,color .4s}
+        ::selection{background:var(--accent-glow);color:var(--accent)}::-webkit-scrollbar{width:7px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+        .c-bg{background:var(--bg)}.c-bg2{background:var(--bg2)}.c-card{background:var(--card)}.c-border{border-color:var(--border)}.c-fg{color:var(--fg)}.c-fg2{color:var(--fg2)}.c-muted{color:var(--muted)}.c-accent{color:var(--accent)}.c-accent-bg{background:var(--accent-glow)}
+        .nav-glass{background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .4s}
+        .theme-toggle{width:48px;height:26px;border-radius:13px;background:var(--border);position:relative;cursor:pointer;border:none;padding:0;transition:background .3s}
+        .theme-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--accent);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+        [data-theme="light"] .theme-toggle::after{transform:translateX(22px)}
+        .topic-card{background:var(--card);border:1px solid var(--border);transition:all .3s ease}
+        .topic-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--accent)}
+        .skill-tab{padding:0.5rem 1rem;border-radius:0.5rem;font-size:0.75rem;font-weight:500;color:var(--muted);border:1px solid transparent;transition:all .25s;cursor:pointer;background:transparent}
+        .skill-tab.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+        .skill-tab:not(.active):hover{color:var(--fg);border-color:var(--border);background:var(--card)}
+        .lvl-link{font-size:0.7rem;padding:0.25rem 0.6rem;border-radius:0.375rem;transition:all .2s;border:1px solid transparent;color:var(--muted)}
+        .lvl-link.active{color:#fff;border-color:var(--accent);background:var(--accent)}
+        .lvl-link:not(.active):hover{color:var(--fg);border-color:var(--border)}
+        .progress-bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+        .progress-fill{height:100%;border-radius:2px;transition:width .6s ease}
+        .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}.reveal.vis{opacity:1;transform:translateY(0)}
+        *:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- NAV -->
+    <nav class="nav-glass fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2" aria-label="Home">
+                <div class="w-8 h-8 rounded-lg c-accent-bg flex items-center justify-center"><i class="fa-solid fa-graduation-cap c-accent text-xs"></i></div>
+                <span class="font-display font-bold text-base c-fg hidden sm:inline">English<span class="c-accent">Path</span></span>
+            </a>
+            <!-- Navegação entre níveis -->
+            <div class="hidden md:flex items-center gap-1">
+                <a href="a1.html" class="lvl-link active">A1</a>
+                <a href="a2.html" class="lvl-link">A2</a>
+                <a href="b1.html" class="lvl-link">B1</a>
+                <a href="b2.html" class="lvl-link">B2</a>
+                <a href="c1.html" class="lvl-link">C1</a>
+                <a href="c2.html" class="lvl-link">C2</a>
+            </div>
+            <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1.5"><i class="fa-solid fa-moon text-[9px] c-muted"></i><button class="theme-toggle" onclick="toggleTheme()" aria-label="Tema"></button><i class="fa-solid fa-sun text-[9px] c-muted"></i></div>
+                <button onclick="openAdmin()" class="w-7 h-7 rounded-lg c-card c-border flex items-center justify-center c-muted hover:c-accent transition-colors text-[11px]" aria-label="Admin"><i class="fa-solid fa-lock"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO -->
+    <main class="pt-14">
+        <!-- Header do nível -->
+        <div class="c-bg2 py-10 sm:py-14" style="border-bottom:1px solid var(--border);transition:background .4s">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Breadcrumb -->
+                <div class="flex items-center gap-2 text-[11px] c-muted mb-5">
+                    <a href="index.html" class="hover:c-fg transition-colors">Home</a>
+                    <i class="fa-solid fa-chevron-right text-[8px] opacity-40"></i>
+                    <span class="c-fg font-medium">A1 — Beginner</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center" style="background:rgba(34,197,94,0.1)">
+                        <i class="fa-solid fa-seedling text-green-500 text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <h1 class="font-display font-black text-3xl sm:text-4xl c-fg">A1 Beginner</h1>
+                            <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold" style="background:rgba(34,197,94,0.1);color:#22c55e">CEFR</span>
+                        </div>
+                        <p class="c-muted text-sm max-w-xl leading-relaxed">Primeiros passos no ingles. Aprenda saudacoes, numeros, vocabulario basico e frases simples do dia a dia.</p>
+                    </div>
+                    <div class="text-left sm:text-right shrink-0">
+                        <p class="text-[11px] c-muted mb-1">Progresso do nivel</p>
+                        <p class="font-display font-bold text-xl c-fg" id="levelProgress">0%</p>
+                        <div class="progress-bar w-32 mt-1.5"><div class="progress-fill" id="levelBar" style="width:0%;background:#22c55e"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Abas de habilidade -->
+        <div class="sticky top-14 z-40 c-bg" style="border-bottom:1px solid var(--border);transition:background .4s">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-1.5 py-3 overflow-x-auto" id="skillTabs">
+                    <button class="skill-tab active" onclick="filterSkill('all')" data-skill="all"><i class="fa-solid fa-border-all mr-1 text-[10px]"></i>Todos</button>
+                    <button class="skill-tab" onclick="filterSkill('Vocabulary')" data-skill="Vocabulary"><i class="fa-solid fa-spell-check mr-1 text-[10px]"></i>Vocabulary</button>
+                    <button class="skill-tab" onclick="filterSkill('Grammar')" data-skill="Grammar"><i class="fa-solid fa-puzzle-piece mr-1 text-[10px]"></i>Grammar</button>
+                    <button class="skill-tab" onclick="filterSkill('Listening')" data-skill="Listening"><i class="fa-solid fa-headphones mr-1 text-[10px]"></i>Listening</button>
+                    <button class="skill-tab" onclick="filterSkill('Reading')" data-skill="Reading"><i class="fa-solid fa-book-open mr-1 text-[10px]"></i>Reading</button>
+                    <button class="skill-tab" onclick="filterSkill('Writing')" data-skill="Writing"><i class="fa-solid fa-pen-nib mr-1 text-[10px]"></i>Writing</button>
+                    <button class="skill-tab" onclick="filterSkill('Speaking')" data-skill="Speaking"><i class="fa-solid fa-microphone mr-1 text-[10px]"></i>Speaking</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de tópicos -->
+        <div class="py-8 sm:py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="topicsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+                    <!-- Gerado via JS -->
+                </div>
+                <p id="emptyMsg" class="hidden text-center c-muted text-sm py-12">Nenhum topico nesta habilidade.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer simples -->
+    <footer style="border-top:1px solid var(--border);background:var(--bg2);transition:background .4s,border-color .4s" class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <a href="index.html" class="flex items-center gap-2"><div class="w-6 h-6 rounded c-accent-bg flex items-center justify-center"><i class="fa-solid fa-graduation-cap c-accent text-[9px]"></i></div><span class="font-display font-bold text-xs c-fg">English<span class="c-accent">Path</span></span></a>
+            <div class="flex items-center gap-1">
+                <a href="a1.html" class="lvl-link active text-[10px]">A1</a>
+                <a href="a2.html" class="lvl-link text-[10px]">A2</a>
+                <a href="b1.html" class="lvl-link text-[10px]">B1</a>
+                <a href="b2.html" class="lvl-link text-[10px]">B2</a>
+                <a href="c1.html" class="lvl-link text-[10px]">C1</a>
+                <a href="c2.html" class="lvl-link text-[10px]">C2</a>
+            </div>
+            <p class="c-muted text-[10px]">&copy; 2025</p>
+        </div>
+    </footer>
+
+    <!-- MODAL ADMIN (mesmo do index, simplificado) -->
+    <div id="adminModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/50" style="backdrop-filter:blur(6px)" onclick="closeAdmin()"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+            <div class="c-card rounded-2xl c-border w-full max-w-xs p-7" style="box-shadow:var(--shadow);animation:mIn .3s ease">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="font-display font-bold text-sm c-fg">Admin</h3>
+                    <button onclick="closeAdmin()" class="c-muted hover:c-fg transition-colors text-xs" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="admLogin">
+                    <input type="password" id="admPass" placeholder="Senha" class="w-full px-3 py-2 rounded-xl c-border text-sm c-fg focus:outline-none mb-2" style="background:var(--bg)" onkeydown="if(event.key==='Enter')tryLogin()">
+                    <p id="loginErr" class="text-red-400 text-[11px] mb-2 hidden">Senha incorreta.</p>
+                    <button onclick="tryLogin()" class="w-full py-2 rounded-xl text-white font-bold text-sm" style="background:var(--accent)">Entrar</button>
+                </div>
+                <div id="admOk" class="hidden text-center">
+                    <i class="fa-solid fa-check-circle text-green-500 text-2xl mb-2"></i>
+                    <p class="c-fg text-sm font-medium mb-3">Logado com sucesso</p>
+                    <a href="index.html" class="inline-block px-4 py-2 rounded-xl text-white text-xs font-bold" style="background:var(--accent)">Ir para o Painel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>@keyframes mIn{from{opacity:0;transform:scale(.93) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}</style>
+
+    <!-- TOAST -->
+    <div id="toastBox" class="fixed bottom-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+    /* =========================================
+       DADOS - apenas os topicos do A1
+       (os mesmos do index, filtrados aqui)
+       ========================================= */
+    const THIS_LEVEL = 'A1';
+    const ALL_TOPICS = [
+        {name:'Colors',level:'A1',skill:'Vocabulary',icon:'fa-palette',file:'colors.html'},
+        {name:'Numbers 1-100',level:'A1',skill:'Vocabulary',icon:'fa-hashtag',file:'numbers.html'},
+        {name:'Family',level:'A1',skill:'Vocabulary',icon:'fa-people-roof',file:'a1-family.html'},
+        {name:'Body Parts',level:'A1',skill:'Vocabulary',icon:'fa-person',file:'a1-body.html'},
+        {name:'Animals',level:'A1',skill:'Vocabulary',icon:'fa-paw',file:'a1-animals.html'},
+        {name:'Food & Drinks',level:'A1',skill:'Vocabulary',icon:'fa-utensils',file:'a1-food.html'},
+        {name:'Clothes',level:'A1',skill:'Vocabulary',icon:'fa-shirt',file:'a1-clothes.html'},
+        {name:'House & Rooms',level:'A1',skill:'Vocabulary',icon:'fa-house',file:'a1-house.html'},
+        {name:'Days & Months',level:'A1',skill:'Vocabulary',icon:'fa-calendar-days',file:'a1-days.html'},
+        {name:'Classroom Objects',level:'A1',skill:'Vocabulary',icon:'fa-pencil',file:'a1-classroom.html'},
+        {name:'Verb To Be',level:'A1',skill:'Grammar',icon:'fa-equals',file:'a1-tobe.html'},
+        {name:'Articles a/an/the',level:'A1',skill:'Grammar',icon:'fa-font',file:'a1-articles.html'},
+        {name:'Subject Pronouns',level:'A1',skill:'Grammar',icon:'fa-user',file:'a1-pronouns.html'},
+        {name:'Simple Present',level:'A1',skill:'Grammar',icon:'fa-clock',file:'a1-present.html'},
+        {name:'Possessive Adj.',level:'A1',skill:'Grammar',icon:'fa-hand',file:'a1-possessive.html'},
+        {name:'Prepositions',level:'A1',skill:'Grammar',icon:'fa-location-dot',file:'a1-prep.html'},
+        {name:'Greetings Audio',level:'A1',skill:'Listening',icon:'fa-headphones',file:'a1-listen-greet.html'},
+        {name:'Numbers Dictation',level:'A1',skill:'Listening',icon:'fa-ear-listen',file:'a1-listen-numbers.html'},
+        {name:'Short Dialogs',level:'A1',skill:'Reading',icon:'fa-comments',file:'a1-read-dialogs.html'},
+        {name:'Signs & Labels',level:'A1',skill:'Reading',icon:'fa-signs-post',file:'a1-read-signs.html'},
+        {name:'Alphabet Practice',level:'A1',skill:'Writing',icon:'fa-a',file:'a1-write-alpha.html'},
+        {name:'My Profile',level:'A1',skill:'Writing',icon:'fa-id-card',file:'a1-write-profile.html'},
+        {name:'Self Introduction',level:'A1',skill:'Speaking',icon:'fa-microphone',file:'a1-speak-intro.html'},
+        {name:'Basic Greetings',level:'A1',skill:'Speaking',icon:'fa-handshake',file:'a1-speak-greet.html'},
+    ];
+
+    const LEVEL_TOPICS = ALL_TOPICS.filter(t => t.level === THIS_LEVEL);
+    const LEVEL_COLOR = {A1:'#22c55e',A2:'#10b981',B1:'#06b6d4',B2:'#f59e0b',C1:'#f97316',C2:'#dc2626'}[THIS_LEVEL];
+    const SKILL_COLORS = {Vocabulary:'#06b6d4',Grammar:'#f59e0b',Listening:'#dc2626',Reading:'#012169',Writing:'#8b5cf6',Speaking:'#22c55e'};
+
+    let activeSkill = 'all';
+
+    /* =========================================
+       PROGRESSO (localStorage)
+       ========================================= */
+    function getProgress() {
+        const data = JSON.parse(localStorage.getItem('ep_progress') || '{}');
+        return data[THIS_LEVEL] || {};
+    }
+    function setProgress(topic, done) {
+        const data = JSON.parse(localStorage.getItem('ep_progress') || '{}');
+        if (!data[THIS_LEVEL]) data[THIS_LEVEL] = {};
+        data[THIS_LEVEL][topic] = done;
+        localStorage.setItem('ep_progress', JSON.stringify(data));
+    }
+    function calcLevelProgress() {
+        const p = getProgress();
+        const done = Object.values(p).filter(Boolean).length;
+        return LEVEL_TOPICS.length > 0 ? Math.round(done / LEVEL_TOPICS.length * 100) : 0;
+    }
+
+    /* =========================================
+       RENDERIZAR TOPICOS
+       ========================================= */
+    function renderTopics() {
+        const grid = document.getElementById('topicsGrid');
+        const empty = document.getElementById('emptyMsg');
+        const progress = getProgress();
+
+        const filtered = activeSkill === 'all' ? LEVEL_TOPICS : LEVEL_TOPICS.filter(t => t.skill === activeSkill);
+
+        if (!filtered.length) {
+            grid.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        grid.innerHTML = filtered.map((t, i) => {
+            const sc = SKILL_COLORS[t.skill] || '#64748B';
+            const done = progress[t.name] || false;
+            return `<a href="${t.file}" class="topic-card rounded-xl p-4 flex flex-col reveal" style="transition-delay:${i * 40}ms">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:${sc}15">
+                        <i class="fa-solid ${t.icon}" style="color:${sc}"></i>
+                    </div>
+                    ${done ? '<span class="text-green-500 text-xs"><i class="fa-solid fa-circle-check"></i></span>' : ''}
+                </div>
+                <h3 class="font-bold text-sm c-fg mb-1">${t.name}</h3>
+                <p class="text-[11px] c-muted mb-3 flex items-center gap-1.5">
+                    <span class="px-1.5 py-0.5 rounded" style="background:${sc}12;color:${sc}">${t.skill}</span>
+                </p>
+                <div class="mt-auto flex items-center gap-2 text-[11px] ${done ? 'text-green-500' : 'c-accent'} font-medium">
+                    ${done ? '<span>Concluido</span>' : '<span>Estudar</span><i class="fa-solid fa-arrow-right text-[9px]"></i>'}
+                </div>
+            </a>`;
+        }).join('');
+
+        // Ativar reveal
+        requestAnimationFrame(() => {
+            grid.querySelectorAll('.reveal').forEach(el => el.classList.add('vis'));
+        });
+    }
+
+    function filterSkill(skill) {
+        activeSkill = skill;
+        document.querySelectorAll('.skill-tab').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.skill === skill);
+        });
+        renderTopics();
+    }
+
+    /* =========================================
+       TEMA
+       ========================================= */
+    function toggleTheme() {
+        const h = document.documentElement;
+        h.dataset.theme = h.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('ep_theme', h.dataset.theme);
+    }
+    (function(){const s=localStorage.getItem('ep_theme');if(s)document.documentElement.dataset.theme=s})();
+
+    /* =========================================
+       ADMIN (simplificado nesta página)
+       ========================================= */
+    const Adm={pwd:()=>localStorage.getItem('ep_pwd')||'123456',ok:()=>sessionStorage.getItem('ep_auth')==='1',login:p=>{if(p===this.pwd()){sessionStorage.setItem('ep_auth','1');return true}return false}};
+    function openAdmin(){const m=document.getElementById('adminModal');m.classList.remove('hidden');document.body.style.overflow='hidden';if(Adm.ok()){document.getElementById('admLogin').classList.add('hidden');document.getElementById('admOk').classList.remove('hidden')}else{document.getElementById('admLogin').classList.remove('hidden');document.getElementById('admOk').classList.add('hidden');document.getElementById('admPass').focus()}}
+    function closeAdmin(){document.getElementById('adminModal').classList.add('hidden');document.body.style.overflow='';document.getElementById('admPass').value='';document.getElementById('loginErr').classList.add('hidden')}
+    function tryLogin(){if(Adm.login(document.getElementById('admPass').value)){document.getElementById('admLogin').classList.add('hidden');document.getElementById('admOk').classList.remove('hidden')}else{document.getElementById('loginErr').classList.remove('hidden');document.getElementById('admPass').value='';document.getElementById('admPass').focus()}}
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdmin()});
+
+    /* =========================================
+       TOAST
+       ========================================= */
+    function toast(msg,type){const c=document.getElementById('toastBox'),col={s:'background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#22c55e',e:'background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#ef4444',i:'background:var(--accent-glow);border:1px solid var(--accent);color:var(--accent)'},ic={s:'fa-check-circle',e:'fa-exclamation-circle',i:'fa-info-circle'},d=document.createElement('div');d.className='toast-item flex items-center gap-2 px-3 py-2 rounded-xl text-xs';d.style.cssText=col[type||'i']+';backdrop-filter:blur(8px);pointer-events:auto;animation:tIn .3s ease,tOut .3s ease 2.5s forwards';d.innerHTML=`<i class="fa-solid ${ic[type||'i']} text-[10px]"></i>${msg}`;c.appendChild(d);setTimeout(()=>d.remove(),3100)}
+    const styleExtra=document.createElement('style');styleExtra.textContent='@keyframes tIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}@keyframes tOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}';document.head.appendChild(styleExtra);
+
+    /* =========================================
+       INIT
+       ========================================= */
+    document.addEventListener('DOMContentLoaded', () => {
+        renderTopics();
+        // Atualizar barra de progresso
+        const pct = calcLevelProgress();
+        document.getElementById('levelProgress').textContent = pct + '%';
+        document.getElementById('levelBar').style.width = pct + '%';
+    });
+    </script>
+</body>
+</html>
