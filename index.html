@@ -32,6 +32,7 @@
             --gem: #8b5cf6;
             --streak: #f97316;
             --xp: #06b6d4;
+            --danger: #ef4444;
         }
         [data-theme="dark"] {
             --bg: #0f172a;
@@ -57,6 +58,70 @@
         .c-gem { color: var(--gem); }
         .c-streak { color: var(--streak); }
         .c-xp { color: var(--xp); }
+        .c-danger { color: var(--danger); }
+        .c-danger-bg { background: var(--danger); }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(34,197,94,0.4); }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-danger { background: var(--danger); color: white; }
         
         .lesson-card {
             transition: all 0.3s ease;
@@ -67,13 +132,33 @@
             transform: translateY(-4px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .path-node {
-            transition: all 0.3s ease;
-            cursor: pointer;
+        
+        /* Admin Table */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        .path-node:hover {
-            transform: scale(1.1);
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
         }
+        .admin-table th {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .status-pending { background: #fbbf24; color: #78350f; }
+        .status-approved { background: #22c55e; color: white; }
+        .status-rejected { background: #ef4444; color: white; }
+        
         .theme-toggle {
             width: 52px;
             height: 28px;
@@ -98,10 +183,241 @@
         [data-theme="dark"] .theme-toggle::after {
             transform: translateX(24px);
         }
+        
+        .hidden-section { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
+
+    <!-- MODAL: LOGIN -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">Bem-vindo de volta! 👋</h2>
+                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Email</label>
+                        <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Senha</label>
+                        <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="rounded">
+                            <span class="c-text-muted">Lembrar-me</span>
+                        </label>
+                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">
+                            Esqueceu a senha?
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full py-3">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Entrar
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="c-text-muted">Não tem conta? 
+                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">
+                        Cadastre-se
+                    </button>
+                </p>
+            </div>
+            
+            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-sm">
+                <p class="font-bold mb-1">Contas de teste:</p>
+                <p class="c-text-muted">Admin: admin@englishpath.com / admin123</p>
+                <p class="c-text-muted">Aluno: aluno@englishpath.com / aluno123</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTRO -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">Crie sua conta </h2>
+                <button onclick="closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleRegister(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Nome completo</label>
+                        <input type="text" id="regName" class="input-field" placeholder="João Silva" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Email</label>
+                        <input type="email" id="regEmail" class="input-field" placeholder="seu@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Senha</label>
+                        <input type="password" id="regPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Confirmar senha</label>
+                        <input type="password" id="regConfirmPassword" class="input-field" placeholder="Digite novamente" required>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <input type="checkbox" id="regTerms" required class="mt-1">
+                        <label for="regTerms" class="text-sm c-text-muted">
+                            Concordo com os termos de uso e política de privacidade
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full py-3">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Criar conta
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="c-text-muted">Já tem conta? 
+                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">
+                        Faça login
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ESQUECI SENHA -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">Recuperar senha 🔐</h2>
+                <button onclick="closeModal('forgotPasswordModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleForgotPassword(event)">
+                <div class="space-y-4">
+                    <p class="c-text-muted">Digite seu email e enviaremos instruções para recuperar sua senha.</p>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Email</label>
+                        <input type="email" id="forgotEmail" class="input-field" placeholder="seu@email.com" required>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-full py-3">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Enviar instruções
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN PANEL -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content max-w-4xl w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">Painel Administrativo 👑</h2>
+                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
+                <button onclick="showAdminTab('users')" id="tab-users" class="px-4 py-2 font-bold c-primary-bg text-white rounded-t-lg">
+                    Usuários
+                </button>
+                <button onclick="showAdminTab('reports')" id="tab-reports" class="px-4 py-2 font-bold c-text-muted hover:c-primary">
+                    Relatórios
+                </button>
+                <button onclick="showAdminTab('reset')" id="tab-reset" class="px-4 py-2 font-bold c-text-muted hover:c-primary">
+                    Resetar Senha
+                </button>
+            </div>
+            
+            <!-- Tab: Users -->
+            <div id="admin-users" class="admin-section">
+                <div class="overflow-x-auto">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Tab: Reports -->
+            <div id="admin-reports" class="admin-section hidden-section">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-3xl font-bold c-primary mb-1" id="totalUsers">0</div>
+                        <div class="text-sm c-text-muted">Total Usuários</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-3xl font-bold c-secondary mb-1" id="pendingUsers">0</div>
+                        <div class="text-sm c-text-muted">Pendentes</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-3xl font-bold c-accent mb-1" id="activeUsers">0</div>
+                        <div class="text-sm c-text-muted">Ativos</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-3xl font-bold c-gem mb-1" id="avgProgress">0%</div>
+                        <div class="text-sm c-text-muted">Progresso Médio</div>
+                    </div>
+                </div>
+                
+                <div class="c-card rounded-xl p-6">
+                    <h3 class="font-bold mb-4">Progresso por Nível</h3>
+                    <div class="space-y-3" id="levelProgress">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab: Reset Password -->
+            <div id="admin-reset" class="admin-section hidden-section">
+                <form onsubmit="handleAdminResetPassword(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold mb-2">Email do usuário</label>
+                            <input type="email" id="resetEmail" class="input-field" placeholder="usuario@email.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-2">Nova senha</label>
+                            <input type="text" id="newPassword" class="input-field" placeholder="Digite a nova senha" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-full py-3">
+                            <i class="fa-solid fa-key"></i>
+                            Resetar Senha
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
     <header class="sticky top-0 z-40 c-card border-b border-gray-200 dark:border-gray-700">
         <div class="max-w-4xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between mb-4">
@@ -112,203 +428,562 @@
                         <p class="text-xs c-text-muted">Do A1 ao C2 jogando</p>
                     </div>
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()"></button>
+                <div class="flex items-center gap-3">
+                    <button class="theme-toggle" onclick="toggleTheme()"></button>
+                    <div id="authButtons">
+                        <button onclick="openModal('loginModal')" class="btn btn-outline mr-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
+                        </button>
+                        <button onclick="openModal('registerModal')" class="btn btn-primary">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Cadastrar
+                        </button>
+                    </div>
+                    <div id="userInfo" class="hidden flex items-center gap-3">
+                        <span id="userName" class="font-bold"></span>
+                        <button onclick="showAdminPanel()" id="adminBtn" class="hidden w-10 h-10 rounded-full c-accent-bg text-white">
+                            <i class="fa-solid fa-crown"></i>
+                        </button>
+                        <button onclick="logout()" class="w-10 h-10 rounded-full c-danger-bg text-white">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <!-- Stats -->
-            <div class="grid grid-cols-4 gap-4 mb-4">
-                <div class="text-center">
-                    <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt text-sm"></i> 1,240</div>
-                    <div class="text-xs c-text-muted">XP</div>
+            <!-- Stats (only visible when logged in) -->
+            <div id="userStats" class="hidden">
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt text-sm"></i> <span id="userXp">1,240</span></div>
+                        <div class="text-xs c-text-muted">XP</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire text-sm"></i> <span id="userStreak">7</span></div>
+                        <div class="text-xs c-text-muted">Dias</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem text-sm"></i> <span id="userGems">42</span></div>
+                        <div class="text-xs c-text-muted">Gemas</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold"><span id="userLevel">B1</span></div>
+                        <div class="text-xs c-text-muted">Nível</div>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire text-sm"></i> 7</div>
-                    <div class="text-xs c-text-muted">Dias</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem text-sm"></i> 42</div>
-                    <div class="text-xs c-text-muted">Gemas</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-bold">B1</div>
-                    <div class="text-xs c-text-muted">Nível</div>
-                </div>
-            </div>
-            
-            <!-- XP Bar -->
-            <div>
-                <div class="flex justify-between text-xs mb-2">
-                    <span class="c-text-muted">Próximo nível</span>
-                    <span class="font-bold">1,850/2,500 XP</span>
-                </div>
-                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div class="h-full c-primary-bg rounded-full transition-all" style="width: 74%"></div>
+                
+                <!-- XP Bar -->
+                <div>
+                    <div class="flex justify-between text-xs mb-2">
+                        <span class="c-text-muted">Próximo nível</span>
+                        <span class="font-bold">1,850/2,500 XP</span>
+                    </div>
+                    <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-full c-primary-bg rounded-full transition-all" style="width: 74%"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT -->
     <main class="max-w-4xl mx-auto px-4 py-8">
-        <!-- Welcome -->
-        <div class="text-center mb-8">
-            <h2 class="font-display font-bold text-3xl mb-2">Olá, Olivia! 👋</h2>
-            <p class="c-text-muted">Continue sua jornada no inglês. Você está indo muito bem!</p>
-        </div>
-
-        <!-- Learning Path -->
-        <div class="c-card rounded-2xl p-6 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="font-display font-bold text-xl">Sua Jornada</h3>
-                <span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary">B1 Intermediate</span></span>
+        
+        <!-- Guest View (not logged in) -->
+        <div id="guestView" class="fade-in">
+            <div class="text-center py-16">
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full c-primary-bg flex items-center justify-center text-5xl text-white">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2 class="font-display font-bold text-4xl mb-4">Aprenda Inglês de Forma Divertida! 🎮</h2>
+                <p class="text-xl c-text-muted mb-8 max-w-2xl mx-auto">
+                    Do básico ao avançado, jogue, aprenda e acompanhe seu progresso. 
+                    Cadastre-se gratuitamente e comece hoje mesmo!
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-8 py-4">
+                        <i class="fa-solid fa-rocket"></i>
+                        Começar Agora
+                    </button>
+                    <button onclick="document.getElementById('featuresSection').scrollIntoView({behavior: 'smooth'})" 
+                            class="btn btn-outline text-lg px-8 py-4">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Saiba Mais
+                    </button>
+                </div>
             </div>
             
-            <div class="flex items-center justify-center gap-4 flex-wrap">
-                <a href="a1.html" class="path-node flex flex-col items-center gap-2">
-                    <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white shadow-lg">
-                        <i class="fa-solid fa-seedling"></i>
+            <!-- Features -->
+            <div id="featuresSection" class="grid md:grid-cols-3 gap-6 mt-16">
+                <div class="c-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-primary-bg flex items-center justify-center text-3xl text-white">
+                        <i class="fa-solid fa-gamepad"></i>
                     </div>
-                    <span class="text-sm font-bold">A1</span>
-                </a>
-                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
-                <div class="path-node flex flex-col items-center gap-2 opacity-50">
-                    <div class="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-2xl text-white">
-                        <i class="fa-solid fa-leaf"></i>
-                    </div>
-                    <span class="text-sm font-bold">A2</span>
+                    <h3 class="font-bold text-xl mb-2">Aprenda Jogando</h3>
+                    <p class="c-text-muted">Lições interativas e divertidas que tornam o aprendizado viciante</p>
                 </div>
-                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
-                <div class="path-node flex flex-col items-center gap-2">
-                    <div class="w-16 h-16 rounded-full c-secondary-bg flex items-center justify-center text-2xl text-white shadow-lg animate-pulse">
-                        <i class="fa-solid fa-water"></i>
+                <div class="c-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-secondary-bg flex items-center justify-center text-3xl text-white">
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <span class="text-sm font-bold">B1</span>
+                    <h3 class="font-bold text-xl mb-2">Acompanhe seu Progresso</h3>
+                    <p class="c-text-muted">Veja sua evolução do A1 ao C2 com relatórios detalhados</p>
                 </div>
-                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
-                <div class="path-node flex flex-col items-center gap-2 opacity-50">
-                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
-                        <i class="fa-solid fa-fire"></i>
+                <div class="c-card rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white">
+                        <i class="fa-solid fa-volume-high"></i>
                     </div>
-                    <span class="text-sm font-bold">B2</span>
-                </div>
-                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
-                <div class="path-node flex flex-col items-center gap-2 opacity-50">
-                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <span class="text-sm font-bold">C1</span>
-                </div>
-                <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
-                <div class="path-node flex flex-col items-center gap-2 opacity-50">
-                    <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
-                        <i class="fa-solid fa-crown"></i>
-                    </div>
-                    <span class="text-sm font-bold">C2</span>
+                    <h3 class="font-bold text-xl mb-2">Áudio Nativo</h3>
+                    <p class="c-text-muted">Tecnologia TTS para ouvir e repetir a pronúncia correta</p>
                 </div>
             </div>
         </div>
 
-        <!-- Today's Lessons -->
-        <div class="c-card rounded-2xl p-6 mb-8">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="font-display font-bold text-xl">Lições de Hoje</h3>
-                <span class="text-sm c-text-muted">3 disponíveis</span>
-            </div>
-            
-            <!-- Lesson 1 - Link para A1 -->
-            <a href="a1.html" class="lesson-card c-card rounded-xl p-4 block mb-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-xl c-primary-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-lg mb-1">Nível A1 - Primeiros Passos</h4>
-                        <p class="text-sm c-text-muted">Saudações, apresentações e vocabulário básico</p>
-                    </div>
-                    <div class="c-primary-bg text-white px-4 py-2 rounded-full text-sm font-bold">
-                        <i class="fa-solid fa-bolt"></i> +600 XP
-                    </div>
-                </div>
-            </a>
-
-            <!-- Lesson 2 -->
-            <div class="lesson-card c-card rounded-xl p-4 block mb-4 opacity-75">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-xl c-secondary-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
-                        <i class="fa-solid fa-headphones"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-lg mb-1">Listening: Notícias Curtas</h4>
-                        <p class="text-sm c-text-muted">Melhore sua compreensão auditiva</p>
-                    </div>
-                    <div class="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-bold">
-                        Em breve
-                    </div>
-                </div>
+        <!-- Logged In View -->
+        <div id="loggedInView" class="hidden fade-in">
+            <!-- Welcome -->
+            <div class="text-center mb-8">
+                <h2 class="font-display font-bold text-3xl mb-2">Olá, <span id="welcomeName">Olivia</span>! 👋</h2>
+                <p class="c-text-muted">Continue sua jornada no inglês. Você está indo muito bem!</p>
             </div>
 
-            <!-- Lesson 3 -->
-            <div class="lesson-card c-card rounded-xl p-4 block opacity-75">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-xl c-accent-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
-                        <i class="fa-solid fa-puzzle-piece"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-lg mb-1">Gramática: Present Perfect</h4>
-                        <p class="text-sm c-text-muted">Domine o Present Perfect</p>
-                    </div>
-                    <div class="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-4 py-2 rounded-full text-sm font-bold">
-                        Em breve
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Skills -->
-        <div class="c-card rounded-2xl p-6">
-            <h3 class="font-display font-bold text-xl mb-6">Suas Habilidades</h3>
-            <div class="space-y-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-white">
-                        <i class="fa-solid fa-headphones"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex justify-between mb-2">
-                            <span class="font-bold">Listening</span>
-                            <span class="c-text-muted">75%</span>
-                        </div>
-                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div class="h-full c-primary-bg rounded-full" style="width: 75%"></div>
-                        </div>
-                    </div>
+            <!-- Learning Path -->
+            <div class="c-card rounded-2xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-display font-bold text-xl">Sua Jornada</h3>
+                    <span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary">B1 Intermediate</span></span>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl c-secondary-bg flex items-center justify-center text-white">
-                        <i class="fa-solid fa-book-open"></i>
+                <div class="flex items-center justify-center gap-4 flex-wrap">
+                    <a href="a1.html" class="path-node flex flex-col items-center gap-2">
+                        <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white shadow-lg">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <span class="text-sm font-bold">A1</span>
+                    </a>
+                    <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                    <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                        <div class="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-2xl text-white">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <span class="text-sm font-bold">A2</span>
                     </div>
-                    <div class="flex-1">
-                        <div class="flex justify-between mb-2">
-                            <span class="font-bold">Reading</span>
-                            <span class="c-text-muted">60%</span>
+                    <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                    <div class="path-node flex flex-col items-center gap-2">
+                        <div class="w-16 h-16 rounded-full c-secondary-bg flex items-center justify-center text-2xl text-white shadow-lg animate-pulse">
+                            <i class="fa-solid fa-water"></i>
                         </div>
-                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div class="h-full c-secondary-bg rounded-full" style="width: 60%"></div>
+                        <span class="text-sm font-bold">B1</span>
+                    </div>
+                    <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600"></div>
+                    <div class="path-node flex flex-col items-center gap-2 opacity-50">
+                        <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-2xl text-white">
+                            <i class="fa-solid fa-fire"></i>
                         </div>
+                        <span class="text-sm font-bold">B2</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Today's Lessons -->
+            <div class="c-card rounded-2xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-display font-bold text-xl">Lições de Hoje</h3>
+                    <span class="text-sm c-text-muted">3 disponíveis</span>
+                </div>
+                
+                <a href="a1.html" class="lesson-card c-card rounded-xl p-4 block mb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-xl c-primary-bg flex items-center justify-center text-2xl text-white flex-shrink-0">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-lg mb-1">Nível A1 - Primeiros Passos</h4>
+                            <p class="text-sm c-text-muted">Saudações, apresentações e vocabulário básico</p>
+                        </div>
+                        <div class="c-primary-bg text-white px-4 py-2 rounded-full text-sm font-bold">
+                            <i class="fa-solid fa-bolt"></i> +600 XP
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
     </main>
 
-    <!-- Floating Button -->
-    <button onclick="speak('Keep going! You are doing great!', 'en-US')" 
-            class="fixed bottom-6 right-6 w-14 h-14 rounded-full c-primary-bg text-white shadow-lg flex items-center justify-center text-2xl hover:scale-110 transition-transform">
-        <i class="fa-solid fa-bolt"></i>
-    </button>
-
     <script>
-        // Theme Toggle
+        // ===== DATA MANAGEMENT =====
+        const DB_KEY = 'englishpath_users';
+        const SESSION_KEY = 'englishpath_session';
+        
+        // Initialize default users if not exists
+        function initDB() {
+            if (!localStorage.getItem(DB_KEY)) {
+                const defaultUsers = [
+                    {
+                        id: 1,
+                        name: 'Admin',
+                        email: 'admin@englishpath.com',
+                        password: 'admin123',
+                        role: 'admin',
+                        status: 'approved',
+                        createdAt: new Date().toISOString(),
+                        xp: 0,
+                        level: 'A1'
+                    },
+                    {
+                        id: 2,
+                        name: 'Olivia',
+                        email: 'aluno@englishpath.com',
+                        password: 'aluno123',
+                        role: 'student',
+                        status: 'approved',
+                        createdAt: new Date().toISOString(),
+                        xp: 1240,
+                        level: 'B1',
+                        streak: 7,
+                        gems: 42
+                    }
+                ];
+                localStorage.setItem(DB_KEY, JSON.stringify(defaultUsers));
+            }
+        }
+        
+        function getUsers() {
+            return JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+        }
+        
+        function saveUsers(users) {
+            localStorage.setItem(DB_KEY, JSON.stringify(users));
+        }
+        
+        function getCurrentUser() {
+            return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+        }
+        
+        function setCurrentUser(user) {
+            if (user) {
+                sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+            } else {
+                sessionStorage.removeItem(SESSION_KEY);
+            }
+        }
+
+        // ===== AUTH FUNCTIONS =====
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showToast('Erro', 'As senhas não coincidem', 'error');
+                return;
+            }
+            
+            const users = getUsers();
+            
+            if (users.find(u => u.email === email)) {
+                showToast('Erro', 'Email já cadastrado', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                password,
+                role: 'student',
+                status: 'pending', // Requires admin approval
+                createdAt: new Date().toISOString(),
+                xp: 0,
+                level: 'A1',
+                streak: 0,
+                gems: 0
+            };
+            
+            users.push(newUser);
+            saveUsers(users);
+            
+            closeModal('registerModal');
+            showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação do admin.', 'success');
+            
+            setTimeout(() => {
+                openModal('loginModal');
+            }, 2000);
+        }
+        
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (!user) {
+                showToast('Erro', 'Email ou senha incorretos', 'error');
+                return;
+            }
+            
+            if (user.status === 'pending') {
+                showToast('Aguarde', 'Seu cadastro está pendente de aprovação', 'warning');
+                return;
+            }
+            
+            if (user.status === 'rejected') {
+                showToast('Erro', 'Cadastro rejeitado. Contate o admin.', 'error');
+                return;
+            }
+            
+            setCurrentUser(user);
+            closeModal('loginModal');
+            updateUI();
+            showToast('Bem-vindo!', `Olá, ${user.name}!`, 'success');
+        }
+        
+        function logout() {
+            setCurrentUser(null);
+            updateUI();
+            showToast('Logout', 'Você saiu do sistema', 'success');
+        }
+        
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('forgotEmail').value;
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                showToast('Erro', 'Email não encontrado', 'error');
+                return;
+            }
+            
+            // Generate random password
+            const newPassword = Math.random().toString(36).slice(-8);
+            user.password = newPassword;
+            saveUsers(users);
+            
+            closeModal('forgotPasswordModal');
+            showToast('Senha Resetada', `Nova senha: ${newPassword}`, 'success');
+            
+            setTimeout(() => {
+                openModal('loginModal');
+            }, 3000);
+        }
+
+        // ===== ADMIN FUNCTIONS =====
+        function showAdminPanel() {
+            const user = getCurrentUser();
+            if (!user || user.role !== 'admin') {
+                showToast('Erro', 'Acesso restrito a administradores', 'error');
+                return;
+            }
+            
+            loadAdminData();
+            openModal('adminModal');
+        }
+        
+        function loadAdminData() {
+            const users = getUsers();
+            
+            // Update stats
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('pendingUsers').textContent = users.filter(u => u.status === 'pending').length;
+            document.getElementById('activeUsers').textContent = users.filter(u => u.status === 'approved').length;
+            
+            // Calculate average progress
+            const avgXp = users.reduce((acc, u) => acc + (u.xp || 0), 0) / users.length;
+            document.getElementById('avgProgress').textContent = Math.round((avgXp / 2500) * 100) + '%';
+            
+            // Load users table
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>
+                        <div class="font-bold">${user.name}</div>
+                        <div class="text-sm c-text-muted">${user.role}</div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td>
+                        <span class="status-badge status-${user.status}">
+                            ${user.status === 'pending' ? 'Pendente' : user.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
+                        </span>
+                    </td>
+                    <td>${new Date(user.createdAt).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        ${user.status === 'pending' ? `
+                            <button onclick="approveUser(${user.id})" class="btn btn-primary text-sm py-1 px-3 mr-2">
+                                <i class="fa-solid fa-check"></i> Aprovar
+                            </button>
+                            <button onclick="rejectUser(${user.id})" class="btn btn-danger text-sm py-1 px-3">
+                                <i class="fa-solid fa-xmark"></i> Rejeitar
+                            </button>
+                        ` : `
+                            <button onclick="resetUserPassword(${user.id})" class="btn btn-secondary text-sm py-1 px-3">
+                                <i class="fa-solid fa-key"></i> Resetar
+                            </button>
+                        `}
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Load level progress
+            const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+            const levelCounts = {};
+            levels.forEach(l => levelCounts[l] = 0);
+            users.forEach(u => {
+                if (levelCounts[u.level] !== undefined) levelCounts[u.level]++;
+            });
+            
+            const levelProgressDiv = document.getElementById('levelProgress');
+            levelProgressDiv.innerHTML = levels.map(level => `
+                <div class="flex items-center gap-4">
+                    <div class="w-12 font-bold">${level}</div>
+                    <div class="flex-1 h-8 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div class="h-full c-primary-bg rounded-full flex items-center justify-end px-2 text-white text-sm font-bold" 
+                             style="width: ${(levelCounts[level] / users.length) * 100}%">
+                            ${levelCounts[level]}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function approveUser(id) {
+            const users = getUsers();
+            const user = users.find(u => u.id === id);
+            if (user) {
+                user.status = 'approved';
+                saveUsers(users);
+                loadAdminData();
+                showToast('Sucesso', `Usuário ${user.name} aprovado!`, 'success');
+            }
+        }
+        
+        function rejectUser(id) {
+            const users = getUsers();
+            const user = users.find(u => u.id === id);
+            if (user) {
+                user.status = 'rejected';
+                saveUsers(users);
+                loadAdminData();
+                showToast('Rejeitado', `Cadastro de ${user.name} rejeitado`, 'error');
+            }
+        }
+        
+        function resetUserPassword(id) {
+            const users = getUsers();
+            const user = users.find(u => u.id === id);
+            if (user) {
+                const newPassword = prompt(`Nova senha para ${user.email}:`);
+                if (newPassword && newPassword.length >= 6) {
+                    user.password = newPassword;
+                    saveUsers(users);
+                    showToast('Sucesso', 'Senha resetada com sucesso', 'success');
+                }
+            }
+        }
+        
+        function handleAdminResetPassword(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('resetEmail').value;
+            const newPassword = document.getElementById('newPassword').value;
+            
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                showToast('Erro', 'Usuário não encontrado', 'error');
+                return;
+            }
+            
+            user.password = newPassword;
+            saveUsers(users);
+            
+            showToast('Sucesso', `Senha de ${user.name} resetada`, 'success');
+            document.getElementById('resetEmail').value = '';
+            document.getElementById('newPassword').value = '';
+        }
+        
+        function showAdminTab(tab) {
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
+            
+            // Update tabs
+            ['users', 'reports', 'reset'].forEach(t => {
+                const tabBtn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    tabBtn.classList.add('c-primary-bg', 'text-white');
+                    tabBtn.classList.remove('c-text-muted');
+                } else {
+                    tabBtn.classList.remove('c-primary-bg', 'text-white');
+                    tabBtn.classList.add('c-text-muted');
+                }
+            });
+        }
+
+        // ===== UI FUNCTIONS =====
+        function updateUI() {
+            const user = getCurrentUser();
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const userStats = document.getElementById('userStats');
+            const guestView = document.getElementById('guestView');
+            const loggedInView = document.getElementById('loggedInView');
+            const adminBtn = document.getElementById('adminBtn');
+            
+            if (user) {
+                authButtons.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                document.getElementById('userName').textContent = user.name;
+                
+                if (user.role === 'admin') {
+                    adminBtn.classList.remove('hidden');
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
+                
+                // Update stats
+                document.getElementById('userXp').textContent = user.xp?.toLocaleString() || '0';
+                document.getElementById('userStreak').textContent = user.streak || '0';
+                document.getElementById('userGems').textContent = user.gems || '0';
+                document.getElementById('userLevel').textContent = user.level || 'A1';
+                document.getElementById('welcomeName').textContent = user.name;
+                
+                userStats.classList.remove('hidden');
+                guestView.classList.add('hidden');
+                loggedInView.classList.remove('hidden');
+            } else {
+                authButtons.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                userStats.classList.add('hidden');
+                guestView.classList.remove('hidden');
+                loggedInView.classList.add('hidden');
+            }
+        }
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function switchModal(from, to) {
+            closeModal(from);
+            setTimeout(() => openModal(to), 200);
+        }
+        
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -316,26 +991,41 @@
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         }
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        // TTS Function
-        function speak(text, lang = 'en-US') {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = lang;
-                utterance.rate = 0.9;
-                speechSynthesis.speak(utterance);
-            }
+        
+        function showToast(title, message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 right-4 c-card rounded-xl p-4 shadow-lg z-50 fade-in flex items-center gap-3`;
+            toast.innerHTML = `
+                <i class="fa-solid fa-${type === 'success' ? 'circle-check c-primary' : type === 'error' ? 'circle-exclamation c-danger' : 'triangle-exclamation c-accent'} text-2xl"></i>
+                <div>
+                    <div class="font-bold">${title}</div>
+                    <div class="text-sm c-text-muted">${message}</div>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
         }
 
-        // Welcome message with TTS
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                speak('Hello Olivia! Welcome back to English Path', 'en-US');
-            }, 1000);
+        // ===== INITIALIZATION =====
+        window.addEventListener('DOMContentLoaded', () => {
+            initDB();
+            
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Check if user is logged in
+            updateUI();
+            
+            // Close modals on outside click
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
         });
     </script>
 </body>
