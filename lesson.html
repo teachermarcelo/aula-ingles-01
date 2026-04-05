@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Greetings & Introductions | EnglishPath</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translateX(-1px)' },
+                            '20%, 80%': { transform: 'translateX(2px)' },
+                            '30%, 50%, 70%': { transform: 'translateX(-4px)' },
+                            '40%, 60%': { transform: 'translateX(4px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --card-hover: #334155;
+            --border: #334155; --text: #f1f5f9; --text-muted: #94a3b8;
+            --primary: #22c55e; --primary-dark: #16a34a;
+            --secondary: #3b82f6; --accent: #fbbf24; --accent-dark: #f59e0b;
+            --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
+            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
+            
+            /* Skill Colors */
+            --skill-reading: #06b6d4;
+            --skill-listening: #dc2626;
+            --skill-speaking: #22c55e;
+            --skill-writing: #8b5cf6;
+        }
+        [data-theme="light"] {
+            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
+            --border: #e2e8f0; --text: #0f172a; --text-muted: #64748b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        * { box-sizing: border-box; margin: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        
+        /* Utility Classes */
+        .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
+        .c-card:hover { border-color: var(--primary); }
+        .c-text { color: var(--text); }
+        .c-text-muted { color: var(--text-muted); }
+        .c-primary { color: var(--primary); }
+        .c-primary-bg { background: var(--primary); }
+        .c-secondary { color: var(--secondary); }
+        .c-secondary-bg { background: var(--secondary); }
+        .c-accent { color: var(--accent); }
+        .c-accent-bg { background: var(--accent); }
+        .c-gem { color: var(--gem); }
+        .c-streak { color: var(--streak); }
+        .c-xp { color: var(--xp); }
+        .c-danger { color: var(--danger); }
+        .c-danger-bg { background: var(--danger); }
+        
+        /* Crown Button - GOLD */
+        .crown-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            box-shadow: var(--glow-accent);
+            transition: all 0.3s;
+        }
+        .crown-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
+            font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
+            border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-lg { padding: 1rem 2rem; font-size: 1.1rem; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            width: 52px; height: 28px; border-radius: 14px;
+            background: var(--border); position: relative; cursor: pointer; border: none;
+            transition: background 0.3s;
+        }
+        .theme-toggle::after {
+            content: ''; position: absolute; top: 3px; left: 3px;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--primary); transition: transform 0.3s;
+        }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
+        
+        /* Progress Bar */
+        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.5s ease; }
+        
+        /* Skill Tabs */
+        .skill-tab {
+            padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 600;
+            transition: all 0.3s; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+        .skill-tab.active { background: var(--card-hover); border-color: var(--primary); }
+        .skill-tab[data-skill="reading"].active { border-color: var(--skill-reading); color: var(--skill-reading); }
+        .skill-tab[data-skill="listening"].active { border-color: var(--skill-listening); color: var(--skill-listening); }
+        .skill-tab[data-skill="speaking"].active { border-color: var(--skill-speaking); color: var(--skill-speaking); }
+        .skill-tab[data-skill="writing"].active { border-color: var(--skill-writing); color: var(--skill-writing); }
+        .skill-tab:not(.active):hover { background: var(--card-hover); }
+        
+        /* Content Sections */
+        .skill-section { display: none; animation: fadeIn 0.3s ease; }
+        .skill-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Reading Content */
+        .reading-text {
+            font-size: 1.1rem; line-height: 1.8; color: var(--text);
+        }
+        .vocab-highlight {
+            background: rgba(34,197,94,0.2); padding: 0.1rem 0.4rem;
+            border-radius: 4px; font-weight: 600; color: var(--primary);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .vocab-highlight:hover { background: rgba(34,197,94,0.4); }
+        
+        /* Listening Content */
+        .audio-player {
+            background: var(--card-hover); border-radius: 16px; padding: 1.5rem;
+            text-align: center; border: 2px solid var(--border);
+        }
+        .play-btn {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 1rem; cursor: pointer;
+            transition: all 0.3s; box-shadow: var(--glow-primary);
+        }
+        .play-btn:hover { transform: scale(1.1); }
+        .play-btn.playing { animation: pulse-slow; }
+        
+        /* Speaking Content */
+        .record-btn {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: var(--danger); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; margin: 0 auto 1rem; cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 0 20px rgba(239,68,68,0.4);
+        }
+        .record-btn:hover { transform: scale(1.1); }
+        .record-btn.recording { animation: pulse-slow; background: #dc2626; }
+        .waveform {
+            height: 40px; display: flex; align-items: center; justify-content: center;
+            gap: 3px; margin: 1rem 0;
+        }
+        .wave-bar {
+            width: 4px; background: var(--primary); border-radius: 2px;
+            animation: wave 0.5s ease-in-out infinite alternate;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes wave { from { height: 10px; } to { height: 30px; } }
+        
+        /* Writing Content */
+        .writing-input {
+            width: 100%; min-height: 120px; padding: 1rem;
+            border: 2px solid var(--border); border-radius: 12px;
+            background: var(--bg); color: var(--text);
+            font-family: inherit; font-size: 1rem; resize: vertical;
+            transition: border-color 0.3s;
+        }
+        .writing-input:focus { outline: none; border-color: var(--primary); }
+        .writing-hint {
+            font-size: 0.875rem; color: var(--text-muted);
+            background: var(--card-hover); padding: 0.75rem;
+            border-radius: 8px; margin-top: 0.5rem;
+        }
+        
+        /* Exercise Options */
+        .option-btn {
+            width: 100%; padding: 1rem; border-radius: 12px;
+            border: 2px solid var(--border); background: var(--card);
+            color: var(--text); font-weight: 600; cursor: pointer;
+            transition: all 0.3s; text-align: left;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .option-btn:hover { border-color: var(--primary); transform: translateX(4px); }
+        .option-btn.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; }
+        .option-btn.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; animation: shake 0.5s; }
+        .option-letter {
+            width: 28px; height: 28px; border-radius: 8px;
+            background: var(--border); display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
+        }
+        
+        /* Feedback */
+        .feedback {
+            padding: 1rem; border-radius: 12px; margin-top: 1rem;
+            display: none; animation: slideUp 0.3s ease;
+        }
+        .feedback.show { display: block; }
+        .feedback.correct { background: rgba(34,197,94,0.15); border-left: 4px solid #22c55e; }
+        .feedback.wrong { background: rgba(239,68,68,0.15); border-left: 4px solid #ef4444; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Completion Screen */
+        .completion-screen {
+            text-align: center; padding: 2rem;
+        }
+        .xp-reward {
+            font-size: 3rem; font-weight: 800; color: var(--xp);
+            text-shadow: 0 0 20px rgba(6,182,212,0.5);
+            animation: float 2s ease-in-out infinite;
+        }
+        .confetti {
+            position: fixed; width: 10px; height: 10px;
+            pointer-events: none; z-index: 1000;
+            animation: confetti-fall 1s ease-out forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Navigation */
+        .lesson-nav {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--card); border-top: 1px solid var(--border);
+            padding: 1rem; z-index: 100;
+        }
+        .nav-btn {
+            flex: 1; padding: 0.75rem; border-radius: 12px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+            border: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .nav-prev { background: var(--card-hover); color: var(--text); margin-right: 0.5rem; }
+        .nav-prev:hover:not(:disabled) { background: var(--border); }
+        .nav-next { background: var(--primary); color: white; margin-left: 0.5rem; }
+        .nav-next:hover:not(:disabled) { background: var(--primary-dark); }
+        
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 100px; right: 20px;
+            background: var(--card); border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem; border-radius: 12px;
+            box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
+            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
+            max-width: 350px;
+        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left-color: #22c55e; }
+        .toast.error { border-left-color: #ef4444; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding-bottom: 90px; }
+            .skill-tab { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+            .play-btn, .record-btn { width: 70px; height: 70px; font-size: 1.75rem; }
+            .xp-reward { font-size: 2.5rem; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="sticky top-0 z-50 c-card border-b border-gray-700">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="a1.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg c-primary-bg flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-left text-white text-sm"></i>
+                    </div>
+                    <span class="font-bold text-sm hidden sm:inline">Voltar para A1</span>
+                </a>
+                
+                <div class="flex items-center gap-3">
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
+                    <button onclick="openModal('admin')" id="adminBtn" class="hidden w-9 h-9 rounded-full crown-btn">
+                        <i class="fa-solid fa-crown text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Lesson Progress -->
+            <div class="mt-4">
+                <div class="flex justify-between text-xs mb-2">
+                    <span class="c-text-muted" id="lessonTitle">Carregando...</span>
+                    <span class="font-bold"><span id="currentStep">1</span>/4</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="lessonProgress" class="progress-fill" style="width: 25%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== SKILL TABS ===== -->
+    <div class="sticky top-24 z-40 c-card border-b border-gray-700">
+        <div class="max-w-4xl mx-auto px-4 py-3 overflow-x-auto">
+            <div class="flex items-center gap-2">
+                <button class="skill-tab active" onclick="switchSkill('reading')" data-skill="reading">
+                    <i class="fa-solid fa-book-open"></i> Reading
+                </button>
+                <button class="skill-tab" onclick="switchSkill('listening')" data-skill="listening">
+                    <i class="fa-solid fa-headphones"></i> Listening
+                </button>
+                <button class="skill-tab" onclick="switchSkill('speaking')" data-skill="speaking">
+                    <i class="fa-solid fa-microphone"></i> Speaking
+                </button>
+                <button class="skill-tab" onclick="switchSkill('writing')" data-skill="writing">
+                    <i class="fa-solid fa-pen-nib"></i> Writing
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="max-w-4xl mx-auto px-4 py-6">
+        
+        <!-- READING SECTION -->
+        <section id="reading" class="skill-section active">
+            <div class="c-card rounded-2xl p-6 mb-6">
+                <h2 class="font-display font-bold text-xl mb-4">📖 Reading: Hello! My name is...</h2>
+                
+                <div class="reading-text mb-6" id="readingText">
+                    <p class="mb-4">Hello! My name is <span class="vocab-highlight" onclick="speakVocab('Maria', 'en-US')">Maria</span>. I am from Brazil.</p>
+                    <p class="mb-4">Nice to <span class="vocab-highlight" onclick="speakVocab('meet', 'en-US')">meet</span> you! What is your name?</p>
+                    <p>Goodbye! See you <span class="vocab-highlight" onclick="speakVocab('later', 'en-US')">later</span>!</p>
+                </div>
+                
+                <button onclick="speakText('readingText')" class="btn btn-secondary mb-6">
+                    <i class="fa-solid fa-volume-high"></i> Ouvir Texto
+                </button>
+                
+                <h3 class="font-bold mb-3">✅ Complete a frase:</h3>
+                <p class="c-text-muted mb-4">"Nice to _____ you!"</p>
+                
+                <div class="grid gap-3" id="readingOptions">
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'reading')">
+                        <span class="option-letter">A</span> <span>go</span>
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'reading')">
+                        <span class="option-letter">B</span> <span>meet</span>
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'reading')">
+                        <span class="option-letter">C</span> <span>eat</span>
+                    </button>
+                </div>
+                
+                <div id="readingFeedback" class="feedback"></div>
+            </div>
+        </section>
+        
+        <!-- LISTENING SECTION -->
+        <section id="listening" class="skill-section">
+            <div class="c-card rounded-2xl p-6 mb-6">
+                <h2 class="font-display font-bold text-xl mb-4">🎧 Listening: Greetings Audio</h2>
+                
+                <div class="audio-player mb-6">
+                    <button class="play-btn" id="playBtn" onclick="toggleAudio()">
+                        <i class="fa-solid fa-play" id="playIcon"></i>
+                    </button>
+                    <p class="c-text-muted">Clique para ouvir a saudação</p>
+                    <p class="text-sm c-text-muted mt-2" id="audioText">"Hello! How are you today?"</p>
+                </div>
+                
+                <h3 class="font-bold mb-3">🤔 O que você ouviu?</h3>
+                <p class="c-text-muted mb-4">Selecione a frase correta:</p>
+                
+                <div class="grid gap-3" id="listeningOptions">
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'listening')">
+                        <span class="option-letter">A</span> <span>"Goodbye! See you later!"</span>
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'listening')">
+                        <span class="option-letter">B</span> <span>"Hello! How are you today?"</span>
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'listening')">
+                        <span class="option-letter">C</span> <span>"Thank you very much!"</span>
+                    </button>
+                </div>
+                
+                <div id="listeningFeedback" class="feedback"></div>
+            </div>
+        </section>
+        
+        <!-- SPEAKING SECTION -->
+        <section id="speaking" class="skill-section">
+            <div class="c-card rounded-2xl p-6 mb-6">
+                <h2 class="font-display font-bold text-xl mb-4">🗣️ Speaking: Introduce Yourself</h2>
+                
+                <div class="text-center mb-6">
+                    <p class="c-text-muted mb-4">Repita após o áudio:</p>
+                    <button class="play-btn" onclick="speakText('speakingPrompt')" style="width:70px;height:70px;font-size:1.5rem">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                    <p id="speakingPrompt" class="text-xl font-bold mt-4">"Hello! My name is [your name]."</p>
+                </div>
+                
+                <div class="text-center mb-6">
+                    <p class="c-text-muted mb-3">Agora é sua vez! Clique para gravar:</p>
+                    <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
+                        <i class="fa-solid fa-microphone" id="recordIcon"></i>
+                    </button>
+                    <div class="waveform" id="waveform" style="display:none">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted" id="recordStatus">Pronto para gravar</p>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="completeSkill('speaking')" class="btn btn-primary" id="speakingComplete" disabled>
+                        <i class="fa-solid fa-check"></i> Concluir Prática
+                    </button>
+                </div>
+                
+                <div id="speakingFeedback" class="feedback"></div>
+            </div>
+        </section>
+        
+        <!-- WRITING SECTION -->
+        <section id="writing" class="skill-section">
+            <div class="c-card rounded-2xl p-6 mb-6">
+                <h2 class="font-display font-bold text-xl mb-4">✍️ Writing: Fill the Blanks</h2>
+                
+                <p class="c-text-muted mb-4">Complete as frases com as palavras corretas:</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">1. "_____ to meet you!"</label>
+                        <input type="text" id="write1" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">2. "My name _____ Maria."</label>
+                        <input type="text" id="write2" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">3. "Good_____! See you later."</label>
+                        <input type="text" id="write3" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
+                    </div>
+                </div>
+                
+                <div class="writing-hint">
+                    <i class="fa-solid fa-lightbulb mr-2"></i>
+                    <strong>Dica:</strong> Use as palavras: <span class="c-primary">Nice</span>, <span class="c-primary">is</span>, <span class="c-primary">bye</span>
+                </div>
+                
+                <button onclick="checkWriting()" class="btn btn-primary w-full mt-6">
+                    <i class="fa-solid fa-check"></i> Verificar Respostas
+                </button>
+                
+                <div id="writingFeedback" class="feedback"></div>
+            </div>
+        </section>
+        
+        <!-- COMPLETION SCREEN (Hidden initially) -->
+        <section id="completion" class="skill-section">
+            <div class="completion-screen">
+                <div class="text-6xl mb-4">🎉</div>
+                <h2 class="font-display font-bold text-3xl mb-2">Lição Completa!</h2>
+                <p class="c-text-muted mb-6 text-lg">Você dominou: Greetings & Introductions</p>
+                
+                <div class="xp-reward mb-6">+50 XP</div>
+                
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-2xl font-bold c-primary">4/4</div>
+                        <div class="text-xs c-text-muted">Skills</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-2xl font-bold c-streak">🔥</div>
+                        <div class="text-xs c-text-muted">Streak +1</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-2xl font-bold c-gem">💎</div>
+                        <div class="text-xs c-text-muted">+5 Gems</div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="a1.html" class="btn btn-outline">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar para A1
+                    </a>
+                    <a href="lesson.html?unit=u02" class="btn btn-primary">
+                        Próxima Lição <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <div class="lesson-nav">
+        <div class="max-w-4xl mx-auto flex">
+            <button class="nav-btn nav-prev" id="prevBtn" onclick="prevSkill()">
+                <i class="fa-solid fa-arrow-left"></i> Anterior
+            </button>
+            <button class="nav-btn nav-next" id="nextBtn" onclick="nextSkill()">
+                Próximo <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
+        <div>
+            <div class="font-bold" id="toastTitle">Sucesso!</div>
+            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div>
+        </div>
+    </div>
+
+    <!-- ===== FIREBASE + APP LOGIC ===== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+
+  apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+
+  authDomain: "englishpath-2d558.firebaseapp.com",
+
+  projectId: "englishpath-2d558",
+
+  storageBucket: "englishpath-2d558.firebasestorage.app",
+
+  messagingSenderId: "384301599670",
+
+  appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+
+};
+
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ===== STATE =====
+        let currentUser = null;
+        let currentUnit = 'u01';
+        let currentSkill = 'reading';
+        let completedSkills = { reading: false, listening: false, speaking: false, writing: false };
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+
+        // ===== EXPOSE FUNCTIONS =====
+        window.toggleTheme = toggleTheme;
+        window.switchSkill = switchSkill;
+        window.checkAnswer = checkAnswer;
+        window.completeSkill = completeSkill;
+        window.checkWriting = checkWriting;
+        window.speakText = speakText;
+        window.speakVocab = speakVocab;
+        window.toggleAudio = toggleAudio;
+        window.toggleRecording = toggleRecording;
+        window.prevSkill = prevSkill;
+        window.nextSkill = nextSkill;
+        window.openModal = openModal;
+
+        // ===== INIT =====
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                    loadLessonProgress();
+                }
+            }
+        });
+
+        // Get unit from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        currentUnit = urlParams.get('unit') || 'u01';
+        document.getElementById('lessonTitle').textContent = `Unit ${currentUnit.toUpperCase()}`;
+
+        // ===== THEME =====
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('ep_theme', html.dataset.theme);
+        }
+        (function(){ const t = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
+
+        // ===== SKILL NAVIGATION =====
+        function switchSkill(skill) {
+            // Update tabs
+            document.querySelectorAll('.skill-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`[data-skill="${skill}"]`).classList.add('active');
+            
+            // Update sections
+            document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(skill).classList.add('active');
+            
+            currentSkill = skill;
+            updateProgress();
+            updateNavButtons();
+        }
+
+        function prevSkill() {
+            const skills = ['reading', 'listening', 'speaking', 'writing'];
+            const idx = skills.indexOf(currentSkill);
+            if (idx > 0) switchSkill(skills[idx - 1]);
+        }
+
+        function nextSkill() {
+            const skills = ['reading', 'listening', 'speaking', 'writing'];
+            const idx = skills.indexOf(currentSkill);
+            if (idx < skills.length - 1) switchSkill(skills[idx + 1]);
+            else if (allSkillsComplete()) showCompletion();
+        }
+
+        function updateProgress() {
+            const skills = ['reading', 'listening', 'speaking', 'writing'];
+            const idx = skills.indexOf(currentSkill) + 1;
+            document.getElementById('currentStep').textContent = idx;
+            document.getElementById('lessonProgress').style.width = (idx * 25) + '%';
+        }
+
+        function updateNavButtons() {
+            const skills = ['reading', 'listening', 'speaking', 'writing'];
+            const idx = skills.indexOf(currentSkill);
+            document.getElementById('prevBtn').disabled = idx === 0;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (idx === skills.length - 1) {
+                nextBtn.innerHTML = allSkillsComplete() ? 
+                    'Concluir Lição <i class="fa-solid fa-trophy"></i>' : 
+                    'Próximo <i class="fa-solid fa-arrow-right"></i>';
+            }
+        }
+
+        function allSkillsComplete() {
+            return Object.values(completedSkills).every(v => v === true);
+        }
+
+        // ===== TTS FUNCTIONS =====
+        function speakText(elementId, lang = 'en-US') {
+            if ('speechSynthesis' in window) {
+                const text = document.getElementById(elementId).innerText;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+                showToast('Reproduzindo áudio...', 'success');
+            } else {
+                showToast('Seu navegador não suporta áudio', 'error');
+            }
+        }
+
+        function speakVocab(word, lang = 'en-US') {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = lang;
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // ===== AUDIO PLAYER =====
+        let isPlaying = false;
+        let audioUtterance = null;
+        
+        function toggleAudio() {
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const audioText = document.getElementById('audioText').textContent;
+            
+            if (isPlaying) {
+                speechSynthesis.cancel();
+                isPlaying = false;
+                playIcon.className = 'fa-solid fa-play';
+                playBtn.classList.remove('playing');
+            } else {
+                if ('speechSynthesis' in window) {
+                    audioUtterance = new SpeechSynthesisUtterance(audioText.replace(/"/g, ''));
+                    audioUtterance.lang = 'en-US';
+                    audioUtterance.rate = 0.85;
+                    audioUtterance.onend = () => {
+                        isPlaying = false;
+                        playIcon.className = 'fa-solid fa-play';
+                        playBtn.classList.remove('playing');
+                    };
+                    speechSynthesis.speak(audioUtterance);
+                    isPlaying = true;
+                    playIcon.className = 'fa-solid fa-pause';
+                    playBtn.classList.add('playing');
+                }
+            }
+        }
+
+        // ===== RECORDING (Web Speech API fallback) =====
+        function toggleRecording() {
+            const recordBtn = document.getElementById('recordBtn');
+            const recordIcon = document.getElementById('recordIcon');
+            const recordStatus = document.getElementById('recordStatus');
+            const waveform = document.getElementById('waveform');
+            
+            if (!isRecording) {
+                // Start "recording" (simulated for demo)
+                isRecording = true;
+                recordBtn.classList.add('recording');
+                recordIcon.className = 'fa-solid fa-stop';
+                recordStatus.textContent = 'Gravando... Fale agora!';
+                waveform.style.display = 'flex';
+                
+                // Simulate 5 seconds recording
+                setTimeout(() => {
+                    stopRecording();
+                }, 5000);
+                
+            } else {
+                stopRecording();
+            }
+        }
+
+        function stopRecording() {
+            const recordBtn = document.getElementById('recordBtn');
+            const recordIcon = document.getElementById('recordIcon');
+            const recordStatus = document.getElementById('recordStatus');
+            const waveform = document.getElementById('waveform');
+            
+            isRecording = false;
+            recordBtn.classList.remove('recording');
+            recordIcon.className = 'fa-solid fa-microphone';
+            recordStatus.textContent = 'Gravação concluída! ✓';
+            waveform.style.display = 'none';
+            
+            // Enable complete button
+            document.getElementById('speakingComplete').disabled = false;
+            showToast('Ótima pronúncia! Continue praticando.', 'success');
+        }
+
+        // ===== EXERCISE CHECKING =====
+        function checkAnswer(btn, isCorrect, skill) {
+            // Disable all options
+            const container = document.getElementById(`${skill}Options`);
+            container.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                showFeedback(skill, 'correct', '🎉 Correct! Great job!');
+                markSkillComplete(skill);
+            } else {
+                btn.classList.add('wrong');
+                showFeedback(skill, 'wrong', '❌ Try again! Listen carefully.');
+                // Re-enable after delay
+                setTimeout(() => {
+                    btn.classList.remove('wrong');
+                    container.querySelectorAll('.option-btn').forEach(b => b.disabled = false);
+                }, 1500);
+            }
+        }
+
+        function showFeedback(skill, type, message) {
+            const feedback = document.getElementById(`${skill}Feedback`);
+            feedback.className = `feedback ${type} show`;
+            feedback.innerHTML = `<i class="fa-solid fa-${type === 'correct' ? 'circle-check' : 'circle-xmark'}"></i> ${message}`;
+        }
+
+        function markSkillComplete(skill) {
+            completedSkills[skill] = true;
+            updateProgress();
+            updateNavButtons();
+            
+            if (currentUser) {
+                saveProgressToFirebase(skill);
+            }
+        }
+
+        async function saveProgressToFirebase(skill) {
+            if (!currentUser) return;
+            try {
+                const key = `${currentUnit}_${skill}`;
+                await updateDoc(doc(db, "usuarios", currentUser.uid), {
+                    [`progresso.${key}.completed`]: true,
+                    [`progresso.${key}.date`]: new Date().toISOString(),
+                    xp: increment(12) // 12 XP per skill (4 skills = 48 + 2 bonus = 50)
+                });
+            } catch (err) {
+                console.error('Error saving progress:', err);
+            }
+        }
+
+        function completeSkill(skill) {
+            markSkillComplete(skill);
+            showToast(`${skill.charAt(0).toUpperCase() + skill.slice(1)} completed! +12 XP`, 'success');
+            
+            // Auto-advance after delay
+            setTimeout(() => {
+                const skills = ['reading', 'listening', 'speaking', 'writing'];
+                const idx = skills.indexOf(skill);
+                if (idx < skills.length - 1) {
+                    switchSkill(skills[idx + 1]);
+                } else if (allSkillsComplete()) {
+                    showCompletion();
+                }
+            }, 1500);
+        }
+
+        // ===== WRITING CHECK =====
+        function checkWriting() {
+            const answers = {
+                write1: ['nice'],
+                write2: ['is'],
+                write3: ['bye', 'by']
+            };
+            
+            let correct = 0;
+            let total = Object.keys(answers).length;
+            
+            Object.entries(answers).forEach(([field, validAnswers]) => {
+                const userAnswer = document.getElementById(field).value.trim().toLowerCase();
+                if (validAnswers.includes(userAnswer)) {
+                    correct++;
+                    document.getElementById(field).style.borderColor = '#22c55e';
+                } else {
+                    document.getElementById(field).style.borderColor = '#ef4444';
+                }
+            });
+            
+            const feedback = document.getElementById('writingFeedback');
+            if (correct === total) {
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = `🎉 Perfect! ${correct}/${total} correct!`;
+                markSkillComplete('writing');
+                setTimeout(() => { if (allSkillsComplete()) showCompletion(); }, 1500);
+            } else {
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = `📝 ${correct}/${total} correct. Review and try again!`;
+            }
+        }
+
+        // ===== COMPLETION =====
+        function showCompletion() {
+            // Hide all sections
+            document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('completion').classList.add('active');
+            
+            // Hide nav
+            document.querySelector('.lesson-nav').style.display = 'none';
+            
+            // Update Firebase with completion bonus
+            if (currentUser) {
+                updateDoc(doc(db, "usuarios", currentUser.uid), {
+                    xp: increment(2), // Bonus for completing all skills
+                    streak: increment(1)
+                });
+            }
+            
+            // Confetti effect
+            createConfetti();
+            showToast('🎉 Lesson completed! +50 XP total', 'success');
+        }
+
+        function createConfetti() {
+            const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 1500);
+            }
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').textContent = type === 'success' ? 'Sucesso!' : 'Erro';
+            document.getElementById('toastMessage').textContent = message;
+            document.getElementById('toastIcon').className = `fa-solid fa-${type === 'success' ? 'circle-check c-primary' : 'circle-exclamation c-danger'} text-2xl`;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ===== ADMIN MODAL (simplified) =====
+        function openModal(id) {
+            // Simplified admin check for lesson page
+            const pass = prompt('Admin password:');
+            if (pass === 'admin123') {
+                showToast('Admin access granted', 'success');
+                // Could open full admin modal here
+            }
+        }
+
+        // ===== INIT ON LOAD =====
+        window.addEventListener('DOMContentLoaded', () => {
+            updateProgress();
+            updateNavButtons();
+            
+            // Close toast on click
+            document.getElementById('toast').addEventListener('click', () => {
+                document.getElementById('toast').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
