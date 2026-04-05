@@ -261,9 +261,10 @@ const firebaseConfig = {
     appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(db);
+const db = getFirestore(app); // ✅ CORREÇÃO: era getFirestore(db)
 
 // ===== STATE =====
 let currentUser = null;
@@ -305,33 +306,40 @@ const UNITS = [
     {id:'u30',title:'A1 Final Challenge',icon:'fa-trophy',color:'#dc2626',skills:['reading','listening','speaking','writing']}
 ];
 
-// ===== AUTH STATE LISTENER (FIX - NO REDIRECT) =====
+// ===== AUTH STATE LISTENER =====
 onAuthStateChanged(auth, async (user) => {
+    console.log("Auth state changed:", user ? "Logged in" : "Logged out");
+    
     if (user) {
         try {
-            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+            const userDocRef = doc(db, "usuarios", user.uid);
+            const userDoc = await getDoc(userDocRef);
+            
             if (userDoc.exists()) {
                 userData = { uid: user.uid, ...userDoc.data() };
                 currentUser = user;
-                
-                // Load progress
                 userProgress = userData.progresso || {};
                 
-                // Update UI
+                console.log("User data loaded:", userData.nome);
+                
                 updateAuthUI();
                 renderUnits();
                 updateLevelProgress();
                 
-                // Show crown if admin
                 if (userData.role === 'admin') {
                     document.getElementById('adminBtn').classList.remove('hidden');
                 }
+            } else {
+                console.warn("User document not found");
+                currentUser = null;
+                userData = null;
+                updateAuthUI();
             }
         } catch (error) {
             console.error("Error loading user:", error);
+            showToast('Erro ao carregar dados', 'error');
         }
     } else {
-        // User is logged out - just show guest view, DON'T redirect
         currentUser = null;
         userData = null;
         userProgress = {};
@@ -343,11 +351,10 @@ onAuthStateChanged(auth, async (user) => {
 // ===== UI FUNCTIONS =====
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
-    const adminBtn = document.getElementById('adminBtn');
     
     if (currentUser && userData) {
         authSection.innerHTML = `
-            <span class="text-xs c-muted mr-2">Olá, ${userData.nome}</span>
+            <span class="text-xs c-muted mr-2 hidden sm:inline">Olá, ${userData.nome}</span>
             <button onclick="logout()" class="btn btn-outline text-xs py-1.5 px-3">Sair</button>
         `;
     } else {
@@ -469,7 +476,6 @@ async function handleLogin(e) {
     try {
         await signInWithEmailAndPassword(auth, email, pass);
         closeModal('login');
-        // onAuthStateChanged will handle the rest
     } catch (err) {
         showToast(err.message, 'error');
     }
@@ -511,7 +517,10 @@ async function loadAdminData() {
                     </div>
                 </div>`).join('')
             : '<p class="c-muted text-xs">Nenhum pendente</p>';
-    } catch(e) { console.error(e); }
+    } catch(e) { 
+        console.error(e); 
+        showToast('Erro ao carregar dados', 'error');
+    }
 }
 async function approveUser(id) {
     await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
