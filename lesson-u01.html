@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson: Greetings & Introductions | EnglishPath</title>
+    <title>U01: Greetings & Introductions | EnglishPath</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,6 +20,7 @@
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'bounce-slight': 'bounce-slight 0.5s ease-in-out',
                     },
                     keyframes: {
                         float: {
@@ -31,6 +32,10 @@
                             '20%, 80%': { transform: 'translateX(2px)' },
                             '30%, 50%, 70%': { transform: 'translateX(-4px)' },
                             '40%, 60%': { transform: 'translateX(4px)' }
+                        },
+                        'bounce-slight': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' }
                         }
                     }
                 }
@@ -47,12 +52,6 @@
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
             --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
-            
-            /* Skill Colors */
-            --skill-reading: #06b6d4;
-            --skill-listening: #dc2626;
-            --skill-speaking: #22c55e;
-            --skill-writing: #8b5cf6;
         }
         [data-theme="light"] {
             --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
@@ -66,13 +65,12 @@
             color: var(--text);
             transition: all 0.3s ease;
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         
-        /* Utility Classes */
         .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
         .c-card:hover { border-color: var(--primary); }
         .c-text { color: var(--text); }
@@ -89,16 +87,6 @@
         .c-danger { color: var(--danger); }
         .c-danger-bg { background: var(--danger); }
         
-        /* Crown Button - GOLD */
-        .crown-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #78350f;
-            box-shadow: var(--glow-accent);
-            transition: all 0.3s;
-        }
-        .crown-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
-        
-        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
             font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
@@ -113,7 +101,6 @@
         .btn-lg { padding: 1rem 2rem; font-size: 1.1rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* Theme Toggle */
         .theme-toggle {
             width: 52px; height: 28px; border-radius: 14px;
             background: var(--border); position: relative; cursor: pointer; border: none;
@@ -126,112 +113,89 @@
         }
         [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
         
-        /* Progress Bar */
-        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.5s ease; }
-        
-        /* Skill Tabs */
-        .skill-tab {
-            padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 600;
-            transition: all 0.3s; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
-            border: 2px solid transparent;
-        }
-        .skill-tab.active { background: var(--card-hover); border-color: var(--primary); }
-        .skill-tab[data-skill="reading"].active { border-color: var(--skill-reading); color: var(--skill-reading); }
-        .skill-tab[data-skill="listening"].active { border-color: var(--skill-listening); color: var(--skill-listening); }
-        .skill-tab[data-skill="speaking"].active { border-color: var(--skill-speaking); color: var(--skill-speaking); }
-        .skill-tab[data-skill="writing"].active { border-color: var(--skill-writing); color: var(--skill-writing); }
-        .skill-tab:not(.active):hover { background: var(--card-hover); }
-        
-        /* Content Sections */
         .skill-section { display: none; animation: fadeIn 0.3s ease; }
         .skill-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Reading Content */
-        .reading-text {
-            font-size: 1.1rem; line-height: 1.8; color: var(--text);
+        .exercise-card {
+            background: var(--card); border: 2px solid var(--border);
+            border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+            transition: all 0.3s;
         }
-        .vocab-highlight {
-            background: rgba(34,197,94,0.2); padding: 0.1rem 0.4rem;
-            border-radius: 4px; font-weight: 600; color: var(--primary);
-            cursor: pointer; transition: all 0.2s;
-        }
-        .vocab-highlight:hover { background: rgba(34,197,94,0.4); }
+        .exercise-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .exercise-card.completed { border-color: var(--primary); background: rgba(34,197,94,0.05); }
+        .exercise-card.correct { border-color: #22c55e; background: rgba(34,197,94,0.1); }
+        .exercise-card.wrong { border-color: #ef4444; background: rgba(239,68,68,0.1); animation: shake 0.5s; }
         
-        /* Listening Content */
-        .audio-player {
-            background: var(--card-hover); border-radius: 16px; padding: 1.5rem;
+        .option-btn {
+            width: 100%; padding: 1rem; border-radius: 12px;
+            border: 2px solid var(--border); background: var(--bg);
+            color: var(--text); font-weight: 600; cursor: pointer;
+            transition: all 0.3s; text-align: left;
+            display: flex; align-items: center; gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .option-btn:hover { border-color: var(--primary); transform: translateX(4px); }
+        .option-btn.selected { background: rgba(34,197,94,0.2); border-color: #22c55e; }
+        .option-btn.correct { background: rgba(34,197,94,0.3); border-color: #22c55e; }
+        .option-btn.wrong { background: rgba(239,68,68,0.3); border-color: #ef4444; }
+        
+        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
+        
+        /* Voice Recording Styles */
+        .voice-recorder {
+            background: var(--card-hover); border-radius: 20px; padding: 2rem;
             text-align: center; border: 2px solid var(--border);
         }
-        .play-btn {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; margin: 0 auto 1rem; cursor: pointer;
-            transition: all 0.3s; box-shadow: var(--glow-primary);
-        }
-        .play-btn:hover { transform: scale(1.1); }
-        .play-btn.playing { animation: pulse-slow; }
-        
-        /* Speaking Content */
         .record-btn {
-            width: 100px; height: 100px; border-radius: 50%;
+            width: 120px; height: 120px; border-radius: 50%;
             background: var(--danger); color: white;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; margin: 0 auto 1rem; cursor: pointer;
-            transition: all 0.3s; box-shadow: 0 0 20px rgba(239,68,68,0.4);
+            font-size: 3rem; margin: 0 auto 1.5rem; cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 0 30px rgba(239,68,68,0.4);
+            position: relative;
         }
         .record-btn:hover { transform: scale(1.1); }
-        .record-btn.recording { animation: pulse-slow; background: #dc2626; }
-        .waveform {
-            height: 40px; display: flex; align-items: center; justify-content: center;
-            gap: 3px; margin: 1rem 0;
+        .record-btn.recording { 
+            animation: pulse-slow; 
+            background: #dc2626;
+            box-shadow: 0 0 50px rgba(239,68,68,0.8);
         }
+        .record-btn.listening {
+            background: var(--secondary);
+            box-shadow: 0 0 30px rgba(59,130,246,0.6);
+        }
+        .record-btn.playing {
+            background: var(--primary);
+            box-shadow: 0 0 30px rgba(34,197,94,0.6);
+        }
+        
+        .waveform {
+            height: 60px; display: flex; align-items: center; justify-content: center;
+            gap: 4px; margin: 1.5rem 0; opacity: 0; transition: opacity 0.3s;
+        }
+        .waveform.active { opacity: 1; }
         .wave-bar {
-            width: 4px; background: var(--primary); border-radius: 2px;
+            width: 6px; background: var(--primary); border-radius: 3px;
             animation: wave 0.5s ease-in-out infinite alternate;
         }
         .wave-bar:nth-child(2) { animation-delay: 0.1s; }
         .wave-bar:nth-child(3) { animation-delay: 0.2s; }
         .wave-bar:nth-child(4) { animation-delay: 0.3s; }
         .wave-bar:nth-child(5) { animation-delay: 0.4s; }
-        @keyframes wave { from { height: 10px; } to { height: 30px; } }
+        .wave-bar:nth-child(6) { animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { animation-delay: 0.6s; }
+        @keyframes wave { from { height: 10px; } to { height: 50px; } }
         
-        /* Writing Content */
-        .writing-input {
-            width: 100%; min-height: 120px; padding: 1rem;
-            border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg); color: var(--text);
-            font-family: inherit; font-size: 1rem; resize: vertical;
-            transition: border-color 0.3s;
-        }
-        .writing-input:focus { outline: none; border-color: var(--primary); }
-        .writing-hint {
-            font-size: 0.875rem; color: var(--text-muted);
-            background: var(--card-hover); padding: 0.75rem;
-            border-radius: 8px; margin-top: 0.5rem;
+        .score-display {
+            font-size: 2.5rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0;
         }
         
-        /* Exercise Options */
-        .option-btn {
-            width: 100%; padding: 1rem; border-radius: 12px;
-            border: 2px solid var(--border); background: var(--card);
-            color: var(--text); font-weight: 600; cursor: pointer;
-            transition: all 0.3s; text-align: left;
-            display: flex; align-items: center; gap: 0.75rem;
-        }
-        .option-btn:hover { border-color: var(--primary); transform: translateX(4px); }
-        .option-btn.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; }
-        .option-btn.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; animation: shake 0.5s; }
-        .option-letter {
-            width: 28px; height: 28px; border-radius: 8px;
-            background: var(--border); display: flex;
-            align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.875rem; flex-shrink: 0;
-        }
-        
-        /* Feedback */
         .feedback {
             padding: 1rem; border-radius: 12px; margin-top: 1rem;
             display: none; animation: slideUp 0.3s ease;
@@ -241,26 +205,27 @@
         .feedback.wrong { background: rgba(239,68,68,0.15); border-left: 4px solid #ef4444; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Completion Screen */
+        .skill-tab {
+            padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 600;
+            transition: all 0.3s; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+            border: 2px solid transparent;
+        }
+        .skill-tab.active { background: var(--card-hover); border-color: var(--primary); }
+        .skill-tab[data-skill="reading"].active { border-color: #06b6d4; color: #06b6d4; }
+        .skill-tab[data-skill="listening"].active { border-color: #dc2626; color: #dc2626; }
+        .skill-tab[data-skill="speaking"].active { border-color: #22c55e; color: #22c55e; }
+        .skill-tab[data-skill="writing"].active { border-color: #8b5cf6; color: #8b5cf6; }
+        .skill-tab:not(.active):hover { background: var(--card-hover); }
+        
         .completion-screen {
-            text-align: center; padding: 2rem;
+            text-align: center; padding: 3rem;
         }
         .xp-reward {
-            font-size: 3rem; font-weight: 800; color: var(--xp);
-            text-shadow: 0 0 20px rgba(6,182,212,0.5);
+            font-size: 4rem; font-weight: 800; color: var(--xp);
+            text-shadow: 0 0 30px rgba(6,182,212,0.6);
             animation: float 2s ease-in-out infinite;
         }
-        .confetti {
-            position: fixed; width: 10px; height: 10px;
-            pointer-events: none; z-index: 1000;
-            animation: confetti-fall 1s ease-out forwards;
-        }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
         
-        /* Navigation */
         .lesson-nav {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: var(--card); border-top: 1px solid var(--border);
@@ -277,7 +242,6 @@
         .nav-next { background: var(--primary); color: white; margin-left: 0.5rem; }
         .nav-next:hover:not(:disabled) { background: var(--primary-dark); }
         
-        /* Toast */
         .toast {
             position: fixed; bottom: 100px; right: 20px;
             background: var(--card); border-left: 4px solid var(--primary);
@@ -290,12 +254,19 @@
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         
-        /* Responsive */
+        .input-field {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 2px solid var(--border); border-radius: 12px;
+            background: var(--bg); color: var(--text);
+            font-family: inherit; font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .input-field:focus { outline: none; border-color: var(--primary); }
+        
         @media (max-width: 768px) {
-            body { padding-bottom: 90px; }
-            .skill-tab { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
-            .play-btn, .record-btn { width: 70px; height: 70px; font-size: 1.75rem; }
-            .xp-reward { font-size: 2.5rem; }
+            body { padding-bottom: 110px; }
+            .record-btn { width: 100px; height: 100px; font-size: 2.5rem; }
+            .xp-reward { font-size: 3rem; }
         }
         
         @media (prefers-reduced-motion: reduce) {
@@ -308,50 +279,72 @@
     <!-- ===== HEADER ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700">
         <div class="max-w-4xl mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between mb-3">
                 <a href="a1.html" class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg c-primary-bg flex items-center justify-center">
                         <i class="fa-solid fa-arrow-left text-white text-sm"></i>
                     </div>
                     <span class="font-bold text-sm hidden sm:inline">Voltar para A1</span>
                 </a>
-                
-                <div class="flex items-center gap-3">
-                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
-                    <button onclick="openModal('admin')" id="adminBtn" class="hidden w-9 h-9 rounded-full crown-btn">
-                        <i class="fa-solid fa-crown text-sm"></i>
-                    </button>
-                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
             </div>
             
             <!-- Lesson Progress -->
-            <div class="mt-4">
+            <div class="mb-2">
                 <div class="flex justify-between text-xs mb-2">
-                    <span class="c-text-muted" id="lessonTitle">Carregando...</span>
-                    <span class="font-bold"><span id="currentStep">1</span>/4</span>
+                    <span class="c-text-muted">U01: Greetings & Introductions</span>
+                    <span class="font-bold"><span id="completedExercises">0</span>/40 exercícios</span>
                 </div>
                 <div class="progress-bar">
-                    <div id="lessonProgress" class="progress-fill" style="width: 25%"></div>
+                    <div id="lessonProgress" class="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <!-- Skill Progress -->
+            <div class="grid grid-cols-4 gap-2 text-xs">
+                <div class="text-center">
+                    <div class="c-text-muted mb-1">Reading</div>
+                    <div class="progress-bar h-1.5">
+                        <div id="readingProgress" class="progress-fill bg-cyan-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="c-text-muted mb-1">Listening</div>
+                    <div class="progress-bar h-1.5">
+                        <div id="listeningProgress" class="progress-fill bg-red-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="c-text-muted mb-1">Speaking</div>
+                    <div class="progress-bar h-1.5">
+                        <div id="speakingProgress" class="progress-fill bg-green-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="c-text-muted mb-1">Writing</div>
+                    <div class="progress-bar h-1.5">
+                        <div id="writingProgress" class="progress-fill bg-purple-500" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- ===== SKILL TABS ===== -->
-    <div class="sticky top-24 z-40 c-card border-b border-gray-700">
+    <div class="sticky top-28 z-40 c-card border-b border-gray-700">
         <div class="max-w-4xl mx-auto px-4 py-3 overflow-x-auto">
             <div class="flex items-center gap-2">
                 <button class="skill-tab active" onclick="switchSkill('reading')" data-skill="reading">
-                    <i class="fa-solid fa-book-open"></i> Reading
+                    <i class="fa-solid fa-book-open"></i> Reading <span class="text-xs">(10)</span>
                 </button>
                 <button class="skill-tab" onclick="switchSkill('listening')" data-skill="listening">
-                    <i class="fa-solid fa-headphones"></i> Listening
+                    <i class="fa-solid fa-headphones"></i> Listening <span class="text-xs">(10)</span>
                 </button>
                 <button class="skill-tab" onclick="switchSkill('speaking')" data-skill="speaking">
-                    <i class="fa-solid fa-microphone"></i> Speaking
+                    <i class="fa-solid fa-microphone"></i> Speaking <span class="text-xs">(10)</span>
                 </button>
                 <button class="skill-tab" onclick="switchSkill('writing')" data-skill="writing">
-                    <i class="fa-solid fa-pen-nib"></i> Writing
+                    <i class="fa-solid fa-pen-nib"></i> Writing <span class="text-xs">(10)</span>
                 </button>
             </div>
         </div>
@@ -360,155 +353,774 @@
     <!-- ===== MAIN CONTENT ===== -->
     <main class="max-w-4xl mx-auto px-4 py-6">
         
-        <!-- READING SECTION -->
+        <!-- ===== READING SECTION (10 exercises) ===== -->
         <section id="reading" class="skill-section active">
+            <div class="mb-6">
+                <h2 class="font-display font-bold text-2xl mb-2">📖 Reading: Greetings & Introductions</h2>
+                <p class="c-text-muted">Leia o texto e complete os 10 exercícios de compreensão</p>
+            </div>
+            
+            <!-- Reading Text -->
             <div class="c-card rounded-2xl p-6 mb-6">
-                <h2 class="font-display font-bold text-xl mb-4">📖 Reading: Hello! My name is...</h2>
-                
-                <div class="reading-text mb-6" id="readingText">
-                    <p class="mb-4">Hello! My name is <span class="vocab-highlight" onclick="speakVocab('Maria', 'en-US')">Maria</span>. I am from Brazil.</p>
-                    <p class="mb-4">Nice to <span class="vocab-highlight" onclick="speakVocab('meet', 'en-US')">meet</span> you! What is your name?</p>
-                    <p>Goodbye! See you <span class="vocab-highlight" onclick="speakVocab('later', 'en-US')">later</span>!</p>
+                <h3 class="font-bold text-lg mb-4">📝 Meet Maria and John</h3>
+                <div class="reading-text text-lg leading-relaxed space-y-4" id="readingText">
+                    <p>Hello! My name is <span class="vocab-highlight c-primary font-bold">Maria</span>. I am from Brazil. I am twenty-five years old.</p>
+                    <p>Nice to meet you! What is your name?</p>
+                    <p>Hi Maria! I am <span class="vocab-highlight c-primary font-bold">John</span>. I am from the United States. I am thirty years old.</p>
+                    <p>Goodbye! See you later!</p>
                 </div>
-                
-                <button onclick="speakText('readingText')" class="btn btn-secondary mb-6">
+                <button onclick="speakText('readingText')" class="btn btn-secondary mt-4">
                     <i class="fa-solid fa-volume-high"></i> Ouvir Texto
                 </button>
-                
-                <h3 class="font-bold mb-3">✅ Complete a frase:</h3>
-                <p class="c-text-muted mb-4">"Nice to _____ you!"</p>
-                
-                <div class="grid gap-3" id="readingOptions">
-                    <button class="option-btn" onclick="checkAnswer(this, false, 'reading')">
-                        <span class="option-letter">A</span> <span>go</span>
+            </div>
+            
+            <!-- Exercise 1 -->
+            <div class="exercise-card" id="reading-ex-1">
+                <h4 class="font-bold mb-3">1. What is Maria's name?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', false)">
+                        <span class="option-letter">A</span> John
                     </button>
-                    <button class="option-btn" onclick="checkAnswer(this, true, 'reading')">
-                        <span class="option-letter">B</span> <span>meet</span>
+                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', true)">
+                        <span class="option-letter">B</span> Maria
                     </button>
-                    <button class="option-btn" onclick="checkAnswer(this, false, 'reading')">
-                        <span class="option-letter">C</span> <span>eat</span>
+                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', false)">
+                        <span class="option-letter">C</span> Brazil
                     </button>
                 </div>
-                
-                <div id="readingFeedback" class="feedback"></div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 2 -->
+            <div class="exercise-card" id="reading-ex-2">
+                <h4 class="font-bold mb-3">2. Where is Maria from?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', true)">
+                        <span class="option-letter">A</span> Brazil
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', false)">
+                        <span class="option-letter">B</span> United States
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', false)">
+                        <span class="option-letter">C</span> England
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 3 -->
+            <div class="exercise-card" id="reading-ex-3">
+                <h4 class="font-bold mb-3">3. How old is Maria?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', true)">
+                        <span class="option-letter">A</span> 25 years old
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', false)">
+                        <span class="option-letter">B</span> 30 years old
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', false)">
+                        <span class="option-letter">C</span> 20 years old
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 4 -->
+            <div class="exercise-card" id="reading-ex-4">
+                <h4 class="font-bold mb-3">4. Where is John from?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', false)">
+                        <span class="option-letter">A</span> Brazil
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', true)">
+                        <span class="option-letter">B</span> United States
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', false)">
+                        <span class="option-letter">C</span> Canada
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 5 -->
+            <div class="exercise-card" id="reading-ex-5">
+                <h4 class="font-bold mb-3">5. How old is John?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', false)">
+                        <span class="option-letter">A</span> 25 years old
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', true)">
+                        <span class="option-letter">B</span> 30 years old
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', false)">
+                        <span class="option-letter">C</span> 35 years old
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 6 -->
+            <div class="exercise-card" id="reading-ex-6">
+                <h4 class="font-bold mb-3">6. Complete: "Nice to _____ you!"</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', true)">
+                        <span class="option-letter">A</span> meet
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', false)">
+                        <span class="option-letter">B</span> see
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', false)">
+                        <span class="option-letter">C</span> know
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 7 -->
+            <div class="exercise-card" id="reading-ex-7">
+                <h4 class="font-bold mb-3">7. Complete: "Good_____! See you later."</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', true)">
+                        <span class="option-letter">A</span> bye
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', false)">
+                        <span class="option-letter">B</span> morning
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', false)">
+                        <span class="option-letter">C</span> night
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 8 -->
+            <div class="exercise-card" id="reading-ex-8">
+                <h4 class="font-bold mb-3">8. What does "Nice to meet you" mean?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', true)">
+                        <span class="option-letter">A</span> Prazer em conhecer
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', false)">
+                        <span class="option-letter">B</span> Adeus
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', false)">
+                        <span class="option-letter">C</span> Bom dia
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 9 -->
+            <div class="exercise-card" id="reading-ex-9">
+                <h4 class="font-bold mb-3">9. Which greeting is formal?</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', true)">
+                        <span class="option-letter">A</span> Hello
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', false)">
+                        <span class="option-letter">B</span> Hi
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', false)">
+                        <span class="option-letter">C</span> Hey
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 10 -->
+            <div class="exercise-card" id="reading-ex-10">
+                <h4 class="font-bold mb-3">10. Choose the correct introduction:</h4>
+                <div class="options">
+                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', true)">
+                        <span class="option-letter">A</span> My name is Maria
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', false)">
+                        <span class="option-letter">B</span> I name Maria
+                    </button>
+                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', false)">
+                        <span class="option-letter">C</span> Name is Maria
+                    </button>
+                </div>
+                <div class="feedback"></div>
             </div>
         </section>
         
-        <!-- LISTENING SECTION -->
+        <!-- ===== LISTENING SECTION (10 exercises) ===== -->
         <section id="listening" class="skill-section">
-            <div class="c-card rounded-2xl p-6 mb-6">
-                <h2 class="font-display font-bold text-xl mb-4">🎧 Listening: Greetings Audio</h2>
-                
-                <div class="audio-player mb-6">
-                    <button class="play-btn" id="playBtn" onclick="toggleAudio()">
-                        <i class="fa-solid fa-play" id="playIcon"></i>
+            <div class="mb-6">
+                <h2 class="font-display font-bold text-2xl mb-2">🎧 Listening: Greetings Audio</h2>
+                <p class="c-text-muted">Ouça os áudios e complete os 10 exercícios</p>
+            </div>
+            
+            <!-- Exercise 1 -->
+            <div class="exercise-card" id="listening-ex-1">
+                <h4 class="font-bold mb-3">1. Listen and choose what you hear:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(1, 'Hello')">
+                        <i class="fa-solid fa-play"></i>
                     </button>
-                    <p class="c-text-muted">Clique para ouvir a saudação</p>
-                    <p class="text-sm c-text-muted mt-2" id="audioText">"Hello! How are you today?"</p>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
                 </div>
-                
-                <h3 class="font-bold mb-3">🤔 O que você ouviu?</h3>
-                <p class="c-text-muted mb-4">Selecione a frase correta:</p>
-                
-                <div class="grid gap-3" id="listeningOptions">
-                    <button class="option-btn" onclick="checkAnswer(this, false, 'listening')">
-                        <span class="option-letter">A</span> <span>"Goodbye! See you later!"</span>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', true)">
+                        <span class="option-letter">A</span> Hello
                     </button>
-                    <button class="option-btn" onclick="checkAnswer(this, true, 'listening')">
-                        <span class="option-letter">B</span> <span>"Hello! How are you today?"</span>
+                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', false)">
+                        <span class="option-letter">B</span> Goodbye
                     </button>
-                    <button class="option-btn" onclick="checkAnswer(this, false, 'listening')">
-                        <span class="option-letter">C</span> <span>"Thank you very much!"</span>
+                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', false)">
+                        <span class="option-letter">C</span> Thank you
                     </button>
                 </div>
-                
-                <div id="listeningFeedback" class="feedback"></div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 2 -->
+            <div class="exercise-card" id="listening-ex-2">
+                <h4 class="font-bold mb-3">2. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(2, 'My name is John')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', false)">
+                        <span class="option-letter">A</span> My name is Maria
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', true)">
+                        <span class="option-letter">B</span> My name is John
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', false)">
+                        <span class="option-letter">C</span> I am John
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 3 -->
+            <div class="exercise-card" id="listening-ex-3">
+                <h4 class="font-bold mb-3">3. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(3, 'Nice to meet you')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', true)">
+                        <span class="option-letter">A</span> Nice to meet you
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', false)">
+                        <span class="option-letter">B</span> Nice to see you
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', false)">
+                        <span class="option-letter">C</span> Good to meet you
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 4 -->
+            <div class="exercise-card" id="listening-ex-4">
+                <h4 class="font-bold mb-3">4. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(4, 'Goodbye')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', true)">
+                        <span class="option-letter">A</span> Goodbye
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', false)">
+                        <span class="option-letter">B</span> Good morning
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', false)">
+                        <span class="option-letter">C</span> Good night
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 5 -->
+            <div class="exercise-card" id="listening-ex-5">
+                <h4 class="font-bold mb-3">5. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(5, 'I am from Brazil')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', true)">
+                        <span class="option-letter">A</span> I am from Brazil
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', false)">
+                        <span class="option-letter">B</span> I am from USA
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', false)">
+                        <span class="option-letter">C</span> I am from England
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 6 -->
+            <div class="exercise-card" id="listening-ex-6">
+                <h4 class="font-bold mb-3">6. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(6, 'See you later')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', true)">
+                        <span class="option-letter">A</span> See you later
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', false)">
+                        <span class="option-letter">B</span> See you soon
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', false)">
+                        <span class="option-letter">C</span> See you tomorrow
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 7 -->
+            <div class="exercise-card" id="listening-ex-7">
+                <h4 class="font-bold mb-3">7. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(7, 'How are you?')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', true)">
+                        <span class="option-letter">A</span> How are you?
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', false)">
+                        <span class="option-letter">B</span> How old are you?
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', false)">
+                        <span class="option-letter">C</span> Where are you?
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 8 -->
+            <div class="exercise-card" id="listening-ex-8">
+                <h4 class="font-bold mb-3">8. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(8, 'I am fine')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', true)">
+                        <span class="option-letter">A</span> I am fine
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', false)">
+                        <span class="option-letter">B</span> I am good
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', false)">
+                        <span class="option-letter">C</span> I am well
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 9 -->
+            <div class="exercise-card" id="listening-ex-9">
+                <h4 class="font-bold mb-3">9. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(9, 'What is your name?')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', true)">
+                        <span class="option-letter">A</span> What is your name?
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', false)">
+                        <span class="option-letter">B</span> Where is your name?
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', false)">
+                        <span class="option-letter">C</span> Who is your name?
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 10 -->
+            <div class="exercise-card" id="listening-ex-10">
+                <h4 class="font-bold mb-3">10. Listen and choose:</h4>
+                <div class="voice-recorder mb-4">
+                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(10, 'Thank you very much')">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <p class="text-sm c-text-muted">Clique para ouvir</p>
+                </div>
+                <div class="options">
+                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', true)">
+                        <span class="option-letter">A</span> Thank you very much
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', false)">
+                        <span class="option-letter">B</span> Thanks a lot
+                    </button>
+                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', false)">
+                        <span class="option-letter">C</span> Thank you
+                    </button>
+                </div>
+                <div class="feedback"></div>
             </div>
         </section>
         
-        <!-- SPEAKING SECTION -->
+        <!-- ===== SPEAKING SECTION (10 exercises with Voice Recognition) ===== -->
         <section id="speaking" class="skill-section">
-            <div class="c-card rounded-2xl p-6 mb-6">
-                <h2 class="font-display font-bold text-xl mb-4">🗣️ Speaking: Introduce Yourself</h2>
-                
-                <div class="text-center mb-6">
-                    <p class="c-text-muted mb-4">Repita após o áudio:</p>
-                    <button class="play-btn" onclick="speakText('speakingPrompt')" style="width:70px;height:70px;font-size:1.5rem">
-                        <i class="fa-solid fa-volume-high"></i>
-                    </button>
-                    <p id="speakingPrompt" class="text-xl font-bold mt-4">"Hello! My name is [your name]."</p>
+            <div class="mb-6">
+                <h2 class="font-display font-bold text-2xl mb-2">🗣️ Speaking: Pronunciation Practice</h2>
+                <p class="c-text-muted">Fale as 10 frases. O sistema vai avaliar sua pronúncia automaticamente!</p>
+                <div class="c-card rounded-xl p-4 mt-4 bg-blue-500/10 border-blue-500">
+                    <p class="text-sm"><i class="fa-solid fa-info-circle mr-2"></i><strong>Como funciona:</strong></p>
+                    <ul class="text-sm mt-2 space-y-1 list-disc list-inside">
+                        <li>Clique no microfone e fale a frase em inglês</li>
+                        <li>O sistema para automaticamente quando você termina</li>
+                        <li>Receba uma nota de 0-100% baseada na precisão</li>
+                        <li>Pode tentar quantas vezes quiser!</li>
+                    </ul>
                 </div>
-                
-                <div class="text-center mb-6">
-                    <p class="c-text-muted mb-3">Agora é sua vez! Clique para gravar:</p>
-                    <button class="record-btn" id="recordBtn" onclick="toggleRecording()">
-                        <i class="fa-solid fa-microphone" id="recordIcon"></i>
+            </div>
+            
+            <!-- Speaking Exercise 1 -->
+            <div class="exercise-card" id="speaking-ex-1">
+                <h4 class="font-bold mb-3">1. Say: "Hello"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-1" onclick="toggleRecording(1, 'Hello')">
+                        <i class="fa-solid fa-microphone"></i>
                     </button>
-                    <div class="waveform" id="waveform" style="display:none">
+                    <div class="waveform" id="waveform-1">
                         <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
                     </div>
-                    <p class="text-sm c-text-muted" id="recordStatus">Pronto para gravar</p>
-                </div>
-                
-                <div class="text-center">
-                    <button onclick="completeSkill('speaking')" class="btn btn-primary" id="speakingComplete" disabled>
-                        <i class="fa-solid fa-check"></i> Concluir Prática
+                    <p class="text-sm c-text-muted mb-2" id="status-1">Clique no microfone e fale "Hello"</p>
+                    <div id="score-1" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-1" onclick="toggleRecording(1, 'Hello')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
                     </button>
                 </div>
-                
-                <div id="speakingFeedback" class="feedback"></div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 2 -->
+            <div class="exercise-card" id="speaking-ex-2">
+                <h4 class="font-bold mb-3">2. Say: "My name is"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-2" onclick="toggleRecording(2, 'My name is')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-2">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-2">Clique no microfone e fale "My name is"</p>
+                    <div id="score-2" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-2" onclick="toggleRecording(2, 'My name is')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 3 -->
+            <div class="exercise-card" id="speaking-ex-3">
+                <h4 class="font-bold mb-3">3. Say: "Nice to meet you"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-3" onclick="toggleRecording(3, 'Nice to meet you')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-3">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-3">Clique no microfone e fale "Nice to meet you"</p>
+                    <div id="score-3" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-3" onclick="toggleRecording(3, 'Nice to meet you')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 4 -->
+            <div class="exercise-card" id="speaking-ex-4">
+                <h4 class="font-bold mb-3">4. Say: "Goodbye"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-4" onclick="toggleRecording(4, 'Goodbye')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-4">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-4">Clique no microfone e fale "Goodbye"</p>
+                    <div id="score-4" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-4" onclick="toggleRecording(4, 'Goodbye')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 5 -->
+            <div class="exercise-card" id="speaking-ex-5">
+                <h4 class="font-bold mb-3">5. Say: "I am from Brazil"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-5" onclick="toggleRecording(5, 'I am from Brazil')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-5">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-5">Clique no microfone e fale "I am from Brazil"</p>
+                    <div id="score-5" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-5" onclick="toggleRecording(5, 'I am from Brazil')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 6 -->
+            <div class="exercise-card" id="speaking-ex-6">
+                <h4 class="font-bold mb-3">6. Say: "See you later"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-6" onclick="toggleRecording(6, 'See you later')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-6">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-6">Clique no microfone e fale "See you later"</p>
+                    <div id="score-6" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-6" onclick="toggleRecording(6, 'See you later')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 7 -->
+            <div class="exercise-card" id="speaking-ex-7">
+                <h4 class="font-bold mb-3">7. Say: "How are you?"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-7" onclick="toggleRecording(7, 'How are you?')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-7">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-7">Clique no microfone e fale "How are you?"</p>
+                    <div id="score-7" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-7" onclick="toggleRecording(7, 'How are you?')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 8 -->
+            <div class="exercise-card" id="speaking-ex-8">
+                <h4 class="font-bold mb-3">8. Say: "I am fine"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-8" onclick="toggleRecording(8, 'I am fine')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-8">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-8">Clique no microfone e fale "I am fine"</p>
+                    <div id="score-8" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-8" onclick="toggleRecording(8, 'I am fine')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 9 -->
+            <div class="exercise-card" id="speaking-ex-9">
+                <h4 class="font-bold mb-3">9. Say: "What is your name?"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-9" onclick="toggleRecording(9, 'What is your name?')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-9">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-9">Clique no microfone e fale "What is your name?"</p>
+                    <div id="score-9" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-9" onclick="toggleRecording(9, 'What is your name?')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Speaking Exercise 10 -->
+            <div class="exercise-card" id="speaking-ex-10">
+                <h4 class="font-bold mb-3">10. Say: "Thank you very much"</h4>
+                <div class="voice-recorder">
+                    <button class="record-btn" id="record-btn-10" onclick="toggleRecording(10, 'Thank you very much')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <div class="waveform" id="waveform-10">
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+                    </div>
+                    <p class="text-sm c-text-muted mb-2" id="status-10">Clique no microfone e fale "Thank you very much"</p>
+                    <div id="score-10" class="score-display hidden">0%</div>
+                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-10" onclick="toggleRecording(10, 'Thank you very much')">
+                        <i class="fa-solid fa-rotate"></i> Tentar novamente
+                    </button>
+                </div>
+                <div class="feedback"></div>
             </div>
         </section>
         
-        <!-- WRITING SECTION -->
+        <!-- ===== WRITING SECTION (10 exercises) ===== -->
         <section id="writing" class="skill-section">
-            <div class="c-card rounded-2xl p-6 mb-6">
-                <h2 class="font-display font-bold text-xl mb-4">✍️ Writing: Fill the Blanks</h2>
-                
-                <p class="c-text-muted mb-4">Complete as frases com as palavras corretas:</p>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">1. "_____ to meet you!"</label>
-                        <input type="text" id="write1" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">2. "My name _____ Maria."</label>
-                        <input type="text" id="write2" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">3. "Good_____! See you later."</label>
-                        <input type="text" id="write3" class="writing-input" placeholder="Digite sua resposta..." style="min-height:60px">
-                    </div>
-                </div>
-                
-                <div class="writing-hint">
-                    <i class="fa-solid fa-lightbulb mr-2"></i>
-                    <strong>Dica:</strong> Use as palavras: <span class="c-primary">Nice</span>, <span class="c-primary">is</span>, <span class="c-primary">bye</span>
-                </div>
-                
-                <button onclick="checkWriting()" class="btn btn-primary w-full mt-6">
-                    <i class="fa-solid fa-check"></i> Verificar Respostas
+            <div class="mb-6">
+                <h2 class="font-display font-bold text-2xl mb-2">✍️ Writing: Complete the Sentences</h2>
+                <p class="c-text-muted">Complete as 10 frases com as palavras corretas</p>
+            </div>
+            
+            <!-- Exercise 1 -->
+            <div class="exercise-card" id="writing-ex-1">
+                <h4 class="font-bold mb-3">1. Complete: "_____ to meet you!"</h4>
+                <input type="text" id="write-1" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(1, 'Nice')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
                 </button>
-                
-                <div id="writingFeedback" class="feedback"></div>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 2 -->
+            <div class="exercise-card" id="writing-ex-2">
+                <h4 class="font-bold mb-3">2. Complete: "My _____ is Maria."</h4>
+                <input type="text" id="write-2" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(2, 'name')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 3 -->
+            <div class="exercise-card" id="writing-ex-3">
+                <h4 class="font-bold mb-3">3. Complete: "I _____ from Brazil."</h4>
+                <input type="text" id="write-3" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(3, 'am')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 4 -->
+            <div class="exercise-card" id="writing-ex-4">
+                <h4 class="font-bold mb-3">4. Complete: "Good_____!"</h4>
+                <input type="text" id="write-4" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(4, 'bye')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 5 -->
+            <div class="exercise-card" id="writing-ex-5">
+                <h4 class="font-bold mb-3">5. Complete: "See you _____!"</h4>
+                <input type="text" id="write-5" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(5, 'later')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 6 -->
+            <div class="exercise-card" id="writing-ex-6">
+                <h4 class="font-bold mb-3">6. Complete: "_____ are you?"</h4>
+                <input type="text" id="write-6" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(6, 'How')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 7 -->
+            <div class="exercise-card" id="writing-ex-7">
+                <h4 class="font-bold mb-3">7. Complete: "I am _____, thank you."</h4>
+                <input type="text" id="write-7" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(7, 'fine')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 8 -->
+            <div class="exercise-card" id="writing-ex-8">
+                <h4 class="font-bold mb-3">8. Complete: "_____ is your name?"</h4>
+                <input type="text" id="write-8" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(8, 'What')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 9 -->
+            <div class="exercise-card" id="writing-ex-9">
+                <h4 class="font-bold mb-3">9. Complete: "_____ you very much!"</h4>
+                <input type="text" id="write-9" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(9, 'Thank')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
+            </div>
+            
+            <!-- Exercise 10 -->
+            <div class="exercise-card" id="writing-ex-10">
+                <h4 class="font-bold mb-3">10. Complete: "I am twenty-_____ years old."</h4>
+                <input type="text" id="write-10" class="input-field mb-3" placeholder="Digite sua resposta...">
+                <button onclick="checkWritingAnswer(10, 'five')" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Verificar
+                </button>
+                <div class="feedback"></div>
             </div>
         </section>
         
-        <!-- COMPLETION SCREEN (Hidden initially) -->
+        <!-- ===== COMPLETION SCREEN ===== -->
         <section id="completion" class="skill-section">
             <div class="completion-screen">
                 <div class="text-6xl mb-4">🎉</div>
                 <h2 class="font-display font-bold text-3xl mb-2">Lição Completa!</h2>
                 <p class="c-text-muted mb-6 text-lg">Você dominou: Greetings & Introductions</p>
                 
-                <div class="xp-reward mb-6">+50 XP</div>
+                <div class="xp-reward mb-6">+500 XP</div>
                 
-                <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-primary">4/4</div>
-                        <div class="text-xs c-text-muted">Skills</div>
+                        <div class="text-2xl font-bold c-primary">40/40</div>
+                        <div class="text-xs c-text-muted">Exercícios</div>
                     </div>
                     <div class="c-card rounded-xl p-4 text-center">
                         <div class="text-2xl font-bold c-streak">🔥</div>
@@ -516,7 +1128,11 @@
                     </div>
                     <div class="c-card rounded-xl p-4 text-center">
                         <div class="text-2xl font-bold c-gem">💎</div>
-                        <div class="text-xs c-text-muted">+5 Gems</div>
+                        <div class="text-xs c-text-muted">+50 Gems</div>
+                    </div>
+                    <div class="c-card rounded-xl p-4 text-center">
+                        <div class="text-2xl font-bold c-xp">500</div>
+                        <div class="text-xs c-text-muted">XP Total</div>
                     </div>
                 </div>
                 
@@ -524,8 +1140,8 @@
                     <a href="a1.html" class="btn btn-outline">
                         <i class="fa-solid fa-arrow-left"></i> Voltar para A1
                     </a>
-                    <a href="lesson.html?unit=u02" class="btn btn-primary">
-                        Próxima Lição <i class="fa-solid fa-arrow-right"></i>
+                    <a href="lesson-u02.html" class="btn btn-primary">
+                        Próxima Lição: Numbers <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -554,73 +1170,29 @@
         </div>
     </div>
 
-    <!-- ===== FIREBASE + APP LOGIC ===== -->
+    <!-- ===== JAVASCRIPT LOGIC ===== -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // ===== FIREBASE CONFIG =====
-        const firebaseConfig = {
-
-  apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
-
-  authDomain: "englishpath-2d558.firebaseapp.com",
-
-  projectId: "englishpath-2d558",
-
-  storageBucket: "englishpath-2d558.firebasestorage.app",
-
-  messagingSenderId: "384301599670",
-
-  appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
-
-};
-
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
         // ===== STATE =====
-        let currentUser = null;
-        let currentUnit = 'u01';
         let currentSkill = 'reading';
-        let completedSkills = { reading: false, listening: false, speaking: false, writing: false };
+        let completedExercises = {
+            reading: 0, listening: 0, speaking: 0, writing: 0
+        };
+        let recognition = null;
         let isRecording = false;
-        let mediaRecorder = null;
-        let audioChunks = [];
+        let currentExercise = null;
+        let expectedPhrase = '';
 
         // ===== EXPOSE FUNCTIONS =====
         window.toggleTheme = toggleTheme;
         window.switchSkill = switchSkill;
-        window.checkAnswer = checkAnswer;
-        window.completeSkill = completeSkill;
-        window.checkWriting = checkWriting;
-        window.speakText = speakText;
-        window.speakVocab = speakVocab;
-        window.toggleAudio = toggleAudio;
+        window.checkReadingAnswer = checkReadingAnswer;
+        window.checkListeningAnswer = checkListeningAnswer;
+        window.checkWritingAnswer = checkWritingAnswer;
         window.toggleRecording = toggleRecording;
         window.prevSkill = prevSkill;
         window.nextSkill = nextSkill;
-        window.openModal = openModal;
-
-        // ===== INIT =====
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-                if (userDoc.exists()) {
-                    userData = userDoc.data();
-                    loadLessonProgress();
-                }
-            }
-        });
-
-        // Get unit from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        currentUnit = urlParams.get('unit') || 'u01';
-        document.getElementById('lessonTitle').textContent = `Unit ${currentUnit.toUpperCase()}`;
+        window.speakText = speakText;
+        window.playListeningAudio = playListeningAudio;
 
         // ===== THEME =====
         function toggleTheme() {
@@ -632,11 +1204,9 @@
 
         // ===== SKILL NAVIGATION =====
         function switchSkill(skill) {
-            // Update tabs
             document.querySelectorAll('.skill-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelector(`[data-skill="${skill}"]`).classList.add('active');
             
-            // Update sections
             document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(skill).classList.add('active');
             
@@ -659,10 +1229,16 @@
         }
 
         function updateProgress() {
-            const skills = ['reading', 'listening', 'speaking', 'writing'];
-            const idx = skills.indexOf(currentSkill) + 1;
-            document.getElementById('currentStep').textContent = idx;
-            document.getElementById('lessonProgress').style.width = (idx * 25) + '%';
+            const total = 40;
+            const completed = Object.values(completedExercises).reduce((a, b) => a + b, 0);
+            document.getElementById('completedExercises').textContent = completed;
+            document.getElementById('lessonProgress').style.width = (completed / total * 100) + '%';
+            
+            // Update individual skill progress
+            ['reading', 'listening', 'speaking', 'writing'].forEach(skill => {
+                const pct = (completedExercises[skill] / 10 * 100);
+                document.getElementById(`${skill}Progress`).style.width = pct + '%';
+            });
         }
 
         function updateNavButtons() {
@@ -679,226 +1255,253 @@
         }
 
         function allSkillsComplete() {
-            return Object.values(completedSkills).every(v => v === true);
+            return Object.values(completedExercises).every(v => v === 10);
         }
 
-        // ===== TTS FUNCTIONS =====
-        function speakText(elementId, lang = 'en-US') {
+        // ===== TTS =====
+        function speakText(elementId) {
             if ('speechSynthesis' in window) {
                 const text = document.getElementById(elementId).innerText;
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = lang;
+                utterance.lang = 'en-US';
                 utterance.rate = 0.9;
                 speechSynthesis.speak(utterance);
                 showToast('Reproduzindo áudio...', 'success');
-            } else {
-                showToast('Seu navegador não suporta áudio', 'error');
             }
         }
 
-        function speakVocab(word, lang = 'en-US') {
+        function playListeningAudio(exNum, text) {
             if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = lang;
-                utterance.rate = 0.8;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
                 speechSynthesis.speak(utterance);
             }
         }
 
-        // ===== AUDIO PLAYER =====
-        let isPlaying = false;
-        let audioUtterance = null;
-        
-        function toggleAudio() {
-            const playBtn = document.getElementById('playBtn');
-            const playIcon = document.getElementById('playIcon');
-            const audioText = document.getElementById('audioText').textContent;
+        // ===== READING EXERCISES =====
+        function checkReadingAnswer(exNum, correctAnswer, isCorrect) {
+            const card = document.getElementById(`reading-ex-${exNum}`);
+            const feedback = card.querySelector('.feedback');
+            const buttons = card.querySelectorAll('.option-btn');
             
-            if (isPlaying) {
-                speechSynthesis.cancel();
-                isPlaying = false;
-                playIcon.className = 'fa-solid fa-play';
-                playBtn.classList.remove('playing');
-            } else {
-                if ('speechSynthesis' in window) {
-                    audioUtterance = new SpeechSynthesisUtterance(audioText.replace(/"/g, ''));
-                    audioUtterance.lang = 'en-US';
-                    audioUtterance.rate = 0.85;
-                    audioUtterance.onend = () => {
-                        isPlaying = false;
-                        playIcon.className = 'fa-solid fa-play';
-                        playBtn.classList.remove('playing');
-                    };
-                    speechSynthesis.speak(audioUtterance);
-                    isPlaying = true;
-                    playIcon.className = 'fa-solid fa-pause';
-                    playBtn.classList.add('playing');
-                }
-            }
-        }
-
-        // ===== RECORDING (Web Speech API fallback) =====
-        function toggleRecording() {
-            const recordBtn = document.getElementById('recordBtn');
-            const recordIcon = document.getElementById('recordIcon');
-            const recordStatus = document.getElementById('recordStatus');
-            const waveform = document.getElementById('waveform');
-            
-            if (!isRecording) {
-                // Start "recording" (simulated for demo)
-                isRecording = true;
-                recordBtn.classList.add('recording');
-                recordIcon.className = 'fa-solid fa-stop';
-                recordStatus.textContent = 'Gravando... Fale agora!';
-                waveform.style.display = 'flex';
-                
-                // Simulate 5 seconds recording
-                setTimeout(() => {
-                    stopRecording();
-                }, 5000);
-                
-            } else {
-                stopRecording();
-            }
-        }
-
-        function stopRecording() {
-            const recordBtn = document.getElementById('recordBtn');
-            const recordIcon = document.getElementById('recordIcon');
-            const recordStatus = document.getElementById('recordStatus');
-            const waveform = document.getElementById('waveform');
-            
-            isRecording = false;
-            recordBtn.classList.remove('recording');
-            recordIcon.className = 'fa-solid fa-microphone';
-            recordStatus.textContent = 'Gravação concluída! ✓';
-            waveform.style.display = 'none';
-            
-            // Enable complete button
-            document.getElementById('speakingComplete').disabled = false;
-            showToast('Ótima pronúncia! Continue praticando.', 'success');
-        }
-
-        // ===== EXERCISE CHECKING =====
-        function checkAnswer(btn, isCorrect, skill) {
-            // Disable all options
-            const container = document.getElementById(`${skill}Options`);
-            container.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+            buttons.forEach(btn => btn.disabled = true);
             
             if (isCorrect) {
-                btn.classList.add('correct');
-                showFeedback(skill, 'correct', '🎉 Correct! Great job!');
-                markSkillComplete(skill);
+                event.target.closest('.option-btn').classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! Great job!';
+                card.classList.add('completed');
+                if (!card.dataset.completed) {
+                    completedExercises.reading++;
+                    card.dataset.completed = 'true';
+                    updateProgress();
+                }
             } else {
-                btn.classList.add('wrong');
-                showFeedback(skill, 'wrong', '❌ Try again! Listen carefully.');
-                // Re-enable after delay
+                event.target.closest('.option-btn').classList.add('wrong');
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Try again!';
                 setTimeout(() => {
-                    btn.classList.remove('wrong');
-                    container.querySelectorAll('.option-btn').forEach(b => b.disabled = false);
+                    buttons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('wrong');
+                    });
+                    feedback.classList.remove('show');
                 }, 1500);
             }
         }
 
-        function showFeedback(skill, type, message) {
-            const feedback = document.getElementById(`${skill}Feedback`);
-            feedback.className = `feedback ${type} show`;
-            feedback.innerHTML = `<i class="fa-solid fa-${type === 'correct' ? 'circle-check' : 'circle-xmark'}"></i> ${message}`;
-        }
-
-        function markSkillComplete(skill) {
-            completedSkills[skill] = true;
-            updateProgress();
-            updateNavButtons();
+        // ===== LISTENING EXERCISES =====
+        function checkListeningAnswer(exNum, correctAnswer, isCorrect) {
+            const card = document.getElementById(`listening-ex-${exNum}`);
+            const feedback = card.querySelector('.feedback');
+            const buttons = card.querySelectorAll('.option-btn');
             
-            if (currentUser) {
-                saveProgressToFirebase(skill);
-            }
-        }
-
-        async function saveProgressToFirebase(skill) {
-            if (!currentUser) return;
-            try {
-                const key = `${currentUnit}_${skill}`;
-                await updateDoc(doc(db, "usuarios", currentUser.uid), {
-                    [`progresso.${key}.completed`]: true,
-                    [`progresso.${key}.date`]: new Date().toISOString(),
-                    xp: increment(12) // 12 XP per skill (4 skills = 48 + 2 bonus = 50)
-                });
-            } catch (err) {
-                console.error('Error saving progress:', err);
-            }
-        }
-
-        function completeSkill(skill) {
-            markSkillComplete(skill);
-            showToast(`${skill.charAt(0).toUpperCase() + skill.slice(1)} completed! +12 XP`, 'success');
+            buttons.forEach(btn => btn.disabled = true);
             
-            // Auto-advance after delay
-            setTimeout(() => {
-                const skills = ['reading', 'listening', 'speaking', 'writing'];
-                const idx = skills.indexOf(skill);
-                if (idx < skills.length - 1) {
-                    switchSkill(skills[idx + 1]);
-                } else if (allSkillsComplete()) {
-                    showCompletion();
+            if (isCorrect) {
+                event.target.closest('.option-btn').classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! You heard it right!';
+                card.classList.add('completed');
+                if (!card.dataset.completed) {
+                    completedExercises.listening++;
+                    card.dataset.completed = 'true';
+                    updateProgress();
                 }
-            }, 1500);
+            } else {
+                event.target.closest('.option-btn').classList.add('wrong');
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Listen again!';
+                setTimeout(() => {
+                    buttons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.classList.remove('wrong');
+                    });
+                    feedback.classList.remove('show');
+                }, 1500);
+            }
         }
 
-        // ===== WRITING CHECK =====
-        function checkWriting() {
-            const answers = {
-                write1: ['nice'],
-                write2: ['is'],
-                write3: ['bye', 'by']
-            };
+        // ===== SPEAKING EXERCISES (VOICE RECOGNITION) =====
+        function toggleRecording(exNum, phrase) {
+            const btn = document.getElementById(`record-btn-${exNum}`);
+            const waveform = document.getElementById(`waveform-${exNum}`);
+            const status = document.getElementById(`status-${exNum}`);
+            const scoreDiv = document.getElementById(`score-${exNum}`);
+            const retryBtn = document.getElementById(`retry-${exNum}`);
             
-            let correct = 0;
-            let total = Object.keys(answers).length;
+            if (!isRecording) {
+                // Start recording
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    showToast('Seu navegador não suporta reconhecimento de voz. Use Chrome ou Edge.', 'error');
+                    return;
+                }
+                
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                isRecording = true;
+                currentExercise = exNum;
+                expectedPhrase = phrase;
+                
+                btn.classList.add('recording');
+                waveform.classList.add('active');
+                status.textContent = 'Ouvindo... Fale agora!';
+                scoreDiv.classList.add('hidden');
+                retryBtn.classList.add('hidden');
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    const confidence = event.results[0][0].confidence;
+                    evaluateSpeech(exNum, phrase, transcript, confidence);
+                };
+                
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    status.textContent = 'Erro ao ouvir. Tente novamente.';
+                    resetRecordingUI(btn, waveform, status);
+                };
+                
+                recognition.onend = () => {
+                    if (isRecording) {
+                        resetRecordingUI(btn, waveform, status);
+                    }
+                };
+                
+                recognition.start();
+                
+            } else {
+                // Stop recording
+                recognition.stop();
+                isRecording = false;
+                resetRecordingUI(btn, waveform, status);
+            }
+        }
+
+        function evaluateSpeech(exNum, expected, transcript, confidence) {
+            const btn = document.getElementById(`record-btn-${exNum}`);
+            const waveform = document.getElementById(`waveform-${exNum}`);
+            const status = document.getElementById(`status-${exNum}`);
+            const scoreDiv = document.getElementById(`score-${exNum}`);
+            const retryBtn = document.getElementById(`retry-${exNum}`);
+            const feedback = document.querySelector(`#speaking-ex-${exNum} .feedback`);
             
-            Object.entries(answers).forEach(([field, validAnswers]) => {
-                const userAnswer = document.getElementById(field).value.trim().toLowerCase();
-                if (validAnswers.includes(userAnswer)) {
-                    correct++;
-                    document.getElementById(field).style.borderColor = '#22c55e';
-                } else {
-                    document.getElementById(field).style.borderColor = '#ef4444';
+            // Calculate accuracy (simple word matching)
+            const expectedWords = expected.toLowerCase().split(' ');
+            const transcriptWords = transcript.toLowerCase().split(' ');
+            let matches = 0;
+            
+            expectedWords.forEach(word => {
+                if (transcriptWords.some(tw => tw.includes(word) || word.includes(tw))) {
+                    matches++;
                 }
             });
             
-            const feedback = document.getElementById('writingFeedback');
-            if (correct === total) {
+            const accuracy = Math.round((matches / expectedWords.length) * 100 * confidence);
+            const finalScore = Math.min(accuracy, 100);
+            
+            // Display score
+            scoreDiv.textContent = finalScore + '%';
+            scoreDiv.classList.remove('hidden');
+            retryBtn.classList.remove('hidden');
+            
+            // Color code the score
+            if (finalScore >= 80) {
+                scoreDiv.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
                 feedback.className = 'feedback correct show';
-                feedback.innerHTML = `🎉 Perfect! ${correct}/${total} correct!`;
-                markSkillComplete('writing');
-                setTimeout(() => { if (allSkillsComplete()) showCompletion(); }, 1500);
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Excellent! ${finalScore}% accuracy!`;
+            } else if (finalScore >= 60) {
+                scoreDiv.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+                feedback.className = 'feedback show';
+                feedback.style.borderLeftColor = '#f59e0b';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-info"></i> Good! ${finalScore}% - Keep practicing!`;
             } else {
+                scoreDiv.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
                 feedback.className = 'feedback wrong show';
-                feedback.innerHTML = `📝 ${correct}/${total} correct. Review and try again!`;
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Try again! ${finalScore}% - Listen and repeat!`;
+            }
+            
+            // Mark as completed if score >= 70%
+            const card = document.getElementById(`speaking-ex-${exNum}`);
+            if (finalScore >= 70 && !card.dataset.completed) {
+                completedExercises.speaking++;
+                card.dataset.completed = 'true';
+                card.classList.add('completed');
+                updateProgress();
+            }
+            
+            status.textContent = `Você disse: "${transcript}"`;
+            resetRecordingUI(btn, waveform, status);
+        }
+
+        function resetRecordingUI(btn, waveform, status) {
+            btn.classList.remove('recording');
+            waveform.classList.remove('active');
+            if (!isRecording) {
+                status.textContent = 'Clique no microfone para falar';
+            }
+        }
+
+        // ===== WRITING EXERCISES =====
+        function checkWritingAnswer(exNum, correctAnswer) {
+            const input = document.getElementById(`write-${exNum}`);
+            const card = document.getElementById(`writing-ex-${exNum}`);
+            const feedback = card.querySelector('.feedback');
+            const userAnswer = input.value.trim().toLowerCase();
+            
+            if (userAnswer === correctAnswer.toLowerCase()) {
+                input.style.borderColor = '#22c55e';
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! Well done!';
+                card.classList.add('completed');
+                if (!card.dataset.completed) {
+                    completedExercises.writing++;
+                    card.dataset.completed = 'true';
+                    updateProgress();
+                }
+                input.disabled = true;
+            } else {
+                input.style.borderColor = '#ef4444';
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Try again! The correct answer is "${correctAnswer}"`;
+                setTimeout(() => {
+                    input.style.borderColor = 'var(--border)';
+                    feedback.classList.remove('show');
+                }, 3000);
             }
         }
 
         // ===== COMPLETION =====
         function showCompletion() {
-            // Hide all sections
             document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById('completion').classList.add('active');
-            
-            // Hide nav
             document.querySelector('.lesson-nav').style.display = 'none';
-            
-            // Update Firebase with completion bonus
-            if (currentUser) {
-                updateDoc(doc(db, "usuarios", currentUser.uid), {
-                    xp: increment(2), // Bonus for completing all skills
-                    streak: increment(1)
-                });
-            }
-            
-            // Confetti effect
             createConfetti();
-            showToast('🎉 Lesson completed! +50 XP total', 'success');
+            showToast('🎉 Lesson completed! +500 XP total', 'success');
         }
 
         function createConfetti() {
@@ -906,11 +1509,15 @@
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.cssText = `
+                    position: fixed; width: 10px; height: 10px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    left: ${Math.random() * 100}%; top: -10px;
+                    pointer-events: none; z-index: 9999;
+                    animation: confetti-fall ${1 + Math.random()}s ease-out forwards;
+                `;
                 document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 1500);
+                setTimeout(() => confetti.remove(), 2000);
             }
         }
 
@@ -924,26 +1531,22 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // ===== ADMIN MODAL (simplified) =====
-        function openModal(id) {
-            // Simplified admin check for lesson page
-            const pass = prompt('Admin password:');
-            if (pass === 'admin123') {
-                showToast('Admin access granted', 'success');
-                // Could open full admin modal here
-            }
-        }
-
-        // ===== INIT ON LOAD =====
+        // ===== INIT =====
         window.addEventListener('DOMContentLoaded', () => {
             updateProgress();
             updateNavButtons();
             
-            // Close toast on click
             document.getElementById('toast').addEventListener('click', () => {
                 document.getElementById('toast').classList.remove('show');
             });
         });
     </script>
+    
+    <style>
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
 </body>
 </html>
