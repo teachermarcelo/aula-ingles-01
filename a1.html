@@ -8,488 +8,247 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
-        tailwind.config = {
+        tailwind.config = { 
             darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ['Fredoka', 'sans-serif'],
-                        body: ['Nunito', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 3s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    }
-                }
-            }
+            theme: { 
+                extend: { 
+                    fontFamily: { 
+                        display: ['Fredoka', 'sans-serif'], 
+                        body: ['Nunito', 'sans-serif'] 
+                    } 
+                } 
+            } 
         }
     </script>
     <style>
         :root {
-            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --card-hover: #334155;
-            --border: #334155; --text: #f1f5f9; --text-muted: #94a3b8;
-            --primary: #22c55e; --primary-dark: #16a34a;
-            --secondary: #3b82f6; --accent: #fbbf24; --accent-dark: #f59e0b;
+            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --card-h: #334155;
+            --border: #334155; --fg: #f1f5f9; --fg2: #cbd5e1; --muted: #94a3b8;
+            --primary: #22c55e; --secondary: #3b82f6; --accent: #fbbf24;
             --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
-            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
-            
-            /* Skill Colors */
-            --skill-reading: #06b6d4;
-            --skill-listening: #dc2626;
-            --skill-speaking: #22c55e;
-            --skill-writing: #8b5cf6;
         }
         [data-theme="light"] {
-            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
-            --border: #e2e8f0; --text: #0f172a; --text-muted: #64748b;
+            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-h: #f8fafc;
+            --border: #e2e8f0; --fg: #0f172a; --fg2: #334155; --muted: #64748b;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         * { box-sizing: border-box; margin: 0; }
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
-        }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--fg); transition: background .4s, color .4s; min-height: 100vh; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         
-        /* Utility Classes */
-        .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
+        .c-card { background: var(--card); border: 1px solid var(--border); transition: all .3s; }
         .c-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
-        .c-text { color: var(--text); }
-        .c-text-muted { color: var(--text-muted); }
-        .c-primary { color: var(--primary); }
-        .c-primary-bg { background: var(--primary); }
-        .c-secondary { color: var(--secondary); }
-        .c-secondary-bg { background: var(--secondary); }
-        .c-accent { color: var(--accent); }
-        .c-accent-bg { background: var(--accent); }
-        .c-gem { color: var(--gem); }
-        .c-streak { color: var(--streak); }
-        .c-xp { color: var(--xp); }
-        .c-danger { color: var(--danger); }
-        .c-danger-bg { background: var(--danger); }
+        .c-fg { color: var(--fg); } .c-muted { color: var(--muted); } .c-primary { color: var(--primary); }
+        .c-accent { color: var(--accent); } .c-gem { color: var(--gem); } .c-xp { color: var(--xp); }
         
-        /* Crown Button - GOLD */
-        .crown-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #78350f;
-            box-shadow: var(--glow-accent);
-            transition: all 0.3s;
-        }
-        .crown-btn:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
-        }
+        .nav-glass { background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+        .theme-toggle { width: 48px; height: 26px; border-radius: 13px; background: var(--border); position: relative; cursor: pointer; border: none; transition: background .3s; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--primary); transition: transform .3s; }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(22px); background: var(--secondary); }
         
-        /* Buttons */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
-        .btn-secondary { background: var(--secondary); color: white; }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .crown-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #78350f; box-shadow: 0 0 15px rgba(251,191,36,0.3); transition: all .3s; }
+        .crown-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 0 25px rgba(251,191,36,0.5); }
         
-        /* Theme Toggle */
-        .theme-toggle {
-            width: 52px; height: 28px; border-radius: 14px;
-            background: var(--border); position: relative; cursor: pointer; border: none;
-            transition: background 0.3s;
-        }
-        .theme-toggle::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 22px; height: 22px; border-radius: 50%;
-            background: var(--primary); transition: transform 0.3s;
-        }
-        [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
+        .skill-tab { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--muted); border: 1px solid transparent; transition: all .25s; cursor: pointer; background: transparent; }
+        .skill-tab.active { color: #fff; background: var(--primary); border-color: var(--primary); }
+        .skill-tab:not(.active):hover { color: var(--fg); border-color: var(--border); background: var(--card); }
         
-        /* Modals */
-        .modal {
-            display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
-            backdrop-filter: blur(8px);
-        }
-        .modal.active { display: flex; }
-        .modal-content {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 24px; padding: 2rem;
-            max-width: 500px; width: 95%; max-height: 90vh; overflow-y: auto;
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Inputs */
-        .input-field {
-            width: 100%; padding: 0.75rem 1rem;
-            border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg); color: var(--text);
-            font-family: inherit; transition: all 0.3s;
-        }
-        .input-field:focus { outline: none; border-color: var(--primary); }
-        
-        /* Animations */
-        .fade-in { animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.4s, transform 0.4s; }
-        .reveal.vis { opacity: 1; transform: translateY(0); }
-        
-        /* Level Track */
-        .level-track {
-            display: flex; align-items: center; justify-content: center;
-            gap: 1rem; padding: 1rem; flex-wrap: wrap;
-        }
-        .level-node {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 0.5rem; padding: 0.75rem; border-radius: 12px;
-            transition: all 0.3s; cursor: pointer; min-width: 70px; text-decoration: none;
-        }
-        .level-node:hover { transform: translateY(-4px); }
-        .level-node.active {
-            background: rgba(34,197,94,0.15);
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow-primary);
-        }
-        .level-node.completed { opacity: 0.8; }
-        .level-node.locked { opacity: 0.5; cursor: not-allowed; }
-        .level-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.25rem; color: white; font-weight: bold;
-        }
-        .level-A1 { background: #22c55e; }
-        .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; }
-        .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; }
-        .level-C2 { background: #dc2626; }
-        
-        /* Skill Tabs */
-        .skill-tab {
-            padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem;
-            font-weight: 600; color: var(--text-muted); border: 1px solid transparent;
-            transition: all 0.25s; cursor: pointer; background: transparent;
-            display: inline-flex; align-items: center; gap: 0.35rem;
-        }
-        .skill-tab.active { color: white; background: var(--primary); border-color: var(--primary); }
-        .skill-tab[data-skill="reading"].active { background: var(--skill-reading); }
-        .skill-tab[data-skill="listening"].active { background: var(--skill-listening); }
-        .skill-tab[data-skill="speaking"].active { background: var(--skill-speaking); }
-        .skill-tab[data-skill="writing"].active { background: var(--skill-writing); }
-        .skill-tab:not(.active):hover { color: var(--text); border-color: var(--border); background: var(--card-hover); }
-        
-        /* Unit Cards */
-        .unit-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1rem; transition: all 0.3s;
-            display: flex; flex-direction: column; gap: 0.75rem;
-            text-decoration: none; color: inherit;
-        }
+        .unit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem; transition: all .3s; display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; }
         .unit-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
-        .unit-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.25rem; flex-shrink: 0;
-        }
-        .skill-badge {
-            font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 9999px;
-            font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem;
-        }
-        .skill-reading { background: rgba(6,182,212,0.15); color: var(--skill-reading); }
-        .skill-listening { background: rgba(220,38,38,0.15); color: var(--skill-listening); }
-        .skill-speaking { background: rgba(34,197,94,0.15); color: var(--skill-speaking); }
-        .skill-writing { background: rgba(139,92,246,0.15); color: var(--skill-writing); }
+        .unit-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+        .skill-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+        .skill-reading { background: rgba(6,182,212,0.15); color: #06b6d4; }
+        .skill-listening { background: rgba(220,38,38,0.15); color: #dc2626; }
+        .skill-speaking { background: rgba(34,197,94,0.15); color: #22c55e; }
+        .skill-writing { background: rgba(139,92,246,0.15); color: #8b5cf6; }
         
-        /* Progress Ring */
-        .progress-ring {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: conic-gradient(var(--primary) var(--progress, 0%), var(--border) 0);
-            display: flex; align-items: center; justify-content: center;
-            position: relative; font-weight: 700; font-size: 0.7rem;
-        }
-        .progress-ring::before {
-            content: ''; position: absolute; inset: 4px;
-            background: var(--card); border-radius: 50%;
-        }
+        .progress-ring { width: 40px; height: 40px; border-radius: 50%; background: conic-gradient(var(--primary) var(--progress, 0%), var(--border) 0); display: flex; align-items: center; justify-content: center; position: relative; font-weight: 700; font-size: 0.7rem; }
+        .progress-ring::before { content: ''; position: absolute; inset: 4px; background: var(--card); border-radius: 50%; }
         .progress-ring span { position: relative; z-index: 1; }
         
-        /* Progress Bar */
-        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 3px; transition: width 0.5s ease; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; width: 90%; max-width: 450px; animation: slideUp .3s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--card); border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem; border-radius: 12px;
-            box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
-            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
-            max-width: 350px;
-        }
+        .input-field { width: 100%; padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--border); background: var(--bg); color: var(--fg); font-family: inherit; transition: border-color .3s; }
+        .input-field:focus { outline: none; border-color: var(--primary); }
+        
+        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all .3s; border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #16a34a; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--fg); }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity .4s, transform .4s; }
+        .reveal.vis { opacity: 1; transform: translateY(0); }
+        
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--card); border-left: 4px solid var(--primary); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem; z-index: 2000; transform: translateX(150%); transition: transform .3s ease; max-width: 350px; }
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
-        .toast.warning { border-left-color: #f59e0b; }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .level-track { gap: 0.5rem; }
-            .level-node { min-width: 60px; padding: 0.5rem; }
-            .level-icon { width: 40px; height: 40px; font-size: 1rem; }
-            .skill-tab { padding: 0.4rem 0.75rem; font-size: 0.7rem; }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="sticky top-0 z-50 c-card border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center font-bold text-lg text-white">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <div class="hidden sm:block">
-                        <h1 class="font-display font-bold text-lg">EnglishPath</h1>
-                        <p class="text-xs c-text-muted">A1 Beginner</p>
-                    </div>
-                </a>
-                
-                <!-- Right Side -->
-                <div class="flex items-center gap-3">
-                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
-                    
-                    <div id="authButtons">
-                        <button onclick="openModal('login')" class="btn btn-outline btn-sm">Login</button>
-                    </div>
-                    
-                    <div id="userInfo" class="hidden flex items-center gap-3">
-                        <span id="userName" class="font-bold text-sm hidden md:inline"></span>
-                        <button onclick="openModal('admin')" id="adminBtn" class="hidden w-9 h-9 rounded-full crown-btn" title="Painel Admin">
-                            <i class="fa-solid fa-crown text-sm"></i>
-                        </button>
-                        <button onclick="logout()" class="w-9 h-9 rounded-full c-danger-bg text-white" title="Sair">
-                            <i class="fa-solid fa-right-from-bracket text-sm"></i>
-                        </button>
-                    </div>
-                </div>
+<!-- NAV -->
+<nav class="nav-glass">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg" style="background:rgba(34,197,94,0.1)">
+                <i class="fa-solid fa-graduation-cap c-primary text-xs"></i>
             </div>
+            <span class="font-display font-bold text-sm">English<span class="c-primary">Path</span></span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-1">
+            <a href="a1.html" class="px-3 py-1.5 rounded-lg text-xs font-medium c-primary" style="background:rgba(34,197,94,0.1);border:1px solid var(--primary)">A1</a>
+            <a href="a2.html" class="px-3 py-1.5 rounded-lg text-xs font-medium c-muted hover:c-fg">A2</a>
+            <a href="b1.html" class="px-3 py-1.5 rounded-lg text-xs font-medium c-muted hover:c-fg">B1</a>
+            <a href="b2.html" class="px-3 py-1.5 rounded-lg text-xs font-medium c-muted hover:c-fg">B2</a>
         </div>
-    </header>
+        
+        <div class="flex items-center gap-2">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Tema"></button>
+            <div id="authSection">
+                <button onclick="openModal('login')" class="btn btn-outline text-xs py-1.5 px-3">Login</button>
+            </div>
+            <button onclick="openModal('admin')" id="adminBtn" class="hidden w-8 h-8 rounded-lg crown-btn flex items-center justify-center" title="Painel Admin">
+                <i class="fa-solid fa-crown text-xs"></i>
+            </button>
+        </div>
+    </div>
+</nav>
 
-    <!-- ===== LEVEL TRACK: A1 → C2 ===== -->
-    <div class="c-card border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="level-track">
-                <a href="a1.html" class="level-node active">
-                    <div class="level-icon level-A1"><i class="fa-solid fa-seedling"></i></div>
-                    <span class="font-bold text-xs">A1</span>
-                </a>
-                <div class="w-6 h-0.5 bg-gray-600 hidden sm:block"></div>
-                <a href="a2.html" class="level-node completed">
-                    <div class="level-icon level-A2"><i class="fa-solid fa-leaf"></i></div>
-                    <span class="font-bold text-xs">A2</span>
-                </a>
-                <div class="w-6 h-0.5 bg-gray-600 hidden sm:block"></div>
-                <a href="b1.html" class="level-node">
-                    <div class="level-icon level-B1"><i class="fa-solid fa-water"></i></div>
-                    <span class="font-bold text-xs">B1</span>
-                </a>
-                <div class="w-6 h-0.5 bg-gray-600 hidden sm:block"></div>
-                <div class="level-node locked">
-                    <div class="level-icon level-B2"><i class="fa-solid fa-fire"></i></div>
-                    <span class="font-bold text-xs">B2</span>
+<!-- HEADER A1 -->
+<header class="py-10" style="background:var(--bg2);border-bottom:1px solid var(--border)">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-end gap-6">
+            <div class="w-16 h-16 rounded-2xl flex items-center justify-center" style="background:rgba(34,197,94,0.1)">
+                <i class="fa-solid fa-seedling text-green-500 text-2xl"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="font-display font-black text-3xl">A1 Beginner</h1>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold" style="background:rgba(34,197,94,0.1);color:#22c55e">CEFR • 30 Units</span>
                 </div>
-                <div class="w-6 h-0.5 bg-gray-600 hidden sm:block"></div>
-                <div class="level-node locked">
-                    <div class="level-icon level-C1"><i class="fa-solid fa-bolt"></i></div>
-                    <span class="font-bold text-xs">C1</span>
-                </div>
-                <div class="w-6 h-0.5 bg-gray-600 hidden sm:block"></div>
-                <div class="level-node locked">
-                    <div class="level-icon level-C2"><i class="fa-solid fa-crown"></i></div>
-                    <span class="font-bold text-xs">C2</span>
+                <p class="c-muted text-sm max-w-xl">30 unidades completas. Cada lição: ~10 minutos com Reading, Listening, Speaking e Writing.</p>
+            </div>
+            <div class="text-right">
+                <p class="text-xs c-muted mb-1">Progresso do Nível</p>
+                <p class="font-display font-bold text-2xl" id="levelPct">0%</p>
+                <div class="w-32 h-2 rounded-full" style="background:var(--border);overflow:hidden">
+                    <div id="levelBar" class="h-full rounded-full" style="width:0%;background:var(--primary);transition:width .6s"></div>
                 </div>
             </div>
         </div>
     </div>
+</header>
 
-    <!-- ===== HEADER A1 ===== -->
-    <header class="py-8" style="background:var(--bg2);border-bottom:1px solid var(--border)">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row md:items-end gap-6">
-                <div class="w-16 h-16 rounded-2xl flex items-center justify-center" style="background:rgba(34,197,94,0.1)">
-                    <i class="fa-solid fa-seedling text-green-500 text-2xl"></i>
-                </div>
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <h1 class="font-display font-black text-3xl">A1 Beginner</h1>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold" style="background:rgba(34,197,94,0.1);color:#22c55e">CEFR • 30 Units</span>
-                    </div>
-                    <p class="c-text-muted text-sm max-w-xl">30 unidades completas. Cada lição: ~10 minutos com Reading, Listening, Speaking e Writing.</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-xs c-text-muted mb-1">Progresso do Nível</p>
-                    <p class="font-display font-bold text-2xl" id="levelPct">0%</p>
-                    <div class="w-32 h-2 rounded-full" style="background:var(--border);overflow:hidden">
-                        <div id="levelBar" class="progress-fill" style="width:0%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- ===== SKILL FILTERS ===== -->
-    <div class="sticky top-20 z-40" style="background:var(--bg);border-bottom:1px solid var(--border)">
-        <div class="max-w-7xl mx-auto px-4 py-3 overflow-x-auto">
-            <div class="flex items-center gap-1.5" id="skillTabs">
-                <button class="skill-tab active" onclick="filterSkill('all')" data-skill="all">
-                    <i class="fa-solid fa-border-all text-[10px]"></i>Todas
-                </button>
-                <button class="skill-tab" onclick="filterSkill('reading')" data-skill="reading">
-                    <i class="fa-solid fa-book-open text-[10px]"></i>Reading
-                </button>
-                <button class="skill-tab" onclick="filterSkill('listening')" data-skill="listening">
-                    <i class="fa-solid fa-headphones text-[10px]"></i>Listening
-                </button>
-                <button class="skill-tab" onclick="filterSkill('speaking')" data-skill="speaking">
-                    <i class="fa-solid fa-microphone text-[10px]"></i>Speaking
-                </button>
-                <button class="skill-tab" onclick="filterSkill('writing')" data-skill="writing">
-                    <i class="fa-solid fa-pen-nib text-[10px]"></i>Writing
-                </button>
-            </div>
+<!-- SKILL FILTERS -->
+<div class="sticky top-14 z-40" style="background:var(--bg);border-bottom:1px solid var(--border)">
+    <div class="max-w-7xl mx-auto px-4 py-3 overflow-x-auto">
+        <div class="flex items-center gap-1.5" id="skillTabs">
+            <button class="skill-tab active" onclick="filterSkill('all')" data-skill="all"><i class="fa-solid fa-border-all mr-1 text-[10px]"></i>Todas</button>
+            <button class="skill-tab" onclick="filterSkill('reading')" data-skill="reading"><i class="fa-solid fa-book-open mr-1 text-[10px]"></i>Reading</button>
+            <button class="skill-tab" onclick="filterSkill('listening')" data-skill="listening"><i class="fa-solid fa-headphones mr-1 text-[10px]"></i>Listening</button>
+            <button class="skill-tab" onclick="filterSkill('speaking')" data-skill="speaking"><i class="fa-solid fa-microphone mr-1 text-[10px]"></i>Speaking</button>
+            <button class="skill-tab" onclick="filterSkill('writing')" data-skill="writing"><i class="fa-solid fa-pen-nib mr-1 text-[10px]"></i>Writing</button>
         </div>
     </div>
+</div>
 
-    <!-- ===== UNITS GRID ===== -->
-    <main class="py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <div id="unitsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                <!-- Renderizado via JS -->
-            </div>
-            <p id="emptyMsg" class="hidden text-center c-text-muted py-12">Nenhuma unidade nesta habilidade.</p>
+<!-- UNITS GRID -->
+<main class="py-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <div id="unitsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Renderizado via JS -->
         </div>
-    </main>
-
-    <!-- ===== MODALS ===== -->
-    
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-display font-bold">Entrar</h3>
-                <button onclick="closeModal('login')" class="c-text-muted hover:c-text"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleLogin(event)" class="space-y-3">
-                <input type="email" id="loginEmail" class="input-field" placeholder="Email" required>
-                <input type="password" id="loginPass" class="input-field" placeholder="Senha" required>
-                <button type="submit" class="btn btn-primary w-full">Entrar</button>
-            </form>
-            <p class="text-center c-text-muted text-xs mt-4">
-                Não tem conta? <button onclick="switchModal('login','register')" class="c-primary font-medium">Cadastre-se</button>
-            </p>
-        </div>
+        <p id="emptyMsg" class="hidden text-center c-muted py-12">Nenhuma unidade nesta habilidade.</p>
     </div>
+</main>
 
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-display font-bold">Criar Conta</h3>
-                <button onclick="closeModal('register')" class="c-text-muted hover:c-text"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form onsubmit="handleRegister(event)" class="space-y-3">
-                <input type="text" id="regName" class="input-field" placeholder="Nome" required>
-                <input type="email" id="regEmail" class="input-field" placeholder="Email" required>
-                <input type="password" id="regPass" class="input-field" placeholder="Senha (mín. 6)" minlength="6" required>
-                <button type="submit" class="btn btn-primary w-full">Cadastrar</button>
-            </form>
-            <p class="text-center c-text-muted text-xs mt-4">
-                Já tem conta? <button onclick="switchModal('register','login')" class="c-primary font-medium">Entrar</button>
-            </p>
+<!-- MODALS -->
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-display font-bold">Entrar</h3>
+            <button onclick="closeModal('login')" class="c-muted hover:c-fg"><i class="fa-solid fa-xmark"></i></button>
         </div>
+        <form onsubmit="handleLogin(event)" class="space-y-3">
+            <input type="email" id="loginEmail" class="input-field" placeholder="Email" required>
+            <input type="password" id="loginPass" class="input-field" placeholder="Senha" required>
+            <button type="submit" class="btn btn-primary w-full">Entrar</button>
+        </form>
+        <p class="text-center c-muted text-xs mt-4">
+            Não tem conta? <button onclick="switchModal('login','register')" class="c-primary font-medium">Cadastre-se</button>
+        </p>
     </div>
+</div>
 
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-display font-bold">Admin Panel</h3>
-                <button onclick="closeModal('admin')" class="c-text-muted hover:c-text"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="adminLogin">
-                <input type="password" id="adminPass" class="input-field mb-3" placeholder="Senha admin" onkeydown="if(event.key==='Enter')tryAdmin()">
-                <button onclick="tryAdmin()" class="btn btn-primary w-full">Acessar</button>
-                <p id="adminErr" class="text-red-400 text-xs mt-2 hidden">Senha incorreta</p>
-            </div>
-            <div id="adminPanel" class="hidden space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="c-card rounded-xl p-3 text-center">
-                        <div class="text-xl font-bold c-accent" id="totalUsers">0</div>
-                        <div class="text-xs c-text-muted">Usuários</div>
-                    </div>
-                    <div class="c-card rounded-xl p-3 text-center">
-                        <div class="text-xl font-bold" id="avgProgress">0%</div>
-                        <div class="text-xs c-text-muted">Progresso Médio</div>
-                    </div>
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-display font-bold">Criar Conta</h3>
+            <button onclick="closeModal('register')" class="c-muted hover:c-fg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="handleRegister(event)" class="space-y-3">
+            <input type="text" id="regName" class="input-field" placeholder="Nome" required>
+            <input type="email" id="regEmail" class="input-field" placeholder="Email" required>
+            <input type="password" id="regPass" class="input-field" placeholder="Senha (mín. 6)" minlength="6" required>
+            <button type="submit" class="btn btn-primary w-full">Cadastrar</button>
+        </form>
+        <p class="text-center c-muted text-xs mt-4">
+            Já tem conta? <button onclick="switchModal('register','login')" class="c-primary font-medium">Entrar</button>
+        </p>
+    </div>
+</div>
+
+<!-- Admin Modal -->
+<div id="adminModal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-display font-bold">Admin Panel</h3>
+            <button onclick="closeModal('admin')" class="c-muted hover:c-fg"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="adminLogin">
+            <input type="password" id="adminPass" class="input-field mb-3" placeholder="Senha admin" onkeydown="if(event.key==='Enter')tryAdmin()">
+            <button onclick="tryAdmin()" class="btn btn-primary w-full">Acessar</button>
+            <p id="adminErr" class="text-red-400 text-xs mt-2 hidden">Senha incorreta</p>
+        </div>
+        <div id="adminPanel" class="hidden space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="c-card rounded-xl p-3 text-center">
+                    <div class="text-xl font-bold c-accent" id="totalUsers">0</div>
+                    <div class="text-xs c-muted">Usuários</div>
                 </div>
-                <div>
-                    <h4 class="font-bold text-sm mb-2">Usuários Pendentes</h4>
-                    <div id="pendingList" class="space-y-2 max-h-40 overflow-y-auto"></div>
+                <div class="c-card rounded-xl p-3 text-center">
+                    <div class="text-xl font-bold" id="avgProgress">0%</div>
+                    <div class="text-xs c-muted">Progresso Médio</div>
                 </div>
-                <button onclick="logoutAdmin()" class="btn btn-outline w-full text-xs">Sair</button>
             </div>
+            <div>
+                <h4 class="font-bold text-sm mb-2">Usuários Pendentes</h4>
+                <div id="pendingList" class="space-y-2 max-h-40 overflow-y-auto"></div>
+            </div>
+            <button onclick="logoutAdmin()" class="btn btn-outline w-full text-xs">Sair</button>
         </div>
     </div>
+</div>
 
-    <!-- Toast -->
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
-        <div>
-            <div class="font-bold" id="toastTitle">Sucesso!</div>
-            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div>
-        </div>
-    </div>
+<!-- Toast Container -->
+<div id="toast" class="toast"></div>
 
-    <!-- ===== FIREBASE + APP LOGIC ===== -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // ===== FIREBASE CONFIG =====
-       const firebaseConfig = {
+<script type="module">
+// ===== CONFIGURAÇÃO FIREBASE (Substitua pelas suas chaves reais) =====
+const firebaseConfig = {
 
   apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
 
@@ -506,313 +265,338 @@
 };
 
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+// Safe Firebase init
+let auth, db;
+try {
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+    const { getAuth } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+    const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+} catch (e) {
+    console.warn("Firebase não configurado. Usando modo local.");
+}
 
-        // ===== STATE =====
-        let currentUser = null;
-        let userData = null;
-        let activeSkill = 'all';
-        let userProgress = {};
+// ===== DADOS DAS 30 UNIDADES =====
+const UNITS = [
+    {id:'u01',title:'Greetings & Introductions',icon:'fa-hand-wave',color:'#22c55e',skills:['reading','listening','speaking','writing']},
+    {id:'u02',title:'Numbers 1-20',icon:'fa-hashtag',color:'#10b981',skills:['reading','listening','speaking','writing']},
+    {id:'u03',title:'Colors',icon:'fa-palette',color:'#06b6d4',skills:['reading','listening','speaking','writing']},
+    {id:'u04',title:'Family Members',icon:'fa-people-roof',color:'#8b5cf6',skills:['reading','listening','speaking','writing']},
+    {id:'u05',title:'Body Parts',icon:'fa-person',color:'#f59e0b',skills:['reading','listening','speaking','writing']},
+    {id:'u06',title:'Animals',icon:'fa-paw',color:'#ec4899',skills:['reading','listening','speaking','writing']},
+    {id:'u07',title:'Food & Drinks',icon:'fa-utensils',color:'#22c55e',skills:['reading','listening','speaking','writing']},
+    {id:'u08',title:'Clothes',icon:'fa-shirt',color:'#10b981',skills:['reading','listening','speaking','writing']},
+    {id:'u09',title:'House & Rooms',icon:'fa-house',color:'#06b6d4',skills:['reading','listening','speaking','writing']},
+    {id:'u10',title:'Days & Months',icon:'fa-calendar-days',color:'#8b5cf6',skills:['reading','listening','speaking','writing']},
+    {id:'u11',title:'Classroom Objects',icon:'fa-pencil',color:'#f59e0b',skills:['reading','listening','speaking','writing']},
+    {id:'u12',title:'Weather',icon:'fa-cloud-sun',color:'#ec4899',skills:['reading','listening','speaking','writing']},
+    {id:'u13',title:'Verb To Be',icon:'fa-equals',color:'#22c55e',skills:['reading','listening','speaking','writing']},
+    {id:'u14',title:'Subject Pronouns',icon:'fa-user',color:'#10b981',skills:['reading','listening','speaking','writing']},
+    {id:'u15',title:'Articles a/an/the',icon:'fa-font',color:'#06b6d4',skills:['reading','listening','speaking','writing']},
+    {id:'u16',title:'Simple Present',icon:'fa-clock',color:'#8b5cf6',skills:['reading','listening','speaking','writing']},
+    {id:'u17',title:'Possessive Adjectives',icon:'fa-hand',color:'#f59e0b',skills:['reading','listening','speaking','writing']},
+    {id:'u18',title:'Prepositions',icon:'fa-location-dot',color:'#ec4899',skills:['reading','listening','speaking','writing']},
+    {id:'u19',title:'Questions What/Where',icon:'fa-circle-question',color:'#22c55e',skills:['reading','listening','speaking','writing']},
+    {id:'u20',title:'Can/Can\'t',icon:'fa-hand-pointer',color:'#10b981',skills:['reading','listening','speaking','writing']},
+    {id:'u21',title:'Like/Don\'t Like',icon:'fa-heart',color:'#06b6d4',skills:['reading','listening','speaking','writing']},
+    {id:'u22',title:'Time & Clock',icon:'fa-clock',color:'#8b5cf6',skills:['reading','listening','speaking','writing']},
+    {id:'u23',title:'Daily Routine',icon:'fa-sun',color:'#f59e0b',skills:['reading','listening','speaking','writing']},
+    {id:'u24',title:'At the Store',icon:'fa-cart-shopping',color:'#ec4899',skills:['reading','listening','speaking','writing']},
+    {id:'u25',title:'Transportation',icon:'fa-bus',color:'#22c55e',skills:['reading','listening','speaking','writing']},
+    {id:'u26',title:'Feelings & Emotions',icon:'fa-face-smile',color:'#10b981',skills:['reading','listening','speaking','writing']},
+    {id:'u27',title:'At the Restaurant',icon:'fa-utensils',color:'#06b6d4',skills:['reading','listening','speaking','writing']},
+    {id:'u28',title:'Making Plans',icon:'fa-calendar-check',color:'#8b5cf6',skills:['reading','listening','speaking','writing']},
+    {id:'u29',title:'Review Units 1-15',icon:'fa-rotate',color:'#f59e0b',skills:['reading','listening','speaking','writing']},
+    {id:'u30',title:'A1 Final Challenge',icon:'fa-trophy',color:'#dc2626',skills:['reading','listening','speaking','writing']}
+];
 
-        // ===== 30 UNITS DATA =====
-        const UNITS = [
-            {id:'u01',title:'Greetings & Introductions',icon:'fa-hand-wave',color:'#22c55e',skills:{reading:{t:'Hello! My name is...',d:10},listening:{t:'Greetings Audio',d:10},speaking:{t:'Introduce Yourself',d:10},writing:{t:'Fill the Blanks',d:10}},vocab:['hello','name','nice','meet']},
-            {id:'u02',title:'Numbers 1-20',icon:'fa-hashtag',color:'#10b981',skills:{reading:{t:'Counting Things',d:10},listening:{t:'Number Dictation',d:10},speaking:{t:'Say the Numbers',d:10},writing:{t:'Write Numbers',d:10}},vocab:['one','two','three','four']},
-            {id:'u03',title:'Colors',icon:'fa-palette',color:'#06b6d4',skills:{reading:{t:'What Color Is It?',d:10},listening:{t:'Color Names',d:10},speaking:{t:'Describe Colors',d:10},writing:{t:'Color Words',d:10}},vocab:['red','blue','green','yellow']},
-            {id:'u04',title:'Family Members',icon:'fa-people-roof',color:'#8b5cf6',skills:{reading:{t:'My Family',d:10},listening:{t:'Family Descriptions',d:10},speaking:{t:'This is my...',d:10},writing:{t:'Family Tree',d:10}},vocab:['mother','father','sister','brother']},
-            {id:'u05',title:'Body Parts',icon:'fa-person',color:'#f59e0b',skills:{reading:{t:'My Body',d:10},listening:{t:'Point to...',d:10},speaking:{t:'Name Body Parts',d:10},writing:{t:'Label the Body',d:10}},vocab:['head','hand','foot','eye']},
-            {id:'u06',title:'Animals',icon:'fa-paw',color:'#ec4899',skills:{reading:{t:'Farm Animals',d:10},listening:{t:'Animal Sounds',d:10},speaking:{t:'I see a...',d:10},writing:{t:'Animal Names',d:10}},vocab:['dog','cat','bird','fish']},
-            {id:'u07',title:'Food & Drinks',icon:'fa-utensils',color:'#22c55e',skills:{reading:{t:'At the Café',d:10},listening:{t:'Order Food',d:10},speaking:{t:'I would like...',d:10},writing:{t:'Shopping List',d:10}},vocab:['water','bread','apple','milk']},
-            {id:'u08',title:'Clothes',icon:'fa-shirt',color:'#10b981',skills:{reading:{t:'Getting Dressed',d:10},listening:{t:'What to Wear',d:10},speaking:{t:'I wear...',d:10},writing:{t:'Clothes Words',d:10}},vocab:['shirt','pants','shoes','hat']},
-            {id:'u09',title:'House & Rooms',icon:'fa-house',color:'#06b6d4',skills:{reading:{t:'My Home',d:10},listening:{t:'Where is it?',d:10},speaking:{t:'In the kitchen...',d:10},writing:{t:'Room Labels',d:10}},vocab:['kitchen','bedroom','bathroom','living']},
-            {id:'u10',title:'Days & Months',icon:'fa-calendar-days',color:'#8b5cf6',skills:{reading:{t:'My Week',d:10},listening:{t:'Days of Week',d:10},speaking:{t:'Today is...',d:10},writing:{t:'Write Dates',d:10}},vocab:['Monday','January','today','tomorrow']},
-            {id:'u11',title:'Classroom Objects',icon:'fa-pencil',color:'#f59e0b',skills:{reading:{t:'In the Classroom',d:10},listening:{t:'Pass the...',d:10},speaking:{t:'I need a...',d:10},writing:{t:'Object Names',d:10}},vocab:['book','pen','paper','desk']},
-            {id:'u12',title:'Weather',icon:'fa-cloud-sun',color:'#ec4899',skills:{reading:{t:'Today\'s Weather',d:10},listening:{t:'Weather Report',d:10},speaking:{t:'It\'s sunny',d:10},writing:{t:'Weather Words',d:10}},vocab:['sunny','rainy','cold','hot']},
-            {id:'u13',title:'Verb To Be',icon:'fa-equals',color:'#22c55e',skills:{reading:{t:'I am, You are',d:10},listening:{t:'To Be Audio',d:10},speaking:{t:'Practice To Be',d:10},writing:{t:'Complete Sentences',d:10}},vocab:['am','is','are','not']},
-            {id:'u14',title:'Subject Pronouns',icon:'fa-user',color:'#10b981',skills:{reading:{t:'I, You, He, She',d:10},listening:{t:'Pronouns Audio',d:10},speaking:{t:'Use Pronouns',d:10},writing:{t:'Pronoun Practice',d:10}},vocab:['I','you','he','she']},
-            {id:'u15',title:'Articles a/an/the',icon:'fa-font',color:'#06b6d4',skills:{reading:{t:'A or An?',d:10},listening:{t:'Articles Audio',d:10},speaking:{t:'Say with Articles',d:10},writing:{t:'Fill a/an/the',d:10}},vocab:['a','an','the']},
-            {id:'u16',title:'Simple Present',icon:'fa-clock',color:'#8b5cf6',skills:{reading:{t:'I work, You work',d:10},listening:{t:'Present Audio',d:10},speaking:{t:'Daily Actions',d:10},writing:{t:'Write Sentences',d:10}},vocab:['work','eat','sleep','go']},
-            {id:'u17',title:'Possessive Adjectives',icon:'fa-hand',color:'#f59e0b',skills:{reading:{t:'My, Your, His',d:10},listening:{t:'Possessives Audio',d:10},speaking:{t:'My book',d:10},writing:{t:'Possessive Practice',d:10}},vocab:['my','your','his','her']},
-            {id:'u18',title:'Prepositions',icon:'fa-location-dot',color:'#ec4899',skills:{reading:{t:'In, On, Under',d:10},listening:{t:'Prepositions Audio',d:10},speaking:{t:'Where is it?',d:10},writing:{t:'Preposition Fill',d:10}},vocab:['in','on','under','next']},
-            {id:'u19',title:'Questions with What/Where',icon:'fa-circle-question',color:'#22c55e',skills:{reading:{t:'What is this?',d:10},listening:{t:'Question Audio',d:10},speaking:{t:'Ask Questions',d:10},writing:{t:'Write Questions',d:10}},vocab:['what','where','who','how']},
-            {id:'u20',title:'Can/Can\'t',icon:'fa-hand-pointer',color:'#10b981',skills:{reading:{t:'I can swim',d:10},listening:{t:'Can Audio',d:10},speaking:{t:'What can you do?',d:10},writing:{t:'Can/Can\'t Sentences',d:10}},vocab:['can','can\'t','yes','no']},
-            {id:'u21',title:'Like/Don\'t Like',icon:'fa-heart',color:'#06b6d4',skills:{reading:{t:'I like apples',d:10},listening:{t:'Likes Audio',d:10},speaking:{t:'Do you like...?',d:10},writing:{t:'Like Sentences',d:10}},vocab:['like','don\'t','love','hate']},
-            {id:'u22',title:'Time & Clock',icon:'fa-clock',color:'#8b5cf6',skills:{reading:{t:'What time is it?',d:10},listening:{t:'Time Audio',d:10},speaking:{t:'Tell the Time',d:10},writing:{t:'Write Times',d:10}},vocab:['o\'clock','half','quarter','minute']},
-            {id:'u23',title:'Daily Routine',icon:'fa-sun',color:'#f59e0b',skills:{reading:{t:'My Day',d:10},listening:{t:'Routine Audio',d:10},speaking:{t:'I wake up at...',d:10},writing:{t:'My Schedule',d:10}},vocab:['wake','eat','work','sleep']},
-            {id:'u24',title:'At the Store',icon:'fa-cart-shopping',color:'#ec4899',skills:{reading:{t:'Shopping List',d:10},listening:{t:'Store Audio',d:10},speaking:{t:'How much is it?',d:10},writing:{t:'Price Tags',d:10}},vocab:['buy','sell','price','money']},
-            {id:'u25',title:'Transportation',icon:'fa-bus',color:'#22c55e',skills:{reading:{t:'How do you go?',d:10},listening:{t:'Transport Audio',d:10},speaking:{t:'I go by bus',d:10},writing:{t:'Transport Words',d:10}},vocab:['bus','car','train','walk']},
-            {id:'u26',title:'Feelings & Emotions',icon:'fa-face-smile',color:'#10b981',skills:{reading:{t:'How do you feel?',d:10},listening:{t:'Emotions Audio',d:10},speaking:{t:'I am happy',d:10},writing:{t:'Feelings Words',d:10}},vocab:['happy','sad','tired','excited']},
-            {id:'u27',title:'At the Restaurant',icon:'fa-utensils',color:'#06b6d4',skills:{reading:{t:'Menu Reading',d:10},listening:{t:'Order Audio',d:10},speaking:{t:'I would like...',d:10},writing:{t:'Write Order',d:10}},vocab:['menu','order','please','thank']},
-            {id:'u28',title:'Making Plans',icon:'fa-calendar-check',color:'#8b5cf6',skills:{reading:{t:'Let\'s meet...',d:10},listening:{t:'Plans Audio',d:10},speaking:{t:'Are you free?',d:10},writing:{t:'Write Invitation',d:10}},vocab:['meet','later','tomorrow','sure']},
-            {id:'u29',title:'Review Unit 1-15',icon:'fa-rotate',color:'#f59e0b',skills:{reading:{t:'Mixed Texts',d:10},listening:{t:'Mixed Audio',d:10},speaking:{t:'Practice All',d:10},writing:{t:'Review Exercises',d:10}},vocab:['review','practice','test','check']},
-            {id:'u30',title:'A1 Final Challenge',icon:'fa-trophy',color:'#dc2626',skills:{reading:{t:'Final Text',d:10},listening:{t:'Final Audio',d:10},speaking:{t:'Final Speaking',d:10},writing:{t:'Final Writing',d:10}},vocab:['congratulations','level','complete','next']}
-        ];
+// ===== STATE =====
+let currentUser = null;
+let activeSkill = 'all';
+let userProgress = {};
+let allUsers = [];
 
-        // ===== EXPOSE FUNCTIONS =====
-        window.openModal = openModal;
-        window.closeModal = closeModal;
-        window.switchModal = switchModal;
-        window.toggleTheme = toggleTheme;
-        window.handleLogin = handleLogin;
-        window.handleRegister = handleRegister;
-        window.logout = logout;
-        window.filterSkill = filterSkill;
-        window.tryAdmin = tryAdmin;
-        window.logoutAdmin = logoutAdmin;
-        window.approveUser = approveUser;
-        window.rejectUser = rejectUser;
+// ===== DATA SERVICE (Local ↔ Firebase) =====
+const DataService = {
+    async loadProgress() {
+        if (auth && currentUser) {
+            try {
+                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+                const snap = await getDoc(doc(db, "usuarios", currentUser.uid));
+                if (snap.exists()) userProgress = snap.data().progresso || {};
+            } catch (e) { console.warn("Erro ao carregar progresso:", e); }
+        } else {
+            // Fallback localStorage
+            const saved = localStorage.getItem('ep_progress_a1');
+            userProgress = saved ? JSON.parse(saved) : {};
+        }
+    },
+    
+    async saveProgress(unitId, skill, completed) {
+        const key = `${unitId}_${skill}`;
+        userProgress[key] = { completed, date: new Date().toISOString() };
+        
+        if (auth && currentUser) {
+            try {
+                const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+                await updateDoc(doc(db, "usuarios", currentUser.uid), { progresso: userProgress });
+            } catch (e) { console.warn("Erro ao salvar progresso:", e); }
+        } else {
+            localStorage.setItem('ep_progress_a1', JSON.stringify(userProgress));
+        }
+    },
+    
+    getUnitProgress(unitId) {
+        const skills = ['reading','listening','speaking','writing'];
+        const done = skills.filter(s => userProgress[`${unitId}_${s}`]?.completed).length;
+        return Math.round((done / 4) * 100);
+    },
+    
+    getLevelProgress() {
+        const total = UNITS.length * 4;
+        const done = Object.values(userProgress).filter(p => p.completed).length;
+        return total > 0 ? Math.round((done / total) * 100) : 0;
+    }
+};
 
-        // ===== AUTH STATE =====
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-                if (userDoc.exists()) {
-                    userData = { uid: user.uid, ...userDoc.data() };
-                    currentUser = user;
-                    await loadProgress();
-                    updateAuthUI();
-                    renderUnits();
-                    updateLevelProgress();
-                    if (userData.role === 'admin') {
-                        document.getElementById('adminBtn').classList.remove('hidden');
-                    }
-                }
-            } else {
-                currentUser = null;
-                userData = null;
+// ===== AUTH =====
+function updateAuthUI() {
+    const authSection = document.getElementById('authSection');
+    const adminBtn = document.getElementById('adminBtn');
+    if (currentUser) {
+        authSection.innerHTML = `<span class="text-xs c-muted mr-2">Olá, ${currentUser.nome || 'Usuário'}</span><button onclick="logout()" class="btn btn-outline text-xs py-1.5 px-3">Sair</button>`;
+        adminBtn.classList.toggle('hidden', currentUser.role !== 'admin');
+    } else {
+        authSection.innerHTML = `<button onclick="openModal('login')" class="btn btn-outline text-xs py-1.5 px-3 mr-1">Login</button><button onclick="openModal('register')" class="btn btn-primary text-xs py-1.5 px-3">Cadastrar</button>`;
+        adminBtn.classList.add('hidden');
+    }
+}
+
+async function handleRegister(e) {
+    e.preventDefault();
+    const nome = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const pass = document.getElementById('regPass').value;
+    
+    if (auth) {
+        try {
+            const { createUserWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+            const cred = await createUserWithEmailAndPassword(auth, email, pass);
+            const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+            await setDoc(doc(db, "usuarios", cred.user.uid), {
+                nome, email, role: 'student', status: 'pending',
+                createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0, progresso: {}
+            });
+            closeModal('register');
+            showToast('Cadastro realizado! Aguarde aprovação.', 'success');
+        } catch (err) { showToast(err.message, 'error'); }
+    } else {
+        // Local fallback
+        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
+        if (users.find(u => u.email === email)) return showToast('Email já cadastrado', 'error');
+        users.push({ id: Date.now().toString(), nome, email, pass, role: 'student', status: 'pending' });
+        localStorage.setItem('ep_users', JSON.stringify(users));
+        closeModal('register');
+        showToast('Cadastro realizado! (Modo Local)', 'success');
+    }
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    
+    if (auth) {
+        try {
+            const { signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+            const cred = await signInWithEmailAndPassword(auth, email, pass);
+            const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+            const snap = await getDoc(doc(db, "usuarios", cred.user.uid));
+            if (snap.exists()) {
+                currentUser = { uid: cred.user.uid, ...snap.data() };
+                if (currentUser.status !== 'approved') throw new Error(`Status: ${currentUser.status}`);
+                await DataService.loadProgress();
+                closeModal('login');
                 updateAuthUI();
                 renderUnits();
+                showToast(`Bem-vindo, ${currentUser.nome}!`, 'success');
             }
-        });
+        } catch (err) { showToast(err.message || 'Erro ao logar', 'error'); }
+    } else {
+        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
+        const user = users.find(u => u.email === email && u.pass === pass);
+        if (!user) return showToast('Email ou senha incorretos', 'error');
+        if (user.status !== 'approved') return showToast(`Status: ${user.status}`, 'warning');
+        currentUser = user;
+        await DataService.loadProgress();
+        closeModal('login');
+        updateAuthUI();
+        renderUnits();
+        showToast('Login realizado (Modo Local)', 'success');
+    }
+}
 
-        // ===== UI FUNCTIONS =====
-        function updateAuthUI() {
-            const authSection = document.getElementById('authButtons');
-            const userInfo = document.getElementById('userInfo');
-            if (userData) {
-                authSection.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-                document.getElementById('userName').textContent = userData.nome;
-            } else {
-                authSection.classList.remove('hidden');
-                userInfo.classList.add('hidden');
-            }
-        }
+function logout() {
+    currentUser = null;
+    userProgress = {};
+    if (auth) auth.signOut();
+    updateAuthUI();
+    renderUnits();
+    showToast('Você saiu do sistema', 'success');
+}
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('ep_theme', html.dataset.theme);
-        }
-        (function(){ const t = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
-
-        function showToast(msg, type='success') {
-            const toast = document.getElementById('toast');
-            const icons = { success: 'fa-circle-check c-primary', error: 'fa-circle-exclamation c-danger', warning: 'fa-triangle-exclamation c-accent' };
-            document.getElementById('toastTitle').textContent = type === 'success' ? 'Sucesso!' : type === 'error' ? 'Erro' : 'Atenção';
-            document.getElementById('toastMessage').textContent = msg;
-            document.getElementById('toastIcon').className = `fa-solid ${icons[type]} text-2xl`;
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // ===== MODALS =====
-        function openModal(id) {
-            document.getElementById(id+'Modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal(id) {
-            document.getElementById(id+'Modal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-        function switchModal(from, to) { closeModal(from); setTimeout(() => openModal(to), 200); }
-
-        // ===== AUTH =====
-        async function handleRegister(e) {
-            e.preventDefault();
-            const nome = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPass').value;
-            
-            try {
-                const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                await setDoc(doc(db, "usuarios", cred.user.uid), {
-                    nome, email, role: 'student', status: 'pending',
-                    createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0,
-                    tempoTotal: 0, ultimoLogin: null, progresso: {}
-                });
-                closeModal('register');
-                showToast('Cadastro realizado! Aguarde aprovação.', 'success');
-                setTimeout(() => openModal('login'), 1500);
-            } catch (err) { showToast(err.message, 'error'); }
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPass').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, pass);
-                closeModal('login');
-            } catch (err) { showToast(err.message, 'error'); }
-        }
-
-        async function logout() {
-            await signOut(auth);
-            showToast('Você saiu do sistema', 'success');
-        }
-
-        // ===== PROGRESS =====
-        async function loadProgress() {
-            if (!userData?.uid) return;
-            const userDoc = await getDoc(doc(db, "usuarios", userData.uid));
-            if (userDoc.exists()) {
-                userProgress = userDoc.data().progresso || {};
-            }
-        }
-
-        async function saveProgress(unitId, skill, completed) {
-            if (!userData?.uid) return;
-            const key = `${unitId}_${skill}`;
-            const progress = { ...userProgress, [key]: { completed, date: new Date().toISOString() } };
-            await updateDoc(doc(db, "usuarios", userData.uid), { progresso: progress });
-            userProgress = progress;
-            renderUnits();
-            updateLevelProgress();
-        }
-
-        function getUnitProgress(unitId) {
-            const skills = ['reading','listening','speaking','writing'];
-            const done = skills.filter(s => userProgress[`${unitId}_${s}`]?.completed).length;
-            return Math.round((done / 4) * 100);
-        }
-
-        function getLevelProgress() {
-            const total = UNITS.length * 4;
-            let done = Object.values(userProgress).filter(p => p.completed).length;
-            return total > 0 ? Math.round((done / total) * 100) : 0;
-        }
-
-        function updateLevelProgress() {
-            const pct = getLevelProgress();
-            document.getElementById('levelPct').textContent = pct + '%';
-            document.getElementById('levelBar').style.width = pct + '%';
-        }
-
-        // ===== RENDER UNITS =====
-        function renderUnits() {
-            const grid = document.getElementById('unitsGrid');
-            const filtered = activeSkill === 'all' ? UNITS : UNITS.filter(u => u.skills[activeSkill]);
-            
-            if (!filtered.length) {
-                document.getElementById('emptyMsg').classList.remove('hidden');
-                grid.innerHTML = '';
-                return;
-            }
-            document.getElementById('emptyMsg').classList.add('hidden');
-            
-            grid.innerHTML = filtered.map((u, i) => {
-                const progress = currentUser ? getUnitProgress(u.id) : 0;
-                const skillKeys = Object.keys(u.skills);
-                return `
-                <a href="lesson.html?unit=${u.id}" class="unit-card reveal" style="transition-delay:${i*30}ms">
-                    <div class="flex items-start gap-3">
-                        <div class="unit-icon" style="background:${u.color}15">
-                            <i class="fa-solid ${u.icon}" style="color:${u.color}"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="font-bold text-sm truncate">${u.id.toUpperCase()}: ${u.title}</h3>
-                            <div class="flex flex-wrap gap-1 mt-1">
-                                ${skillKeys.map(s => `<span class="skill-badge skill-${s}"><i class="fa-solid fa-${getSkillIcon(s)}"></i>${s.charAt(0).toUpperCase()}</span>`).join('')}
-                            </div>
-                        </div>
-                        <div class="progress-ring" style="--progress:${progress}%"><span>${progress}%</span></div>
+// ===== RENDER UNITS =====
+function renderUnits() {
+    const grid = document.getElementById('unitsGrid');
+    const filtered = activeSkill === 'all' ? UNITS : UNITS.filter(u => u.skills.includes(activeSkill));
+    
+    if (!filtered.length) {
+        document.getElementById('emptyMsg').classList.remove('hidden');
+        grid.innerHTML = '';
+        return;
+    }
+    document.getElementById('emptyMsg').classList.add('hidden');
+    
+    grid.innerHTML = filtered.map((u, i) => {
+        const progress = DataService.getUnitProgress(u.id);
+        const linkFile = `lesson-${u.id}.html`; // lesson-u01.html, lesson-u02.html, etc.
+        return `
+        <a href="${linkFile}" class="unit-card reveal" style="transition-delay:${i*30}ms">
+            <div class="flex items-start gap-3">
+                <div class="unit-icon" style="background:${u.color}15">
+                    <i class="fa-solid ${u.icon}" style="color:${u.color}"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold text-sm truncate">${u.id.toUpperCase()}: ${u.title}</h3>
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        ${u.skills.map(s => `<span class="skill-badge skill-${s}"><i class="fa-solid fa-${getSkillIcon(s)}"></i>${s.charAt(0).toUpperCase()}</span>`).join('')}
                     </div>
-                    <div class="flex items-center justify-between text-xs c-text-muted">
-                        <span><i class="fa-regular fa-clock"></i> ~10 min each</span>
-                        <span class="c-primary font-medium">${progress === 100 ? 'Concluído' : progress > 0 ? 'Em andamento' : 'Começar'}</span>
-                    </div>
-                </a>`;
-            }).join('');
-            
-            requestAnimationFrame(() => grid.querySelectorAll('.reveal').forEach(el => el.classList.add('vis')));
-        }
+                </div>
+                <div class="progress-ring" style="--progress:${progress}%"><span>${progress}%</span></div>
+            </div>
+            <div class="flex items-center justify-between text-xs c-muted">
+                <span><i class="fa-regular fa-clock"></i> ~10 min each</span>
+                <span class="c-primary font-medium">${progress === 100 ? 'Concluído' : progress > 0 ? 'Em andamento' : 'Começar'}</span>
+            </div>
+        </a>`;
+    }).join('');
+    
+    requestAnimationFrame(() => grid.querySelectorAll('.reveal').forEach(el => el.classList.add('vis')));
+    
+    const levelPct = DataService.getLevelProgress();
+    document.getElementById('levelPct').textContent = levelPct + '%';
+    document.getElementById('levelBar').style.width = levelPct + '%';
+}
 
-        function getSkillIcon(skill) {
-            return {reading:'book-open',listening:'headphones',speaking:'microphone',writing:'pen-nib'}[skill] || 'star';
-        }
+function getSkillIcon(skill) {
+    return {reading:'book-open',listening:'headphones',speaking:'microphone',writing:'pen-nib'}[skill] || 'star';
+}
 
-        function filterSkill(skill) {
-            activeSkill = skill;
-            document.querySelectorAll('.skill-tab').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.skill === skill);
-            });
-            renderUnits();
-        }
+function filterSkill(skill) {
+    activeSkill = skill;
+    document.querySelectorAll('.skill-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.skill === skill);
+    });
+    renderUnits();
+}
 
-        // ===== ADMIN =====
-        function tryAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'admin123') {
-                sessionStorage.setItem('ep_admin', '1');
-                document.getElementById('adminLogin').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                loadAdminData();
-            } else {
-                document.getElementById('adminErr').classList.remove('hidden');
-            }
-        }
-        
-        function logoutAdmin() {
-            sessionStorage.removeItem('ep_admin');
-            closeModal('admin');
-        }
-        
-        async function loadAdminData() {
-            try {
-                const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-                const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                document.getElementById('totalUsers').textContent = users.length;
-                const pending = users.filter(u => u.status === 'pending');
-                document.getElementById('pendingList').innerHTML = pending.length 
-                    ? pending.map(u => `
-                        <div class="c-card rounded-lg p-2 flex items-center justify-between text-xs">
-                            <span>${u.nome} <span class="c-text-muted">(${u.email})</span></span>
-                            <div class="flex gap-1">
-                                <button onclick="approveUser('${u.id}')" class="px-2 py-1 rounded bg-green-500/20 c-primary">✓</button>
-                                <button onclick="rejectUser('${u.id}')" class="px-2 py-1 rounded bg-red-500/20 c-danger">✗</button>
-                            </div>
-                        </div>`).join('')
-                    : '<p class="c-text-muted text-xs">Nenhum pendente</p>';
-            } catch (err) { console.error(err); }
-        }
-        
-        async function approveUser(id) {
-            await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
-            showToast('Usuário aprovado!', 'success');
-            loadAdminData();
-        }
-        
-        async function rejectUser(id) {
-            await updateDoc(doc(db, "usuarios", id), { status: 'rejected' });
-            showToast('Cadastro rejeitado', 'error');
-            loadAdminData();
-        }
+// ===== ADMIN =====
+function tryAdmin() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === 'admin123') {
+        sessionStorage.setItem('ep_admin', '1');
+        document.getElementById('adminLogin').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadAdminData();
+    } else {
+        document.getElementById('adminErr').classList.remove('hidden');
+    }
+}
+function logoutAdmin() { sessionStorage.removeItem('ep_admin'); closeModal('admin'); }
+async function loadAdminData() {
+    if (auth) {
+        try {
+            const { collection, getDocs, query, orderBy } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+            const snap = await getDocs(query(collection(db, "usuarios"), orderBy("createdAt", "desc")));
+            allUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        } catch(e) { allUsers = []; }
+    } else {
+        allUsers = JSON.parse(localStorage.getItem('ep_users') || '[]');
+    }
+    
+    document.getElementById('totalUsers').textContent = allUsers.length;
+    const pending = allUsers.filter(u => u.status === 'pending');
+    document.getElementById('pendingList').innerHTML = pending.length 
+        ? pending.map(u => `
+            <div class="c-card rounded-lg p-2 flex items-center justify-between text-xs">
+                <span>${u.nome} <span class="c-muted">(${u.email})</span></span>
+                <div class="flex gap-1">
+                    <button onclick="approveUser('${u.id}')" class="px-2 py-1 rounded bg-green-500/20 c-primary">✓</button>
+                    <button onclick="rejectUser('${u.id}')" class="px-2 py-1 rounded bg-red-500/20 c-danger">✗</button>
+                </div>
+            </div>`).join('')
+        : '<p class="c-muted text-xs">Nenhum pendente</p>';
+}
+async function approveUser(id) {
+    if (auth) {
+        const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
+    } else {
+        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
+        const u = users.find(x => x.id === id);
+        if(u) { u.status = 'approved'; localStorage.setItem('ep_users', JSON.stringify(users)); }
+    }
+    showToast('Usuário aprovado!', 'success');
+    loadAdminData();
+}
+async function rejectUser(id) {
+    if (auth) {
+        const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        await updateDoc(doc(db, "usuarios", id), { status: 'rejected' });
+    } else {
+        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
+        const u = users.find(x => x.id === id);
+        if(u) { u.status = 'rejected'; localStorage.setItem('ep_users', JSON.stringify(users)); }
+    }
+    showToast('Cadastro rejeitado', 'error');
+    loadAdminData();
+}
 
-        // ===== INIT =====
-        window.addEventListener('DOMContentLoaded', () => {
-            renderUnits();
-            updateLevelProgress();
-            
-            document.querySelectorAll('.modal').forEach(m => {
-                m.addEventListener('click', e => { if(e.target===m) { m.classList.remove('active'); document.body.style.overflow=''; }});
-            });
-            document.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal.active').forEach(m=>{m.classList.remove('active');document.body.style.overflow='';}); });
-        });
-    </script>
+// ===== UI HELPERS =====
+function openModal(id) { document.getElementById(id+'Modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id+'Modal').classList.remove('active'); document.body.style.overflow = ''; }
+function switchModal(from, to) { closeModal(from); setTimeout(() => openModal(to), 200); }
+function toggleTheme() {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('ep_theme', html.dataset.theme);
+}
+(function(){ const t = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
+
+function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    const icons = {success:'fa-circle-check c-primary', error:'fa-circle-exclamation c-danger', warning:'fa-triangle-exclamation c-accent'};
+    t.innerHTML = `<i class="fa-solid ${icons[type]} text-2xl"></i><span>${msg}</span>`;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+    renderUnits();
+    document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('click', e => { if(e.target===m) { m.classList.remove('active'); document.body.style.overflow=''; }});
+    });
+    document.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal.active').forEach(m=>{m.classList.remove('active');document.body.style.overflow='';}); });
+});
+
+// ===== EXPOSE GLOBALS =====
+window.openModal = openModal; window.closeModal = closeModal; window.switchModal = switchModal;
+window.toggleTheme = toggleTheme; window.handleLogin = handleLogin; window.handleRegister = handleRegister;
+window.logout = logout; window.filterSkill = filterSkill; window.tryAdmin = tryAdmin;
+window.logoutAdmin = logoutAdmin; window.approveUser = approveUser; window.rejectUser = rejectUser;
+</script>
 </body>
 </html>
