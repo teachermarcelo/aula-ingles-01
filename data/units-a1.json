@@ -1,0 +1,35 @@
+{
+  "level": "A1",
+  "totalUnits": 30,
+  "units": [
+    {
+      "id": "u01",
+      "title": "Greetings & Introductions",
+      "icon": "fa-hand-wave",
+      "color": "#22c55e",
+      "skills": {
+        "reading": { "title": "Hello! My name is...", "duration": 10, "words": 75 },
+        "listening": { "title": "Greetings Audio", "duration": 10, "tracks": 3 },
+        "speaking": { "title": "Introduce Yourself", "duration": 10, "prompts": 5 },
+        "writing": { "title": "Fill the Blanks", "duration": 10, "exercises": 4 }
+      },
+      "vocab": ["hello", "name", "nice", "meet", "you"],
+      "grammar": ["verb to be", "subject pronouns"]
+    },
+    {
+      "id": "u02",
+      "title": "Numbers 1-20",
+      "icon": "fa-hashtag",
+      "color": "#10b981",
+      "skills": {
+        "reading": { "title": "Counting Things", "duration": 10, "words": 60 },
+        "listening": { "title": "Number Dictation", "duration": 10, "tracks": 5 },
+        "speaking": { "title": "Say the Numbers", "duration": 10, "prompts": 10 },
+        "writing": { "title": "Write Numbers", "duration": 10, "exercises": 5 }
+      },
+      "vocab": ["one", "two", "three", "four", "five"],
+      "grammar": ["plural nouns"]
+    }
+    // ... mais 28 unidades (posso gerar todas)
+  ]
+}
