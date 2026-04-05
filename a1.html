@@ -247,38 +247,31 @@
 <div id="toast" class="toast"></div>
 
 <script type="module">
-// ===== CONFIGURAÇÃO FIREBASE (Substitua pelas suas chaves reais) =====
+// ===== FIREBASE CONFIG =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 const firebaseConfig = {
-
-  apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
-
-  authDomain: "englishpath-2d558.firebaseapp.com",
-
-  projectId: "englishpath-2d558",
-
-  storageBucket: "englishpath-2d558.firebasestorage.app",
-
-  messagingSenderId: "384301599670",
-
-  appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
-
+    apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+    authDomain: "englishpath-2d558.firebaseapp.com",
+    projectId: "englishpath-2d558",
+    storageBucket: "englishpath-2d558.firebasestorage.app",
+    messagingSenderId: "384301599670",
+    appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
 };
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(db);
 
-// Safe Firebase init
-let auth, db;
-try {
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
-    const { getAuth } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-    const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-    const app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    db = getFirestore(app);
-} catch (e) {
-    console.warn("Firebase não configurado. Usando modo local.");
-}
+// ===== STATE =====
+let currentUser = null;
+let userData = null;
+let activeSkill = 'all';
+let userProgress = {};
 
-// ===== DADOS DAS 30 UNIDADES =====
+// ===== 30 UNITS DATA =====
 const UNITS = [
     {id:'u01',title:'Greetings & Introductions',icon:'fa-hand-wave',color:'#22c55e',skills:['reading','listening','speaking','writing']},
     {id:'u02',title:'Numbers 1-20',icon:'fa-hashtag',color:'#10b981',skills:['reading','listening','speaking','writing']},
@@ -312,142 +305,59 @@ const UNITS = [
     {id:'u30',title:'A1 Final Challenge',icon:'fa-trophy',color:'#dc2626',skills:['reading','listening','speaking','writing']}
 ];
 
-// ===== STATE =====
-let currentUser = null;
-let activeSkill = 'all';
-let userProgress = {};
-let allUsers = [];
-
-// ===== DATA SERVICE (Local ↔ Firebase) =====
-const DataService = {
-    async loadProgress() {
-        if (auth && currentUser) {
-            try {
-                const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-                const snap = await getDoc(doc(db, "usuarios", currentUser.uid));
-                if (snap.exists()) userProgress = snap.data().progresso || {};
-            } catch (e) { console.warn("Erro ao carregar progresso:", e); }
-        } else {
-            // Fallback localStorage
-            const saved = localStorage.getItem('ep_progress_a1');
-            userProgress = saved ? JSON.parse(saved) : {};
+// ===== AUTH STATE LISTENER (FIX - NO REDIRECT) =====
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        try {
+            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+            if (userDoc.exists()) {
+                userData = { uid: user.uid, ...userDoc.data() };
+                currentUser = user;
+                
+                // Load progress
+                userProgress = userData.progresso || {};
+                
+                // Update UI
+                updateAuthUI();
+                renderUnits();
+                updateLevelProgress();
+                
+                // Show crown if admin
+                if (userData.role === 'admin') {
+                    document.getElementById('adminBtn').classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            console.error("Error loading user:", error);
         }
-    },
-    
-    async saveProgress(unitId, skill, completed) {
-        const key = `${unitId}_${skill}`;
-        userProgress[key] = { completed, date: new Date().toISOString() };
-        
-        if (auth && currentUser) {
-            try {
-                const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-                await updateDoc(doc(db, "usuarios", currentUser.uid), { progresso: userProgress });
-            } catch (e) { console.warn("Erro ao salvar progresso:", e); }
-        } else {
-            localStorage.setItem('ep_progress_a1', JSON.stringify(userProgress));
-        }
-    },
-    
-    getUnitProgress(unitId) {
-        const skills = ['reading','listening','speaking','writing'];
-        const done = skills.filter(s => userProgress[`${unitId}_${s}`]?.completed).length;
-        return Math.round((done / 4) * 100);
-    },
-    
-    getLevelProgress() {
-        const total = UNITS.length * 4;
-        const done = Object.values(userProgress).filter(p => p.completed).length;
-        return total > 0 ? Math.round((done / total) * 100) : 0;
+    } else {
+        // User is logged out - just show guest view, DON'T redirect
+        currentUser = null;
+        userData = null;
+        userProgress = {};
+        updateAuthUI();
+        renderUnits();
     }
-};
+});
 
-// ===== AUTH =====
+// ===== UI FUNCTIONS =====
 function updateAuthUI() {
     const authSection = document.getElementById('authSection');
     const adminBtn = document.getElementById('adminBtn');
-    if (currentUser) {
-        authSection.innerHTML = `<span class="text-xs c-muted mr-2">Olá, ${currentUser.nome || 'Usuário'}</span><button onclick="logout()" class="btn btn-outline text-xs py-1.5 px-3">Sair</button>`;
-        adminBtn.classList.toggle('hidden', currentUser.role !== 'admin');
-    } else {
-        authSection.innerHTML = `<button onclick="openModal('login')" class="btn btn-outline text-xs py-1.5 px-3 mr-1">Login</button><button onclick="openModal('register')" class="btn btn-primary text-xs py-1.5 px-3">Cadastrar</button>`;
-        adminBtn.classList.add('hidden');
-    }
-}
-
-async function handleRegister(e) {
-    e.preventDefault();
-    const nome = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
-    const pass = document.getElementById('regPass').value;
     
-    if (auth) {
-        try {
-            const { createUserWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-            const cred = await createUserWithEmailAndPassword(auth, email, pass);
-            const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-            await setDoc(doc(db, "usuarios", cred.user.uid), {
-                nome, email, role: 'student', status: 'pending',
-                createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0, progresso: {}
-            });
-            closeModal('register');
-            showToast('Cadastro realizado! Aguarde aprovação.', 'success');
-        } catch (err) { showToast(err.message, 'error'); }
+    if (currentUser && userData) {
+        authSection.innerHTML = `
+            <span class="text-xs c-muted mr-2">Olá, ${userData.nome}</span>
+            <button onclick="logout()" class="btn btn-outline text-xs py-1.5 px-3">Sair</button>
+        `;
     } else {
-        // Local fallback
-        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
-        if (users.find(u => u.email === email)) return showToast('Email já cadastrado', 'error');
-        users.push({ id: Date.now().toString(), nome, email, pass, role: 'student', status: 'pending' });
-        localStorage.setItem('ep_users', JSON.stringify(users));
-        closeModal('register');
-        showToast('Cadastro realizado! (Modo Local)', 'success');
+        authSection.innerHTML = `
+            <button onclick="openModal('login')" class="btn btn-outline text-xs py-1.5 px-3 mr-1">Login</button>
+            <button onclick="openModal('register')" class="btn btn-primary text-xs py-1.5 px-3">Cadastrar</button>
+        `;
     }
 }
 
-async function handleLogin(e) {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const pass = document.getElementById('loginPass').value;
-    
-    if (auth) {
-        try {
-            const { signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-            const cred = await signInWithEmailAndPassword(auth, email, pass);
-            const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-            const snap = await getDoc(doc(db, "usuarios", cred.user.uid));
-            if (snap.exists()) {
-                currentUser = { uid: cred.user.uid, ...snap.data() };
-                if (currentUser.status !== 'approved') throw new Error(`Status: ${currentUser.status}`);
-                await DataService.loadProgress();
-                closeModal('login');
-                updateAuthUI();
-                renderUnits();
-                showToast(`Bem-vindo, ${currentUser.nome}!`, 'success');
-            }
-        } catch (err) { showToast(err.message || 'Erro ao logar', 'error'); }
-    } else {
-        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
-        const user = users.find(u => u.email === email && u.pass === pass);
-        if (!user) return showToast('Email ou senha incorretos', 'error');
-        if (user.status !== 'approved') return showToast(`Status: ${user.status}`, 'warning');
-        currentUser = user;
-        await DataService.loadProgress();
-        closeModal('login');
-        updateAuthUI();
-        renderUnits();
-        showToast('Login realizado (Modo Local)', 'success');
-    }
-}
-
-function logout() {
-    currentUser = null;
-    userProgress = {};
-    if (auth) auth.signOut();
-    updateAuthUI();
-    renderUnits();
-    showToast('Você saiu do sistema', 'success');
-}
-
-// ===== RENDER UNITS =====
 function renderUnits() {
     const grid = document.getElementById('unitsGrid');
     const filtered = activeSkill === 'all' ? UNITS : UNITS.filter(u => u.skills.includes(activeSkill));
@@ -460,8 +370,8 @@ function renderUnits() {
     document.getElementById('emptyMsg').classList.add('hidden');
     
     grid.innerHTML = filtered.map((u, i) => {
-        const progress = DataService.getUnitProgress(u.id);
-        const linkFile = `lesson-${u.id}.html`; // lesson-u01.html, lesson-u02.html, etc.
+        const progress = getUnitProgress(u.id);
+        const linkFile = `lesson-${u.id}.html`;
         return `
         <a href="${linkFile}" class="unit-card reveal" style="transition-delay:${i*30}ms">
             <div class="flex items-start gap-3">
@@ -484,14 +394,29 @@ function renderUnits() {
     }).join('');
     
     requestAnimationFrame(() => grid.querySelectorAll('.reveal').forEach(el => el.classList.add('vis')));
-    
-    const levelPct = DataService.getLevelProgress();
-    document.getElementById('levelPct').textContent = levelPct + '%';
-    document.getElementById('levelBar').style.width = levelPct + '%';
+    updateLevelProgress();
 }
 
 function getSkillIcon(skill) {
     return {reading:'book-open',listening:'headphones',speaking:'microphone',writing:'pen-nib'}[skill] || 'star';
+}
+
+function getUnitProgress(unitId) {
+    const skills = ['reading','listening','speaking','writing'];
+    const done = skills.filter(s => userProgress[`${unitId}_${s}`]?.completed).length;
+    return Math.round((done / 4) * 100);
+}
+
+function getLevelProgress() {
+    const total = UNITS.length * 4;
+    const done = Object.values(userProgress).filter(p => p.completed).length;
+    return total > 0 ? Math.round((done / total) * 100) : 0;
+}
+
+function updateLevelProgress() {
+    const pct = getLevelProgress();
+    document.getElementById('levelPct').textContent = pct + '%';
+    document.getElementById('levelBar').style.width = pct + '%';
 }
 
 function filterSkill(skill) {
@@ -500,6 +425,59 @@ function filterSkill(skill) {
         btn.classList.toggle('active', btn.dataset.skill === skill);
     });
     renderUnits();
+}
+
+// ===== MODALS =====
+function openModal(id) {
+    document.getElementById(id+'Modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+    document.getElementById(id+'Modal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function switchModal(from, to) {
+    closeModal(from);
+    setTimeout(() => openModal(to), 200);
+}
+
+// ===== AUTH FUNCTIONS =====
+async function handleRegister(e) {
+    e.preventDefault();
+    const nome = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const pass = document.getElementById('regPass').value;
+    
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await setDoc(doc(db, "usuarios", cred.user.uid), {
+            nome, email, role: 'student', status: 'pending',
+            createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0, progresso: {}
+        });
+        closeModal('register');
+        showToast('Cadastro realizado! Aguarde aprovação.', 'success');
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    
+    try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        closeModal('login');
+        // onAuthStateChanged will handle the rest
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+}
+
+async function logout() {
+    await signOut(auth);
+    showToast('Você saiu do sistema', 'success');
 }
 
 // ===== ADMIN =====
@@ -516,58 +494,37 @@ function tryAdmin() {
 }
 function logoutAdmin() { sessionStorage.removeItem('ep_admin'); closeModal('admin'); }
 async function loadAdminData() {
-    if (auth) {
-        try {
-            const { collection, getDocs, query, orderBy } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-            const snap = await getDocs(query(collection(db, "usuarios"), orderBy("createdAt", "desc")));
-            allUsers = snap.docs.map(d => ({id: d.id, ...d.data()}));
-        } catch(e) { allUsers = []; }
-    } else {
-        allUsers = JSON.parse(localStorage.getItem('ep_users') || '[]');
-    }
-    
-    document.getElementById('totalUsers').textContent = allUsers.length;
-    const pending = allUsers.filter(u => u.status === 'pending');
-    document.getElementById('pendingList').innerHTML = pending.length 
-        ? pending.map(u => `
-            <div class="c-card rounded-lg p-2 flex items-center justify-between text-xs">
-                <span>${u.nome} <span class="c-muted">(${u.email})</span></span>
-                <div class="flex gap-1">
-                    <button onclick="approveUser('${u.id}')" class="px-2 py-1 rounded bg-green-500/20 c-primary">✓</button>
-                    <button onclick="rejectUser('${u.id}')" class="px-2 py-1 rounded bg-red-500/20 c-danger">✗</button>
-                </div>
-            </div>`).join('')
-        : '<p class="c-muted text-xs">Nenhum pendente</p>';
+    try {
+        const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        const users = snap.docs.map(d => ({id: d.id, ...d.data()}));
+        
+        document.getElementById('totalUsers').textContent = users.length;
+        const pending = users.filter(u => u.status === 'pending');
+        document.getElementById('pendingList').innerHTML = pending.length 
+            ? pending.map(u => `
+                <div class="c-card rounded-lg p-2 flex items-center justify-between text-xs">
+                    <span>${u.nome} <span class="c-muted">(${u.email})</span></span>
+                    <div class="flex gap-1">
+                        <button onclick="approveUser('${u.id}')" class="px-2 py-1 rounded bg-green-500/20 c-primary">✓</button>
+                        <button onclick="rejectUser('${u.id}')" class="px-2 py-1 rounded bg-red-500/20 c-danger">✗</button>
+                    </div>
+                </div>`).join('')
+            : '<p class="c-muted text-xs">Nenhum pendente</p>';
+    } catch(e) { console.error(e); }
 }
 async function approveUser(id) {
-    if (auth) {
-        const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-        await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
-    } else {
-        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
-        const u = users.find(x => x.id === id);
-        if(u) { u.status = 'approved'; localStorage.setItem('ep_users', JSON.stringify(users)); }
-    }
+    await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
     showToast('Usuário aprovado!', 'success');
     loadAdminData();
 }
 async function rejectUser(id) {
-    if (auth) {
-        const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-        await updateDoc(doc(db, "usuarios", id), { status: 'rejected' });
-    } else {
-        const users = JSON.parse(localStorage.getItem('ep_users') || '[]');
-        const u = users.find(x => x.id === id);
-        if(u) { u.status = 'rejected'; localStorage.setItem('ep_users', JSON.stringify(users)); }
-    }
+    await updateDoc(doc(db, "usuarios", id), { status: 'rejected' });
     showToast('Cadastro rejeitado', 'error');
     loadAdminData();
 }
 
-// ===== UI HELPERS =====
-function openModal(id) { document.getElementById(id+'Modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-function closeModal(id) { document.getElementById(id+'Modal').classList.remove('active'); document.body.style.overflow = ''; }
-function switchModal(from, to) { closeModal(from); setTimeout(() => openModal(to), 200); }
+// ===== THEME =====
 function toggleTheme() {
     const html = document.documentElement;
     html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -575,6 +532,7 @@ function toggleTheme() {
 }
 (function(){ const t = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
 
+// ===== TOAST =====
 function showToast(msg, type='success') {
     const t = document.getElementById('toast');
     const icons = {success:'fa-circle-check c-primary', error:'fa-circle-exclamation c-danger', warning:'fa-triangle-exclamation c-accent'};
@@ -582,6 +540,12 @@ function showToast(msg, type='success') {
     t.className = `toast ${type} show`;
     setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ===== EXPOSE GLOBALS =====
+window.openModal = openModal; window.closeModal = closeModal; window.switchModal = switchModal;
+window.toggleTheme = toggleTheme; window.handleLogin = handleLogin; window.handleRegister = handleRegister;
+window.logout = logout; window.filterSkill = filterSkill; window.tryAdmin = tryAdmin;
+window.logoutAdmin = logoutAdmin; window.approveUser = approveUser; window.rejectUser = rejectUser;
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -591,12 +555,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.addEventListener('keydown', e => { if(e.key==='Escape') document.querySelectorAll('.modal.active').forEach(m=>{m.classList.remove('active');document.body.style.overflow='';}); });
 });
-
-// ===== EXPOSE GLOBALS =====
-window.openModal = openModal; window.closeModal = closeModal; window.switchModal = switchModal;
-window.toggleTheme = toggleTheme; window.handleLogin = handleLogin; window.handleRegister = handleRegister;
-window.logout = logout; window.filterSkill = filterSkill; window.tryAdmin = tryAdmin;
-window.logoutAdmin = logoutAdmin; window.approveUser = approveUser; window.rejectUser = rejectUser;
 </script>
 </body>
 </html>
