@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPath — Admin Dashboard</title>
+    <title>EnglishPath — Aprenda Inglês Jogando</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
@@ -22,14 +21,14 @@
     </script>
     <style>
         :root {
-            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --border: #e2e8f0;
-            --text: #0f172a; --text-muted: #64748b; --primary: #22c55e;
+            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --border: #334155;
+            --text: #f1f5f9; --text-muted: #94a3b8; --primary: #22c55e;
             --secondary: #3b82f6; --accent: #f59e0b; --gem: #8b5cf6;
             --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
         }
-        [data-theme="dark"] {
-            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --border: #334155;
-            --text: #f1f5f9; --text-muted: #94a3b8;
+        [data-theme="light"] {
+            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --border: #e2e8f0;
+            --text: #0f172a; --text-muted: #64748b;
         }
         * { box-sizing: border-box; margin: 0; }
         body {
@@ -52,7 +51,7 @@
         .modal.active { display: flex; }
         .modal-content {
             background: var(--card); border-radius: 24px; padding: 2rem;
-            max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;
+            max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;
             animation: slideUp 0.3s ease;
         }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { opacity: 1; transform: translateY(0); } }
@@ -76,7 +75,6 @@
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-danger { background: var(--danger); color: white; }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .theme-toggle {
             width: 52px; height: 28px; border-radius: 14px; background: var(--border);
@@ -86,71 +84,22 @@
             content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px;
             border-radius: 50%; background: var(--primary); transition: transform 0.3s;
         }
-        [data-theme="dark"] .theme-toggle::after { transform: translateX(24px); }
+        [data-theme="light"] .theme-toggle::after { transform: translateX(24px); }
         
         .fade-in { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .loading { opacity: 0.7; pointer-events: none; position: relative; }
-        .loading::after {
-            content: ''; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.1); border-radius: inherit;
-        }
-        .loading::before {
-            content: ''; position: absolute; width: 24px; height: 24px; border: 3px solid var(--border);
-            border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .stat-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
-        }
-        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        
-        .user-row {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
-            transition: all 0.3s; cursor: pointer;
-        }
-        .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
-        .user-row.active { border-color: var(--primary); background: rgba(34,197,94,0.05); }
-        
-        .status-badge {
-            padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700;
-        }
-        .status-pending { background: #fbbf24; color: #78350f; }
-        .status-approved { background: #22c55e; color: white; }
-        .status-rejected { background: #ef4444; color: white; }
-        .status-inactive { background: #94a3b8; color: white; }
-        
-        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
-        
-        .tab-btn {
-            padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
-            font-weight: 600; transition: all 0.3s; border: none;
-            background: transparent; color: var(--text-muted); cursor: pointer;
-        }
-        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 2px solid var(--primary); }
-        .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
-        
         .hidden-section { display: none !important; }
         
-        .chart-container { position: relative; height: 300px; width: 100%; }
-        
-        @media (max-width: 768px) {
-            .modal-content { max-width: 95%; padding: 1rem; }
-            .stat-card { padding: 1rem; }
-        }
+        .crown-btn { background: #fbbf24; color: #78350f; }
+        .crown-btn:hover { background: #f59e0b; color: white; }
     </style>
 </head>
 <body>
 
     <!-- MODAL: LOGIN -->
     <div id="loginModal" class="modal">
-        <div class="modal-content max-w-md">
+        <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Bem-vindo! 👋</h2>
                 <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -176,7 +125,7 @@
 
     <!-- MODAL: REGISTRO -->
     <div id="registerModal" class="modal">
-        <div class="modal-content max-w-md">
+        <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Crie sua conta 🚀</h2>
                 <button onclick="closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -196,135 +145,8 @@
         </div>
     </div>
 
-    <!-- MODAL: ADMIN DASHBOARD -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">Painel Administrativo 👑</h2>
-                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <!-- Tabs -->
-            <div class="flex gap-2 mb-0 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
-                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active"><i class="fa-solid fa-chart-line mr-2"></i>Dashboard</button>
-                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn"><i class="fa-solid fa-users mr-2"></i>Alunos</button>
-                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn"><i class="fa-solid fa-file-alt mr-2"></i>Relatórios</button>
-                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn"><i class="fa-solid fa-cog mr-2"></i>Config</button>
-            </div>
-            
-            <!-- Tab: Dashboard -->
-            <div id="admin-dashboard" class="admin-section p-6">
-                <h3 class="font-bold text-lg mb-4">Visão Geral</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
-                        <div class="text-sm c-text-muted">Total Alunos</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
-                        <div class="text-sm c-text-muted">Ativos Hoje</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div>
-                        <div class="text-sm c-text-muted">Pendentes</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-gem mb-1" id="statAvgTime">0h</div>
-                        <div class="text-sm c-text-muted">Tempo Médio/Dia</div>
-                    </div>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">Progresso por Nível</h4>
-                        <div class="chart-container"><canvas id="chartLevels"></canvas></div>
-                    </div>
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">Atividade Semanal</h4>
-                        <div class="chart-container"><canvas id="chartActivity"></canvas></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab: Students -->
-            <div id="admin-students" class="admin-section hidden-section p-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                    <h3 class="font-bold text-lg">Gestão de Alunos</h3>
-                    <div class="flex gap-2 flex-wrap">
-                        <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="filterStudents()">
-                        <select id="filterLevel" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos os níveis</option>
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                        </select>
-                        <select id="filterStatus" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos status</option>
-                            <option value="approved">Aprovados</option>
-                            <option value="pending">Pendentes</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="studentsList" class="space-y-2 max-h-96 overflow-y-auto">
-                    <div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando...</p></div>
-                </div>
-            </div>
-            
-            <!-- Tab: Reports -->
-            <div id="admin-reports" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">Relatórios Detalhados</h3>
-                <div class="mb-4">
-                    <label class="block text-sm font-bold mb-2">Selecione um aluno:</label>
-                    <select id="reportStudentSelect" class="input-field" onchange="loadStudentReport(this.value)">
-                        <option value="">-- Selecione --</option>
-                    </select>
-                </div>
-                <div id="studentReport" class="hidden-section">
-                    <!-- Preenchido via JS -->
-                </div>
-            </div>
-            
-            <!-- Tab: Settings -->
-            <div id="admin-settings" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">Configurações</h3>
-                <div class="space-y-4">
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">Sistema</h4>
-                        <div class="flex items-center justify-between py-2">
-                            <span>Notificações por email</span>
-                            <input type="checkbox" class="toggle" checked>
-                        </div>
-                        <div class="flex items-center justify-between py-2">
-                            <span>Aprovação automática</span>
-                            <input type="checkbox" class="toggle">
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">Backup</h4>
-                        <button onclick="exportData()" class="btn btn-outline w-full mb-2"><i class="fa-solid fa-download"></i> Exportar Dados</button>
-                        <button onclick="logout()" class="btn btn-danger w-full"><i class="fa-solid fa-sign-out-alt"></i> Sair</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: Student Details -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">Relatório do Aluno</h2>
-                <button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="studentDetailsContent">
-                <!-- Preenchido via JS -->
-            </div>
-        </div>
-    </div>
-
     <!-- HEADER -->
-    <header class="sticky top-0 z-40 c-card border-b border-gray-200 dark:border-gray-700">
+    <header class="sticky top-0 z-40 c-card border-b border-gray-700">
         <div class="max-w-6xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -339,7 +161,7 @@
                     </div>
                     <div id="userInfo" class="hidden flex items-center gap-3">
                         <span id="userName" class="font-bold hidden md:inline"></span>
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full c-accent-bg text-white"><i class="fa-solid fa-crown"></i></button>
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn"><i class="fa-solid fa-crown"></i></button>
                         <button onclick="logout()" class="w-10 h-10 rounded-full c-danger-bg text-white"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
                 </div>
@@ -349,6 +171,7 @@
 
     <!-- MAIN CONTENT -->
     <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Guest View -->
         <div id="guestView" class="fade-in">
             <div class="text-center py-16">
                 <div class="w-24 h-24 mx-auto mb-6 rounded-full c-primary-bg flex items-center justify-center text-5xl text-white"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -361,25 +184,99 @@
             </div>
         </div>
 
-        <div id="loggedInView" class="hidden fade-in">
-            <div class="text-center mb-8"><h2 class="font-display font-bold text-3xl mb-2">Olá, <span id="welcomeName">Aluno</span>! 👋</h2><p class="c-text-muted">Continue sua jornada no inglês!</p></div>
-            <div class="c-card rounded-2xl p-6 mb-8">
+        <!-- Logged In View - ALWAYS SHOWS JOURNEY -->
+        <div id="loggedInView" class="fade-in space-y-6">
+            <div class="text-center mb-8">
+                <h2 class="font-display font-bold text-3xl mb-2">Olá, <span id="welcomeName">Aluno</span>! 👋</h2>
+                <p class="c-text-muted">Continue sua jornada no inglês!</p>
+            </div>
+            
+            <!-- SUA JORNADA - Always visible for logged users -->
+            <div class="c-card rounded-2xl p-6">
                 <h3 class="font-display font-bold text-xl mb-4">Sua Jornada</h3>
+                <div class="flex items-center justify-center gap-4 flex-wrap mb-6">
+                    <a href="a1.html" class="flex flex-col items-center gap-2 p-4 rounded-xl c-card hover:border-green-500 border-2 border-transparent transition-all">
+                        <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white shadow-lg">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <span class="text-sm font-bold">A1</span>
+                    </a>
+                    <div class="w-12 h-1 bg-gray-600"></div>
+                    <div class="flex flex-col items-center gap-2 p-4 rounded-xl opacity-50">
+                        <div class="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center text-2xl text-white">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <span class="text-sm font-bold">A2</span>
+                    </div>
+                    <div class="w-12 h-1 bg-gray-600"></div>
+                    <div class="flex flex-col items-center gap-2 p-4 rounded-xl opacity-50">
+                        <div class="w-16 h-16 rounded-full c-secondary-bg flex items-center justify-center text-2xl text-white">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <span class="text-sm font-bold">B1</span>
+                    </div>
+                </div>
                 <a href="a1.html" class="btn btn-primary w-full"><i class="fa-solid fa-play"></i> Continuar Estudos</a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div>
+                    <div class="text-xs c-text-muted">XP Total</div>
+                </div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire"></i> <span id="userStreak">0</span></div>
+                    <div class="text-xs c-text-muted">Dias Seguidos</div>
+                </div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem"></i> <span id="userGems">0</span></div>
+                    <div class="text-xs c-text-muted">Gemas</div>
+                </div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div>
+                    <div class="text-xs c-text-muted">Nível</div>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Toast Notification -->
+    <!-- MODAL: ADMIN -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">Painel Admin 👑</h2>
+                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="adminContent" class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="c-card rounded-xl p-3 text-center">
+                        <div class="text-xl font-bold c-accent" id="totalUsers">0</div>
+                        <div class="text-xs c-text-muted">Usuários</div>
+                    </div>
+                    <div class="c-card rounded-xl p-3 text-center">
+                        <div class="text-xl font-bold" id="pendingUsers">0</div>
+                        <div class="text-xs c-text-muted">Pendentes</div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm mb-2">Aprovações Pendentes</h4>
+                    <div id="pendingList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+                </div>
+                <button onclick="logout()" class="btn btn-danger w-full"><i class="fa-solid fa-sign-out-alt"></i> Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
     <div id="toast" class="fixed bottom-4 right-4 z-[2000]"></div>
 
-    <!-- FIREBASE + APP LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, query, orderBy, updateDoc, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ===== CONFIGURAÇÃO FIREBASE =====
+        // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
 
   apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
@@ -403,10 +300,8 @@
 
         let currentUser = null;
         let userData = null;
-        let allStudents = [];
-        let charts = {};
 
-        // ===== EXPOSIÇÃO DE FUNÇÕES =====
+        // ===== EXPOSE FUNCTIONS =====
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.switchModal = switchModal;
@@ -414,24 +309,19 @@
         window.handleLogin = handleLogin;
         window.handleRegister = handleRegister;
         window.logout = logout;
-        window.showAdminTab = showAdminTab;
-        window.filterStudents = filterStudents;
-        window.loadStudentReport = loadStudentReport;
-        window.exportData = exportData;
 
-        // ===== MONITORAR AUTH =====
+        // ===== AUTH STATE =====
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
                 if (userDoc.exists()) {
                     userData = { uid: user.uid, ...userDoc.data() };
                     currentUser = user;
-                    
                     if (userData.status === 'approved') {
                         updateUI();
                         showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                     } else {
-                        showToast('Aguarde', `Cadastro ${userData.status}. Contate admin.`, 'warning');
+                        showToast('Aguarde', `Cadastro ${userData.status}`, 'warning');
                         await logout();
                     }
                 }
@@ -454,6 +344,10 @@
                 userInfo.classList.remove('hidden');
                 document.getElementById('userName').textContent = userData.nome;
                 document.getElementById('welcomeName').textContent = userData.nome;
+                document.getElementById('userXp').textContent = userData.xp || '0';
+                document.getElementById('userStreak').textContent = userData.streak || '0';
+                document.getElementById('userGems').textContent = userData.gems || '0';
+                document.getElementById('userLevel').textContent = userData.level || 'A1';
                 
                 if (userData.role === 'admin') adminBtn.classList.remove('hidden');
                 else adminBtn.classList.add('hidden');
@@ -471,7 +365,7 @@
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
             document.body.style.overflow = 'hidden';
-            if (modalId === 'adminModal') loadDashboardData();
+            if (modalId === 'adminModal') loadAdminData();
         }
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
@@ -488,8 +382,8 @@
 
         function showToast(title, message, type = 'success') {
             const toast = document.createElement('div');
-            toast.className = `c-card rounded-xl p-4 shadow-lg z-50 fade-in flex items-center gap-3`;
-            const colors = { success: 'border-l-4 border-green-500', error: 'border-l-4 border-red-500', warning: 'border-l-4 border-yellow-500' };
+            toast.className = `c-card rounded-xl p-4 shadow-lg z-50 fade-in flex items-center gap-3 border-l-4`;
+            const colors = { success: 'border-green-500', error: 'border-red-500', warning: 'border-yellow-500' };
             const icons = { success: 'fa-check-circle text-green-500', error: 'fa-circle-exclamation text-red-500', warning: 'fa-triangle-exclamation text-yellow-500' };
             toast.classList.add(...colors[type].split(' '));
             toast.innerHTML = `<i class="fa-solid ${icons[type]} text-2xl"></i><div><div class="font-bold">${title}</div><div class="text-sm c-text-muted">${message}</div></div>`;
@@ -513,8 +407,7 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
                 await setDoc(doc(db, "usuarios", userCredential.user.uid), {
                     nome, email, role: 'student', status: 'pending',
-                    createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0,
-                    tempoTotal: 0, ultimoLogin: null, progresso: {}
+                    createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0
                 });
                 
                 closeModal('registerModal');
@@ -547,253 +440,64 @@
 
         async function logout() {
             await signOut(auth);
+            closeModal('adminModal');
             showToast('Logout', 'Você saiu do sistema', 'success');
         }
 
-        // ===== DASHBOARD FUNCTIONS =====
-        async function loadDashboardData() {
+        async function loadAdminData() {
             try {
                 const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
                 const snapshot = await getDocs(q);
-                allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                updateStats();
-                renderCharts();
-                renderStudentsList();
-                populateReportSelect();
+                document.getElementById('totalUsers').textContent = users.length;
+                document.getElementById('pendingUsers').textContent = users.filter(u => u.status === 'pending').length;
+                
+                const pending = users.filter(u => u.status === 'pending');
+                document.getElementById('pendingList').innerHTML = pending.length 
+                    ? pending.map(u => `
+                        <div class="c-card rounded-lg p-3 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold">${u.nome}</div>
+                                <div class="text-xs c-text-muted">${u.email}</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="approveUser('${u.id}')" class="btn btn-sm btn-primary"><i class="fa-solid fa-check"></i></button>
+                                <button onclick="rejectUser('${u.id}')" class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<p class="c-text-muted text-center py-4">Nenhum pendente</p>';
                 
             } catch (error) {
                 console.error('Erro:', error);
-                showToast('Erro', 'Falha ao carregar dados', 'error');
             }
-        }
-
-        function updateStats() {
-            document.getElementById('statTotal').textContent = allStudents.length;
-            document.getElementById('statActive').textContent = allStudents.filter(u => u.status === 'approved' && u.ultimoLogin && new Date(u.ultimoLogin) > new Date(Date.now() - 86400000)).length;
-            document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
-            
-            const avgTime = allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / allStudents.length || 0;
-            document.getElementById('statAvgTime').textContent = (avgTime / 3600000).toFixed(1) + 'h';
-        }
-
-        function renderCharts() {
-            // Chart: Levels
-            const levels = {};
-            allStudents.filter(u => u.status === 'approved').forEach(u => {
-                levels[u.level || 'A1'] = (levels[u.level || 'A1'] || 0) + 1;
-            });
-            
-            const ctxLevels = document.getElementById('chartLevels').getContext('2d');
-            if (charts.levels) charts.levels.destroy();
-            charts.levels = new Chart(ctxLevels, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(levels),
-                    datasets: [{
-                        label: 'Alunos',
-                        data: Object.values(levels),
-                        backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626']
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-            
-            // Chart: Activity (mock data for now)
-            const ctxActivity = document.getElementById('chartActivity').getContext('2d');
-            if (charts.activity) charts.activity.destroy();
-            charts.activity = new Chart(ctxActivity, {
-                type: 'line',
-                data: {
-                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                    datasets: [{
-                        label: 'Atividade',
-                        data: [12, 19, 15, 22, 18, 10, 8],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-        }
-
-        function renderStudentsList() {
-            const container = document.getElementById('studentsList');
-            if (!allStudents.length) {
-                container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>';
-                return;
-            }
-            
-            container.innerHTML = allStudents.map(u => `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">${u.nome.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="font-bold">${u.nome}</div>
-                                <div class="text-sm c-text-muted">${u.email}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">${u.status === 'pending' ? 'Pendente' : 'Aprovado'}</span>
-                            ${u.status === 'pending' ? `
-                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary"><i class="fa-solid fa-check"></i></button>
-                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i></button>
-                            ` : `
-                                <div class="text-right text-xs">
-                                    <div class="c-text-muted">${u.level || 'A1'}</div>
-                                    <div class="font-bold c-primary">${u.xp || 0} XP</div>
-                                </div>
-                            `}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function populateReportSelect() {
-            const select = document.getElementById('reportStudentSelect');
-            select.innerHTML = '<option value="">-- Selecione --</option>' + 
-                allStudents.filter(u => u.status === 'approved').map(u => `<option value="${u.id}">${u.nome} (${u.email})</option>`).join('');
         }
 
         async function approveUser(userId) {
             try {
                 await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
-                showToast('Sucesso', 'Aluno aprovado!', 'success');
-                loadDashboardData();
+                showToast('Sucesso', 'Usuário aprovado!', 'success');
+                loadAdminData();
             } catch (error) {
                 showToast('Erro', error.message, 'error');
             }
         }
 
         async function rejectUser(userId) {
-            if (!confirm('Rejeitar este aluno?')) return;
+            if (!confirm('Rejeitar este usuário?')) return;
             try {
                 await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
                 showToast('Rejeitado', 'Cadastro rejeitado', 'error');
-                loadDashboardData();
+                loadAdminData();
             } catch (error) {
                 showToast('Erro', error.message, 'error');
             }
         }
 
-        function filterStudents() {
-            const search = document.getElementById('searchStudent').value.toLowerCase();
-            const level = document.getElementById('filterLevel').value;
-            const status = document.getElementById('filterStatus').value;
-            
-            let filtered = allStudents.filter(u => {
-                const matchSearch = u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
-                const matchLevel = level === 'all' || u.level === level;
-                const matchStatus = status === 'all' || u.status === status;
-                return matchSearch && matchLevel && matchStatus;
-            });
-            
-            const container = document.getElementById('studentsList');
-            container.innerHTML = filtered.map(u => `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">${u.nome.charAt(0).toUpperCase()}</div>
-                            <div>
-                                <div class="font-bold">${u.nome}</div>
-                                <div class="text-sm c-text-muted">${u.email}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">${u.status}</span>
-                            <div class="text-right text-xs">
-                                <div class="c-text-muted">${u.level || 'A1'}</div>
-                                <div class="font-bold c-primary">${u.xp || 0} XP</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function openStudentDetails(userId) {
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
-            const content = document.getElementById('studentDetailsContent');
-            content.innerHTML = `
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white font-bold">${student.nome.charAt(0).toUpperCase()}</div>
-                        <div>
-                            <h3 class="font-bold text-xl">${student.nome}</h3>
-                            <p class="c-text-muted">${student.email}</p>
-                            <span class="status-badge status-${student.status}">${student.status}</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="stat-card text-center"><div class="text-2xl font-bold c-xp">${student.xp || 0}</div><div class="text-xs c-text-muted">XP Total</div></div>
-                        <div class="stat-card text-center"><div class="text-2xl font-bold c-streak">${student.streak || 0}</div><div class="text-xs c-text-muted">Dias Seguidos</div></div>
-                        <div class="stat-card text-center"><div class="text-2xl font-bold c-gem">${student.gems || 0}</div><div class="text-xs c-text-muted">Gemas</div></div>
-                        <div class="stat-card text-center"><div class="text-2xl font-bold c-primary">${student.level || 'A1'}</div><div class="text-xs c-text-muted">Nível</div></div>
-                    </div>
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">Tempo de Estudo</h4>
-                        <p class="c-text-muted">Total: ${(student.tempoTotal || 0) / 3600000} horas</p>
-                        <p class="c-text-muted">Último login: ${student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1"><i class="fa-solid fa-check"></i> Aprovar</button>
-                        <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
-                    </div>
-                </div>
-            `;
-            openModal('studentModal');
-        }
-
-        async function loadStudentReport(userId) {
-            if (!userId) {
-                document.getElementById('studentReport').classList.add('hidden-section');
-                return;
-            }
-            
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
-            const container = document.getElementById('studentReport');
-            container.classList.remove('hidden-section');
-            container.innerHTML = `
-                <div class="stat-card mb-4">
-                    <h4 class="font-bold mb-3">${student.nome}</h4>
-                    <div class="space-y-3">
-                        <div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function showAdminTab(tab) {
-            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
-            document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-        }
-
-        function exportData() {
-            const data = JSON.stringify(allStudents, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup-englishpath-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            showToast('Sucesso', 'Dados exportados!', 'success');
-        }
-
         // ===== INIT =====
         window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('ep_theme') || 'light';
+            const savedTheme = localStorage.getItem('ep_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             
             document.querySelectorAll('.modal').forEach(modal => {
