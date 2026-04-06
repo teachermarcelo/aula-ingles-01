@@ -29,6 +29,18 @@
             z-index: 100;
         }
         
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #afafaf;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { color: #ff4b4b; background: #fee2e2; }
+        
         .progress-wrapper { flex: 1; }
         .progress-track {
             height: 16px;
@@ -76,7 +88,6 @@
         .tabs-wrapper {
             display: flex;
             gap: 0.5rem;
-            min-width: max-content;
         }
         .tab-btn {
             padding: 0.75rem 1.25rem;
@@ -108,6 +119,7 @@
         .tab-btn.completed::after {
             content: '✓';
             font-size: 0.8rem;
+            margin-left: 0.25rem;
         }
         
         /* MAIN CONTENT */
@@ -136,6 +148,7 @@
             font-weight: 800;
             text-align: center;
             margin-bottom: 1.5rem;
+            color: #333;
         }
         
         .options-grid {
@@ -230,6 +243,31 @@
             border-color: #1cb0f6;
         }
         
+        .dialogue-box {
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .speaker-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .speaker-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        
         /* BOTTOM BAR */
         .bottom-bar {
             position: fixed;
@@ -295,30 +333,15 @@
         }
         .video-wrapper iframe { width: 100%; height: 100%; }
         
-        .dialogue-box {
-            background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+        .completion-message {
+            text-align: center;
+            padding: 3rem 1rem;
         }
-        .speaker-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .completion-message i {
+            font-size: 4rem;
+            color: #58cc02;
             margin-bottom: 1rem;
         }
-        .speaker-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
         
         @media (max-width: 480px) {
             .main-content { padding: 1.5rem 0.75rem 160px; }
@@ -330,7 +353,7 @@
 
     <!-- TOP BAR -->
     <div class="top-bar">
-        <button class="close-btn" onclick="saveAndExit()" style="background:none;border:none;font-size:1.5rem;color:#afafaf;cursor:pointer;">
+        <button class="close-btn" onclick="saveAndExit()" aria-label="Fechar">
             <i class="fa-solid fa-xmark"></i>
         </button>
         
@@ -382,7 +405,7 @@
         <!-- VIDEO TAB -->
         <div id="tab-video" class="tab-content active">
             <div class="video-wrapper">
-                <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                <iframe id="videoFrame" src="" frameborder="0" allowfullscreen title="Video lesson"></iframe>
             </div>
             <p style="text-align:center;color:#777;">Assista ao vídeo e clique em "Começar Exercícios"</p>
         </div>
@@ -445,14 +468,14 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== DATA BY TAB =====
+    // ===== COMPREHENSIVE DATA =====
     const tabsData = {
         video: {
             videoId: 'YuXFxvTbviI',
             title: 'Assista e aprenda os números de 1 a 100!'
         },
         reading: [
-            { q: 'Quem é do Brasil?', options: ['John', 'Maria', 'Both'], answer: 1 },
+            { q: 'Quem é do Brasil?', options: ['John', 'Maria', 'Ambos'], answer: 1 },
             { q: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1 },
             { q: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1 },
             { q: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1 },
@@ -464,16 +487,16 @@
             { q: 'Complete: "I\'m _____ years old"', options: ['twenty', 'twenty-five', 'thirty'], answer: 1 }
         ],
         listening: [
-            { audio: 'one', q: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
-            { audio: 'five', q: 'O que ouviu?', options: ['5', '15', '50'], answer: 0 },
+            { audio: 'one', q: 'Qual número você ouviu?', options: ['1', '10', '11'], answer: 0 },
+            { audio: 'five', q: 'O que você ouviu?', options: ['5', '15', '50'], answer: 0 },
             { audio: 'ten', q: 'Qual número?', options: ['10', '11', '12'], answer: 0 },
             { audio: 'twenty', q: 'O que foi dito?', options: ['12', '20', '2'], answer: 1 },
             { audio: 'thirty', q: 'Qual número?', options: ['13', '30', '3'], answer: 1 },
-            { audio: 'forty', q: 'O que ouviu?', options: ['14', '40', '4'], answer: 1 },
+            { audio: 'forty', q: 'O que você ouviu?', options: ['14', '40', '4'], answer: 1 },
             { audio: 'fifty', q: 'Qual número?', options: ['15', '50', '5'], answer: 1 },
             { audio: 'sixty', q: 'O que foi falado?', options: ['16', '60', '6'], answer: 1 },
             { audio: 'seventy', q: 'Qual número?', options: ['17', '70', '7'], answer: 1 },
-            { audio: 'eighty', q: 'O que ouviu?', options: ['18', '80', '8'], answer: 1 }
+            { audio: 'eighty', q: 'O que você ouviu?', options: ['18', '80', '8'], answer: 1 }
         ],
         speaking: [
             { phrase: 'eleven', q: 'Diga em inglês: "Onze"' },
@@ -500,16 +523,16 @@
             { q: 'Escreva em inglês: 30', answer: 'thirty' }
         ],
         grammar: [
-            { q: 'Qual a regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
-            { q: '1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
-            { q: '2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
-            { q: '3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
-            { q: 'Qual está correto?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
-            { q: 'Qual está correto?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
-            { q: 'Como escreve 100?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
-            { q: 'UK: 105 é?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
-            { q: 'Ordinal de 5?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
-            { q: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 }
+            { q: 'Qual a regra para números 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
+            { q: 'Como se diz 1º (primeiro) em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
+            { q: 'Como se diz 2º (segundo) em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
+            { q: 'Como se diz 3º (terceiro) em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
+            { q: 'Qual está escrito corretamente?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
+            { q: 'Qual está escrito corretamente?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
+            { q: 'Como se escreve 100 em inglês?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
+            { q: 'Em inglês britânico, como se diz 105?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
+            { q: 'Qual é o ordinal de 5 (quinto)?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
+            { q: 'Qual é o ordinal de 10 (décimo)?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 }
         ]
     };
 
@@ -543,8 +566,9 @@
                     // Load saved progress per tab
                     if (data.progresso) {
                         Object.keys(currentIndex).forEach(tab => {
-                            if (data.progresso[`u02_${tab}`] !== undefined) {
-                                currentIndex[tab] = data.progresso[`u02_${tab}`];
+                            const savedIndex = data.progresso[`u02_${tab}`];
+                            if (savedIndex !== undefined) {
+                                currentIndex[tab] = savedIndex;
                             }
                         });
                     }
@@ -602,10 +626,15 @@
         const data = tabsData[currentTab];
         const index = currentIndex[currentTab];
         
+        if (!data || data.length === 0) {
+            console.error(`No data for tab: ${currentTab}`);
+            return;
+        }
+        
         if (index >= data.length) {
             document.getElementById(`tab-${currentTab}`).innerHTML = `
-                <div style="text-align:center;padding:3rem 1rem;">
-                    <div style="font-size:4rem;margin-bottom:1rem;">✅</div>
+                <div class="completion-message">
+                    <i class="fa-solid fa-check-circle"></i>
                     <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Seção Completa!</h3>
                     <p style="color:#777;">Você completou ${currentTab}!</p>
                 </div>
@@ -654,7 +683,7 @@
         } else if (currentTab === 'writing') {
             html += `<div class="exercise-card">`;
             html += `<h3 class="question-title">${exercise.q}</h3>`;
-            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta..." oninput="enableCheck()">`;
+            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta..." oninput="enableCheck()" autocomplete="off">`;
             html += `</div>`;
             
             actionBtn.textContent = "Verificar";
@@ -674,8 +703,11 @@
     };
 
     window.enableCheck = () => {
-        const val = document.getElementById('writingInput')?.value.trim();
-        actionBtn.disabled = !val;
+        const input = document.getElementById('writingInput');
+        if (input) {
+            const val = input.value.trim();
+            actionBtn.disabled = !val;
+        }
     };
 
     window.handleAction = () => {
@@ -693,22 +725,28 @@
         
         if (currentTab === 'writing') {
             const input = document.getElementById('writingInput');
-            if (input.value.trim().toLowerCase() === exercise.answer.toLowerCase()) {
+            if (input && input.value.trim().toLowerCase() === exercise.answer.toLowerCase()) {
                 input.style.borderColor = '#58cc02';
                 input.style.background = '#dcfce7';
                 isCorrect = true;
-            } else {
+            } else if (input) {
                 input.style.borderColor = '#ff4b4b';
                 input.style.background = '#fee2e2';
             }
         } else {
             const buttons = document.querySelectorAll('.option-btn');
             if (selectedOption === exercise.answer) {
-                buttons[selectedOption].classList.add('correct');
+                if (buttons[selectedOption]) {
+                    buttons[selectedOption].classList.add('correct');
+                }
                 isCorrect = true;
             } else {
-                buttons[selectedOption].classList.add('wrong');
-                buttons[exercise.answer].classList.add('correct');
+                if (buttons[selectedOption]) {
+                    buttons[selectedOption].classList.add('wrong');
+                }
+                if (buttons[exercise.answer]) {
+                    buttons[exercise.answer].classList.add('correct');
+                }
             }
         }
         
@@ -716,7 +754,6 @@
     };
 
     window.playAudio = (text) => {
-        // Cancel any current speech
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
             
@@ -724,7 +761,6 @@
             utterance.lang = 'en-US';
             utterance.rate = 0.85;
             
-            // Get English voice
             const voices = window.speechSynthesis.getVoices();
             const enVoice = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
             if (enVoice) utterance.voice = enVoice;
@@ -744,6 +780,8 @@
     window.toggleRecording = (expectedPhrase) => {
         const btn = document.getElementById('recordBtn');
         const resultDiv = document.getElementById('speakingResult');
+        
+        if (!btn || !resultDiv) return;
         
         if (!btn.classList.contains('recording')) {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -765,7 +803,6 @@
                 const transcript = event.results[0][0].transcript.trim().toLowerCase();
                 const confidence = event.results[0][0].confidence;
                 
-                // Convert numbers to words
                 const numMap = { '11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen',
                     '16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen','20':'twenty' };
                 let cleanTranscript = transcript;
