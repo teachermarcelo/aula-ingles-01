@@ -24,7 +24,7 @@
         :root {
             --bg: #0f172a; --card: #1e293b; --border: #334155;
             --text: #f1f5f9; --primary: #22c55e; --primary-dark: #16a34a;
-            --danger: #ef4444; --warning: #f59e0b;
+            --danger: #ef4444; --warning: #f59e0b; --secondary: #3b82f6;
         }
         [data-theme="light"] {
             --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
@@ -36,24 +36,26 @@
             background: var(--bg); 
             color: var(--text); 
             height: 100%; 
-            overflow: hidden; /* IMPEDIR SCROLL NA PAGINA INTEIRA */
+            overflow: hidden;
             touch-action: manipulation;
         }
         
-        /* LAYOUT PRINCIPAL */
         .app-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            height: 100dvh; /* Para mobile moderno */
+            height: 100dvh;
         }
         
         .header {
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 1rem;
             flex-shrink: 0;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
         }
         
         .progress-bar {
@@ -70,10 +72,9 @@
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* AREA DE CONTEUDO (Onde a pergunta aparece) */
         .content-area {
             flex: 1;
-            overflow-y: auto; /* Permitir scroll apenas se o teclado cobrir em mobile */
+            overflow-y: auto;
             padding: 1rem;
             display: flex;
             flex-direction: column;
@@ -84,15 +85,27 @@
             margin: 0 auto;
         }
         
-        /* PERGUNTA */
+        .scenario-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
         .question-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
             text-align: center;
             margin-bottom: 1.5rem;
+            line-height: 1.4;
         }
         
-        /* OPÇÕES */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -110,7 +123,7 @@
             background: var(--card);
             color: var(--text);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
@@ -135,28 +148,23 @@
             animation: shake 0.5s;
         }
         
-        /* VIDEO AREA */
         .video-wrapper {
             width: 100%;
             border-radius: 16px;
             overflow: hidden;
             aspect-ratio: 16/9;
             background: #000;
+            margin-bottom: 1rem;
         }
         .video-wrapper iframe { width: 100%; height: 100%; }
         
-        /* FOOTER / BARRA DE AÇÃO */
         .footer {
             padding: 1rem;
             border-top: 1px solid var(--border);
             background: var(--card);
             flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
         }
         
-        /* FEEDBACK SHEET (Sobe de baixo) */
         .feedback-sheet {
             position: fixed;
             bottom: -200px;
@@ -169,12 +177,10 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
         }
         .feedback-sheet.show { bottom: 0; }
-        .feedback-sheet.correct { background: #dcfce7; color: #14532d; }
-        .feedback-sheet.wrong { background: #fee2e2; color: #7f1d1d; }
+        .feedback-sheet.correct { background: #dcfce7; color: #14532d; border: 2px solid #22c55e; }
+        .feedback-sheet.wrong { background: #fee2e2; color: #7f1d1d; border: 2px solid #ef4444; }
         
         .action-btn {
             width: 100%;
@@ -193,29 +199,20 @@
         .btn-check { background: var(--primary); color: white; }
         .btn-check:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-continue { background: var(--primary); color: white; }
-        .btn-next { background: var(--primary); color: white; }
         
-        /* AUDIO BUTTON */
         .audio-btn {
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 16px;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 0 rgba(0,0,0,0.3);
         }
         .audio-btn:active { transform: translateY(4px); box-shadow: none; }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        /* INPUT WRITING */
         .writing-input {
             width: 100%;
             padding: 1rem;
@@ -228,6 +225,38 @@
             margin-bottom: 1rem;
         }
         .writing-input:focus { outline: none; border-color: var(--primary); }
+        
+        .theme-toggle {
+            width: 48px;
+            height: 26px;
+            border-radius: 13px;
+            background: var(--border);
+            position: relative;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+        }
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            transition: transform 0.3s;
+        }
+        [data-theme="light"] .theme-toggle::after {
+            transform: translateX(22px);
+            background: var(--secondary);
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
     </style>
 </head>
 <body>
@@ -235,19 +264,18 @@
 <div class="app-container">
     <!-- HEADER -->
     <div class="header">
-        <a href="a1.html" class="text-2xl text-muted hover:text-primary">
-            <i class="fa-solid fa-xmark"></i>
-        </a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Tema"></button>
         <div class="progress-bar">
             <div id="progressBar" class="progress-fill" style="width: 0%"></div>
         </div>
-        <i class="fa-solid fa-heart text-red-500 text-xl"></i>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-yellow-400"></i>
+            <span id="xpDisplay" class="font-bold">0</span>
+        </div>
     </div>
 
-    <!-- CONTENT AREA (Dinâmico) -->
-    <div id="gameArea" class="content-area">
-        <!-- Conteúdo injetado via JS -->
-    </div>
+    <!-- CONTENT AREA -->
+    <div id="gameArea" class="content-area"></div>
 
     <!-- FOOTER -->
     <div id="footerBar" class="footer">
@@ -272,91 +300,132 @@
 </div>
 
 <script type="module">
-    // DADOS DAS 20 QUESTÕES (Misto de Reading, Listening, Grammar, Writing)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+        authDomain: "englishpath-2d558.firebaseapp.com",
+        projectId: "englishpath-2d558",
+        storageBucket: "englishpath-2d558.firebasestorage.app",
+        messagingSenderId: "384301599670",
+        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+
+    // ===== 51 QUESTIONS (1 Video + 10x5 skills) =====
     const questions = [
         // VIDEO INTRO
         {
             type: 'video',
             videoId: 'YuXFxvTbviI',
-            title: 'Assista ao vídeo para aprender os números!'
+            title: 'Assista e aprenda os números de 1 a 100!',
+            skill: 'intro'
         },
-        // READING 1
-        {
-            type: 'choice',
-            question: 'Como se escreve o número 25 em inglês?',
-            options: ['Twenty-five', 'Two-five', 'Twenty-fifth', 'Five-twenty'],
-            answer: 0
-        },
-        // LISTENING 1
-        {
-            type: 'listening',
-            textToSpeak: 'Fifteen',
-            question: 'Qual número você ouviu?',
-            options: ['5', '50', '15', '16'],
-            answer: 2
-        },
-        // GRAMMAR 1
-        {
-            type: 'choice',
-            question: 'Qual é a forma ordinal de "One" (1º)?',
-            options: ['Oneth', 'First', 'One', 'Firstly'],
-            answer: 1
-        },
-        // WRITING 1
-        {
-            type: 'writing',
-            question: 'Escreva em inglês: "Dez" (número)',
-            answer: 'ten'
-        },
-        // READING 2
-        {
-            type: 'choice',
-            question: 'Como se escreve 100?',
-            options: ['One thousand', 'Ten tens', 'One hundred', 'Hundred one'],
-            answer: 2
-        },
-        // LISTENING 2
-        {
-            type: 'listening',
-            textToSpeak: 'Forty-two',
-            question: 'Qual número foi falado?',
-            options: ['42', '24', '14', '402'],
-            answer: 0
-        },
-        // GRAMMAR 2
-        {
-            type: 'choice',
-            question: 'Qual está escrito corretamente?',
-            options: ['Fourty', 'Fourty-two', 'Forty', 'Fort'],
-            answer: 2
-        },
-        // WRITING 2
-        {
-            type: 'writing',
-            question: 'Escreva em inglês: "Cinco" (número)',
-            answer: 'five'
-        },
-        // LISTENING 3
-        {
-            type: 'listening',
-            textToSpeak: 'Ninety-nine',
-            question: 'O que você ouviu?',
-            options: ['19', '90', '9', '99'],
-            answer: 3
-        }
+        
+        // READING (10 questions based on video context)
+        { type: 'choice', skill: 'reading', question: 'No vídeo, qual número vem depois de "twenty"?', options: ['Twenty-one', 'Thirty', 'Twelve', 'Twenty-two'], answer: 0 },
+        { type: 'choice', skill: 'reading', question: 'Como se escreve 30 em inglês?', options: ['Thirteen', 'Thirty', 'Three-zero', 'Threety'], answer: 1 },
+        { type: 'choice', skill: 'reading', question: 'Qual é a forma correta de 45?', options: ['Fourty-five', 'Forty-five', 'Four-five', 'Forty five'], answer: 1 },
+        { type: 'choice', skill: 'reading', question: 'O que significa "One hundred"?', options: ['10', '1000', '100', '10000'], answer: 2 },
+        { type: 'choice', skill: 'reading', question: 'Como se diz 15?', options: ['Fivety', 'Fifteen', 'Fifty', 'Five-ten'], answer: 1 },
+        { type: 'choice', skill: 'reading', question: 'Qual número é "eighty-eight"?', options: ['18', '80', '88', '8'], answer: 2 },
+        { type: 'choice', skill: 'reading', question: 'Complete: "I have _____ brothers" (3)', options: ['three', 'thirteen', 'thirty', 'third'], answer: 0 },
+        { type: 'choice', skill: 'reading', question: 'Como se escreve 99?', options: ['Ninety-nine', 'Nine-nine', 'Ninty-nine', 'Nine-nine'], answer: 0 },
+        { type: 'choice', skill: 'reading', question: 'O que é "twelfth"?', options: ['12', '20', '12th', '2nd'], answer: 2 },
+        { type: 'choice', skill: 'reading', question: 'Qual está correto?', options: ['I am twenty-five years old', 'I am twenty five years old', 'I am twentyfive years old', 'I am twenty-fifth years old'], answer: 0 },
+        
+        // LISTENING (10 questions)
+        { type: 'listening', skill: 'listening', textToSpeak: 'Twenty-five', question: 'Qual número você ouviu?', options: ['15', '25', '52', '20'], answer: 1 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Forty-two', question: 'O que foi falado?', options: ['24', '42', '14', '402'], answer: 1 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'One hundred', question: 'Qual número?', options: ['10', '100', '1000', '1'], answer: 1 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Seventy-seven', question: 'O que você ouviu?', options: ['17', '70', '77', '7'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Ninety-nine', question: 'Qual número?', options: ['19', '90', '99', '9'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Thirty-three', question: 'O que foi dito?', options: ['13', '30', '33', '3'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Fifteen', question: 'Qual número?', options: ['5', '50', '15', '16'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Eighty', question: 'O que ouviu?', options: ['18', '8', '80', '800'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Fifty', question: 'Qual número?', options: ['15', '5', '50', '500'], answer: 2 },
+        { type: 'listening', skill: 'listening', textToSpeak: 'Twelve', question: 'O que foi falado?', options: ['2', '20', '12', '21'], answer: 2 },
+        
+        // SPEAKING (10 exercises)
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'twenty-five', question: 'Diga em inglês: "Vinte e cinco"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'one hundred', question: 'Diga em inglês: "Cem"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'forty-two', question: 'Diga em inglês: "Quarenta e dois"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'fifteen', question: 'Diga em inglês: "Quinze"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'seventy', question: 'Diga em inglês: "Setenta"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'ninety-nine', question: 'Diga em inglês: "Noventa e nove"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'thirty-three', question: 'Diga em inglês: "Trinta e três"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'eighty-eight', question: 'Diga em inglês: "Oitenta e oito"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'fifty', question: 'Diga em inglês: "Cinquenta"' },
+        { type: 'speaking', skill: 'speaking', expectedPhrase: 'twelve', question: 'Diga em inglês: "Doze"' },
+        
+        // WRITING (10 exercises)
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 25', answer: 'twenty-five' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 100', answer: 'one hundred' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 42', answer: 'forty-two' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 15', answer: 'fifteen' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 70', answer: 'seventy' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 99', answer: 'ninety-nine' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 33', answer: 'thirty-three' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 88', answer: 'eighty-eight' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 50', answer: 'fifty' },
+        { type: 'writing', skill: 'writing', question: 'Escreva em inglês: 12', answer: 'twelve' },
+        
+        // GRAMMAR (10 exercises)
+        { type: 'choice', skill: 'grammar', question: 'Qual é a regra para números 21-99?', options: ['Sem hífen', 'Com hífen (twenty-one)', 'Espaço (twenty one)', 'Junto (twentyone)'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Como se forma o ordinal de 1?', options: ['Oneth', 'First', 'One', 'Firstly'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Qual está correto?', options: ['Fourty', 'Forty', 'Four-ty', 'Forte'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'O que significa "3rd"?', options: ['Three', 'Thirteen', 'Third', 'Thirty'], answer: 2 },
+        { type: 'choice', skill: 'grammar', question: 'Como se escreve 40?', options: ['Fourty', 'Forty', 'Four-zero', 'Forte'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Qual é o ordinal de 2?', options: ['Two', 'Second', 'Twelve', 'Twentieth'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Complete: "She is the _____ student" (1º)', options: ['one', 'first', 'oneth', 'once'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Como se diz 13?', options: ['Threeteen', 'Thirteen', 'Threety', 'Three-ten'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Qual a forma correta de 5º?', options: ['Fiveth', 'Fifth', 'Five', 'Fivety'], answer: 1 },
+        { type: 'choice', skill: 'grammar', question: 'Em inglês britânico, como se diz 105?', options: ['One hundred five', 'One hundred and five', 'One-oh-five', 'Hundred five'], answer: 1 }
     ];
 
     let currentQIndex = 0;
     let selectedOption = null;
     let score = 0;
     let isAnswered = false;
+    let recognition = null;
 
     const gameArea = document.getElementById('gameArea');
     const checkBtn = document.getElementById('checkBtn');
     const feedbackSheet = document.getElementById('feedbackSheet');
     const progressBar = document.getElementById('progressBar');
+    const xpDisplay = document.getElementById('xpDisplay');
+
+    // THEME TOGGLE
+    window.toggleTheme = () => {
+        const html = document.documentElement;
+        html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('ep_theme', html.dataset.theme);
+    };
+    
+    // Load saved theme
+    (function() {
+        const saved = localStorage.getItem('ep_theme') || 'dark';
+        document.documentElement.dataset.theme = saved;
+    })();
 
     // INIT
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+            if (userDoc.exists()) {
+                score = userDoc.data().xp || 0;
+                xpDisplay.textContent = score;
+            }
+        }
+    });
+
     function loadQuestion() {
         if (currentQIndex >= questions.length) {
             showCompletion();
@@ -375,7 +444,31 @@
         progressBar.style.width = `${pct}%`;
 
         // Render Content
-        gameArea.innerHTML = ''; // Clear
+        gameArea.innerHTML = '';
+
+        // Scenario Badge
+        const scenarioIcons = {
+            intro: '📹',
+            reading: '📖',
+            listening: '🎧',
+            speaking: '🗣️',
+            writing: '✍️',
+            grammar: '📚'
+        };
+        
+        const scenarioNames = {
+            intro: 'Video Lesson',
+            reading: 'Reading',
+            listening: 'Listening',
+            speaking: 'Speaking',
+            writing: 'Writing',
+            grammar: 'Grammar'
+        };
+
+        const badge = document.createElement('div');
+        badge.className = 'scenario-badge';
+        badge.innerHTML = `<i class="fa-solid fa-${q.skill === 'intro' ? 'video' : q.skill === 'reading' ? 'book' : q.skill === 'listening' ? 'headphones' : q.skill === 'speaking' ? 'microphone' : q.skill === 'writing' ? 'pen' : 'graduation-cap'}"></i> ${scenarioNames[q.skill]}`;
+        gameArea.appendChild(badge);
 
         if (q.type === 'video') {
             renderVideo(q);
@@ -390,10 +483,11 @@
             <div class="video-wrapper">
                 <iframe src="https://www.youtube.com/embed/${q.videoId}" frameborder="0" allowfullscreen></iframe>
             </div>
-            <p class="text-center mt-4 text-muted">${q.title}</p>
+            <p class="text-center text-muted">${q.title}</p>
+            <p class="text-center text-sm mt-4">Assista atentamente para aprender os números de 1 a 100!</p>
         `;
-        gameArea.innerHTML = html;
-        checkBtn.textContent = "Começar";
+        gameArea.innerHTML += html;
+        checkBtn.textContent = "Começar Exercícios";
         checkBtn.onclick = nextQuestion;
         checkBtn.disabled = false;
     }
@@ -413,20 +507,21 @@
             });
         } else if (q.type === 'writing') {
             html = `<h2 class="question-title">${q.question}</h2>
-                    <input type="text" id="writingInput" class="writing-input" placeholder="Type here..." oninput="enableCheck()">
+                    <input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta..." oninput="enableCheck()">
                     <div class="options-grid"></div>`;
+        } else if (q.type === 'speaking') {
+            html += `<button class="audio-btn" id="recordBtn" onclick="toggleRecording('${q.expectedPhrase}')"><i class="fa-solid fa-microphone"></i></button>
+                     <p class="text-center text-sm text-muted">Clique no microfone e diga a frase em inglês</p>
+                     <div id="speakingScore" class="text-2xl font-bold hidden mt-2"></div>`;
         }
 
         html += `</div>`;
-        gameArea.innerHTML = html;
+        gameArea.innerHTML += html;
 
-        // Bind check function for non-video
-        if (q.type !== 'video') {
-            checkBtn.textContent = "Verificar";
-            checkBtn.onclick = checkAnswer;
-            checkBtn.classList.remove('btn-continue');
-            checkBtn.classList.add('btn-check');
-        }
+        checkBtn.textContent = "Verificar";
+        checkBtn.onclick = checkAnswer;
+        checkBtn.classList.remove('btn-continue');
+        checkBtn.classList.add('btn-check');
     }
 
     window.selectOption = (btn, index) => {
@@ -456,7 +551,7 @@
                 isCorrect = true;
             } else {
                 buttons[selectedOption].classList.add('wrong');
-                buttons[q.answer].classList.add('correct'); // Show correct one
+                buttons[q.answer].classList.add('correct');
             }
         } else if (q.type === 'writing') {
             const input = document.getElementById('writingInput');
@@ -468,37 +563,98 @@
                 input.style.borderColor = 'var(--danger)';
                 input.style.background = 'rgba(239,68,68,0.1)';
             }
+        } else if (q.type === 'speaking') {
+            // Speaking is checked in toggleRecording
+            return;
         }
 
-        showFeedback(isCorrect);
+        showFeedback(isCorrect, q);
     };
 
-    function showFeedback(isCorrect) {
+    window.toggleRecording = (expectedPhrase) => {
+        const btn = document.getElementById('recordBtn');
+        const scoreDiv = document.getElementById('speakingScore');
+        
+        if (!btn.classList.contains('recording')) {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Reconhecimento de voz não suportado neste navegador');
+                return;
+            }
+            
+            recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            
+            btn.classList.add('recording');
+            btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+            scoreDiv.classList.add('hidden');
+            
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                const confidence = event.results[0][0].confidence;
+                const accuracy = Math.round((transcript.toLowerCase().includes(expectedPhrase.toLowerCase()) ? 1 : 0) * confidence * 100);
+                
+                scoreDiv.textContent = `${accuracy}% - Você disse: "${transcript}"`;
+                scoreDiv.classList.remove('hidden');
+                
+                const isCorrect = accuracy >= 70;
+                showFeedback(isCorrect, questions[currentQIndex]);
+                
+                btn.classList.remove('recording');
+                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+            };
+            
+            recognition.onerror = () => {
+                btn.classList.remove('recording');
+                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+            };
+            
+            recognition.start();
+        }
+    };
+
+    function showFeedback(isCorrect, q) {
         const sheet = document.getElementById('feedbackSheet');
         const title = document.getElementById('feedbackTitle');
         const msg = document.getElementById('feedbackMsg');
         const icon = document.getElementById('feedbackIcon');
-        const btn = document.getElementById('continueBtn');
 
         sheet.classList.remove('correct', 'wrong');
         
         if (isCorrect) {
             sheet.classList.add('correct');
-            title.textContent = "Correto!";
+            title.textContent = "Correto! 🎉";
             msg.textContent = "+10 XP";
             icon.innerHTML = '<i class="fa-solid fa-check"></i>';
             icon.className = 'w-12 h-12 rounded-full flex items-center justify-center text-2xl text-green-600 bg-white';
             score += 10;
+            xpDisplay.textContent = score;
+            
+            // Save to Firebase
+            if (currentUser) {
+                updateDoc(doc(db, "usuarios", currentUser.uid), {
+                    xp: increment(10),
+                    [`progresso.u02_${q.skill}`]: { completed: true, date: new Date().toISOString() }
+                }).catch(console.error);
+            }
         } else {
             sheet.classList.add('wrong');
+            let correctAnswer = '';
+            if (q.type === 'choice' || q.type === 'listening') {
+                correctAnswer = q.options[q.answer];
+            } else if (q.type === 'writing') {
+                correctAnswer = q.answer;
+            } else if (q.type === 'speaking') {
+                correctAnswer = q.expectedPhrase;
+            }
             title.textContent = "Incorreto";
-            msg.textContent = "A resposta correta era: " + (questions[currentQIndex].type === 'choice' || questions[currentQIndex].type === 'listening' ? questions[currentQIndex].options[questions[currentQIndex].answer] : questions[currentQIndex].answer);
+            msg.textContent = `Resposta correta: ${correctAnswer}`;
             icon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
             icon.className = 'w-12 h-12 rounded-full flex items-center justify-center text-2xl text-red-600 bg-white';
         }
 
         sheet.classList.add('show');
-        checkBtn.style.display = 'none'; // Hide footer button
+        checkBtn.style.display = 'none';
     }
 
     window.nextQuestion = () => {
@@ -509,6 +665,7 @@
     window.playAudio = (text) => {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
+        utterance.rate = 0.8;
         speechSynthesis.speak(utterance);
     };
 
@@ -516,16 +673,25 @@
         gameArea.innerHTML = `
             <div class="text-center">
                 <i class="fa-solid fa-trophy text-6xl text-yellow-400 mb-4 animate-bounce"></i>
-                <h2 class="text-3xl font-bold mb-2">Lição Completa!</h2>
-                <p class="text-xl mb-6">Você ganhou ${score} XP</p>
-                <a href="a1.html" class="action-btn btn-next block">Voltar para A1</a>
+                <h2 class="text-3xl font-bold mb-2">Lição Completa! 🎉</h2>
+                <p class="text-xl mb-2">Você ganhou ${score} XP</p>
+                <p class="text-muted mb-6">Progresso salvo com sucesso!</p>
+                <a href="a1.html" class="action-btn btn-continue block">Voltar para A1</a>
             </div>
         `;
         document.getElementById('footerBar').style.display = 'none';
         progressBar.style.width = '100%';
+        
+        // Save completion to Firebase
+        if (currentUser) {
+            updateDoc(doc(db, "usuarios", currentUser.uid), {
+                'progresso.u02_completed': true,
+                'progresso.u02_date': new Date().toISOString()
+            }).catch(console.error);
+        }
     }
 
-    // INICIAR
+    // START
     loadQuestion();
 </script>
 </body>
