@@ -1,168 +1,121 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>U02: Numbers 1-100 | EnglishPath</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ['Fredoka', 'sans-serif'],
-                        body: ['Nunito', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        :root {
-            --primary: #58cc02;
-            --primary-dark: #46a302;
-            --secondary: #1cb0f6;
-            --danger: #ff4b4b;
-            --warning: #ffc800;
-            --purple: #ce82ff;
-            --gray: #e5e5e5;
-            --gray-dark: #afafaf;
-            --text: #4b4b4b;
-            --text-light: #777;
-            --bg: #fff;
-            --card: #fff;
-        }
-        [data-theme="dark"] {
-            --primary: #58cc02;
-            --primary-dark: #46a302;
-            --secondary: #1cb0f6;
-            --danger: #ff4b4b;
-            --warning: #ffc800;
-            --purple: #ce82ff;
-            --gray: #333;
-            --gray-dark: #555;
-            --text: #fff;
-            --text-light: #ccc;
-            --bg: #1a1a1a;
-            --card: #2a2a2a;
-        }
-        
-        * { box-sizing: border-box; margin: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            height: 100vh;
-            overflow: hidden;
+            background: #f7f7f7;
+            color: #4b4b4b;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
-        /* HEADER */
+        /* TOP BAR */
         .top-bar {
-            background: var(--card);
-            border-bottom: 2px solid var(--gray);
-            padding: 1rem;
+            background: white;
+            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            position: relative;
+            gap: 0.75rem;
+            border-bottom: 2px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .close-btn {
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--gray-dark);
+            color: #afafaf;
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.25rem;
             border-radius: 50%;
             transition: all 0.2s;
         }
-        .close-btn:hover { background: var(--gray); color: var(--danger); }
+        .close-btn:hover { color: #ff4b4b; background: #fee2e2; }
         
-        .progress-container {
+        .progress-wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
         
         .progress-track {
             height: 16px;
-            background: var(--gray);
-            border-radius: 8px;
+            background: #e5e5e5;
+            border-radius: 10px;
             overflow: hidden;
-            position: relative;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), #78e602);
-            border-radius: 8px;
+            background: #58cc02;
+            border-radius: 10px;
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            overflow: hidden;
         }
         .progress-fill::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 50%);
         }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        
+        .progress-text {
+            font-size: 0.75rem;
+            color: #777;
+            font-weight: 700;
+            text-align: center;
         }
         
         .stats {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             align-items: center;
         }
         
         .stat-badge {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
+            gap: 0.35rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 10px;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
-        .stat-streak {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
-            color: white;
-        }
-        .stat-xp {
-            background: linear-gradient(135deg, #ffd700, #ffc800);
-            color: #78350f;
-        }
+        .stat-streak { background: #ff9600; color: white; }
+        .stat-xp { background: #ffc800; color: #78350f; }
         
-        /* MAIN CONTENT */
+        /* MAIN */
         .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2rem 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
         }
         
+        /* SKILL BADGE */
         .skill-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.5rem 1.25rem;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -172,303 +125,116 @@
         .skill-writing { background: #f3e8ff; color: #7c3aed; }
         .skill-grammar { background: #fef3c7; color: #b45309; }
         
-        .question-container {
-            width: 100%;
-            margin-bottom: 2rem;
+        /* LANGUAGE BADGE */
+        .lang-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
+        .lang-en { background: #dbeafe; color: #1e40af; }
+        .lang-pt { background: #dcfce7; color: #15803d; }
         
+        /* QUESTION */
         .question-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.4;
-            color: var(--text);
+            color: #333;
         }
         
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            width: 100%;
-        }
-        @media (min-width: 640px) {
-            .options-grid { grid-template-columns: 1fr 1fr; }
-        }
-        
-        .option-card {
-            background: var(--card);
-            border: 2px solid var(--gray);
-            border-radius: 16px;
-            padding: 1.5rem 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 0 var(--gray);
-        }
-        .option-card:hover {
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 0 var(--secondary);
-        }
-        .option-card:active {
-            transform: translateY(2px);
-            box-shadow: 0 0 0 var(--gray);
-        }
-        .option-card.selected {
-            border-color: var(--secondary);
-            background: #e0f2fe;
-            box-shadow: 0 4px 0 var(--secondary);
-        }
-        .option-card.correct {
-            border-color: var(--primary);
-            background: #dcfce7;
-            box-shadow: 0 4px 0 var(--primary);
-        }
-        .option-card.wrong {
-            border-color: var(--danger);
-            background: #fee2e2;
-            box-shadow: 0 4px 0 var(--danger);
-            animation: shake 0.5s;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-        
+        /* AUDIO BUTTON */
         .audio-btn {
-            background: var(--secondary);
+            background: #1cb0f6;
             color: white;
             border: none;
+            width: 100%;
+            max-width: 280px;
             padding: 1.5rem;
             border-radius: 16px;
             font-size: 2.5rem;
             cursor: pointer;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 0 #1899d6;
-            transition: all 0.2s;
-            width: 100%;
-            max-width: 200px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            box-shadow: 0 4px 0 #1899d6, 0 6px 16px rgba(28,176,246,0.3);
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .audio-btn:active {
             transform: translateY(4px);
-            box-shadow: 0 0 0 #1899d6;
+            box-shadow: 0 0 0 #1899d6, 0 2px 8px rgba(28,176,246,0.3);
+        }
+        .audio-btn.playing { animation: pulse-audio 0.5s ease; }
+        @keyframes pulse-audio {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
-        .record-btn {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin: 2rem auto;
-            cursor: pointer;
-            box-shadow: 0 8px 0 #b91c1c;
-            transition: all 0.2s;
-            border: 4px solid rgba(255,255,255,0.3);
-        }
-        .record-btn.recording {
-            animation: pulse-recording 1s infinite;
-        }
-        @keyframes pulse-recording {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 0 #b91c1c; }
-            50% { transform: scale(1.1); box-shadow: 0 12px 0 #991b1b; }
-        }
-        
-        .writing-input {
-            width: 100%;
-            padding: 1.5rem;
-            font-size: 1.3rem;
-            border: 2px solid var(--gray);
-            border-radius: 16px;
-            background: var(--card);
-            color: var(--text);
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 0 var(--gray);
-            transition: all 0.2s;
-        }
-        .writing-input:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 4px 0 var(--secondary);
-        }
-        
-        /* BOTTOM BAR */
-        .bottom-bar {
-            background: var(--card);
-            border-top: 2px solid var(--gray);
-            padding: 1.5rem 1rem;
+        /* OPTIONS */
+        .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .action-btn {
+            gap: 0.75rem;
             width: 100%;
-            padding: 1.25rem;
-            border-radius: 16px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            transition: all 0.1s;
-        }
-        .action-btn:active {
-            transform: translateY(4px);
-            box-shadow: none;
-        }
-        .btn-check {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 0 var(--primary-dark);
-        }
-        .btn-check:disabled {
-            background: var(--gray);
-            color: var(--gray-dark);
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        .btn-continue {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: 0 4px 0 var(--primary-dark);
-        }
-        .btn-home {
-            background: var(--gray);
-            color: var(--text-light);
-            font-size: 0.9rem;
-            padding: 1rem;
-            box-shadow: 0 2px 0 var(--gray-dark);
         }
         
-        .hint-text {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .hint-text kbd {
-            background: var(--gray);
-            padding: 0.25rem 0.5rem;
-            border-radius: 6px;
-            font-family: monospace;
-            font-weight: bold;
-            border: 1px solid var(--gray-dark);
-        }
-        
-        /* FEEDBACK SHEET */
-        .feedback-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 50;
-            display: none;
-        }
-        .feedback-overlay.show { display: block; }
-        
-        .feedback-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            border-radius: 24px 24px 0 0;
-            z-index: 51;
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .feedback-sheet.show { transform: translateY(0); }
-        .feedback-sheet.correct {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            border: 3px solid var(--primary);
-        }
-        .feedback-sheet.wrong {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            border: 3px solid var(--danger);
-        }
-        
-        .feedback-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .feedback-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
+        .option-card {
             background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .feedback-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-        .feedback-msg {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 2px solid var(--gray);
-            cursor: pointer;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .video-wrapper {
-            width: 100%;
+            border: 2px solid #e5e5e5;
             border-radius: 16px;
+            padding: 1.25rem 1rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #4b4b4b;
+            box-shadow: 0 2px 0 #e5e5e5;
+            position: relative;
             overflow: hidden;
-            aspect-ratio: 16/9;
-            background: #000;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
-        .video-wrapper iframe { width: 100%; height: 100%; }
+        .option-card:hover { border-color: #1cb0f6; background: #f0f9ff; }
+        .option-card:active { transform: translateY(2px); box-shadow: 0 0 0 #e5e5e5; }
+        .option-card.selected {
+            border-color: #1cb0f6;
+            background: #e0f2fe;
+            box-shadow: 0 2px 0 #1cb0f6;
+        }
+        .option-card.correct {
+            border-color: #58cc02;
+            background: #dcfce7;
+            box-shadow: 0 2px 0 #58cc02;
+        }
+        .option-card.wrong {
+            border-color: #ff4b4b;
+            background: #fee2e2;
+            box-shadow: 0 2px 0 #ff4b4b;
+            animation: shake 0.4s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
         
-        .dialogue-box {
-            background: var(--card);
-            border: 2px solid var(--gray);
+        /* DIALOGUE */
+        .dialogue-card {
+            background: white;
+            border: 2px solid #e5e5e5;
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 0 var(--gray);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            width: 100%;
         }
-        .speaker-info {
+        .speaker-header {
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -481,40 +247,239 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
+            font-size: 1.75rem;
         }
         .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
         .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .speech-bubble {
-            background: var(--bg);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 2px solid var(--gray);
+        .speaker-narrator { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+        .speaker-name { font-weight: 800; font-size: 1.2rem; }
+        .speaker-listen {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #1cb0f6;
+            cursor: pointer;
+            padding: 0.5rem;
         }
+        .speech-bubble {
+            background: #f7f7f7;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e5e5e5;
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+        .highlight-number {
+            background: rgba(34,197,94,0.15);
+            color: #15803d;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 800;
+        }
+        
+        /* RECORD BTN */
+        .record-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff4b4b, #dc2626);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 1.5rem auto;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b91c1c, 0 8px 20px rgba(255,75,75,0.3);
+            transition: all 0.15s;
+            border: none;
+        }
+        .record-btn:active { transform: translateY(6px); box-shadow: 0 0 0 #b91c1c; }
+        .record-btn.recording { animation: pulse-record 1s infinite; }
+        @keyframes pulse-record {
+            0%, 100% { transform: scale(1); box-shadow: 0 6px 0 #b91c1c; }
+            50% { transform: scale(1.08); box-shadow: 0 8px 24px rgba(255,75,75,0.5); }
+        }
+        
+        /* WRITING INPUT */
+        .writing-input {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.2rem;
+            border: 2px solid #e5e5e5;
+            border-radius: 16px;
+            background: white;
+            color: #333;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 0 #e5e5e5;
+            transition: all 0.2s;
+        }
+        .writing-input:focus {
+            outline: none;
+            border-color: #1cb0f6;
+            box-shadow: 0 2px 0 #1cb0f6;
+        }
+        
+        /* BOTTOM BAR */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid #e5e5e5;
+            padding: 1rem;
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 100;
+        }
+        
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+            transition: all 0.1s;
+        }
+        .action-btn:active { transform: translateY(4px); box-shadow: none; }
+        .btn-check {
+            background: #58cc02;
+            color: white;
+            box-shadow: 0 4px 0 #46a302;
+        }
+        .btn-check:disabled {
+            background: #e5e5e5;
+            color: #afafaf;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        .btn-continue { background: #58cc02; color: white; box-shadow: 0 4px 0 #46a302; }
+        .btn-retry { background: #ff9600; color: white; box-shadow: 0 4px 0 #e08600; }
+        .btn-home {
+            background: #e5e5e5;
+            color: #777;
+            font-size: 0.85rem;
+            padding: 0.875rem;
+            box-shadow: 0 2px 0 #afafaf;
+        }
+        
+        .hint-text {
+            text-align: center;
+            color: #afafaf;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        /* FEEDBACK SHEET */
+        .feedback-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 101;
+            padding: 1.5rem;
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .feedback-sheet.show { transform: translateY(0); }
+        .feedback-sheet.correct {
+            background: #d7ffb8;
+            border-top: 3px solid #58cc02;
+        }
+        .feedback-sheet.wrong {
+            background: #ffdfe0;
+            border-top: 3px solid #ff4b4b;
+        }
+        
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .feedback-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .feedback-title { font-size: 1.25rem; font-weight: 800; }
+        .feedback-msg { font-size: 0.95rem; line-height: 1.4; }
+        .feedback-explanation {
+            background: rgba(255,255,255,0.7);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* VIDEO */
+        .video-wrapper {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #000;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .video-wrapper iframe { width: 100%; height: 100%; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .main-content { padding: 1.5rem 1rem 140px; }
+            .question-title { font-size: 1.25rem; }
+            .option-card { padding: 1rem; font-size: 1rem; }
+            .audio-btn { padding: 1.25rem; font-size: 2rem; }
+            .stat-badge { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
+            .speech-bubble { font-size: 1.05rem; }
+        }
+        
+        @media (min-width: 768px) {
+            .main-content { padding: 3rem 2rem 140px; }
+            .option-card { padding: 1.5rem; font-size: 1.15rem; }
+        }
+        
+        /* ANIMATIONS */
+        .fade-in { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- THEME TOGGLE -->
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fa-solid fa-moon" id="themeIcon"></i>
-    </button>
-
     <!-- TOP BAR -->
     <div class="top-bar">
-        <button class="close-btn" onclick="saveAndExit()">
+        <button class="close-btn" onclick="saveAndExit()" aria-label="Sair">
             <i class="fa-solid fa-xmark"></i>
         </button>
         
-        <div class="progress-container">
+        <div class="progress-wrapper">
             <div class="progress-track">
                 <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
-            <div style="text-align: center; font-size: 0.875rem; color: var(--text-light); font-weight: 700;">
-                Passo <span id="currentStep">1</span> de <span id="totalSteps">74</span>
-            </div>
+            <div class="progress-text" id="progressText">Passo 1 de --</div>
         </div>
         
         <div class="stats">
@@ -530,9 +495,7 @@
     </div>
 
     <!-- MAIN CONTENT -->
-    <div class="main-content" id="gameArea">
-        <!-- Dynamic content -->
-    </div>
+    <div class="main-content fade-in" id="gameArea"></div>
 
     <!-- BOTTOM BAR -->
     <div class="bottom-bar">
@@ -541,32 +504,37 @@
         </button>
         <p class="hint-text">
             <i class="fa-solid fa-keyboard"></i>
-            Pressione <kbd>Enter</kbd> para verificar
+            Pressione <kbd style="background:#e5e5e5;padding:0.2rem 0.5rem;border-radius:6px;font-weight:700;">Enter</kbd> para continuar
         </p>
         <button onclick="saveAndExit()" class="action-btn btn-home">
-            <i class="fa-solid fa-house mr-2"></i> Salvar e Voltar para Home
+            <i class="fa-solid fa-house mr-2"></i> Salvar e Voltar
         </button>
     </div>
 
-    <!-- FEEDBACK OVERLAY -->
-    <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
+    <!-- FEEDBACK SHEET -->
     <div class="feedback-sheet" id="feedbackSheet">
         <div class="feedback-header">
             <div class="feedback-icon" id="feedbackIcon"></div>
-            <div>
+            <div class="flex-1">
                 <div class="feedback-title" id="feedbackTitle"></div>
                 <div class="feedback-msg" id="feedbackMsg"></div>
+                <div class="feedback-explanation hidden" id="feedbackExplanation"></div>
             </div>
         </div>
-        <button class="action-btn btn-continue" onclick="nextStep()">
-            Continuar <i class="fa-solid fa-arrow-right ml-2"></i>
-        </button>
+        <div class="flex gap-2">
+            <button id="retryBtn" class="action-btn btn-retry hidden" onclick="retryCurrent()">
+                <i class="fa-solid fa-rotate-right mr-2"></i> Refazer
+            </button>
+            <button id="continueBtn" class="action-btn btn-continue flex-1" onclick="nextStep()">
+                Continuar <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
     </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
@@ -582,29 +550,58 @@
     const db = getFirestore(app);
     let currentUser = null;
 
+    // ===== EXPLANATIONS FOR WRONG ANSWERS =====
+    const explanations = {
+        reading: [
+            "💡 Dica: Observe os detalhes do texto para encontrar a resposta correta.",
+            "💡 Dica: Releia a frase com atenção e identifique as palavras-chave.",
+            "💡 Dica: O contexto da conversa geralmente contém a resposta!"
+        ],
+        listening: [
+            "💡 Dica: Ouça novamente com atenção. Tente identificar cada sílaba.",
+            "💡 Dica: Números em inglês têm sons diferentes do português. Pratique a pronúncia!",
+            "💡 Dica: Repita o áudio quantas vezes precisar até identificar o número."
+        ],
+        speaking: [
+            "💡 Dica: Fale mais devagar e com clareza. Tente imitar a pronúncia nativa.",
+            "💡 Dica: A pronúncia em inglês é diferente. Preste atenção nos sons das vogais.",
+            "💡 Dica: Grave a si mesmo e compare com o áudio original para melhorar."
+        ],
+        writing: [
+            "💡 Dica: Lembre-se do hífen em números compostos (twenty-one, thirty-five).",
+            "💡 Dica: Verifique a ortografia. Cada letra conta em inglês!",
+            "💡 Dica: Números de 21 a 99 sempre usam hífen em inglês."
+        ],
+        grammar: [
+            "💡 Dica: Em inglês, ordinais têm terminações especiais (1st, 2nd, 3rd, th).",
+            "💡 Dica: Números grandes em inglês seguem padrões lógicos. Estude as regras!",
+            "💡 Dica: A gramática numérica em inglês tem suas particularidades. Revise!"
+        ]
+    };
+
     // ===== LESSON DATA =====
     const lessonSteps = [
         { type: 'video', videoId: 'YuXFxvTbviI', title: 'Assista e aprenda os números de 1 a 100!' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Hi! I\'m <span class="highlight-number">Maria</span> from Brazil! 👋' },
         { type: 'dialogue', speaker: 'john', name: 'John', text: 'Hello Maria! I\'m <span class="highlight-number">John</span>. Nice to meet you!' },
-        { type: 'question', skill: 'reading', question: 'Quem é do Brasil?', options: ['John', 'Maria', 'Both'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Quem é do Brasil?', options: ['John', 'Maria', 'Both'], answer: 1, explanation: 'Maria disse "I\'m Maria from Brazil"' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I\'m <span class="highlight-number">twenty-five</span> years old. How old are you?' },
-        { type: 'question', skill: 'reading', question: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1, explanation: '"twenty-five" = 25 anos' },
         { type: 'dialogue', speaker: 'john', name: 'John', text: 'I\'m <span class="highlight-number">thirty</span>. I have <span class="highlight-number">three</span> brothers.' },
-        { type: 'question', skill: 'reading', question: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1, explanation: 'John disse "I have three brothers"' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Wow! I have <span class="highlight-number">two</span> sisters. My phone is <span class="highlight-number">555-1234</span>.' },
-        { type: 'question', skill: 'reading', question: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1, explanation: 'Maria disse "My phone is 555-1234"' },
         { type: 'dialogue', speaker: 'john', name: 'John', text: 'My favorite number is <span class="highlight-number">seven</span>. What\'s yours?' },
-        { type: 'question', skill: 'reading', question: 'Número favorito de John?', options: ['7', '17', '70'], answer: 0 },
+        { type: 'question', skill: 'reading', question: 'Número favorito de John?', options: ['7', '17', '70'], answer: 0, explanation: 'John disse "My favorite number is seven" (7)' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I love <span class="highlight-number">twelve</span>! It\'s lucky!' },
-        { type: 'question', skill: 'reading', question: 'Maria acha 12 o quê?', options: ['Azarado', 'Sortudo', 'Comum'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Maria acha 12 o quê?', options: ['Azarado', 'Sortudo', 'Comum'], answer: 1, explanation: '"It\'s lucky!" = É sortudo!' },
         { type: 'dialogue', speaker: 'john', name: 'John', text: 'I live on <span class="highlight-number">Forty-second</span> Street. That\'s 42nd!' },
-        { type: 'question', skill: 'reading', question: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0 },
+        { type: 'question', skill: 'reading', question: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0, explanation: '"Forty-second" = 42nd (quadragésimo segundo)' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I work with <span class="highlight-number">fifty</span> people! It\'s a big company.' },
-        { type: 'question', skill: 'reading', question: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1, explanation: '"fifty" = 50 pessoas' },
         { type: 'dialogue', speaker: 'john', name: 'John', text: 'See you later, Maria! Goodbye!' },
         { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Bye John! Have a great day! 👋' },
-        { type: 'question', skill: 'reading', question: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1 },
+        { type: 'question', skill: 'reading', question: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1, explanation: 'John disse "Goodbye!" e Maria disse "Bye!"' },
         { type: 'dialogue', speaker: 'narrator', name: '🎧 Professor', text: 'Agora vamos treinar o ouvido! Ouça e escolha o número correto.' },
         { type: 'question', skill: 'listening', textToSpeak: 'one', question: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
         { type: 'question', skill: 'listening', textToSpeak: 'five', question: 'O que ouviu?', options: ['5', '15', '50'], answer: 0 },
@@ -619,44 +616,44 @@
         { type: 'question', skill: 'listening', textToSpeak: 'ninety', question: 'Qual número?', options: ['19', '90', '9'], answer: 1 },
         { type: 'question', skill: 'listening', textToSpeak: 'one hundred', question: 'O que foi dito?', options: ['10', '100', '1000'], answer: 1 },
         { type: 'dialogue', speaker: 'narrator', name: '🗣️ Professor', text: 'Agora é sua vez de falar! Clique no microfone e repita os números.' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'eleven', question: 'Diga: "Onze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'twelve', question: 'Diga: "Doze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'thirteen', question: 'Diga: "Treze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'fourteen', question: 'Diga: "Quatorze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'fifteen', question: 'Diga: "Quinze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'sixteen', question: 'Diga: "Dezesseis"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'seventeen', question: 'Diga: "Dezessete"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'eighteen', question: 'Diga: "Dezoito"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'nineteen', question: 'Diga: "Dezenove"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'twenty', question: 'Diga: "Vinte"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'thirty', question: 'Diga: "Trinta"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'forty', question: 'Diga: "Quarenta"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'eleven', question: 'Diga em inglês: "Onze"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'twelve', question: 'Diga em inglês: "Doze"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'thirteen', question: 'Diga em inglês: "Treze"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'fourteen', question: 'Diga em inglês: "Quatorze"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'fifteen', question: 'Diga em inglês: "Quinze"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'sixteen', question: 'Diga em inglês: "Dezesseis"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'seventeen', question: 'Diga em inglês: "Dezessete"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'eighteen', question: 'Diga em inglês: "Dezoito"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'nineteen', question: 'Diga em inglês: "Dezenove"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'twenty', question: 'Diga em inglês: "Vinte"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'thirty', question: 'Diga em inglês: "Trinta"' },
+        { type: 'question', skill: 'speaking', expectedPhrase: 'forty', question: 'Diga em inglês: "Quarenta"' },
         { type: 'dialogue', speaker: 'narrator', name: '✍️ Professor', text: 'Agora vamos escrever! Digite os números em inglês.' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 21', answer: 'twenty-one' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 22', answer: 'twenty-two' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 23', answer: 'twenty-three' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 24', answer: 'twenty-four' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 25', answer: 'twenty-five' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 26', answer: 'twenty-six' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 27', answer: 'twenty-seven' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 28', answer: 'twenty-eight' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 29', answer: 'twenty-nine' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 30', answer: 'thirty' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 40', answer: 'forty' },
-        { type: 'question', skill: 'writing', question: 'Escreva: 50', answer: 'fifty' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 21', answer: 'twenty-one' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 22', answer: 'twenty-two' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 23', answer: 'twenty-three' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 24', answer: 'twenty-four' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 25', answer: 'twenty-five' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 26', answer: 'twenty-six' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 27', answer: 'twenty-seven' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 28', answer: 'twenty-eight' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 29', answer: 'twenty-nine' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 30', answer: 'thirty' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 40', answer: 'forty' },
+        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 50', answer: 'fifty' },
         { type: 'dialogue', speaker: 'narrator', name: '📚 Professor', text: 'Agora vamos aprender as regras gramaticais dos números!' },
-        { type: 'question', skill: 'grammar', question: 'Regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: '1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: '2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: '3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'Qual está certo?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'Qual está certo?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'Como escreve 100?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'UK: 105 é?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'Ordinal de 5?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 },
-        { type: 'question', skill: 'grammar', question: 'Ordinal de 20?', options: ['Twentyth', 'Twentieth', 'Twenty'], answer: 1 },
-        { type: 'question', skill: 'grammar', question: '100º é?', options: ['Hundredth', 'Hundred', 'One hundredth'], answer: 0 },
+        { type: 'question', skill: 'grammar', question: 'Qual a regra para números 21-99?', options: ['Sem hífen', 'Com hífen (twenty-one)', 'Espaço (twenty one)'], answer: 1, explanation: 'Números compostos em inglês usam hífen: twenty-one, thirty-five, etc.' },
+        { type: 'question', skill: 'grammar', question: 'Como se diz 1º (primeiro) em inglês?', options: ['Oneth', 'First', 'One'], answer: 1, explanation: '1º = First (ordinais têm formas especiais)' },
+        { type: 'question', skill: 'grammar', question: 'Como se diz 2º (segundo) em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1, explanation: '2º = Second (irregular)' },
+        { type: 'question', skill: 'grammar', question: 'Como se diz 3º (terceiro) em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1, explanation: '3º = Third (irregular)' },
+        { type: 'question', skill: 'grammar', question: 'Qual está escrito corretamente?', options: ['Fourty', 'Forty', 'Forte'], answer: 1, explanation: '40 = Forty (sem "u", diferente de four)' },
+        { type: 'question', skill: 'grammar', question: 'Qual está escrito corretamente?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1, explanation: '50 = Fifty (mudança de five para fif)' },
+        { type: 'question', skill: 'grammar', question: 'Como se escreve 100 em inglês?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1, explanation: '100 = One hundred (centena)' },
+        { type: 'question', skill: 'grammar', question: 'Em inglês britânico, como se diz 105?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1, explanation: 'UK usa "and": one hundred and five' },
+        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 5 (quinto)?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1, explanation: '5º = Fifth (mudança de five para fif + th)' },
+        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 10 (décimo)?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0, explanation: '10º = Tenth (ten + th)' },
+        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 20 (vigésimo)?', options: ['Twentyth', 'Twentieth', 'Twenty'], answer: 1, explanation: '20º = Twentieth (y vira ie + th)' },
+        { type: 'question', skill: 'grammar', question: 'Como se diz 100º (centésimo)?', options: ['Hundredth', 'Hundred', 'One hundredth'], answer: 0, explanation: '100º = Hundredth' },
         { type: 'dialogue', speaker: 'narrator', name: '🎉 Professor', text: 'Parabéns! Você completou todos os exercícios! Continue praticando!' }
     ];
 
@@ -666,32 +663,33 @@
     let streak = 0;
     let isAnswered = false;
     let recognition = null;
+    let shuffledOptions = [];
 
     const gameArea = document.getElementById('gameArea');
     const actionBtn = document.getElementById('actionBtn');
     const progressBar = document.getElementById('progressBar');
-    const currentStepEl = document.getElementById('currentStep');
-    const totalStepsEl = document.getElementById('totalSteps');
+    const progressText = document.getElementById('progressText');
     const xpDisplay = document.getElementById('xpDisplay');
     const streakDisplay = document.getElementById('streakDisplay');
+    const feedbackSheet = document.getElementById('feedbackSheet');
 
-    totalStepsEl.textContent = lessonSteps.length;
+    // ===== SHUFFLE ARRAY =====
+    function shuffle(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
 
-    // THEME
-    window.toggleTheme = () => {
-        const html = document.documentElement;
-        const isDark = html.dataset.theme === 'dark';
-        html.dataset.theme = isDark ? 'light' : 'dark';
-        document.getElementById('themeIcon').className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-        localStorage.setItem('ep_theme', html.dataset.theme);
-    };
+    // ===== THEME =====
     (function() {
         const saved = localStorage.getItem('ep_theme') || 'light';
         document.documentElement.dataset.theme = saved;
-        document.getElementById('themeIcon').className = saved === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
     })();
 
-    // KEYBOARD
+    // ===== KEYBOARD =====
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.repeat) {
             e.preventDefault();
@@ -699,7 +697,7 @@
         }
     });
 
-    // LOAD PROGRESS
+    // ===== LOAD PROGRESS =====
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             currentUser = user;
@@ -722,14 +720,19 @@
         renderStep();
     });
 
-    // SAVE PROGRESS
+    // ===== SAVE PROGRESS =====
     async function saveProgressToFirebase() {
         if (!currentUser) return;
         try {
+            const totalSteps = lessonSteps.filter(s => s.type === 'question').length;
+            const completedSteps = currentStepIndex;
+            const progressPercent = Math.round((completedSteps / totalSteps) * 100);
+            
             await updateDoc(doc(db, "usuarios", currentUser.uid), {
                 xp: score,
                 streak: streak,
                 'progresso.u02_step': currentStepIndex,
+                'progresso.u02_percent': progressPercent,
                 'progresso.u02_lastUpdate': new Date().toISOString()
             });
         } catch (error) {
@@ -744,6 +747,7 @@
         window.location.href = 'index.html';
     };
 
+    // ===== RENDER STEP =====
     function renderStep() {
         if (currentStepIndex >= lessonSteps.length) {
             showCompletion();
@@ -753,12 +757,18 @@
         const step = lessonSteps[currentStepIndex];
         isAnswered = false;
         selectedOption = null;
+        feedbackSheet.classList.remove('show');
         
-        currentStepEl.textContent = currentStepIndex + 1;
-        const pct = (currentStepIndex / lessonSteps.length) * 100;
+        const questionSteps = lessonSteps.filter(s => s.type === 'question');
+        const totalQuestions = questionSteps.length;
+        const completedQuestions = lessonSteps.slice(0, currentStepIndex).filter(s => s.type === 'question').length;
+        const pct = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
+        
         progressBar.style.width = `${pct}%`;
+        progressText.textContent = `Passo ${currentStepIndex + 1} de ${lessonSteps.length} • ${pct}%`;
 
         gameArea.innerHTML = '';
+        gameArea.className = 'main-content fade-in';
 
         if (step.type === 'video') renderVideo(step);
         else if (step.type === 'dialogue') renderDialogue(step);
@@ -767,15 +777,15 @@
 
     function renderVideo(step) {
         gameArea.innerHTML = `
-            <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
                 <span class="skill-badge" style="background: #fee2e2; color: #b91c1c;">
                     <i class="fa-solid fa-video"></i> Video Lesson
                 </span>
             </div>
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/${step.videoId}" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/${step.videoId}" frameborder="0" allowfullscreen title="Video lesson"></iframe>
             </div>
-            <p style="text-align: center; color: var(--text-light); font-size: 1.1rem;">${step.title}</p>
+            <p style="text-align: center; color: #777; font-size: 1rem;">${step.title}</p>
         `;
         actionBtn.textContent = "Começar Exercícios";
         actionBtn.disabled = false;
@@ -784,19 +794,19 @@
 
     function renderDialogue(step) {
         const avatarClass = step.speaker === 'maria' ? 'speaker-maria' : 'speaker-john';
-        const icon = step.speaker === 'maria' ? '👩' : '👨';
+        const icon = step.speaker === 'maria' ? '👩' : '🏻';
         
         gameArea.innerHTML = `
-            <div class="dialogue-box">
-                <div class="speaker-info">
+            <div class="dialogue-card">
+                <div class="speaker-header">
                     <div class="speaker-avatar ${avatarClass}">${icon}</div>
-                    <div style="font-weight: 800; font-size: 1.2rem;">${step.name}</div>
-                    <button onclick="speakText('${step.text.replace(/<[^>]*>/g, '')}')" style="margin-left: auto; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--secondary);">
+                    <span class="speaker-name">${step.name}</span>
+                    <button class="speaker-listen" onclick="speakText('${step.text.replace(/<[^>]*>/g, '')}')" aria-label="Ouvir">
                         <i class="fa-solid fa-volume-high"></i>
                     </button>
                 </div>
                 <div class="speech-bubble">
-                    <p style="font-size: 1.2rem; line-height: 1.6;">${step.text}</p>
+                    <p>${step.text}</p>
                 </div>
             </div>
         `;
@@ -821,49 +831,67 @@
             grammar: '<i class="fa-solid fa-graduation-cap"></i>'
         };
 
+        // Shuffle options for randomness
+        if (step.options) {
+            const originalAnswer = step.options[step.answer];
+            shuffledOptions = shuffle(step.options.map((opt, i) => ({ text: opt, isCorrect: i === step.answer })));
+            step.shuffledOptions = shuffledOptions;
+            step.shuffledAnswer = shuffledOptions.findIndex(o => o.isCorrect);
+        }
+
         let html = `
-            <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
                 <span class="skill-badge ${skillClasses[step.skill]}">
                     ${skillIcons[step.skill]} ${step.skill.charAt(0).toUpperCase() + step.skill.slice(1)}
                 </span>
             </div>
-            <div class="question-container">
-                <h2 class="question-title">${step.question}</h2>
         `;
 
+        // Language badge
+        if (step.question.includes('inglês') || step.question.includes('Diga em') || step.question.includes('Escreva em inglês')) {
+            html += `<div style="text-align:center;"><span class="lang-badge lang-en"><i class="fa-solid fa-flag-usa"></i> Inglês</span></div>`;
+        } else if (step.question.includes('português') || step.question.includes('traduza')) {
+            html += `<div style="text-align:center;"><span class="lang-badge lang-pt"><i class="fa-solid fa-flag"></i> Português</span></div>`;
+        }
+
+        html += `<h2 class="question-title">${step.question}</h2>`;
+
         if (step.textToSpeak) {
-            html += `<button class="audio-btn" onclick="speakText('${step.textToSpeak}')"><i class="fa-solid fa-volume-high"></i></button>`;
+            html += `<button class="audio-btn" onclick="speakText('${step.textToSpeak}')" aria-label="Ouvir áudio"><i class="fa-solid fa-volume-high"></i></button>`;
         }
 
         if (step.options) {
             html += `<div class="options-grid">`;
-            step.options.forEach((opt, i) => {
-                html += `<div class="option-card" onclick="selectOption(this, ${i})">${opt}</div>`;
+            shuffledOptions.forEach((opt, i) => {
+                html += `<div class="option-card" onclick="selectOption(this, ${i})" role="button" tabindex="0">${opt.text}</div>`;
             });
             html += `</div>`;
         } else if (step.expectedPhrase) {
             html += `
-                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${step.expectedPhrase}')">
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${step.expectedPhrase}')" aria-label="Gravar voz">
                     <i class="fa-solid fa-microphone"></i>
                 </button>
-                <p style="text-align: center; color: var(--text-light);">Clique no microfone e fale</p>
-                <div id="speakingScore" style="text-align: center; margin-top: 1rem; font-weight: 700; display: none;"></div>
+                <p style="text-align: center; color: #777; margin-bottom: 1rem;">Clique no microfone e fale claramente</p>
+                <div id="speakingScore" style="text-align: center; font-weight: 700; display: none;"></div>
             `;
         } else if (step.answer && !step.options) {
             html += `
-                <input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta..." oninput="enableCheck()" autocomplete="off">
+                <input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta em inglês..." oninput="enableCheck()" autocomplete="off" autocapitalize="off">
             `;
         }
 
-        html += `</div>`;
         gameArea.innerHTML = html;
 
         actionBtn.textContent = "Verificar";
+        actionBtn.className = 'action-btn btn-check';
         actionBtn.onclick = checkAnswer;
         actionBtn.disabled = true;
         
         if (step.answer && !step.options) {
-            setTimeout(() => document.getElementById('writingInput').focus(), 100);
+            setTimeout(() => {
+                const input = document.getElementById('writingInput');
+                if (input) input.focus();
+            }, 100);
         }
     }
 
@@ -876,8 +904,8 @@
     };
 
     window.enableCheck = () => {
-        const val = document.getElementById('writingInput').value.trim();
-        actionBtn.disabled = val.length === 0;
+        const val = document.getElementById('writingInput')?.value.trim();
+        actionBtn.disabled = !val || val.length === 0;
     };
 
     window.handleAction = () => {
@@ -894,21 +922,22 @@
 
         if (step.options) {
             const cards = document.querySelectorAll('.option-card');
-            if (selectedOption === step.answer) {
+            const correctIndex = step.shuffledAnswer;
+            if (selectedOption === correctIndex) {
                 cards[selectedOption].classList.add('correct');
                 isCorrect = true;
             } else {
                 cards[selectedOption].classList.add('wrong');
-                cards[step.answer].classList.add('correct');
+                cards[correctIndex].classList.add('correct');
             }
         } else if (step.answer && !step.options) {
             const input = document.getElementById('writingInput');
             if (input.value.trim().toLowerCase() === step.answer.toLowerCase()) {
-                input.style.borderColor = 'var(--primary)';
+                input.style.borderColor = '#58cc02';
                 input.style.background = '#dcfce7';
                 isCorrect = true;
             } else {
-                input.style.borderColor = 'var(--danger)';
+                input.style.borderColor = '#ff4b4b';
                 input.style.background = '#fee2e2';
             }
         } else if (step.expectedPhrase) {
@@ -931,31 +960,31 @@
             recognition = new webkitSpeechRecognition();
             recognition.lang = 'en-US';
             recognition.continuous = false;
+            recognition.interimResults = false;
             
             btn.classList.add('recording');
             btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
             scoreDiv.style.display = 'block';
-            scoreDiv.innerHTML = '<span style="color: var(--secondary);"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
+            scoreDiv.innerHTML = '<span style="color: #1cb0f6;"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
             
             recognition.onresult = (event) => {
                 let transcript = event.results[0][0].transcript.trim().toLowerCase();
                 const confidence = event.results[0][0].confidence;
                 
                 const numMap = {
-                    '0':'zero', '1':'one', '2':'two', '3':'three', '4':'four', '5':'five',
-                    '6':'six', '7':'seven', '8':'eight', '9':'nine', '10':'ten',
-                    '11':'eleven', '12':'twelve', '13':'thirteen', '14':'fourteen', '15':'fifteen',
-                    '16':'sixteen', '17':'seventeen', '18':'eighteen', '19':'nineteen',
-                    '20':'twenty', '21':'twenty-one', '22':'twenty-two', '23':'twenty-three',
-                    '24':'twenty-four', '25':'twenty-five', '26':'twenty-six', '27':'twenty-seven',
-                    '28':'twenty-eight', '29':'twenty-nine', '30':'thirty',
-                    '40':'forty', '50':'fifty', '60':'sixty', '70':'seventy', '80':'eighty',
-                    '90':'ninety', '100':'one hundred'
+                    '0':'zero','1':'one','2':'two','3':'three','4':'four','5':'five',
+                    '6':'six','7':'seven','8':'eight','9':'nine','10':'ten',
+                    '11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen',
+                    '16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen',
+                    '20':'twenty','21':'twenty-one','22':'twenty-two','23':'twenty-three',
+                    '24':'twenty-four','25':'twenty-five','26':'twenty-six','27':'twenty-seven',
+                    '28':'twenty-eight','29':'twenty-nine','30':'thirty',
+                    '40':'forty','50':'fifty','60':'sixty','70':'seventy','80':'eighty',
+                    '90':'ninety','100':'one hundred'
                 };
                 
                 Object.keys(numMap).forEach(num => {
-                    const regex = new RegExp(`\\b${num}\\b`, 'g');
-                    transcript = transcript.replace(regex, numMap[num]);
+                    transcript = transcript.replace(new RegExp(`\\b${num}\\b`, 'g'), numMap[num]);
                 });
                 
                 transcript = transcript.replace(/[.,!?]/g, '').trim();
@@ -968,13 +997,11 @@
                 
                 scoreDiv.innerHTML = `
                     <div style="margin-bottom: 0.5rem;">
-                        <span style="color: ${accuracy >= 60 ? 'var(--primary)' : 'var(--danger)'}; font-size: 1.2rem;">
+                        <span style="color: ${accuracy >= 60 ? '#58cc02' : '#ff4b4b'}; font-size: 1.1rem;">
                             ${accuracy}% de precisão
                         </span>
                     </div>
-                    <div style="font-size: 0.9rem; color: var(--text-light);">
-                        Você disse: "${transcript}"
-                    </div>
+                    <div style="font-size: 0.85rem; color: #777;">Você disse: "${transcript}"</div>
                 `;
                 
                 showFeedback(accuracy >= 50, lessonSteps[currentStepIndex]);
@@ -986,7 +1013,7 @@
             recognition.onerror = () => {
                 btn.classList.remove('recording');
                 btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                scoreDiv.innerHTML = '<span style="color: var(--danger);">Erro ao ouvir. Tente novamente.</span>';
+                scoreDiv.innerHTML = '<span style="color: #ff4b4b;">Erro ao ouvir. Tente novamente.</span>';
             };
             
             recognition.start();
@@ -994,21 +1021,23 @@
     };
 
     function showFeedback(isCorrect, step) {
-        const overlay = document.getElementById('feedbackOverlay');
-        const sheet = document.getElementById('feedbackSheet');
         const icon = document.getElementById('feedbackIcon');
         const title = document.getElementById('feedbackTitle');
         const msg = document.getElementById('feedbackMsg');
+        const explanation = document.getElementById('feedbackExplanation');
+        const retryBtn = document.getElementById('retryBtn');
+        const continueBtn = document.getElementById('continueBtn');
 
-        overlay.classList.add('show');
-        sheet.classList.remove('correct', 'wrong');
+        feedbackSheet.classList.remove('correct', 'wrong');
         
         if (isCorrect) {
-            sheet.classList.add('correct');
-            icon.innerHTML = '<i class="fa-solid fa-check" style="color: var(--primary);"></i>';
+            feedbackSheet.classList.add('correct');
+            icon.innerHTML = '<i class="fa-solid fa-check" style="color: #58cc02;"></i>';
             title.textContent = "Correto! 🎉";
             title.style.color = '#15803d';
             msg.textContent = `+10 XP • Sequência: ${streak + 1}`;
+            explanation.classList.add('hidden');
+            retryBtn.classList.add('hidden');
             
             score += 10;
             streak++;
@@ -1018,38 +1047,53 @@
             saveProgressToFirebase();
             if (currentUser) {
                 updateDoc(doc(db, "usuarios", currentUser.uid), {
-                    xp: increment(10),
+                    xp: score,
                     streak: streak
                 }).catch(console.error);
             }
         } else {
-            sheet.classList.add('wrong');
-            icon.innerHTML = '<i class="fa-solid fa-rotate-right" style="color: var(--danger);"></i>';
-            title.textContent = "Quase lá! 💪";
+            feedbackSheet.classList.add('wrong');
+            icon.innerHTML = '<i class="fa-solid fa-rotate-right" style="color: #ff4b4b;"></i>';
+            title.textContent = "Não foi dessa vez 💪";
             title.style.color = '#b91c1c';
             
             let correctAnswer = '';
-            if (step.options) correctAnswer = step.options[step.answer];
+            if (step.options) correctAnswer = step.shuffledOptions ? step.shuffledOptions.find(o => o.isCorrect)?.text : step.options[step.answer];
             else if (step.answer) correctAnswer = step.answer;
             else if (step.expectedPhrase) correctAnswer = step.expectedPhrase;
             
             msg.textContent = `Resposta correta: ${correctAnswer}`;
             
+            // Show explanation
+            if (step.explanation) {
+                explanation.textContent = `💡 ${step.explanation}`;
+                explanation.classList.remove('hidden');
+            } else {
+                const skillExplanations = explanations[step.skill] || explanations.reading;
+                explanation.textContent = skillExplanations[Math.floor(Math.random() * skillExplanations.length)];
+                explanation.classList.remove('hidden');
+            }
+            
+            retryBtn.classList.remove('hidden');
+            
             streak = 0;
             streakDisplay.textContent = streak;
         }
 
-        sheet.classList.add('show');
+        feedbackSheet.classList.add('show');
         actionBtn.style.display = 'none';
     }
 
-    window.closeFeedback = () => {
-        document.getElementById('feedbackOverlay').classList.remove('show');
-        document.getElementById('feedbackSheet').classList.remove('show');
+    window.retryCurrent = () => {
+        feedbackSheet.classList.remove('show');
+        isAnswered = false;
+        selectedOption = null;
+        renderStep();
+        actionBtn.style.display = 'block';
     };
 
     window.nextStep = () => {
-        closeFeedback();
+        feedbackSheet.classList.remove('show');
         currentStepIndex++;
         saveProgressToFirebase();
         setTimeout(() => {
@@ -1060,48 +1104,65 @@
 
     window.speakText = (text) => {
         if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.cancel(); // Stop any current speech
+            const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''));
             utterance.lang = 'en-US';
             utterance.rate = 0.9;
-            speechSynthesis.speak(utterance);
+            utterance.pitch = 1;
+            
+            // Try to get a good English voice
+            const voices = window.speechSynthesis.getVoices();
+            const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
+                                voices.find(v => v.lang.startsWith('en-US')) ||
+                                voices.find(v => v.lang.startsWith('en'));
+            if (englishVoice) utterance.voice = englishVoice;
+            
+            window.speechSynthesis.speak(utterance);
         }
     };
 
+    // Load voices
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {};
+    }
+
     function showCompletion() {
+        const totalQuestions = lessonSteps.filter(s => s.type === 'question').length;
         gameArea.innerHTML = `
-            <div style="text-align: center; padding: 3rem 1rem;">
-                <div style="font-size: 6rem; margin-bottom: 2rem; animation: bounce 2s infinite;">🏆</div>
-                <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <div style="text-align: center; padding: 2rem 1rem;">
+                <div style="font-size: 5rem; margin-bottom: 1.5rem;">🏆</div>
+                <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; color: #58cc02;">
                     Lição Completa!
                 </h2>
-                <p style="font-size: 1.5rem; margin-bottom: 2rem;">Você ganhou <strong style="color: var(--primary);">${score} XP</strong></p>
+                <p style="font-size: 1.25rem; margin-bottom: 1.5rem;">Você ganhou <strong style="color: #58cc02;">${score} XP</strong></p>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 300px; margin: 0 auto 2rem;">
-                    <div style="background: var(--card); padding: 1.5rem; border-radius: 16px; border: 3px solid var(--primary);">
-                        <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${streak}</div>
-                        <div style="font-size: 0.875rem; color: var(--text-light);">Melhor Sequência</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 280px; margin: 0 auto 2rem;">
+                    <div style="background: white; padding: 1.25rem; border-radius: 16px; border: 3px solid #58cc02;">
+                        <div style="font-size: 1.75rem; font-weight: 800; color: #58cc02;">${streak}</div>
+                        <div style="font-size: 0.8rem; color: #777;">Melhor Sequência</div>
                     </div>
-                    <div style="background: var(--card); padding: 1.5rem; border-radius: 16px; border: 3px solid var(--secondary);">
-                        <div style="font-size: 2rem; font-weight: 800; color: var(--secondary);">${currentStepIndex}</div>
-                        <div style="font-size: 0.875rem; color: var(--text-light);">Exercícios</div>
+                    <div style="background: white; padding: 1.25rem; border-radius: 16px; border: 3px solid #1cb0f6;">
+                        <div style="font-size: 1.75rem; font-weight: 800; color: #1cb0f6;">${totalQuestions}</div>
+                        <div style="font-size: 0.8rem; color: #777;">Exercícios</div>
                     </div>
                 </div>
                 
-                <p style="color: var(--text-light); margin-bottom: 2rem;">Progresso salvo automaticamente!</p>
+                <p style="color: #777; margin-bottom: 1.5rem;">Progresso salvo automaticamente!</p>
                 
-                <button onclick="window.location.href='index.html'" class="action-btn btn-continue" style="max-width: 300px; margin: 0 auto; display: block;">
+                <button onclick="window.location.href='index.html'" class="action-btn btn-continue" style="max-width: 280px; margin: 0 auto;">
                     <i class="fa-solid fa-house mr-2"></i> Voltar para Home
                 </button>
             </div>
         `;
         document.querySelector('.bottom-bar').style.display = 'none';
         progressBar.style.width = '100%';
-        currentStepEl.textContent = lessonSteps.length;
+        progressText.textContent = 'Concluído! 🎉';
         
         if (currentUser) {
             updateDoc(doc(db, "usuarios", currentUser.uid), {
                 'progresso.u02_completed': true,
-                'progresso.u02_date': new Date().toISOString()
+                'progresso.u02_date': new Date().toISOString(),
+                'progresso.u02_finalScore': score
             }).catch(console.error);
         }
     }
