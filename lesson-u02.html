@@ -7,15 +7,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#58cc02',
+                        'primary-dark': '#46a302',
+                        secondary: '#1cb0f6',
+                        danger: '#ff4b4b',
+                        warning: '#ffc800',
+                        purple: '#ce82ff',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Nunito', sans-serif;
             background: #f7f7f7;
             color: #4b4b4b;
             min-height: 100vh;
+            line-height: 1.5;
         }
         
+        /* TOP BAR */
         .top-bar {
             background: white;
             padding: 0.75rem 1rem;
@@ -26,6 +44,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .close-btn {
@@ -36,6 +55,12 @@
             cursor: pointer;
             padding: 0.25rem;
             border-radius: 50%;
+            transition: all 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .close-btn:hover { color: #ff4b4b; background: #fee2e2; }
         
@@ -48,9 +73,21 @@
         }
         .progress-fill {
             height: 100%;
-            background: #58cc02;
+            background: linear-gradient(90deg, #58cc02, #78e602);
             border-radius: 10px;
-            transition: width 0.5s;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         .progress-text {
             font-size: 0.75rem;
@@ -69,22 +106,26 @@
             border-radius: 10px;
             font-weight: 800;
             font-size: 0.9rem;
+            white-space: nowrap;
         }
         .stat-streak { background: #ff9600; color: white; }
         .stat-xp { background: #ffc800; color: #78350f; }
         
+        /* TABS */
         .tabs-container {
             background: white;
             border-bottom: 2px solid #e5e5e5;
-            padding: 0.5rem;
+            padding: 0.5rem 1rem;
             overflow-x: auto;
             position: sticky;
             top: 60px;
             z-index: 99;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .tabs-wrapper {
             display: flex;
             gap: 0.5rem;
+            min-width: max-content;
         }
         .tab-btn {
             padding: 0.75rem 1.25rem;
@@ -101,7 +142,8 @@
             align-items: center;
             gap: 0.5rem;
         }
-        .tab-btn:hover { border-color: #1cb0f6; color: #1cb0f6; }
+        .tab-btn:hover { border-color: #1cb0f6; color: #1cb0f6; background: #f0f9ff; }
+        .tab-btn:active { transform: translateY(1px); }
         .tab-btn.active {
             background: #1cb0f6;
             border-color: #1cb0f6;
@@ -119,6 +161,7 @@
             margin-left: 0.25rem;
         }
         
+        /* MAIN CONTENT */
         .main-content {
             max-width: 600px;
             margin: 0 auto;
@@ -126,9 +169,10 @@
         }
         
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* EXERCISES */
         .exercise-card {
             background: white;
             border: 2px solid #e5e5e5;
@@ -144,6 +188,7 @@
             text-align: center;
             margin-bottom: 1.5rem;
             color: #333;
+            line-height: 1.4;
         }
         
         .options-grid {
@@ -164,6 +209,7 @@
             cursor: pointer;
             transition: all 0.15s;
             box-shadow: 0 2px 0 #e5e5e5;
+            text-align: center;
         }
         .option-btn:hover { border-color: #1cb0f6; background: #f0f9ff; }
         .option-btn:active { transform: translateY(2px); box-shadow: none; }
@@ -181,6 +227,12 @@
             border-color: #ff4b4b;
             background: #fee2e2;
             box-shadow: 0 2px 0 #ff4b4b;
+            animation: shake 0.4s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
         }
         
         .audio-btn {
@@ -196,8 +248,11 @@
             margin: 0 auto 1.5rem;
             display: block;
             box-shadow: 0 4px 0 #1899d6;
+            transition: all 0.1s;
         }
         .audio-btn:active { transform: translateY(4px); box-shadow: none; }
+        .audio-btn.playing { animation: pulse 0.5s; }
+        @keyframes pulse { 50% { transform: scale(1.05); } }
         
         .record-btn {
             width: 90px;
@@ -213,10 +268,11 @@
             cursor: pointer;
             box-shadow: 0 6px 0 #b91c1c;
             border: none;
+            transition: all 0.15s;
         }
         .record-btn:active { transform: translateY(6px); box-shadow: none; }
-        .record-btn.recording { animation: pulse 1s infinite; }
-        @keyframes pulse { 50% { transform: scale(1.1); } }
+        .record-btn.recording { animation: pulse-record 1s infinite; }
+        @keyframes pulse-record { 50% { transform: scale(1.1); } }
         
         .writing-input {
             width: 100%;
@@ -228,9 +284,48 @@
             text-align: center;
             font-weight: 700;
             margin-bottom: 1.5rem;
+            color: #333;
         }
-        .writing-input:focus { outline: none; border-color: #1cb0f6; }
+        .writing-input:focus {
+            outline: none;
+            border-color: #1cb0f6;
+            box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
+        }
         
+        .dialogue-box {
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .speaker-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .speaker-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .speech-bubble {
+            background: #f7f7f7;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e5e5e5;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* BOTTOM BAR */
         .bottom-bar {
             position: fixed;
             bottom: 0;
@@ -243,6 +338,7 @@
             flex-direction: column;
             gap: 0.75rem;
             z-index: 100;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
         }
         
         .action-btn {
@@ -253,13 +349,17 @@
             border: none;
             cursor: pointer;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+            transition: all 0.1s;
+            font-size: 1rem;
         }
         .action-btn:active { transform: translateY(4px); box-shadow: none; }
         .btn-check { background: #58cc02; color: white; box-shadow: 0 4px 0 #46a302; }
         .btn-check:disabled { background: #e5e5e5; color: #afafaf; box-shadow: none; cursor: not-allowed; }
         .btn-home { background: #e5e5e5; color: #777; font-size: 0.85rem; }
         
+        /* FEEDBACK */
         .feedback-overlay {
             position: fixed;
             inset: 0;
@@ -276,12 +376,33 @@
             right: 0;
             padding: 1.5rem;
             transform: translateY(100%);
-            transition: transform 0.3s;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 201;
         }
         .feedback-sheet.show { transform: translateY(0); }
         .feedback-sheet.correct { background: #d7ffb8; border-top: 3px solid #58cc02; }
         .feedback-sheet.wrong { background: #ffdfe0; border-top: 3px solid #ff4b4b; }
+        
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .feedback-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .feedback-title { font-size: 1.25rem; font-weight: 800; }
+        .feedback-msg { font-size: 0.95rem; line-height: 1.4; }
         
         .video-wrapper {
             width: 100%;
@@ -290,6 +411,7 @@
             aspect-ratio: 16/9;
             background: #000;
             margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .video-wrapper iframe { width: 100%; height: 100%; }
         
@@ -302,12 +424,27 @@
             color: #58cc02;
             margin-bottom: 1rem;
         }
+        
+        .hint-text {
+            text-align: center;
+            color: #777;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 480px) {
+            .main-content { padding: 1.5rem 0.75rem 160px; }
+            .tab-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
+            .question-title { font-size: 1.2rem; }
+            .option-btn { padding: 1rem; font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- TOP BAR -->
     <div class="top-bar">
-        <button class="close-btn" onclick="saveAndExit()">
+        <button class="close-btn" onclick="saveAndExit()" aria-label="Fechar">
             <i class="fa-solid fa-xmark"></i>
         </button>
         
@@ -330,6 +467,7 @@
         </div>
     </div>
 
+    <!-- TABS -->
     <div class="tabs-container">
         <div class="tabs-wrapper">
             <button class="tab-btn active" onclick="switchTab('video')">
@@ -353,6 +491,7 @@
         </div>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="main-content">
         <div id="tab-video" class="tab-content active"></div>
         <div id="tab-reading" class="tab-content"></div>
@@ -362,22 +501,25 @@
         <div id="tab-grammar" class="tab-content"></div>
     </div>
 
+    <!-- BOTTOM BAR -->
     <div class="bottom-bar">
         <button id="actionBtn" class="action-btn btn-check" onclick="handleAction()" disabled>
             Carregando...
         </button>
+        <p class="hint-text" id="hintText">Pressione Enter para continuar</p>
         <button onclick="saveAndExit()" class="action-btn btn-home">
             <i class="fa-solid fa-house mr-2"></i> Salvar e Voltar
         </button>
     </div>
 
+    <!-- FEEDBACK -->
     <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
     <div class="feedback-sheet" id="feedbackSheet">
-        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
-            <div id="feedbackIcon" style="width:56px;height:56px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:1.75rem;"></div>
+        <div class="feedback-header">
+            <div id="feedbackIcon" class="feedback-icon"></div>
             <div>
-                <div id="feedbackTitle" style="font-size:1.25rem;font-weight:800;"></div>
-                <div id="feedbackMsg" style="font-size:0.95rem;"></div>
+                <div id="feedbackTitle" class="feedback-title"></div>
+                <div id="feedbackMsg" class="feedback-msg"></div>
             </div>
         </div>
         <button class="action-btn btn-check" onclick="closeFeedback()">Continuar</button>
@@ -402,9 +544,11 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== DATA =====
+    // ===== 80 CEFR A1 EXERCISES FOR NUMBERS 1-100 =====
     const tabsData = {
         video: { type: 'video', videoId: 'YuXFxvTbviI' },
+        
+        // READING: 15 exercises (CEFR A1 - Numbers in context)
         reading: [
             { q: 'Quem é do Brasil?', options: ['John', 'Maria', 'Ambos'], answer: 1 },
             { q: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1 },
@@ -415,55 +559,88 @@
             { q: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0 },
             { q: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1 },
             { q: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1 },
-            { q: 'Complete: "I\'m _____ years old"', options: ['twenty', 'twenty-five', 'thirty'], answer: 1 }
+            { q: 'Complete: "I\'m _____ years old"', options: ['twenty', 'twenty-five', 'thirty'], answer: 1 },
+            { q: 'What number comes after ten?', options: ['9', '11', '12'], answer: 1 },
+            { q: 'Which is bigger: 25 or 52?', options: ['25', '52', 'Same'], answer: 1 },
+            { q: 'How do you write 100?', options: ['One thousand', 'One hundred', 'Ten tens'], answer: 1 },
+            { q: 'What is 20 + 5?', options: ['15', '25', '205'], answer: 1 },
+            { q: 'Which number is odd?', options: ['10', '15', '20'], answer: 1 }
         ],
+        
+        // LISTENING: 15 exercises (CEFR A1 - Number recognition)
         listening: [
             { audio: 'one', q: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
-            { audio: 'five', q: 'O que ouviu?', options: ['5', '15', '50'], answer: 0 },
-            { audio: 'ten', q: 'Qual número?', options: ['10', '11', '12'], answer: 0 },
-            { audio: 'twenty', q: 'O que foi dito?', options: ['12', '20', '2'], answer: 1 },
-            { audio: 'thirty', q: 'Qual número?', options: ['13', '30', '3'], answer: 1 },
-            { audio: 'forty', q: 'O que ouviu?', options: ['14', '40', '4'], answer: 1 },
-            { audio: 'fifty', q: 'Qual número?', options: ['15', '50', '5'], answer: 1 },
-            { audio: 'sixty', q: 'O que foi falado?', options: ['16', '60', '6'], answer: 1 },
-            { audio: 'seventy', q: 'Qual número?', options: ['17', '70', '7'], answer: 1 },
-            { audio: 'eighty', q: 'O que ouviu?', options: ['18', '80', '8'], answer: 1 }
+            { audio: 'two', q: 'O que ouviu?', options: ['2', '12', '20'], answer: 0 },
+            { audio: 'three', q: 'Qual número?', options: ['3', '13', '30'], answer: 0 },
+            { audio: 'four', q: 'O que foi dito?', options: ['4', '14', '40'], answer: 0 },
+            { audio: 'five', q: 'Qual número?', options: ['5', '15', '50'], answer: 0 },
+            { audio: 'six', q: 'O que ouviu?', options: ['6', '16', '60'], answer: 0 },
+            { audio: 'seven', q: 'Qual número?', options: ['7', '17', '70'], answer: 0 },
+            { audio: 'eight', q: 'O que foi falado?', options: ['8', '18', '80'], answer: 0 },
+            { audio: 'nine', q: 'Qual número?', options: ['9', '19', '90'], answer: 0 },
+            { audio: 'ten', q: 'O que ouviu?', options: ['10', '11', '12'], answer: 0 },
+            { audio: 'twenty', q: 'Qual número?', options: ['12', '20', '2'], answer: 1 },
+            { audio: 'thirty', q: 'O que foi dito?', options: ['13', '30', '3'], answer: 1 },
+            { audio: 'forty', q: 'Qual número?', options: ['14', '40', '4'], answer: 1 },
+            { audio: 'fifty', q: 'O que ouviu?', options: ['15', '50', '5'], answer: 1 },
+            { audio: 'one hundred', q: 'Qual número?', options: ['10', '100', '1000'], answer: 1 }
         ],
+        
+        // SPEAKING: 15 exercises (CEFR A1 - Pronunciation practice)
         speaking: [
-            { phrase: 'eleven', q: 'Diga: "Onze"' },
-            { phrase: 'twelve', q: 'Diga: "Doze"' },
-            { phrase: 'thirteen', q: 'Diga: "Treze"' },
-            { phrase: 'fourteen', q: 'Diga: "Quatorze"' },
-            { phrase: 'fifteen', q: 'Diga: "Quinze"' },
-            { phrase: 'sixteen', q: 'Diga: "Dezesseis"' },
-            { phrase: 'seventeen', q: 'Diga: "Dezessete"' },
-            { phrase: 'eighteen', q: 'Diga: "Dezoito"' },
-            { phrase: 'nineteen', q: 'Diga: "Dezenove"' },
-            { phrase: 'twenty', q: 'Diga: "Vinte"' }
+            { phrase: 'one', q: 'Diga em inglês: "Um"' },
+            { phrase: 'two', q: 'Diga em inglês: "Dois"' },
+            { phrase: 'three', q: 'Diga em inglês: "Três"' },
+            { phrase: 'four', q: 'Diga em inglês: "Quatro"' },
+            { phrase: 'five', q: 'Diga em inglês: "Cinco"' },
+            { phrase: 'six', q: 'Diga em inglês: "Seis"' },
+            { phrase: 'seven', q: 'Diga em inglês: "Sete"' },
+            { phrase: 'eight', q: 'Diga em inglês: "Oito"' },
+            { phrase: 'nine', q: 'Diga em inglês: "Nove"' },
+            { phrase: 'ten', q: 'Diga em inglês: "Dez"' },
+            { phrase: 'eleven', q: 'Diga em inglês: "Onze"' },
+            { phrase: 'twelve', q: 'Diga em inglês: "Doze"' },
+            { phrase: 'thirteen', q: 'Diga em inglês: "Treze"' },
+            { phrase: 'fourteen', q: 'Diga em inglês: "Quatorze"' },
+            { phrase: 'fifteen', q: 'Diga em inglês: "Quinze"' }
         ],
+        
+        // WRITING: 15 exercises (CEFR A1 - Spelling numbers)
         writing: [
-            { q: 'Escreva: 21', answer: 'twenty-one' },
-            { q: 'Escreva: 22', answer: 'twenty-two' },
-            { q: 'Escreva: 23', answer: 'twenty-three' },
-            { q: 'Escreva: 24', answer: 'twenty-four' },
-            { q: 'Escreva: 25', answer: 'twenty-five' },
-            { q: 'Escreva: 26', answer: 'twenty-six' },
-            { q: 'Escreva: 27', answer: 'twenty-seven' },
-            { q: 'Escreva: 28', answer: 'twenty-eight' },
-            { q: 'Escreva: 29', answer: 'twenty-nine' },
-            { q: 'Escreva: 30', answer: 'thirty' }
+            { q: 'Escreva em inglês: 1', answer: 'one' },
+            { q: 'Escreva em inglês: 2', answer: 'two' },
+            { q: 'Escreva em inglês: 3', answer: 'three' },
+            { q: 'Escreva em inglês: 4', answer: 'four' },
+            { q: 'Escreva em inglês: 5', answer: 'five' },
+            { q: 'Escreva em inglês: 6', answer: 'six' },
+            { q: 'Escreva em inglês: 7', answer: 'seven' },
+            { q: 'Escreva em inglês: 8', answer: 'eight' },
+            { q: 'Escreva em inglês: 9', answer: 'nine' },
+            { q: 'Escreva em inglês: 10', answer: 'ten' },
+            { q: 'Escreva em inglês: 11', answer: 'eleven' },
+            { q: 'Escreva em inglês: 12', answer: 'twelve' },
+            { q: 'Escreva em inglês: 13', answer: 'thirteen' },
+            { q: 'Escreva em inglês: 14', answer: 'fourteen' },
+            { q: 'Escreva em inglês: 15', answer: 'fifteen' }
         ],
+        
+        // GRAMMAR: 15 exercises (CEFR A1 - Number rules)
         grammar: [
-            { q: 'Regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
-            { q: '1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
-            { q: '2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
-            { q: '3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
-            { q: 'Qual correto?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
-            { q: 'Qual correto?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
-            { q: '100 em inglês?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
-            { q: 'UK: 105?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
+            { q: 'Qual a regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
+            { q: 'Como se diz 1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
+            { q: 'Como se diz 2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
+            { q: 'Como se diz 3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
+            { q: 'Qual está correto?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
+            { q: 'Qual está correto?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
+            { q: 'Como escreve 100?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
+            { q: 'UK: 105 é?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
             { q: 'Ordinal de 5?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
-            { q: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 }
+            { q: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 },
+            { q: 'Ordinal de 20?', options: ['Twentyth', 'Twentieth', 'Twenty'], answer: 1 },
+            { q: '100º é?', options: ['Hundredth', 'Hundred', 'One hundredth'], answer: 0 },
+            { q: 'Como se escreve 21?', options: ['Twenty one', 'Twenty-one', 'Twentyone'], answer: 1 },
+            { q: 'Como se escreve 35?', options: ['Thirty five', 'Thirty-five', 'Thirtyfive'], answer: 1 },
+            { q: 'Como se escreve 99?', options: ['Ninety nine', 'Ninety-nine', 'Ninetynine'], answer: 1 }
         ]
     };
 
@@ -474,6 +651,14 @@
     let isAnswered = false;
     let selectedOption = null;
     let recognition = null;
+    let voicesLoaded = false;
+
+    const xpDisplay = document.getElementById('xpDisplay');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const actionBtn = document.getElementById('actionBtn');
+    const hintText = document.getElementById('hintText');
 
     // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
@@ -483,40 +668,56 @@
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
                 if (userDoc.exists()) {
                     const data = userDoc.data();
-                    score = data.xp || 0;
-                    streak = data.streak || 0;
+                    score = Number(data.xp) || 0;
+                    streak = Number(data.streak) || 0;
                     xpDisplay.textContent = String(score);
                     streakDisplay.textContent = String(streak);
                     
                     if (data.progresso) {
                         ['reading', 'listening', 'speaking', 'writing', 'grammar'].forEach(tab => {
                             const key = `u02_${tab}`;
-                            if (typeof data.progresso[key] === 'number') {
-                                currentIndex[tab] = data.progresso[key];
+                            const val = data.progresso[key];
+                            if (typeof val === 'number' && !isNaN(val)) {
+                                currentIndex[tab] = val;
                             }
                         });
                     }
                 }
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Error loading:", error);
             }
         }
+        
+        // Load voices for TTS
+        if ('speechSynthesis' in window) {
+            if (window.speechSynthesis.getVoices().length > 0) {
+                voicesLoaded = true;
+            } else {
+                window.speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
+            }
+        }
+        
         renderCurrentTab();
         updateProgress();
     });
 
+    // ===== TAB SWITCHING =====
     window.switchTab = (tab) => {
+        if (!tabsData[tab]) return;
         currentTab = tab;
+        
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.remove('active');
             if (btn.textContent.toLowerCase().includes(tab)) btn.classList.add('active');
         });
+        
         renderCurrentTab();
     };
 
     function renderCurrentTab() {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.getElementById(`tab-${currentTab}`).classList.add('active');
+        const tabEl = document.getElementById(`tab-${currentTab}`);
+        if (tabEl) tabEl.classList.add('active');
         
         if (currentTab === 'video') {
             renderVideo();
@@ -528,15 +729,18 @@
 
     function renderVideo() {
         const container = document.getElementById('tab-video');
+        if (!container) return;
+        
         container.innerHTML = `
             <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/${tabsData.video.videoId}" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/${tabsData.video.videoId}" frameborder="0" allowfullscreen title="Video lesson"></iframe>
             </div>
-            <p style="text-align:center;color:#777;">Assista e clique em "Começar Exercícios"</p>
+            <p style="text-align:center;color:#777;">Assista ao vídeo e clique em "Começar Exercícios"</p>
         `;
         actionBtn.textContent = "Começar Exercícios";
         actionBtn.disabled = false;
         actionBtn.onclick = () => switchTab('reading');
+        hintText.textContent = "Assista e clique para começar";
     }
 
     function renderExercise() {
@@ -544,8 +748,8 @@
         const index = currentIndex[currentTab];
         const container = document.getElementById(`tab-${currentTab}`);
         
-        if (!data || !Array.isArray(data) || data.length === 0) {
-            container.innerHTML = '<p style="text-align:center;color:red;">Erro: Sem dados</p>';
+        if (!container || !data || !Array.isArray(data) || data.length === 0) {
+            if (container) container.innerHTML = '<p style="text-align:center;color:red;">Erro ao carregar</p>';
             actionBtn.style.display = 'none';
             return;
         }
@@ -554,11 +758,12 @@
             container.innerHTML = `
                 <div class="completion-msg">
                     <i class="fa-solid fa-check-circle"></i>
-                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Completo!</h3>
-                    <p style="color:#777;">Você terminou ${currentTab}!</p>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Seção Completa!</h3>
+                    <p style="color:#777;">Você completou ${currentTab}!</p>
                 </div>
             `;
             actionBtn.style.display = 'none';
+            hintText.textContent = "Seção concluída ✓";
             return;
         }
         
@@ -583,18 +788,21 @@
             actionBtn.textContent = "Verificar";
             actionBtn.disabled = true;
             actionBtn.onclick = checkAnswer;
+            hintText.textContent = "Selecione uma opção e clique em Verificar";
         } else if (ex.answer) {
-            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite..." oninput="enableCheck()">`;
+            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite em inglês..." oninput="enableCheck()" autocomplete="off" autocapitalize="off">`;
             actionBtn.textContent = "Verificar";
             actionBtn.disabled = true;
             actionBtn.onclick = checkAnswer;
+            hintText.textContent = "Digite a resposta e clique em Verificar";
         } else if (ex.phrase) {
             html += `<button class="record-btn" id="recordBtn" onclick="toggleRecording('${ex.phrase}')"><i class="fa-solid fa-microphone"></i></button>`;
-            html += `<p style="text-align:center;color:#777;">Clique e fale</p>`;
+            html += `<p style="text-align:center;color:#777;">Clique e fale em inglês</p>`;
             html += `<div id="speakingResult" style="text-align:center;margin-top:1rem;font-weight:700;display:none;"></div>`;
             actionBtn.textContent = "Continuar";
             actionBtn.disabled = true;
             actionBtn.onclick = nextExercise;
+            hintText.textContent = "Clique no microfone e fale";
         }
         
         html += '</div>';
@@ -603,8 +811,10 @@
 
     window.selectOption = (i) => {
         if (isAnswered) return;
-        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-        document.querySelectorAll('.option-btn')[i].classList.add('selected');
+        const btns = document.querySelectorAll('.option-btn');
+        if (!btns[i]) return;
+        btns.forEach(b => b.classList.remove('selected'));
+        btns[i].classList.add('selected');
         selectedOption = i;
         actionBtn.disabled = false;
     };
@@ -639,10 +849,10 @@
             }
         } else {
             const btns = document.querySelectorAll('.option-btn');
-            if (selectedOption === ex.answer) {
+            if (selectedOption === ex.answer && btns[selectedOption]) {
                 btns[selectedOption].classList.add('correct');
                 correct = true;
-            } else {
+            } else if (btns[selectedOption] && btns[ex.answer]) {
                 btns[selectedOption].classList.add('wrong');
                 btns[ex.answer].classList.add('correct');
             }
@@ -652,16 +862,29 @@
     };
 
     window.playAudio = (text) => {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'en-US';
-            u.rate = 0.85;
+        if (!('speechSynthesis' in window)) {
+            alert('Use Chrome ou Edge para áudio');
+            return;
+        }
+        
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        u.rate = 0.85;
+        
+        if (voicesLoaded) {
             const voices = window.speechSynthesis.getVoices();
             const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
             if (v) u.voice = v;
-            window.speechSynthesis.speak(u);
         }
+        
+        const btn = document.querySelector('.audio-btn');
+        if (btn) {
+            btn.classList.add('playing');
+            setTimeout(() => btn.classList.remove('playing'), 500);
+        }
+        
+        window.speechSynthesis.speak(u);
     };
 
     window.toggleRecording = (phrase) => {
@@ -670,24 +893,38 @@
         if (!btn || !res) return;
         
         if (!btn.classList.contains('recording')) {
-            if (!('webkitSpeechRecognition' in window)) {
-                alert('Use Chrome ou Edge');
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                alert('Use Chrome ou Edge para reconhecimento de voz');
                 return;
             }
-            const rec = new webkitSpeechRecognition();
-            rec.lang = 'en-US';
+            
+            recognition = new SR();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            
             btn.classList.add('recording');
             btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
             res.style.display = 'block';
-            res.innerHTML = '<span style="color:#1cb0f6;">Ouvindo...</span>';
+            res.innerHTML = '<span style="color:#1cb0f6;"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
             
-            rec.onresult = (e) => {
-                const t = e.results[0][0].transcript.toLowerCase();
-                const match = t.includes(phrase) || phrase.includes(t);
-                const acc = match ? Math.round(e.results[0][0].confidence * 100) : 0;
+            recognition.onresult = (e) => {
+                const t = e.results[0][0].transcript.trim().toLowerCase();
+                const conf = e.results[0][0].confidence;
+                
+                // Normalize numbers
+                const map = { '1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen' };
+                let clean = t;
+                Object.keys(map).forEach(k => { clean = clean.replace(new RegExp(`\\b${k}\\b`, 'g'), map[k]); });
+                
+                const match = clean.includes(phrase) || phrase.includes(clean) || clean.replace(/[-\s]/g,'') === phrase.replace(/[-\s]/g,'');
+                const acc = match ? Math.round(conf * 100) : 0;
+                
                 res.innerHTML = `<span style="color:${acc>=60?'#58cc02':'#ff4b4b'}">${acc}% - "${t}"</span>`;
                 btn.classList.remove('recording');
                 btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                
                 if (acc >= 50) {
                     score += 10; streak++;
                     xpDisplay.textContent = String(score);
@@ -696,12 +933,14 @@
                 }
                 actionBtn.disabled = false;
             };
-            rec.onerror = () => {
+            
+            recognition.onerror = () => {
                 btn.classList.remove('recording');
                 btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                res.innerHTML = '<span style="color:#ff4b4b;">Erro</span>';
+                res.innerHTML = '<span style="color:#ff4b4b;">Erro. Tente novamente.</span>';
             };
-            rec.start();
+            
+            recognition.start();
         }
     };
 
@@ -714,6 +953,7 @@
             sheet.classList.add('correct');
             document.getElementById('feedbackIcon').innerHTML = '<i class="fa-solid fa-check" style="color:#58cc02;"></i>';
             document.getElementById('feedbackTitle').textContent = 'Correto! 🎉';
+            document.getElementById('feedbackTitle').style.color = '#15803d';
             document.getElementById('feedbackMsg').textContent = `+10 XP • Sequência: ${streak + 1}`;
             score += 10; streak++;
             xpDisplay.textContent = String(score);
@@ -722,7 +962,8 @@
         } else {
             sheet.classList.add('wrong');
             document.getElementById('feedbackIcon').innerHTML = '<i class="fa-solid fa-rotate-right" style="color:#ff4b4b;"></i>';
-            document.getElementById('feedbackTitle').textContent = 'Tente novamente';
+            document.getElementById('feedbackTitle').textContent = 'Tente novamente 💪';
+            document.getElementById('feedbackTitle').style.color = '#b91c1c';
             const ans = ex.options ? ex.options[ex.answer] : (ex.answer || ex.phrase);
             document.getElementById('feedbackMsg').textContent = `Resposta: ${ans}`;
             streak = 0;
@@ -753,7 +994,8 @@
             data[`progresso.u02_${t}`] = currentIndex[t];
         });
         updateDoc(doc(db, "usuarios", currentUser.uid), {
-            xp: score, streak: streak, ...data
+            xp: score, streak: streak, ...data,
+            'progresso.u02_lastUpdate': new Date().toISOString()
         }).catch(console.error);
     }
 
@@ -763,19 +1005,17 @@
             if (Array.isArray(tabsData[k])) total += tabsData[k].length;
         });
         
-        let completed = 0;
-        Object.keys(currentIndex).forEach(k => {
-            completed += currentIndex[k];
-        });
+        let done = 0;
+        Object.keys(currentIndex).forEach(k => { done += currentIndex[k]; });
         
-        const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
-        document.getElementById('progressBar').style.width = `${pct}%`;
-        document.getElementById('progressText').textContent = `${pct}% completo (${completed}/${total})`;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        progressBar.style.width = `${pct}%`;
+        progressText.textContent = `${pct}% completo (${done}/${total})`;
         
         document.querySelectorAll('.tab-btn').forEach(btn => {
             const name = btn.textContent.toLowerCase().split(' ')[0];
-            const data = tabsData[name];
-            if (data && Array.isArray(data) && currentIndex[name] >= data.length) {
+            const d = tabsData[name];
+            if (d && Array.isArray(d) && currentIndex[name] >= d.length) {
                 btn.classList.add('completed');
             }
         });
@@ -783,14 +1023,19 @@
 
     window.saveAndExit = async () => {
         actionBtn.disabled = true;
-        actionBtn.innerHTML = 'Salvando...';
+        actionBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
         await saveProgress();
         window.location.href = 'index.html';
     };
 
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.onvoiceschanged = () => {};
-    }
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.repeat && currentTab !== 'video') {
+            e.preventDefault();
+            if (isAnswered) nextExercise();
+            else if (!actionBtn.disabled) checkAnswer();
+        }
+    });
 </script>
 </body>
 </html>
