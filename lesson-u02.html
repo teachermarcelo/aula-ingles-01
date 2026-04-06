@@ -2,527 +2,543 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>U02: Numbers 1-100 | EnglishPath</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
                     colors: {
-                        primary: '#58cc02',
-                        'primary-dark': '#46a302',
-                        secondary: '#1cb0f6',
-                        danger: '#ff4b4b',
-                        warning: '#ffc800',
-                        purple: '#ce82ff',
+                        primary: '#22c55e',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
                     }
                 }
             }
         }
     </script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Nunito', sans-serif;
-            background: #f7f7f7;
-            color: #4b4b4b;
-            min-height: 100vh;
-            line-height: 1.5;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
         }
         
-        /* TOP BAR */
-        .top-bar {
+        /* HEADER */
+        .header {
             background: white;
-            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            border-bottom: 2px solid #e5e5e5;
+            justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #afafaf;
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 50%;
-            transition: all 0.2s;
-            width: 40px;
-            height: 40px;
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #22c55e;
         }
-        .close-btn:hover { color: #ff4b4b; background: #fee2e2; }
         
-        .progress-wrapper { flex: 1; }
-        .progress-track {
-            height: 16px;
-            background: #e5e5e5;
-            border-radius: 10px;
-            overflow: hidden;
+        .progress-section {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 2rem;
         }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #58cc02, #78e602);
-            border-radius: 10px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        .progress-text {
-            font-size: 0.75rem;
-            color: #777;
-            text-align: center;
-            margin-top: 0.25rem;
-            font-weight: 700;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border-radius: 4px;
+            transition: width 0.5s ease;
         }
         
-        .stats { display: flex; gap: 0.5rem; }
-        .stat-badge {
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .stat {
             display: flex;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.4rem 0.75rem;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-        .stat-streak { background: #ff9600; color: white; }
-        .stat-xp { background: #ffc800; color: #78350f; }
-        
-        /* TABS */
-        .tabs-container {
-            background: white;
-            border-bottom: 2px solid #e5e5e5;
-            padding: 0.5rem 1rem;
-            overflow-x: auto;
-            position: sticky;
-            top: 60px;
-            z-index: 99;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .tabs-wrapper {
-            display: flex;
             gap: 0.5rem;
-            min-width: max-content;
-        }
-        .tab-btn {
-            padding: 0.75rem 1.25rem;
-            border-radius: 12px;
-            border: 2px solid #e5e5e5;
-            background: white;
-            color: #777;
             font-weight: 700;
             font-size: 0.9rem;
+        }
+        
+        .stat-fire { color: #f59e0b; }
+        .stat-bolt { color: #3b82f6; }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: #64748b;
             cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .menu-btn:hover { background: #f1f5f9; color: #1e293b; }
+        
+        /* TABS */
+        .tabs {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 2rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
             transition: all 0.2s;
             white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .tab-btn:hover { border-color: #1cb0f6; color: #1cb0f6; background: #f0f9ff; }
-        .tab-btn:active { transform: translateY(1px); }
-        .tab-btn.active {
-            background: #1cb0f6;
-            border-color: #1cb0f6;
-            color: white;
-            box-shadow: 0 4px 0 #1899d6;
+        .tab:hover { color: #1e293b; background: #f8fafc; }
+        .tab.active {
+            color: #22c55e;
+            border-bottom-color: #22c55e;
         }
-        .tab-btn.completed {
-            background: #dcfce7;
-            border-color: #58cc02;
-            color: #15803d;
-        }
-        .tab-btn.completed::after {
+        .tab.completed { color: #16a34a; }
+        .tab.completed::after {
             content: '✓';
-            font-size: 0.8rem;
             margin-left: 0.25rem;
         }
         
         /* MAIN CONTENT */
-        .main-content {
-            max-width: 600px;
+        .main {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2rem 1rem 140px;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
         }
         
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* EXERCISES */
-        .exercise-card {
-            background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        
-        .question-title {
-            font-size: 1.3rem;
+        .section-title {
+            font-size: 1.5rem;
             font-weight: 800;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #333;
-            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
         }
         
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
+        .section-subtitle {
+            color: #64748b;
+            margin-bottom: 2rem;
         }
-        @media (min-width: 640px) { .options-grid { grid-template-columns: 1fr 1fr; } }
         
-        .option-btn {
-            padding: 1.25rem;
-            border-radius: 16px;
-            border: 2px solid #e5e5e5;
+        /* CARDS */
+        .card {
             background: white;
-            color: #4b4b4b;
-            font-weight: 700;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        /* READING TEXT */
+        .reading-text {
             font-size: 1.1rem;
+            line-height: 2;
+            color: #334155;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 0.25rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.15s;
-            box-shadow: 0 2px 0 #e5e5e5;
-            text-align: center;
+            transition: all 0.2s;
         }
-        .option-btn:hover { border-color: #1cb0f6; background: #f0f9ff; }
-        .option-btn:active { transform: translateY(2px); box-shadow: none; }
-        .option-btn.selected {
-            border-color: #1cb0f6;
-            background: #e0f2fe;
-            box-shadow: 0 2px 0 #1cb0f6;
+        .highlight:hover {
+            background-size: 100% 100%;
+            transform: translateY(-2px);
         }
-        .option-btn.correct {
-            border-color: #58cc02;
-            background: #dcfce7;
-            box-shadow: 0 2px 0 #58cc02;
+        
+        .tts-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
         }
-        .option-btn.wrong {
-            border-color: #ff4b4b;
-            background: #fee2e2;
-            box-shadow: 0 2px 0 #ff4b4b;
-            animation: shake 0.4s;
+        .tts-btn:hover { background: #2563eb; transform: translateY(-1px); }
+        .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        
+        /* VIDEO */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* OPTIONS */
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .option {
+            padding: 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .option:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+            transform: translateX(4px);
+        }
+        .option.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .option.correct {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .option.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+            animation: shake 0.5s;
         }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
         }
         
-        .audio-btn {
-            background: #1cb0f6;
-            color: white;
-            border: none;
-            width: 100%;
-            max-width: 250px;
-            padding: 1.25rem;
-            border-radius: 16px;
-            font-size: 2rem;
-            cursor: pointer;
-            margin: 0 auto 1.5rem;
-            display: block;
-            box-shadow: 0 4px 0 #1899d6;
-            transition: all 0.1s;
-        }
-        .audio-btn:active { transform: translateY(4px); box-shadow: none; }
-        .audio-btn.playing { animation: pulse 0.5s; }
-        @keyframes pulse { 50% { transform: scale(1.05); } }
-        
+        /* SPEAKING */
         .record-btn {
-            width: 90px;
-            height: 90px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff4b4b, #dc2626);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            margin: 1.5rem auto;
+            font-size: 3rem;
+            margin: 2rem auto;
             cursor: pointer;
-            box-shadow: 0 6px 0 #b91c1c;
             border: none;
+            box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
             transition: all 0.15s;
         }
-        .record-btn:active { transform: translateY(6px); box-shadow: none; }
-        .record-btn.recording { animation: pulse-record 1s infinite; }
-        @keyframes pulse-record { 50% { transform: scale(1.1); } }
+        .record-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 0 0 #b91c1c, 0 4px 8px rgba(239, 68, 68, 0.3);
+        }
+        .record-btn.recording {
+            animation: recording-pulse 1s infinite;
+        }
+        @keyframes recording-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 10px 0 #b91c1c, 0 16px 32px rgba(239, 68, 68, 0.5); }
+        }
         
-        .writing-input {
-            width: 100%;
-            padding: 1.25rem;
-            font-size: 1.2rem;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            background: white;
+        .score-display {
             text-align: center;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #333;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 1rem 0;
         }
-        .writing-input:focus {
-            outline: none;
-            border-color: #1cb0f6;
-            box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
+        .score-display.good { color: #22c55e; }
+        .score-display.bad { color: #ef4444; }
+        
+        /* GRAMMAR EXPLANATION */
+        .grammar-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .grammar-box h4 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #1e40af;
+        }
+        .grammar-box ul {
+            margin-left: 1.5rem;
+            color: #475569;
+        }
+        .grammar-box li {
+            margin-bottom: 0.5rem;
         }
         
-        .dialogue-box {
-            background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .speaker-header {
+        /* ACTIONS */
+        .actions {
             display: flex;
-            align-items: center;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
         }
-        .speaker-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+        
+        .btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-        }
-        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .speech-bubble {
-            background: #f7f7f7;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            border: 2px solid #e5e5e5;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            gap: 0.5rem;
         }
         
-        /* BOTTOM BAR */
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 2px solid #e5e5e5;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            z-index: 100;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+        .btn-primary {
+            background: #22c55e;
+            color: white;
+            box-shadow: 0 4px 0 #16a34a;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #16a34a;
+        }
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #16a34a;
+        }
+        .btn-primary:disabled {
+            background: #cbd5e1;
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: not-allowed;
         }
         
-        .action-btn {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 16px;
-            font-weight: 800;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
-            transition: all 0.1s;
-            font-size: 1rem;
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
         }
-        .action-btn:active { transform: translateY(4px); box-shadow: none; }
-        .btn-check { background: #58cc02; color: white; box-shadow: 0 4px 0 #46a302; }
-        .btn-check:disabled { background: #e5e5e5; color: #afafaf; box-shadow: none; cursor: not-allowed; }
-        .btn-home { background: #e5e5e5; color: #777; font-size: 0.85rem; }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .btn-retry {
+            background: #f59e0b;
+            color: white;
+            box-shadow: 0 4px 0 #d97706;
+        }
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #d97706;
+        }
         
         /* FEEDBACK */
-        .feedback-overlay {
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+        .feedback.show { display: block; }
+        .feedback.correct {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+        }
+        .feedback.wrong {
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* INPUT */
+        .input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        /* SETTINGS MENU */
+        .settings-menu {
             position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
+            top: 80px;
+            right: 2rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             z-index: 200;
             display: none;
+            min-width: 200px;
         }
-        .feedback-overlay.show { display: block; }
+        .settings-menu.show { display: block; }
         
-        .feedback-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem;
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 201;
-        }
-        .feedback-sheet.show { transform: translateY(0); }
-        .feedback-sheet.correct { background: #d7ffb8; border-top: 3px solid #58cc02; }
-        .feedback-sheet.wrong { background: #ffdfe0; border-top: 3px solid #ff4b4b; }
-        
-        .feedback-header {
+        .settings-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 0.75rem;
+            transition: all 0.2s;
         }
-        .feedback-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-        .feedback-title { font-size: 1.25rem; font-weight: 800; }
-        .feedback-msg { font-size: 0.95rem; line-height: 1.4; }
+        .settings-item:hover { background: #f8fafc; }
         
-        .video-wrapper {
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-            background: #000;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .video-wrapper iframe { width: 100%; height: 100%; }
-        
-        .completion-msg {
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-        .completion-msg i {
-            font-size: 4rem;
-            color: #58cc02;
-            margin-bottom: 1rem;
-        }
-        
-        .hint-text {
-            text-align: center;
-            color: #777;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-        
-        @media (max-width: 480px) {
-            .main-content { padding: 1.5rem 0.75rem 160px; }
-            .tab-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
-            .question-title { font-size: 1.2rem; }
-            .option-btn { padding: 1rem; font-size: 1rem; }
+        @media (max-width: 768px) {
+            .header { padding: 1rem; }
+            .progress-section { margin: 0 1rem; }
+            .main { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .actions { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <button class="close-btn" onclick="saveAndExit()" aria-label="Fechar">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            EnglishPath
+        </div>
         
-        <div class="progress-wrapper">
-            <div class="progress-track">
+        <div class="progress-section">
+            <div class="progress-bar">
                 <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
-            <div class="progress-text" id="progressText">Carregando...</div>
+            <div style="font-size: 0.85rem; color: #64748b; text-align: center;">
+                <span id="currentStep">0</span> de <span id="totalSteps">0</span> exercícios
+            </div>
         </div>
         
         <div class="stats">
-            <div class="stat-badge stat-streak">
+            <div class="stat stat-fire">
                 <i class="fa-solid fa-fire"></i>
                 <span id="streakDisplay">0</span>
             </div>
-            <div class="stat-badge stat-xp">
+            <div class="stat stat-bolt">
                 <i class="fa-solid fa-bolt"></i>
                 <span id="xpDisplay">0</span>
             </div>
+            <button class="menu-btn" onclick="toggleSettings()">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div class="settings-menu" id="settingsMenu">
+        <div class="settings-item" onclick="saveAndExit()">
+            <i class="fa-solid fa-house"></i>
+            Voltar para Home
+        </div>
+        <div class="settings-item" onclick="resetProgress()">
+            <i class="fa-solid fa-rotate-right"></i>
+            Reiniciar Lição
+        </div>
+        <div class="settings-item" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i>
+            Modo Escuro
         </div>
     </div>
 
     <!-- TABS -->
-    <div class="tabs-container">
-        <div class="tabs-wrapper">
-            <button class="tab-btn active" onclick="switchTab('video')">
-                <i class="fa-solid fa-video"></i> Video
-            </button>
-            <button class="tab-btn" onclick="switchTab('reading')">
-                <i class="fa-solid fa-book"></i> Reading
-            </button>
-            <button class="tab-btn" onclick="switchTab('listening')">
-                <i class="fa-solid fa-headphones"></i> Listening
-            </button>
-            <button class="tab-btn" onclick="switchTab('speaking')">
-                <i class="fa-solid fa-microphone"></i> Speaking
-            </button>
-            <button class="tab-btn" onclick="switchTab('writing')">
-                <i class="fa-solid fa-pen"></i> Writing
-            </button>
-            <button class="tab-btn" onclick="switchTab('grammar')">
-                <i class="fa-solid fa-graduation-cap"></i> Grammar
-            </button>
-        </div>
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('video')">
+            <i class="fa-solid fa-video"></i> Video
+        </button>
+        <button class="tab" onclick="switchTab('reading')">
+            <i class="fa-solid fa-book-open"></i> Reading
+        </button>
+        <button class="tab" onclick="switchTab('listening')">
+            <i class="fa-solid fa-headphones"></i> Listening
+        </button>
+        <button class="tab" onclick="switchTab('speaking')">
+            <i class="fa-solid fa-microphone"></i> Speaking
+        </button>
+        <button class="tab" onclick="switchTab('grammar')">
+            <i class="fa-solid fa-spell-check"></i> Grammar
+        </button>
     </div>
 
     <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <div id="tab-video" class="tab-content active"></div>
-        <div id="tab-reading" class="tab-content"></div>
-        <div id="tab-listening" class="tab-content"></div>
-        <div id="tab-speaking" class="tab-content"></div>
-        <div id="tab-writing" class="tab-content"></div>
-        <div id="tab-grammar" class="tab-content"></div>
-    </div>
-
-    <!-- BOTTOM BAR -->
-    <div class="bottom-bar">
-        <button id="actionBtn" class="action-btn btn-check" onclick="handleAction()" disabled>
-            Carregando...
-        </button>
-        <p class="hint-text" id="hintText">Pressione Enter para continuar</p>
-        <button onclick="saveAndExit()" class="action-btn btn-home">
-            <i class="fa-solid fa-house mr-2"></i> Salvar e Voltar
-        </button>
-    </div>
-
-    <!-- FEEDBACK -->
-    <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
-    <div class="feedback-sheet" id="feedbackSheet">
-        <div class="feedback-header">
-            <div id="feedbackIcon" class="feedback-icon"></div>
-            <div>
-                <div id="feedbackTitle" class="feedback-title"></div>
-                <div id="feedbackMsg" class="feedback-msg"></div>
-            </div>
-        </div>
-        <button class="action-btn btn-check" onclick="closeFeedback()">Continuar</button>
+    <div class="main" id="mainContent">
+        <!-- Dynamic content -->
     </div>
 
 <script type="module">
@@ -544,121 +560,202 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== 80 CEFR A1 EXERCISES FOR NUMBERS 1-100 =====
-    const tabsData = {
-        video: { type: 'video', videoId: 'YuXFxvTbviI' },
+    // ===== COMPREHENSIVE DATA =====
+    const lessonData = {
+        video: {
+            url: 'YuXFxvTbviI',
+            title: 'Numbers 1-100 - Complete Guide',
+            startTime: 0,
+            endTime: 600
+        },
         
-        // READING: 15 exercises (CEFR A1 - Numbers in context)
-        reading: [
-            { q: 'Quem é do Brasil?', options: ['John', 'Maria', 'Ambos'], answer: 1 },
-            { q: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1 },
-            { q: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1 },
-            { q: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1 },
-            { q: 'Número favorito de John?', options: ['7', '17', '70'], answer: 0 },
-            { q: 'Maria acha 12 o quê?', options: ['Azarado', 'Sortudo', 'Comum'], answer: 1 },
-            { q: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0 },
-            { q: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1 },
-            { q: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1 },
-            { q: 'Complete: "I\'m _____ years old"', options: ['twenty', 'twenty-five', 'thirty'], answer: 1 },
-            { q: 'What number comes after ten?', options: ['9', '11', '12'], answer: 1 },
-            { q: 'Which is bigger: 25 or 52?', options: ['25', '52', 'Same'], answer: 1 },
-            { q: 'How do you write 100?', options: ['One thousand', 'One hundred', 'Ten tens'], answer: 1 },
-            { q: 'What is 20 + 5?', options: ['15', '25', '205'], answer: 1 },
-            { q: 'Which number is odd?', options: ['10', '15', '20'], answer: 1 }
-        ],
+        reading: {
+            text: `Hello! My name is <span class="highlight" data-word="Maria">Maria</span>. I am <span class="highlight" data-word="twenty-five">twenty-five</span> years old. I live in <span class="highlight" data-word="Brazil">Brazil</span> with my family.
+
+I have <span class="highlight" data-word="three">three</span> brothers and <span class="highlight" data-word="two">two</span> sisters. My oldest brother is <span class="highlight" data-word="thirty">thirty</span> years old. My youngest sister is <span class="highlight" data-word="twelve">twelve</span>.
+
+My phone number is <span class="highlight" data-word="five-five-five">five-five-five</span>, <span class="highlight" data-word="one-two-three-four">one-two-three-four</span>. I work at a big company with about <span class="highlight" data-word="fifty">fifty</span> people.
+
+My favorite number is <span class="highlight" data-word="seven">seven</span> because it's lucky. My apartment is on <span class="highlight" data-word="forty-second">forty-second</span> Street, number <span class="highlight" data-word="one-hundred">one hundred</span>.`,
+            
+            questions: [
+                {
+                    q: 'How old is Maria?',
+                    options: ['20 years old', '25 years old', '30 years old', '35 years old'],
+                    answer: 1,
+                    explanation: 'Maria says "I am twenty-five years old"'
+                },
+                {
+                    q: 'How many siblings does Maria have?',
+                    options: ['3', '4', '5', '6'],
+                    answer: 2,
+                    explanation: 'She has 3 brothers + 2 sisters = 5 siblings'
+                },
+                {
+                    q: 'What is Maria\'s phone number?',
+                    options: ['555-4321', '555-1234', '555-5678', '555-9876'],
+                    answer: 1,
+                    explanation: 'She says "five-five-five, one-two-three-four"'
+                },
+                {
+                    q: 'Where does Maria live?',
+                    options: ['USA', 'England', 'Brazil', 'Canada'],
+                    answer: 2,
+                    explanation: 'She says "I live in Brazil"'
+                },
+                {
+                    q: 'What is Maria\'s favorite number?',
+                    options: ['7', '12', '25', '50'],
+                    answer: 0,
+                    explanation: 'She says "My favorite number is seven"'
+                }
+            ]
+        },
         
-        // LISTENING: 15 exercises (CEFR A1 - Number recognition)
-        listening: [
-            { audio: 'one', q: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
-            { audio: 'two', q: 'O que ouviu?', options: ['2', '12', '20'], answer: 0 },
-            { audio: 'three', q: 'Qual número?', options: ['3', '13', '30'], answer: 0 },
-            { audio: 'four', q: 'O que foi dito?', options: ['4', '14', '40'], answer: 0 },
-            { audio: 'five', q: 'Qual número?', options: ['5', '15', '50'], answer: 0 },
-            { audio: 'six', q: 'O que ouviu?', options: ['6', '16', '60'], answer: 0 },
-            { audio: 'seven', q: 'Qual número?', options: ['7', '17', '70'], answer: 0 },
-            { audio: 'eight', q: 'O que foi falado?', options: ['8', '18', '80'], answer: 0 },
-            { audio: 'nine', q: 'Qual número?', options: ['9', '19', '90'], answer: 0 },
-            { audio: 'ten', q: 'O que ouviu?', options: ['10', '11', '12'], answer: 0 },
-            { audio: 'twenty', q: 'Qual número?', options: ['12', '20', '2'], answer: 1 },
-            { audio: 'thirty', q: 'O que foi dito?', options: ['13', '30', '3'], answer: 1 },
-            { audio: 'forty', q: 'Qual número?', options: ['14', '40', '4'], answer: 1 },
-            { audio: 'fifty', q: 'O que ouviu?', options: ['15', '50', '5'], answer: 1 },
-            { audio: 'one hundred', q: 'Qual número?', options: ['10', '100', '1000'], answer: 1 }
-        ],
+        listening: {
+            exercises: [
+                { audio: 'one', q: 'Which number do you hear?', options: ['1', '10', '11', '100'], answer: 0 },
+                { audio: 'fifteen', q: 'What number is spoken?', options: ['5', '15', '50', '14'], answer: 1 },
+                { audio: 'thirty', q: 'Listen and choose:', options: ['13', '30', '3', '300'], answer: 1 },
+                { audio: 'forty-two', q: 'Which number?', options: ['24', '42', '14', '402'], answer: 1 },
+                { audio: 'one hundred', q: 'What do you hear?', options: ['10', '100', '1000', '1'], answer: 1 },
+                { audio: 'seventy-seven', q: 'Listen carefully:', options: ['17', '70', '77', '7'], answer: 2 },
+                { audio: 'ninety-nine', q: 'Which number?', options: ['19', '90', '99', '9'], answer: 2 },
+                { audio: 'twenty-three', q: 'What number?', options: ['32', '23', '13', '203'], answer: 1 }
+            ]
+        },
         
-        // SPEAKING: 15 exercises (CEFR A1 - Pronunciation practice)
-        speaking: [
-            { phrase: 'one', q: 'Diga em inglês: "Um"' },
-            { phrase: 'two', q: 'Diga em inglês: "Dois"' },
-            { phrase: 'three', q: 'Diga em inglês: "Três"' },
-            { phrase: 'four', q: 'Diga em inglês: "Quatro"' },
-            { phrase: 'five', q: 'Diga em inglês: "Cinco"' },
-            { phrase: 'six', q: 'Diga em inglês: "Seis"' },
-            { phrase: 'seven', q: 'Diga em inglês: "Sete"' },
-            { phrase: 'eight', q: 'Diga em inglês: "Oito"' },
-            { phrase: 'nine', q: 'Diga em inglês: "Nove"' },
-            { phrase: 'ten', q: 'Diga em inglês: "Dez"' },
-            { phrase: 'eleven', q: 'Diga em inglês: "Onze"' },
-            { phrase: 'twelve', q: 'Diga em inglês: "Doze"' },
-            { phrase: 'thirteen', q: 'Diga em inglês: "Treze"' },
-            { phrase: 'fourteen', q: 'Diga em inglês: "Quatorze"' },
-            { phrase: 'fifteen', q: 'Diga em inglês: "Quinze"' }
-        ],
+        speaking: {
+            exercises: [
+                { phrase: 'eleven', prompt: 'Say: "Eleven"' },
+                { phrase: 'twelve', prompt: 'Say: "Twelve"' },
+                { phrase: 'thirteen', prompt: 'Say: "Thirteen"' },
+                { phrase: 'fourteen', prompt: 'Say: "Fourteen"' },
+                { phrase: 'fifteen', prompt: 'Say: "Fifteen"' },
+                { phrase: 'twenty', prompt: 'Say: "Twenty"' },
+                { phrase: 'thirty', prompt: 'Say: "Thirty"' },
+                { phrase: 'forty', prompt: 'Say: "Forty"' },
+                { phrase: 'fifty', prompt: 'Say: "Fifty"' },
+                { phrase: 'one hundred', prompt: 'Say: "One hundred"' }
+            ]
+        },
         
-        // WRITING: 15 exercises (CEFR A1 - Spelling numbers)
-        writing: [
-            { q: 'Escreva em inglês: 1', answer: 'one' },
-            { q: 'Escreva em inglês: 2', answer: 'two' },
-            { q: 'Escreva em inglês: 3', answer: 'three' },
-            { q: 'Escreva em inglês: 4', answer: 'four' },
-            { q: 'Escreva em inglês: 5', answer: 'five' },
-            { q: 'Escreva em inglês: 6', answer: 'six' },
-            { q: 'Escreva em inglês: 7', answer: 'seven' },
-            { q: 'Escreva em inglês: 8', answer: 'eight' },
-            { q: 'Escreva em inglês: 9', answer: 'nine' },
-            { q: 'Escreva em inglês: 10', answer: 'ten' },
-            { q: 'Escreva em inglês: 11', answer: 'eleven' },
-            { q: 'Escreva em inglês: 12', answer: 'twelve' },
-            { q: 'Escreva em inglês: 13', answer: 'thirteen' },
-            { q: 'Escreva em inglês: 14', answer: 'fourteen' },
-            { q: 'Escreva em inglês: 15', answer: 'fifteen' }
-        ],
-        
-        // GRAMMAR: 15 exercises (CEFR A1 - Number rules)
-        grammar: [
-            { q: 'Qual a regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
-            { q: 'Como se diz 1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
-            { q: 'Como se diz 2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
-            { q: 'Como se diz 3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
-            { q: 'Qual está correto?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
-            { q: 'Qual está correto?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
-            { q: 'Como escreve 100?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
-            { q: 'UK: 105 é?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
-            { q: 'Ordinal de 5?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
-            { q: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 },
-            { q: 'Ordinal de 20?', options: ['Twentyth', 'Twentieth', 'Twenty'], answer: 1 },
-            { q: '100º é?', options: ['Hundredth', 'Hundred', 'One hundredth'], answer: 0 },
-            { q: 'Como se escreve 21?', options: ['Twenty one', 'Twenty-one', 'Twentyone'], answer: 1 },
-            { q: 'Como se escreve 35?', options: ['Thirty five', 'Thirty-five', 'Thirtyfive'], answer: 1 },
-            { q: 'Como se escreve 99?', options: ['Ninety nine', 'Ninety-nine', 'Ninetynine'], answer: 1 }
-        ]
+        grammar: {
+            explanations: [
+                {
+                    title: 'Cardinal Numbers (1-20)',
+                    content: `
+                        <p>Cardinal numbers are used for counting:</p>
+                        <ul>
+                            <li><strong>1-12:</strong> one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve</li>
+                            <li><strong>13-19:</strong> Add "-teen": thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen</li>
+                            <li><strong>20:</strong> twenty</li>
+                        </ul>
+                        <p><strong>Important:</strong> Notice the spelling changes:</p>
+                        <ul>
+                            <li>three → thirteen (not "threeteen")</li>
+                            <li>five → fifteen (not "fiveteen")</li>
+                            <li>eight → eighteen (only one 't')</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: 'Tens (20-90)',
+                    content: `
+                        <p>For multiples of ten:</p>
+                        <ul>
+                            <li><strong>20:</strong> twenty</li>
+                            <li><strong>30:</strong> thirty (note: no 'u' from three)</li>
+                            <li><strong>40:</strong> forty (not "fourty" - common mistake!)</li>
+                            <li><strong>50:</strong> fifty (five → fif)</li>
+                            <li><strong>60:</strong> sixty</li>
+                            <li><strong>70:</strong> seventy</li>
+                            <li><strong>80:</strong> eighty (only one 't')</li>
+                            <li><strong>90:</strong> ninety</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: 'Compound Numbers (21-99)',
+                    content: `
+                        <p>For numbers between 21-99, use a <strong>hyphen</strong>:</p>
+                        <ul>
+                            <li>21 = twenty-one</li>
+                            <li>35 = thirty-five</li>
+                            <li>42 = forty-two</li>
+                            <li>88 = eighty-eight</li>
+                            <li>99 = ninety-nine</li>
+                        </ul>
+                        <p><strong>Rule:</strong> Always use hyphen between tens and units</p>
+                    `
+                },
+                {
+                    title: 'Ordinal Numbers',
+                    content: `
+                        <p>Ordinal numbers show position or order:</p>
+                        <ul>
+                            <li><strong>1st:</strong> first (irregular)</li>
+                            <li><strong>2nd:</strong> second (irregular)</li>
+                            <li><strong>3rd:</strong> third (irregular)</li>
+                            <li><strong>4th-20th:</strong> Add "-th": fourth, fifth, sixth... twentieth</li>
+                            <li><strong>21st:</strong> twenty-first</li>
+                            <li><strong>22nd:</strong> twenty-second</li>
+                            <li><strong>23rd:</strong> twenty-third</li>
+                            <li><strong>24th-30th:</strong> twenty-fourth... thirtieth</li>
+                        </ul>
+                        <p><strong>Special spellings:</strong></p>
+                        <ul>
+                            <li>five → fifth (ve → f)</li>
+                            <li>twelve → twelfth (ve → f)</li>
+                            <li>twenty → twentieth (y → ie)</li>
+                        </ul>
+                    `
+                }
+            ],
+            
+            exercises: [
+                {
+                    q: 'How do you write 21?',
+                    options: ['Twenty one', 'Twenty-one', 'Twentyone', 'Twenty and one'],
+                    answer: 1,
+                    explanation: 'Use a hyphen: twenty-one'
+                },
+                {
+                    q: 'What is the ordinal for 1?',
+                    options: ['Oneth', 'First', 'One', 'Onest'],
+                    answer: 1,
+                    explanation: '1st = first (irregular form)'
+                },
+                {
+                    q: 'How do you spell 40?',
+                    options: ['Fourty', 'Forty', 'Four-zero', 'Forte'],
+                    answer: 1,
+                    explanation: 'Forty (no \'u\' - common mistake is "fourty")'
+                },
+                {
+                    q: 'What is the ordinal for 5?',
+                    options: ['Fiveth', 'Fifth', 'Five', 'Fivety'],
+                    answer: 1,
+                    explanation: '5th = fifth (ve changes to f)'
+                },
+                {
+                    q: 'How do you write 100?',
+                    options: ['Ten tens', 'One hundred', 'Hundred one', 'Ten hundred'],
+                    answer: 1,
+                    explanation: '100 = one hundred (or a hundred)'
+                }
+            ]
+        }
     };
 
     let currentTab = 'video';
-    let currentIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, grammar: 0 };
+    let currentIndex = { reading: 0, listening: 0, speaking: 0, grammar: 0 };
     let score = 0;
     let streak = 0;
     let isAnswered = false;
     let selectedOption = null;
     let recognition = null;
-    let voicesLoaded = false;
-
-    const xpDisplay = document.getElementById('xpDisplay');
-    const streakDisplay = document.getElementById('streakDisplay');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
-    const actionBtn = document.getElementById('actionBtn');
-    const hintText = document.getElementById('hintText');
+    let ttsPlaying = false;
 
     // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
@@ -670,11 +767,11 @@
                     const data = userDoc.data();
                     score = Number(data.xp) || 0;
                     streak = Number(data.streak) || 0;
-                    xpDisplay.textContent = String(score);
-                    streakDisplay.textContent = String(streak);
+                    document.getElementById('xpDisplay').textContent = String(score);
+                    document.getElementById('streakDisplay').textContent = String(streak);
                     
                     if (data.progresso) {
-                        ['reading', 'listening', 'speaking', 'writing', 'grammar'].forEach(tab => {
+                        ['reading', 'listening', 'speaking', 'grammar'].forEach(tab => {
                             const key = `u02_${tab}`;
                             const val = data.progresso[key];
                             if (typeof val === 'number' && !isNaN(val)) {
@@ -684,16 +781,7 @@
                     }
                 }
             } catch (error) {
-                console.error("Error loading:", error);
-            }
-        }
-        
-        // Load voices for TTS
-        if ('speechSynthesis' in window) {
-            if (window.speechSynthesis.getVoices().length > 0) {
-                voicesLoaded = true;
-            } else {
-                window.speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
+                console.error("Error:", error);
             }
         }
         
@@ -701,201 +789,353 @@
         updateProgress();
     });
 
-    // ===== TAB SWITCHING =====
+    // ===== TABS =====
     window.switchTab = (tab) => {
-        if (!tabsData[tab]) return;
         currentTab = tab;
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.textContent.toLowerCase().includes(tab)) btn.classList.add('active');
-        });
-        
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.closest('.tab').classList.add('active');
         renderCurrentTab();
     };
 
     function renderCurrentTab() {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        const tabEl = document.getElementById(`tab-${currentTab}`);
-        if (tabEl) tabEl.classList.add('active');
+        const main = document.getElementById('mainContent');
         
-        if (currentTab === 'video') {
-            renderVideo();
-        } else {
-            renderExercise();
+        switch(currentTab) {
+            case 'video':
+                renderVideo();
+                break;
+            case 'reading':
+                renderReading();
+                break;
+            case 'listening':
+                renderListening();
+                break;
+            case 'speaking':
+                renderSpeaking();
+                break;
+            case 'grammar':
+                renderGrammar();
+                break;
         }
+        
         updateProgress();
     }
 
     function renderVideo() {
-        const container = document.getElementById('tab-video');
-        if (!container) return;
+        const main = document.getElementById('mainContent');
+        const data = lessonData.video;
         
-        container.innerHTML = `
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/${tabsData.video.videoId}" frameborder="0" allowfullscreen title="Video lesson"></iframe>
+        main.innerHTML = `
+            <h1 class="section-title">Video Lesson</h1>
+            <p class="section-subtitle">Watch and learn numbers 1-100</p>
+            
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${data.url}?start=${data.startTime}&end=${data.endTime}" 
+                            frameborder="0" allowfullscreen 
+                            title="${data.title}">
+                    </iframe>
+                </div>
+                <p style="text-align: center; color: #64748b; margin-top: 1rem;">
+                    Watch the video carefully. You can pause and replay as needed.
+                </p>
             </div>
-            <p style="text-align:center;color:#777;">Assista ao vídeo e clique em "Começar Exercícios"</p>
+            
+            <div class="actions">
+                <button class="btn btn-primary" onclick="switchTab('reading')">
+                    Start Exercises <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         `;
-        actionBtn.textContent = "Começar Exercícios";
-        actionBtn.disabled = false;
-        actionBtn.onclick = () => switchTab('reading');
-        hintText.textContent = "Assista e clique para começar";
     }
 
-    function renderExercise() {
-        const data = tabsData[currentTab];
-        const index = currentIndex[currentTab];
-        const container = document.getElementById(`tab-${currentTab}`);
+    function renderReading() {
+        const main = document.getElementById('mainContent');
+        const index = currentIndex.reading;
+        const questions = lessonData.reading.questions;
         
-        if (!container || !data || !Array.isArray(data) || data.length === 0) {
-            if (container) container.innerHTML = '<p style="text-align:center;color:red;">Erro ao carregar</p>';
-            actionBtn.style.display = 'none';
-            return;
-        }
-        
-        if (index >= data.length) {
-            container.innerHTML = `
-                <div class="completion-msg">
-                    <i class="fa-solid fa-check-circle"></i>
-                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Seção Completa!</h3>
-                    <p style="color:#777;">Você completou ${currentTab}!</p>
+        if (index >= questions.length) {
+            main.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
+                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Reading Complete!</h2>
+                    <p style="color: #64748b;">Great job understanding the text!</p>
                 </div>
             `;
-            actionBtn.style.display = 'none';
-            hintText.textContent = "Seção concluída ✓";
             return;
         }
         
-        const ex = data[index];
-        isAnswered = false;
-        selectedOption = null;
-        actionBtn.style.display = 'block';
+        const q = questions[index];
         
-        let html = '<div class="exercise-card">';
-        html += `<h3 class="question-title">${ex.q}</h3>`;
-        
-        if (currentTab === 'listening' && ex.audio) {
-            html += `<button class="audio-btn" onclick="playAudio('${ex.audio}')"><i class="fa-solid fa-volume-high"></i></button>`;
-        }
-        
-        if (ex.options) {
-            html += '<div class="options-grid">';
-            ex.options.forEach((opt, i) => {
-                html += `<button class="option-btn" onclick="selectOption(${i})">${opt}</button>`;
-            });
-            html += '</div>';
-            actionBtn.textContent = "Verificar";
-            actionBtn.disabled = true;
-            actionBtn.onclick = checkAnswer;
-            hintText.textContent = "Selecione uma opção e clique em Verificar";
-        } else if (ex.answer) {
-            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite em inglês..." oninput="enableCheck()" autocomplete="off" autocapitalize="off">`;
-            actionBtn.textContent = "Verificar";
-            actionBtn.disabled = true;
-            actionBtn.onclick = checkAnswer;
-            hintText.textContent = "Digite a resposta e clique em Verificar";
-        } else if (ex.phrase) {
-            html += `<button class="record-btn" id="recordBtn" onclick="toggleRecording('${ex.phrase}')"><i class="fa-solid fa-microphone"></i></button>`;
-            html += `<p style="text-align:center;color:#777;">Clique e fale em inglês</p>`;
-            html += `<div id="speakingResult" style="text-align:center;margin-top:1rem;font-weight:700;display:none;"></div>`;
-            actionBtn.textContent = "Continuar";
-            actionBtn.disabled = true;
-            actionBtn.onclick = nextExercise;
-            hintText.textContent = "Clique no microfone e fale";
-        }
-        
-        html += '</div>';
-        container.innerHTML = html;
+        main.innerHTML = `
+            <h1 class="section-title">Reading Comprehension</h1>
+            <p class="section-subtitle">Read the text and answer the questions</p>
+            
+            <div class="card">
+                <div class="reading-text">
+                    ${lessonData.reading.text}
+                </div>
+                <button class="tts-btn" id="ttsBtn" onclick="toggleTTS()">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>Listen to Text</span>
+                </button>
+            </div>
+            
+            <div class="card">
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${q.q}</h3>
+                <div class="options">
+                    ${q.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(${i})">
+                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-secondary btn-retry" onclick="retryExercise('reading')">
+                    <i class="fa-solid fa-rotate-right"></i> Retry
+                </button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
+                    Check Answer
+                </button>
+            </div>
+        `;
     }
 
-    window.selectOption = (i) => {
-        if (isAnswered) return;
-        const btns = document.querySelectorAll('.option-btn');
-        if (!btns[i]) return;
-        btns.forEach(b => b.classList.remove('selected'));
-        btns[i].classList.add('selected');
-        selectedOption = i;
-        actionBtn.disabled = false;
-    };
-
-    window.enableCheck = () => {
-        const input = document.getElementById('writingInput');
-        if (input) actionBtn.disabled = !input.value.trim();
-    };
-
-    window.handleAction = () => {
-        if (isAnswered) nextExercise();
-        else checkAnswer();
-    };
-
-    window.checkAnswer = () => {
-        if (isAnswered) return;
-        isAnswered = true;
+    function renderListening() {
+        const main = document.getElementById('mainContent');
+        const index = currentIndex.listening;
+        const exercises = lessonData.listening.exercises;
         
-        const data = tabsData[currentTab];
-        const ex = data[currentIndex[currentTab]];
-        let correct = false;
-        
-        if (ex.answer) {
-            const input = document.getElementById('writingInput');
-            if (input && input.value.trim().toLowerCase() === ex.answer.toLowerCase()) {
-                input.style.borderColor = '#58cc02';
-                input.style.background = '#dcfce7';
-                correct = true;
-            } else if (input) {
-                input.style.borderColor = '#ff4b4b';
-                input.style.background = '#fee2e2';
-            }
-        } else {
-            const btns = document.querySelectorAll('.option-btn');
-            if (selectedOption === ex.answer && btns[selectedOption]) {
-                btns[selectedOption].classList.add('correct');
-                correct = true;
-            } else if (btns[selectedOption] && btns[ex.answer]) {
-                btns[selectedOption].classList.add('wrong');
-                btns[ex.answer].classList.add('correct');
-            }
+        if (index >= exercises.length) {
+            main.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
+                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Listening Complete!</h2>
+                    <p style="color: #64748b;">Excellent listening skills!</p>
+                </div>
+            `;
+            return;
         }
         
-        showFeedback(correct, ex);
+        const ex = exercises[index];
+        
+        main.innerHTML = `
+            <h1 class="section-title">Listening</h1>
+            <p class="section-subtitle">Listen and choose the correct answer</p>
+            
+            <div class="card" style="text-align: center;">
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${ex.audio}')">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span style="display: block; margin-top: 0.5rem; font-size: 0.9rem;">Click to Play</span>
+                </button>
+                <p style="color: #64748b; margin-top: 1rem;">Click the button to hear the number</p>
+            </div>
+            
+            <div class="card">
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${ex.q}</h3>
+                <div class="options">
+                    ${ex.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(${i})">
+                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-secondary btn-retry" onclick="retryExercise('listening')">
+                    <i class="fa-solid fa-rotate-right"></i> Retry
+                </button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
+                    Check Answer
+                </button>
+            </div>
+        `;
+    }
+
+    function renderSpeaking() {
+        const main = document.getElementById('mainContent');
+        const index = currentIndex.speaking;
+        const exercises = lessonData.speaking.exercises;
+        
+        if (index >= exercises.length) {
+            main.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
+                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Speaking Complete!</h2>
+                    <p style="color: #64748b;">Your pronunciation is improving!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const ex = exercises[index];
+        
+        main.innerHTML = `
+            <h1 class="section-title">Speaking</h1>
+            <p class="section-subtitle">Practice your pronunciation</p>
+            
+            <div class="card" style="text-align: center;">
+                <p style="font-size: 1.25rem; margin-bottom: 1rem; color: #475569;">${ex.prompt}</p>
+                
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${ex.phrase}')">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                
+                <p id="recordStatus" style="color: #64748b; margin-bottom: 1rem;">Click the microphone and speak</p>
+                
+                <div id="scoreDisplay" class="score-display" style="display: none;"></div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-secondary btn-retry" onclick="retryExercise('speaking')">
+                    <i class="fa-solid fa-rotate-right"></i> Retry
+                </button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextExercise('speaking')" disabled>
+                    Continue
+                </button>
+            </div>
+        `;
+    }
+
+    function renderGrammar() {
+        const main = document.getElementById('mainContent');
+        const index = currentIndex.grammar;
+        const explanations = lessonData.grammar.explanations;
+        const exercises = lessonData.grammar.exercises;
+        
+        if (index >= exercises.length) {
+            main.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
+                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Grammar Complete!</h2>
+                    <p style="color: #64748b;">You've mastered numbers!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Show explanation first, then exercise
+        const expIndex = Math.min(index, explanations.length - 1);
+        const exp = explanations[expIndex];
+        const q = exercises[index];
+        
+        main.innerHTML = `
+            <h1 class="section-title">Grammar</h1>
+            <p class="section-subtitle">Learn the rules and practice</p>
+            
+            <div class="card">
+                <div class="grammar-box">
+                    <h4><i class="fa-solid fa-book" style="margin-right: 0.5rem;"></i>${exp.title}</h4>
+                    ${exp.content}
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${q.q}</h3>
+                <div class="options">
+                    ${q.options.map((opt, i) => `
+                        <div class="option" onclick="selectOption(${i})">
+                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-secondary btn-retry" onclick="retryExercise('grammar')">
+                    <i class="fa-solid fa-rotate-right"></i> Retry
+                </button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
+                    Check Answer
+                </button>
+            </div>
+        `;
+    }
+
+    // ===== FUNCTIONS =====
+    window.selectOption = (i) => {
+        if (isAnswered) return;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.option')[i].classList.add('selected');
+        selectedOption = i;
+        document.getElementById('checkBtn').disabled = false;
+    };
+
+    window.toggleTTS = () => {
+        const btn = document.getElementById('ttsBtn');
+        if (!btn) return;
+        
+        if (ttsPlaying) {
+            window.speechSynthesis.cancel();
+            ttsPlaying = false;
+            btn.classList.remove('playing');
+            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i><span>Listen to Text</span>';
+        } else {
+            const text = lessonData.reading.text.replace(/<[^>]*>/g, '');
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US';
+            u.rate = 0.9;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
+            if (v) u.voice = v;
+            
+            u.onend = () => {
+                ttsPlaying = false;
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i><span>Listen to Text</span>';
+            };
+            
+            window.speechSynthesis.speak(u);
+            ttsPlaying = true;
+            btn.classList.add('playing');
+            btn.innerHTML = '<i class="fa-solid fa-stop"></i><span>Stop</span>';
+        }
     };
 
     window.playAudio = (text) => {
-        if (!('speechSynthesis' in window)) {
-            alert('Use Chrome ou Edge para áudio');
-            return;
-        }
+        const btn = document.getElementById('audioBtn');
+        if (!btn) return;
         
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US';
         u.rate = 0.85;
         
-        if (voicesLoaded) {
-            const voices = window.speechSynthesis.getVoices();
-            const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
-            if (v) u.voice = v;
-        }
+        const voices = window.speechSynthesis.getVoices();
+        const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
+        if (v) u.voice = v;
         
-        const btn = document.querySelector('.audio-btn');
-        if (btn) {
-            btn.classList.add('playing');
-            setTimeout(() => btn.classList.remove('playing'), 500);
-        }
+        btn.classList.add('playing');
+        setTimeout(() => btn.classList.remove('playing'), 1000);
         
         window.speechSynthesis.speak(u);
     };
 
     window.toggleRecording = (phrase) => {
         const btn = document.getElementById('recordBtn');
-        const res = document.getElementById('speakingResult');
-        if (!btn || !res) return;
+        const status = document.getElementById('recordStatus');
+        const scoreDiv = document.getElementById('scoreDisplay');
+        const continueBtn = document.getElementById('continueBtn');
+        
+        if (!btn) return;
         
         if (!btn.classList.contains('recording')) {
             const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SR) {
-                alert('Use Chrome ou Edge para reconhecimento de voz');
+                alert('Use Chrome or Edge for voice recognition');
                 return;
             }
             
@@ -905,135 +1145,164 @@
             recognition.interimResults = false;
             
             btn.classList.add('recording');
-            btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-            res.style.display = 'block';
-            res.innerHTML = '<span style="color:#1cb0f6;"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
+            status.textContent = 'Listening... Speak now!';
+            scoreDiv.style.display = 'none';
+            continueBtn.disabled = true;
             
             recognition.onresult = (e) => {
                 const t = e.results[0][0].transcript.trim().toLowerCase();
                 const conf = e.results[0][0].confidence;
                 
-                // Normalize numbers
-                const map = { '1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen' };
+                // Normalize
+                const map = { '1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred' };
                 let clean = t;
                 Object.keys(map).forEach(k => { clean = clean.replace(new RegExp(`\\b${k}\\b`, 'g'), map[k]); });
                 
                 const match = clean.includes(phrase) || phrase.includes(clean) || clean.replace(/[-\s]/g,'') === phrase.replace(/[-\s]/g,'');
                 const acc = match ? Math.round(conf * 100) : 0;
                 
-                res.innerHTML = `<span style="color:${acc>=60?'#58cc02':'#ff4b4b'}">${acc}% - "${t}"</span>`;
+                scoreDiv.textContent = `${acc}% Accuracy`;
+                scoreDiv.className = `score-display ${acc >= 60 ? 'good' : 'bad'}`;
+                scoreDiv.style.display = 'block';
+                
+                status.textContent = acc >= 60 ? 'Great job!' : 'Try again';
                 btn.classList.remove('recording');
-                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
                 
                 if (acc >= 50) {
                     score += 10; streak++;
-                    xpDisplay.textContent = String(score);
-                    streakDisplay.textContent = String(streak);
+                    document.getElementById('xpDisplay').textContent = String(score);
+                    document.getElementById('streakDisplay').textContent = String(streak);
                     saveProgress();
+                    continueBtn.disabled = false;
                 }
-                actionBtn.disabled = false;
             };
             
             recognition.onerror = () => {
                 btn.classList.remove('recording');
-                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                res.innerHTML = '<span style="color:#ff4b4b;">Erro. Tente novamente.</span>';
+                status.textContent = 'Error. Try again.';
             };
             
             recognition.start();
         }
     };
 
-    function showFeedback(correct, ex) {
-        document.getElementById('feedbackOverlay').classList.add('show');
-        const sheet = document.getElementById('feedbackSheet');
-        sheet.classList.remove('correct', 'wrong');
+    window.checkAnswer = () => {
+        if (isAnswered || selectedOption === null) return;
+        isAnswered = true;
         
-        if (correct) {
-            sheet.classList.add('correct');
-            document.getElementById('feedbackIcon').innerHTML = '<i class="fa-solid fa-check" style="color:#58cc02;"></i>';
-            document.getElementById('feedbackTitle').textContent = 'Correto! 🎉';
-            document.getElementById('feedbackTitle').style.color = '#15803d';
-            document.getElementById('feedbackMsg').textContent = `+10 XP • Sequência: ${streak + 1}`;
+        let data, index, q;
+        if (currentTab === 'reading') {
+            data = lessonData.reading.questions;
+            index = currentIndex.reading;
+        } else if (currentTab === 'listening') {
+            data = lessonData.listening.exercises;
+            index = currentIndex.listening;
+        } else if (currentTab === 'grammar') {
+            data = lessonData.grammar.exercises;
+            index = currentIndex.grammar;
+        }
+        
+        q = data[index];
+        const options = document.querySelectorAll('.option');
+        const feedback = document.getElementById('feedback');
+        
+        if (selectedOption === q.answer) {
+            options[selectedOption].classList.add('correct');
+            feedback.className = 'feedback correct show';
+            feedback.innerHTML = `<strong style="color: #166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation}`;
             score += 10; streak++;
-            xpDisplay.textContent = String(score);
-            streakDisplay.textContent = String(streak);
+            document.getElementById('xpDisplay').textContent = String(score);
+            document.getElementById('streakDisplay').textContent = String(streak);
             saveProgress();
         } else {
-            sheet.classList.add('wrong');
-            document.getElementById('feedbackIcon').innerHTML = '<i class="fa-solid fa-rotate-right" style="color:#ff4b4b;"></i>';
-            document.getElementById('feedbackTitle').textContent = 'Tente novamente 💪';
-            document.getElementById('feedbackTitle').style.color = '#b91c1c';
-            const ans = ex.options ? ex.options[ex.answer] : (ex.answer || ex.phrase);
-            document.getElementById('feedbackMsg').textContent = `Resposta: ${ans}`;
+            options[selectedOption].classList.add('wrong');
+            options[q.answer].classList.add('correct');
+            feedback.className = 'feedback wrong show';
+            feedback.innerHTML = `<strong style="color: #991b1b;"><i class="fa-solid fa-xmark"></i> Incorrect</strong><br>${q.explanation}`;
             streak = 0;
-            streakDisplay.textContent = '0';
+            document.getElementById('streakDisplay').textContent = '0';
         }
-        sheet.classList.add('show');
-        actionBtn.style.display = 'none';
-    }
-
-    window.closeFeedback = () => {
-        document.getElementById('feedbackOverlay').classList.remove('show');
-        document.getElementById('feedbackSheet').classList.remove('show');
-        nextExercise();
+        
+        document.getElementById('checkBtn').disabled = true;
     };
 
-    function nextExercise() {
-        currentIndex[currentTab]++;
+    window.retryExercise = (tab) => {
+        currentIndex[tab] = Math.max(0, currentIndex[tab] - 1);
+        isAnswered = false;
+        selectedOption = null;
+        renderCurrentTab();
+    };
+
+    window.nextExercise = (tab) => {
+        currentIndex[tab]++;
+        isAnswered = false;
+        selectedOption = null;
         saveProgress();
-        renderExercise();
-        updateProgress();
-        actionBtn.style.display = 'block';
+        renderCurrentTab();
+    };
+
+    function updateProgress() {
+        const total = Object.values(lessonData).reduce((acc, section) => {
+            if (section.questions) return acc + section.questions.length;
+            if (section.exercises) return acc + section.exercises.length;
+            return acc;
+        }, 0);
+        
+        const done = Object.values(currentIndex).reduce((a, b) => a + b, 0);
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        
+        document.getElementById('progressBar').style.width = `${pct}%`;
+        document.getElementById('currentStep').textContent = String(done);
+        document.getElementById('totalSteps').textContent = String(total);
     }
 
     function saveProgress() {
         if (!currentUser) return;
         const data = {};
-        ['reading', 'listening', 'speaking', 'writing', 'grammar'].forEach(t => {
+        ['reading', 'listening', 'speaking', 'grammar'].forEach(t => {
             data[`progresso.u02_${t}`] = currentIndex[t];
         });
         updateDoc(doc(db, "usuarios", currentUser.uid), {
-            xp: score, streak: streak, ...data,
-            'progresso.u02_lastUpdate': new Date().toISOString()
+            xp: score, streak: streak, ...data
         }).catch(console.error);
     }
 
-    function updateProgress() {
-        let total = 0;
-        Object.keys(tabsData).forEach(k => {
-            if (Array.isArray(tabsData[k])) total += tabsData[k].length;
-        });
-        
-        let done = 0;
-        Object.keys(currentIndex).forEach(k => { done += currentIndex[k]; });
-        
-        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-        progressBar.style.width = `${pct}%`;
-        progressText.textContent = `${pct}% completo (${done}/${total})`;
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            const name = btn.textContent.toLowerCase().split(' ')[0];
-            const d = tabsData[name];
-            if (d && Array.isArray(d) && currentIndex[name] >= d.length) {
-                btn.classList.add('completed');
-            }
-        });
-    }
+    window.toggleSettings = () => {
+        document.getElementById('settingsMenu').classList.toggle('show');
+    };
 
-    window.saveAndExit = async () => {
-        actionBtn.disabled = true;
-        actionBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
-        await saveProgress();
+    window.saveAndExit = () => {
+        saveProgress();
         window.location.href = 'index.html';
     };
 
-    // Keyboard support
+    window.resetProgress = () => {
+        if (confirm('Restart this lesson?')) {
+            currentIndex = { reading: 0, listening: 0, speaking: 0, grammar: 0 };
+            saveProgress();
+            renderCurrentTab();
+        }
+    };
+
+    window.toggleTheme = () => {
+        alert('Theme toggle coming soon!');
+    };
+
+    // Close settings when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.menu-btn') && !e.target.closest('.settings-menu')) {
+            document.getElementById('settingsMenu').classList.remove('show');
+        }
+    });
+
+    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.repeat && currentTab !== 'video') {
-            e.preventDefault();
-            if (isAnswered) nextExercise();
-            else if (!actionBtn.disabled) checkAnswer();
+            if (!document.getElementById('checkBtn').disabled && !isAnswered) {
+                checkAnswer();
+            } else if (isAnswered) {
+                nextExercise(currentTab);
+            }
         }
     });
 </script>
