@@ -8,13 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Nunito', sans-serif;
             background: #f7f7f7;
             color: #4b4b4b;
             min-height: 100vh;
-            overflow-x: hidden;
         }
         
         /* TOP BAR */
@@ -30,59 +29,28 @@
             z-index: 100;
         }
         
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #afafaf;
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: 50%;
-            transition: all 0.2s;
-        }
-        .close-btn:hover { color: #ff4b4b; background: #fee2e2; }
-        
-        .progress-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-        
+        .progress-wrapper { flex: 1; }
         .progress-track {
             height: 16px;
             background: #e5e5e5;
             border-radius: 10px;
             overflow: hidden;
         }
-        
         .progress-fill {
             height: 100%;
             background: #58cc02;
             border-radius: 10px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            transition: width 0.5s;
         }
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 50%);
-        }
-        
         .progress-text {
             font-size: 0.75rem;
             color: #777;
-            font-weight: 700;
             text-align: center;
+            margin-top: 0.25rem;
+            font-weight: 700;
         }
         
-        .stats {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
+        .stats { display: flex; gap: 0.5rem; }
         .stat-badge {
             display: flex;
             align-items: center;
@@ -91,197 +59,144 @@
             border-radius: 10px;
             font-weight: 800;
             font-size: 0.9rem;
-            white-space: nowrap;
         }
         .stat-streak { background: #ff9600; color: white; }
         .stat-xp { background: #ffc800; color: #78350f; }
         
-        /* MAIN */
+        /* TABS */
+        .tabs-container {
+            background: white;
+            border-bottom: 2px solid #e5e5e5;
+            padding: 0.5rem;
+            overflow-x: auto;
+            position: sticky;
+            top: 60px;
+            z-index: 99;
+        }
+        .tabs-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            min-width: max-content;
+        }
+        .tab-btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e5e5e5;
+            background: white;
+            color: #777;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tab-btn:hover { border-color: #1cb0f6; color: #1cb0f6; }
+        .tab-btn.active {
+            background: #1cb0f6;
+            border-color: #1cb0f6;
+            color: white;
+            box-shadow: 0 4px 0 #1899d6;
+        }
+        .tab-btn.completed {
+            background: #dcfce7;
+            border-color: #58cc02;
+            color: #15803d;
+        }
+        .tab-btn.completed::after {
+            content: '✓';
+            font-size: 0.8rem;
+        }
+        
+        /* MAIN CONTENT */
         .main-content {
             max-width: 600px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 2rem 1rem 140px;
         }
         
-        /* SKILL BADGE */
-        .skill-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .skill-reading { background: #e0f2fe; color: #0369a1; }
-        .skill-listening { background: #fee2e2; color: #b91c1c; }
-        .skill-speaking { background: #dcfce7; color: #15803d; }
-        .skill-writing { background: #f3e8ff; color: #7c3aed; }
-        .skill-grammar { background: #fef3c7; color: #b45309; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* LANGUAGE BADGE */
-        .lang-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.35rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .lang-en { background: #dbeafe; color: #1e40af; }
-        .lang-pt { background: #dcfce7; color: #15803d; }
-        
-        /* QUESTION */
-        .question-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-            color: #333;
-        }
-        
-        /* AUDIO BUTTON */
-        .audio-btn {
-            background: #1cb0f6;
-            color: white;
-            border: none;
-            width: 100%;
-            max-width: 280px;
-            padding: 1.5rem;
-            border-radius: 16px;
-            font-size: 2.5rem;
-            cursor: pointer;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 0 #1899d6, 0 6px 16px rgba(28,176,246,0.3);
-            transition: all 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .audio-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #1899d6, 0 2px 8px rgba(28,176,246,0.3);
-        }
-        .audio-btn.playing { animation: pulse-audio 0.5s ease; }
-        @keyframes pulse-audio {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        /* OPTIONS */
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            width: 100%;
-        }
-        
-        .option-card {
-            background: white;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            padding: 1.25rem 1rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #4b4b4b;
-            box-shadow: 0 2px 0 #e5e5e5;
-            position: relative;
-            overflow: hidden;
-        }
-        .option-card:hover { border-color: #1cb0f6; background: #f0f9ff; }
-        .option-card:active { transform: translateY(2px); box-shadow: 0 0 0 #e5e5e5; }
-        .option-card.selected {
-            border-color: #1cb0f6;
-            background: #e0f2fe;
-            box-shadow: 0 2px 0 #1cb0f6;
-        }
-        .option-card.correct {
-            border-color: #58cc02;
-            background: #dcfce7;
-            box-shadow: 0 2px 0 #58cc02;
-        }
-        .option-card.wrong {
-            border-color: #ff4b4b;
-            background: #fee2e2;
-            box-shadow: 0 2px 0 #ff4b4b;
-            animation: shake 0.4s;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
-        }
-        
-        /* DIALOGUE */
-        .dialogue-card {
+        /* EXERCISES */
+        .exercise-card {
             background: white;
             border: 2px solid #e5e5e5;
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            width: 100%;
-        }
-        .speaker-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .speaker-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-        }
-        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .speaker-narrator { background: linear-gradient(135deg, #6b7280, #9ca3af); }
-        .speaker-name { font-weight: 800; font-size: 1.2rem; }
-        .speaker-listen {
-            margin-left: auto;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #1cb0f6;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-        .speech-bubble {
-            background: #f7f7f7;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            border: 2px solid #e5e5e5;
-            font-size: 1.15rem;
-            line-height: 1.6;
-        }
-        .highlight-number {
-            background: rgba(34,197,94,0.15);
-            color: #15803d;
-            padding: 0.15rem 0.5rem;
-            border-radius: 6px;
-            font-weight: 800;
         }
         
-        /* RECORD BTN */
+        .question-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        @media (min-width: 640px) { .options-grid { grid-template-columns: 1fr 1fr; } }
+        
+        .option-btn {
+            padding: 1.25rem;
+            border-radius: 16px;
+            border: 2px solid #e5e5e5;
+            background: white;
+            color: #4b4b4b;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 2px 0 #e5e5e5;
+        }
+        .option-btn:hover { border-color: #1cb0f6; background: #f0f9ff; }
+        .option-btn:active { transform: translateY(2px); box-shadow: none; }
+        .option-btn.selected {
+            border-color: #1cb0f6;
+            background: #e0f2fe;
+            box-shadow: 0 2px 0 #1cb0f6;
+        }
+        .option-btn.correct {
+            border-color: #58cc02;
+            background: #dcfce7;
+            box-shadow: 0 2px 0 #58cc02;
+        }
+        .option-btn.wrong {
+            border-color: #ff4b4b;
+            background: #fee2e2;
+            box-shadow: 0 2px 0 #ff4b4b;
+        }
+        
+        .audio-btn {
+            background: #1cb0f6;
+            color: white;
+            border: none;
+            width: 100%;
+            max-width: 250px;
+            padding: 1.25rem;
+            border-radius: 16px;
+            font-size: 2rem;
+            cursor: pointer;
+            margin: 0 auto 1.5rem;
+            display: block;
+            box-shadow: 0 4px 0 #1899d6;
+            transition: all 0.1s;
+        }
+        .audio-btn:active { transform: translateY(4px); box-shadow: none; }
+        .audio-btn.playing { animation: pulse 0.5s; }
+        @keyframes pulse { 50% { transform: scale(1.05); } }
+        
         .record-btn {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background: linear-gradient(135deg, #ff4b4b, #dc2626);
             color: white;
@@ -291,18 +206,14 @@
             font-size: 2.5rem;
             margin: 1.5rem auto;
             cursor: pointer;
-            box-shadow: 0 6px 0 #b91c1c, 0 8px 20px rgba(255,75,75,0.3);
-            transition: all 0.15s;
+            box-shadow: 0 6px 0 #b91c1c;
             border: none;
+            transition: all 0.15s;
         }
-        .record-btn:active { transform: translateY(6px); box-shadow: 0 0 0 #b91c1c; }
+        .record-btn:active { transform: translateY(6px); box-shadow: none; }
         .record-btn.recording { animation: pulse-record 1s infinite; }
-        @keyframes pulse-record {
-            0%, 100% { transform: scale(1); box-shadow: 0 6px 0 #b91c1c; }
-            50% { transform: scale(1.08); box-shadow: 0 8px 24px rgba(255,75,75,0.5); }
-        }
+        @keyframes pulse-record { 50% { transform: scale(1.1); } }
         
-        /* WRITING INPUT */
         .writing-input {
             width: 100%;
             padding: 1.25rem;
@@ -310,17 +221,13 @@
             border: 2px solid #e5e5e5;
             border-radius: 16px;
             background: white;
-            color: #333;
             text-align: center;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 0 #e5e5e5;
-            transition: all 0.2s;
         }
         .writing-input:focus {
             outline: none;
             border-color: #1cb0f6;
-            box-shadow: 0 2px 0 #1cb0f6;
         }
         
         /* BOTTOM BAR */
@@ -332,7 +239,6 @@
             background: white;
             border-top: 2px solid #e5e5e5;
             padding: 1rem;
-            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
@@ -344,98 +250,41 @@
             padding: 1rem;
             border-radius: 16px;
             font-weight: 800;
-            font-size: 1rem;
             border: none;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             box-shadow: 0 4px 0 rgba(0,0,0,0.15);
             transition: all 0.1s;
         }
         .action-btn:active { transform: translateY(4px); box-shadow: none; }
-        .btn-check {
-            background: #58cc02;
-            color: white;
-            box-shadow: 0 4px 0 #46a302;
-        }
-        .btn-check:disabled {
-            background: #e5e5e5;
-            color: #afafaf;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        .btn-continue { background: #58cc02; color: white; box-shadow: 0 4px 0 #46a302; }
-        .btn-retry { background: #ff9600; color: white; box-shadow: 0 4px 0 #e08600; }
-        .btn-home {
-            background: #e5e5e5;
-            color: #777;
-            font-size: 0.85rem;
-            padding: 0.875rem;
-            box-shadow: 0 2px 0 #afafaf;
-        }
+        .btn-check { background: #58cc02; color: white; box-shadow: 0 4px 0 #46a302; }
+        .btn-check:disabled { background: #e5e5e5; color: #afafaf; box-shadow: none; cursor: not-allowed; }
+        .btn-home { background: #e5e5e5; color: #777; font-size: 0.85rem; }
         
-        .hint-text {
-            text-align: center;
-            color: #afafaf;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+        /* FEEDBACK */
+        .feedback-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: none;
         }
+        .feedback-overlay.show { display: block; }
         
-        /* FEEDBACK SHEET */
         .feedback-sheet {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: 101;
             padding: 1.5rem;
-            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
             transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s;
+            z-index: 201;
         }
         .feedback-sheet.show { transform: translateY(0); }
-        .feedback-sheet.correct {
-            background: #d7ffb8;
-            border-top: 3px solid #58cc02;
-        }
-        .feedback-sheet.wrong {
-            background: #ffdfe0;
-            border-top: 3px solid #ff4b4b;
-        }
+        .feedback-sheet.correct { background: #d7ffb8; border-top: 3px solid #58cc02; }
+        .feedback-sheet.wrong { background: #ffdfe0; border-top: 3px solid #ff4b4b; }
         
-        .feedback-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .feedback-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-        .feedback-title { font-size: 1.25rem; font-weight: 800; }
-        .feedback-msg { font-size: 0.95rem; line-height: 1.4; }
-        .feedback-explanation {
-            background: rgba(255,255,255,0.7);
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            margin-top: 0.75rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        /* VIDEO */
         .video-wrapper {
             width: 100%;
             border-radius: 16px;
@@ -443,35 +292,45 @@
             aspect-ratio: 16/9;
             background: #000;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .video-wrapper iframe { width: 100%; height: 100%; }
         
-        /* RESPONSIVE */
+        .dialogue-box {
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .speaker-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .speaker-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .speaker-maria { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .speaker-john { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        
         @media (max-width: 480px) {
-            .main-content { padding: 1.5rem 1rem 140px; }
-            .question-title { font-size: 1.25rem; }
-            .option-card { padding: 1rem; font-size: 1rem; }
-            .audio-btn { padding: 1.25rem; font-size: 2rem; }
-            .stat-badge { padding: 0.35rem 0.6rem; font-size: 0.8rem; }
-            .speech-bubble { font-size: 1.05rem; }
+            .main-content { padding: 1.5rem 0.75rem 160px; }
+            .tab-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
         }
-        
-        @media (min-width: 768px) {
-            .main-content { padding: 3rem 2rem 140px; }
-            .option-card { padding: 1.5rem; font-size: 1.15rem; }
-        }
-        
-        /* ANIMATIONS */
-        .fade-in { animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <!-- TOP BAR -->
     <div class="top-bar">
-        <button class="close-btn" onclick="saveAndExit()" aria-label="Sair">
+        <button class="close-btn" onclick="saveAndExit()" style="background:none;border:none;font-size:1.5rem;color:#afafaf;cursor:pointer;">
             <i class="fa-solid fa-xmark"></i>
         </button>
         
@@ -479,7 +338,7 @@
             <div class="progress-track">
                 <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
-            <div class="progress-text" id="progressText">Passo 1 de --</div>
+            <div class="progress-text" id="progressText">0% completo</div>
         </div>
         
         <div class="stats">
@@ -494,41 +353,77 @@
         </div>
     </div>
 
+    <!-- TABS -->
+    <div class="tabs-container">
+        <div class="tabs-wrapper">
+            <button class="tab-btn active" onclick="switchTab('video')">
+                <i class="fa-solid fa-video"></i> Video
+            </button>
+            <button class="tab-btn" onclick="switchTab('reading')">
+                <i class="fa-solid fa-book"></i> Reading
+            </button>
+            <button class="tab-btn" onclick="switchTab('listening')">
+                <i class="fa-solid fa-headphones"></i> Listening
+            </button>
+            <button class="tab-btn" onclick="switchTab('speaking')">
+                <i class="fa-solid fa-microphone"></i> Speaking
+            </button>
+            <button class="tab-btn" onclick="switchTab('writing')">
+                <i class="fa-solid fa-pen"></i> Writing
+            </button>
+            <button class="tab-btn" onclick="switchTab('grammar')">
+                <i class="fa-solid fa-graduation-cap"></i> Grammar
+            </button>
+        </div>
+    </div>
+
     <!-- MAIN CONTENT -->
-    <div class="main-content fade-in" id="gameArea"></div>
+    <div class="main-content">
+        <!-- VIDEO TAB -->
+        <div id="tab-video" class="tab-content active">
+            <div class="video-wrapper">
+                <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p style="text-align:center;color:#777;">Assista ao vídeo e clique em "Começar Exercícios"</p>
+        </div>
+
+        <!-- READING TAB -->
+        <div id="tab-reading" class="tab-content"></div>
+
+        <!-- LISTENING TAB -->
+        <div id="tab-listening" class="tab-content"></div>
+
+        <!-- SPEAKING TAB -->
+        <div id="tab-speaking" class="tab-content"></div>
+
+        <!-- WRITING TAB -->
+        <div id="tab-writing" class="tab-content"></div>
+
+        <!-- GRAMMAR TAB -->
+        <div id="tab-grammar" class="tab-content"></div>
+    </div>
 
     <!-- BOTTOM BAR -->
     <div class="bottom-bar">
         <button id="actionBtn" class="action-btn btn-check" onclick="handleAction()" disabled>
             Verificar
         </button>
-        <p class="hint-text">
-            <i class="fa-solid fa-keyboard"></i>
-            Pressione <kbd style="background:#e5e5e5;padding:0.2rem 0.5rem;border-radius:6px;font-weight:700;">Enter</kbd> para continuar
-        </p>
         <button onclick="saveAndExit()" class="action-btn btn-home">
             <i class="fa-solid fa-house mr-2"></i> Salvar e Voltar
         </button>
     </div>
 
-    <!-- FEEDBACK SHEET -->
+    <!-- FEEDBACK -->
+    <div class="feedback-overlay" id="feedbackOverlay" onclick="closeFeedback()"></div>
     <div class="feedback-sheet" id="feedbackSheet">
-        <div class="feedback-header">
-            <div class="feedback-icon" id="feedbackIcon"></div>
-            <div class="flex-1">
-                <div class="feedback-title" id="feedbackTitle"></div>
-                <div class="feedback-msg" id="feedbackMsg"></div>
-                <div class="feedback-explanation hidden" id="feedbackExplanation"></div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+            <div id="feedbackIcon" style="width:56px;height:56px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:1.75rem;"></div>
+            <div>
+                <div id="feedbackTitle" style="font-size:1.25rem;font-weight:800;"></div>
+                <div id="feedbackMsg" style="font-size:0.95rem;"></div>
             </div>
         </div>
-        <div class="flex gap-2">
-            <button id="retryBtn" class="action-btn btn-retry hidden" onclick="retryCurrent()">
-                <i class="fa-solid fa-rotate-right mr-2"></i> Refazer
-            </button>
-            <button id="continueBtn" class="action-btn btn-continue flex-1" onclick="nextStep()">
-                Continuar <i class="fa-solid fa-arrow-right ml-2"></i>
-            </button>
-        </div>
+        <button class="action-btn btn-check" onclick="closeFeedback()">Continuar</button>
     </div>
 
 <script type="module">
@@ -550,154 +445,89 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== EXPLANATIONS FOR WRONG ANSWERS =====
-    const explanations = {
+    // ===== DATA BY TAB =====
+    const tabsData = {
+        video: {
+            videoId: 'YuXFxvTbviI',
+            title: 'Assista e aprenda os números de 1 a 100!'
+        },
         reading: [
-            "💡 Dica: Observe os detalhes do texto para encontrar a resposta correta.",
-            "💡 Dica: Releia a frase com atenção e identifique as palavras-chave.",
-            "💡 Dica: O contexto da conversa geralmente contém a resposta!"
+            { q: 'Quem é do Brasil?', options: ['John', 'Maria', 'Both'], answer: 1 },
+            { q: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1 },
+            { q: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1 },
+            { q: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1 },
+            { q: 'Número favorito de John?', options: ['7', '17', '70'], answer: 0 },
+            { q: 'Maria acha 12 o quê?', options: ['Azarado', 'Sortudo', 'Comum'], answer: 1 },
+            { q: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0 },
+            { q: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1 },
+            { q: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1 },
+            { q: 'Complete: "I\'m _____ years old"', options: ['twenty', 'twenty-five', 'thirty'], answer: 1 }
         ],
         listening: [
-            "💡 Dica: Ouça novamente com atenção. Tente identificar cada sílaba.",
-            "💡 Dica: Números em inglês têm sons diferentes do português. Pratique a pronúncia!",
-            "💡 Dica: Repita o áudio quantas vezes precisar até identificar o número."
+            { audio: 'one', q: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
+            { audio: 'five', q: 'O que ouviu?', options: ['5', '15', '50'], answer: 0 },
+            { audio: 'ten', q: 'Qual número?', options: ['10', '11', '12'], answer: 0 },
+            { audio: 'twenty', q: 'O que foi dito?', options: ['12', '20', '2'], answer: 1 },
+            { audio: 'thirty', q: 'Qual número?', options: ['13', '30', '3'], answer: 1 },
+            { audio: 'forty', q: 'O que ouviu?', options: ['14', '40', '4'], answer: 1 },
+            { audio: 'fifty', q: 'Qual número?', options: ['15', '50', '5'], answer: 1 },
+            { audio: 'sixty', q: 'O que foi falado?', options: ['16', '60', '6'], answer: 1 },
+            { audio: 'seventy', q: 'Qual número?', options: ['17', '70', '7'], answer: 1 },
+            { audio: 'eighty', q: 'O que ouviu?', options: ['18', '80', '8'], answer: 1 }
         ],
         speaking: [
-            "💡 Dica: Fale mais devagar e com clareza. Tente imitar a pronúncia nativa.",
-            "💡 Dica: A pronúncia em inglês é diferente. Preste atenção nos sons das vogais.",
-            "💡 Dica: Grave a si mesmo e compare com o áudio original para melhorar."
+            { phrase: 'eleven', q: 'Diga em inglês: "Onze"' },
+            { phrase: 'twelve', q: 'Diga em inglês: "Doze"' },
+            { phrase: 'thirteen', q: 'Diga em inglês: "Treze"' },
+            { phrase: 'fourteen', q: 'Diga em inglês: "Quatorze"' },
+            { phrase: 'fifteen', q: 'Diga em inglês: "Quinze"' },
+            { phrase: 'sixteen', q: 'Diga em inglês: "Dezesseis"' },
+            { phrase: 'seventeen', q: 'Diga em inglês: "Dezessete"' },
+            { phrase: 'eighteen', q: 'Diga em inglês: "Dezoito"' },
+            { phrase: 'nineteen', q: 'Diga em inglês: "Dezenove"' },
+            { phrase: 'twenty', q: 'Diga em inglês: "Vinte"' }
         ],
         writing: [
-            "💡 Dica: Lembre-se do hífen em números compostos (twenty-one, thirty-five).",
-            "💡 Dica: Verifique a ortografia. Cada letra conta em inglês!",
-            "💡 Dica: Números de 21 a 99 sempre usam hífen em inglês."
+            { q: 'Escreva em inglês: 21', answer: 'twenty-one' },
+            { q: 'Escreva em inglês: 22', answer: 'twenty-two' },
+            { q: 'Escreva em inglês: 23', answer: 'twenty-three' },
+            { q: 'Escreva em inglês: 24', answer: 'twenty-four' },
+            { q: 'Escreva em inglês: 25', answer: 'twenty-five' },
+            { q: 'Escreva em inglês: 26', answer: 'twenty-six' },
+            { q: 'Escreva em inglês: 27', answer: 'twenty-seven' },
+            { q: 'Escreva em inglês: 28', answer: 'twenty-eight' },
+            { q: 'Escreva em inglês: 29', answer: 'twenty-nine' },
+            { q: 'Escreva em inglês: 30', answer: 'thirty' }
         ],
         grammar: [
-            "💡 Dica: Em inglês, ordinais têm terminações especiais (1st, 2nd, 3rd, th).",
-            "💡 Dica: Números grandes em inglês seguem padrões lógicos. Estude as regras!",
-            "💡 Dica: A gramática numérica em inglês tem suas particularidades. Revise!"
+            { q: 'Qual a regra para 21-99?', options: ['Sem hífen', 'Com hífen', 'Espaço'], answer: 1 },
+            { q: '1º em inglês?', options: ['Oneth', 'First', 'One'], answer: 1 },
+            { q: '2º em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1 },
+            { q: '3º em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1 },
+            { q: 'Qual está correto?', options: ['Fourty', 'Forty', 'Forte'], answer: 1 },
+            { q: 'Qual está correto?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1 },
+            { q: 'Como escreve 100?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1 },
+            { q: 'UK: 105 é?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1 },
+            { q: 'Ordinal de 5?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1 },
+            { q: 'Ordinal de 10?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0 }
         ]
     };
 
-    // ===== LESSON DATA =====
-    const lessonSteps = [
-        { type: 'video', videoId: 'YuXFxvTbviI', title: 'Assista e aprenda os números de 1 a 100!' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Hi! I\'m <span class="highlight-number">Maria</span> from Brazil! 👋' },
-        { type: 'dialogue', speaker: 'john', name: 'John', text: 'Hello Maria! I\'m <span class="highlight-number">John</span>. Nice to meet you!' },
-        { type: 'question', skill: 'reading', question: 'Quem é do Brasil?', options: ['John', 'Maria', 'Both'], answer: 1, explanation: 'Maria disse "I\'m Maria from Brazil"' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I\'m <span class="highlight-number">twenty-five</span> years old. How old are you?' },
-        { type: 'question', skill: 'reading', question: 'Quantos anos Maria tem?', options: ['15', '25', '35'], answer: 1, explanation: '"twenty-five" = 25 anos' },
-        { type: 'dialogue', speaker: 'john', name: 'John', text: 'I\'m <span class="highlight-number">thirty</span>. I have <span class="highlight-number">three</span> brothers.' },
-        { type: 'question', skill: 'reading', question: 'Quantos irmãos John tem?', options: ['2', '3', '4'], answer: 1, explanation: 'John disse "I have three brothers"' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Wow! I have <span class="highlight-number">two</span> sisters. My phone is <span class="highlight-number">555-1234</span>.' },
-        { type: 'question', skill: 'reading', question: 'Qual o telefone de Maria?', options: ['555-4321', '555-1234', '555-5678'], answer: 1, explanation: 'Maria disse "My phone is 555-1234"' },
-        { type: 'dialogue', speaker: 'john', name: 'John', text: 'My favorite number is <span class="highlight-number">seven</span>. What\'s yours?' },
-        { type: 'question', skill: 'reading', question: 'Número favorito de John?', options: ['7', '17', '70'], answer: 0, explanation: 'John disse "My favorite number is seven" (7)' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I love <span class="highlight-number">twelve</span>! It\'s lucky!' },
-        { type: 'question', skill: 'reading', question: 'Maria acha 12 o quê?', options: ['Azarado', 'Sortudo', 'Comum'], answer: 1, explanation: '"It\'s lucky!" = É sortudo!' },
-        { type: 'dialogue', speaker: 'john', name: 'John', text: 'I live on <span class="highlight-number">Forty-second</span> Street. That\'s 42nd!' },
-        { type: 'question', skill: 'reading', question: 'Onde John mora?', options: ['42nd Street', '24th Street', '14th Street'], answer: 0, explanation: '"Forty-second" = 42nd (quadragésimo segundo)' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'I work with <span class="highlight-number">fifty</span> people! It\'s a big company.' },
-        { type: 'question', skill: 'reading', question: 'Quantas pessoas trabalham com Maria?', options: ['15', '50', '500'], answer: 1, explanation: '"fifty" = 50 pessoas' },
-        { type: 'dialogue', speaker: 'john', name: 'John', text: 'See you later, Maria! Goodbye!' },
-        { type: 'dialogue', speaker: 'maria', name: 'Maria', text: 'Bye John! Have a great day! 👋' },
-        { type: 'question', skill: 'reading', question: 'Como eles se despedem?', options: ['Good night', 'Goodbye', 'See you tomorrow'], answer: 1, explanation: 'John disse "Goodbye!" e Maria disse "Bye!"' },
-        { type: 'dialogue', speaker: 'narrator', name: '🎧 Professor', text: 'Agora vamos treinar o ouvido! Ouça e escolha o número correto.' },
-        { type: 'question', skill: 'listening', textToSpeak: 'one', question: 'Qual número?', options: ['1', '10', '11'], answer: 0 },
-        { type: 'question', skill: 'listening', textToSpeak: 'five', question: 'O que ouviu?', options: ['5', '15', '50'], answer: 0 },
-        { type: 'question', skill: 'listening', textToSpeak: 'ten', question: 'Qual número?', options: ['10', '11', '12'], answer: 0 },
-        { type: 'question', skill: 'listening', textToSpeak: 'twenty', question: 'O que foi dito?', options: ['12', '20', '2'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'thirty', question: 'Qual número?', options: ['13', '30', '3'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'forty', question: 'O que ouviu?', options: ['14', '40', '4'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'fifty', question: 'Qual número?', options: ['15', '50', '5'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'sixty', question: 'O que foi falado?', options: ['16', '60', '6'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'seventy', question: 'Qual número?', options: ['17', '70', '7'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'eighty', question: 'O que ouviu?', options: ['18', '80', '8'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'ninety', question: 'Qual número?', options: ['19', '90', '9'], answer: 1 },
-        { type: 'question', skill: 'listening', textToSpeak: 'one hundred', question: 'O que foi dito?', options: ['10', '100', '1000'], answer: 1 },
-        { type: 'dialogue', speaker: 'narrator', name: '🗣️ Professor', text: 'Agora é sua vez de falar! Clique no microfone e repita os números.' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'eleven', question: 'Diga em inglês: "Onze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'twelve', question: 'Diga em inglês: "Doze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'thirteen', question: 'Diga em inglês: "Treze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'fourteen', question: 'Diga em inglês: "Quatorze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'fifteen', question: 'Diga em inglês: "Quinze"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'sixteen', question: 'Diga em inglês: "Dezesseis"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'seventeen', question: 'Diga em inglês: "Dezessete"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'eighteen', question: 'Diga em inglês: "Dezoito"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'nineteen', question: 'Diga em inglês: "Dezenove"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'twenty', question: 'Diga em inglês: "Vinte"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'thirty', question: 'Diga em inglês: "Trinta"' },
-        { type: 'question', skill: 'speaking', expectedPhrase: 'forty', question: 'Diga em inglês: "Quarenta"' },
-        { type: 'dialogue', speaker: 'narrator', name: '✍️ Professor', text: 'Agora vamos escrever! Digite os números em inglês.' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 21', answer: 'twenty-one' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 22', answer: 'twenty-two' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 23', answer: 'twenty-three' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 24', answer: 'twenty-four' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 25', answer: 'twenty-five' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 26', answer: 'twenty-six' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 27', answer: 'twenty-seven' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 28', answer: 'twenty-eight' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 29', answer: 'twenty-nine' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 30', answer: 'thirty' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 40', answer: 'forty' },
-        { type: 'question', skill: 'writing', question: 'Escreva em inglês: 50', answer: 'fifty' },
-        { type: 'dialogue', speaker: 'narrator', name: '📚 Professor', text: 'Agora vamos aprender as regras gramaticais dos números!' },
-        { type: 'question', skill: 'grammar', question: 'Qual a regra para números 21-99?', options: ['Sem hífen', 'Com hífen (twenty-one)', 'Espaço (twenty one)'], answer: 1, explanation: 'Números compostos em inglês usam hífen: twenty-one, thirty-five, etc.' },
-        { type: 'question', skill: 'grammar', question: 'Como se diz 1º (primeiro) em inglês?', options: ['Oneth', 'First', 'One'], answer: 1, explanation: '1º = First (ordinais têm formas especiais)' },
-        { type: 'question', skill: 'grammar', question: 'Como se diz 2º (segundo) em inglês?', options: ['Twoth', 'Second', 'Two'], answer: 1, explanation: '2º = Second (irregular)' },
-        { type: 'question', skill: 'grammar', question: 'Como se diz 3º (terceiro) em inglês?', options: ['Threeth', 'Third', 'Three'], answer: 1, explanation: '3º = Third (irregular)' },
-        { type: 'question', skill: 'grammar', question: 'Qual está escrito corretamente?', options: ['Fourty', 'Forty', 'Forte'], answer: 1, explanation: '40 = Forty (sem "u", diferente de four)' },
-        { type: 'question', skill: 'grammar', question: 'Qual está escrito corretamente?', options: ['Fivety', 'Fifty', 'Five-ty'], answer: 1, explanation: '50 = Fifty (mudança de five para fif)' },
-        { type: 'question', skill: 'grammar', question: 'Como se escreve 100 em inglês?', options: ['Ten tens', 'One hundred', 'Hundred one'], answer: 1, explanation: '100 = One hundred (centena)' },
-        { type: 'question', skill: 'grammar', question: 'Em inglês britânico, como se diz 105?', options: ['One hundred five', 'One hundred and five', 'One-oh-five'], answer: 1, explanation: 'UK usa "and": one hundred and five' },
-        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 5 (quinto)?', options: ['Fiveth', 'Fifth', 'Five'], answer: 1, explanation: '5º = Fifth (mudança de five para fif + th)' },
-        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 10 (décimo)?', options: ['Tenth', 'Ten', 'Tenty'], answer: 0, explanation: '10º = Tenth (ten + th)' },
-        { type: 'question', skill: 'grammar', question: 'Qual é o ordinal de 20 (vigésimo)?', options: ['Twentyth', 'Twentieth', 'Twenty'], answer: 1, explanation: '20º = Twentieth (y vira ie + th)' },
-        { type: 'question', skill: 'grammar', question: 'Como se diz 100º (centésimo)?', options: ['Hundredth', 'Hundred', 'One hundredth'], answer: 0, explanation: '100º = Hundredth' },
-        { type: 'dialogue', speaker: 'narrator', name: '🎉 Professor', text: 'Parabéns! Você completou todos os exercícios! Continue praticando!' }
-    ];
-
-    let currentStepIndex = 0;
-    let selectedOption = null;
+    let currentTab = 'video';
+    let currentIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, grammar: 0 };
     let score = 0;
     let streak = 0;
     let isAnswered = false;
+    let selectedOption = null;
     let recognition = null;
-    let shuffledOptions = [];
 
-    const gameArea = document.getElementById('gameArea');
-    const actionBtn = document.getElementById('actionBtn');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
     const xpDisplay = document.getElementById('xpDisplay');
     const streakDisplay = document.getElementById('streakDisplay');
-    const feedbackSheet = document.getElementById('feedbackSheet');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const actionBtn = document.getElementById('actionBtn');
 
-    // ===== SHUFFLE ARRAY =====
-    function shuffle(array) {
-        const shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    }
-
-    // ===== THEME =====
-    (function() {
-        const saved = localStorage.getItem('ep_theme') || 'light';
-        document.documentElement.dataset.theme = saved;
-    })();
-
-    // ===== KEYBOARD =====
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.repeat) {
-            e.preventDefault();
-            handleAction();
-        }
-    });
-
-    // ===== LOAD PROGRESS =====
+    // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             currentUser = user;
@@ -709,207 +539,147 @@
                     streak = data.streak || 0;
                     xpDisplay.textContent = score;
                     streakDisplay.textContent = streak;
-                    if (data['progresso.u02_step'] !== undefined) {
-                        currentStepIndex = data['progresso.u02_step'];
+                    
+                    // Load saved progress per tab
+                    if (data.progresso) {
+                        Object.keys(currentIndex).forEach(tab => {
+                            if (data.progresso[`u02_${tab}`] !== undefined) {
+                                currentIndex[tab] = data.progresso[`u02_${tab}`];
+                            }
+                        });
                     }
                 }
             } catch (error) {
-                console.error("Error loading progress:", error);
+                console.error("Error loading:", error);
             }
         }
-        renderStep();
+        renderCurrentTab();
+        updateProgress();
     });
 
-    // ===== SAVE PROGRESS =====
-    async function saveProgressToFirebase() {
-        if (!currentUser) return;
-        try {
-            const totalSteps = lessonSteps.filter(s => s.type === 'question').length;
-            const completedSteps = currentStepIndex;
-            const progressPercent = Math.round((completedSteps / totalSteps) * 100);
-            
-            await updateDoc(doc(db, "usuarios", currentUser.uid), {
-                xp: score,
-                streak: streak,
-                'progresso.u02_step': currentStepIndex,
-                'progresso.u02_percent': progressPercent,
-                'progresso.u02_lastUpdate': new Date().toISOString()
-            });
-        } catch (error) {
-            console.error("Error saving progress:", error);
-        }
-    }
-
-    window.saveAndExit = async () => {
-        actionBtn.disabled = true;
-        actionBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
-        await saveProgressToFirebase();
-        window.location.href = 'index.html';
+    // ===== TAB SWITCHING =====
+    window.switchTab = (tab) => {
+        currentTab = tab;
+        
+        // Update tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.textContent.toLowerCase().includes(tab)) {
+                btn.classList.add('active');
+            }
+        });
+        
+        renderCurrentTab();
     };
 
-    // ===== RENDER STEP =====
-    function renderStep() {
-        if (currentStepIndex >= lessonSteps.length) {
-            showCompletion();
-            return;
+    function renderCurrentTab() {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Show current tab
+        document.getElementById(`tab-${currentTab}`).classList.add('active');
+        
+        if (currentTab === 'video') {
+            renderVideo();
+        } else {
+            renderExercise();
         }
-
-        const step = lessonSteps[currentStepIndex];
-        isAnswered = false;
-        selectedOption = null;
-        feedbackSheet.classList.remove('show');
         
-        const questionSteps = lessonSteps.filter(s => s.type === 'question');
-        const totalQuestions = questionSteps.length;
-        const completedQuestions = lessonSteps.slice(0, currentStepIndex).filter(s => s.type === 'question').length;
-        const pct = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
-        
-        progressBar.style.width = `${pct}%`;
-        progressText.textContent = `Passo ${currentStepIndex + 1} de ${lessonSteps.length} • ${pct}%`;
-
-        gameArea.innerHTML = '';
-        gameArea.className = 'main-content fade-in';
-
-        if (step.type === 'video') renderVideo(step);
-        else if (step.type === 'dialogue') renderDialogue(step);
-        else if (step.type === 'question') renderQuestion(step);
+        updateProgress();
     }
 
-    function renderVideo(step) {
-        gameArea.innerHTML = `
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <span class="skill-badge" style="background: #fee2e2; color: #b91c1c;">
-                    <i class="fa-solid fa-video"></i> Video Lesson
-                </span>
-            </div>
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/${step.videoId}" frameborder="0" allowfullscreen title="Video lesson"></iframe>
-            </div>
-            <p style="text-align: center; color: #777; font-size: 1rem;">${step.title}</p>
-        `;
+    function renderVideo() {
+        const videoData = tabsData.video;
+        document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${videoData.videoId}`;
         actionBtn.textContent = "Começar Exercícios";
         actionBtn.disabled = false;
-        actionBtn.onclick = nextStep;
+        actionBtn.onclick = () => switchTab('reading');
     }
 
-    function renderDialogue(step) {
-        const avatarClass = step.speaker === 'maria' ? 'speaker-maria' : 'speaker-john';
-        const icon = step.speaker === 'maria' ? '👩' : '🏻';
+    function renderExercise() {
+        const data = tabsData[currentTab];
+        const index = currentIndex[currentTab];
         
-        gameArea.innerHTML = `
-            <div class="dialogue-card">
-                <div class="speaker-header">
-                    <div class="speaker-avatar ${avatarClass}">${icon}</div>
-                    <span class="speaker-name">${step.name}</span>
-                    <button class="speaker-listen" onclick="speakText('${step.text.replace(/<[^>]*>/g, '')}')" aria-label="Ouvir">
-                        <i class="fa-solid fa-volume-high"></i>
-                    </button>
+        if (index >= data.length) {
+            document.getElementById(`tab-${currentTab}`).innerHTML = `
+                <div style="text-align:center;padding:3rem 1rem;">
+                    <div style="font-size:4rem;margin-bottom:1rem;">✅</div>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Seção Completa!</h3>
+                    <p style="color:#777;">Você completou ${currentTab}!</p>
                 </div>
-                <div class="speech-bubble">
-                    <p>${step.text}</p>
-                </div>
-            </div>
-        `;
-        actionBtn.textContent = "Continuar";
-        actionBtn.disabled = false;
-        actionBtn.onclick = nextStep;
-    }
-
-    function renderQuestion(step) {
-        const skillClasses = {
-            reading: 'skill-reading',
-            listening: 'skill-listening',
-            speaking: 'skill-speaking',
-            writing: 'skill-writing',
-            grammar: 'skill-grammar'
-        };
-        const skillIcons = {
-            reading: '<i class="fa-solid fa-book"></i>',
-            listening: '<i class="fa-solid fa-headphones"></i>',
-            speaking: '<i class="fa-solid fa-microphone"></i>',
-            writing: '<i class="fa-solid fa-pen"></i>',
-            grammar: '<i class="fa-solid fa-graduation-cap"></i>'
-        };
-
-        // Shuffle options for randomness
-        if (step.options) {
-            const originalAnswer = step.options[step.answer];
-            shuffledOptions = shuffle(step.options.map((opt, i) => ({ text: opt, isCorrect: i === step.answer })));
-            step.shuffledOptions = shuffledOptions;
-            step.shuffledAnswer = shuffledOptions.findIndex(o => o.isCorrect);
+            `;
+            actionBtn.style.display = 'none';
+            return;
         }
-
-        let html = `
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <span class="skill-badge ${skillClasses[step.skill]}">
-                    ${skillIcons[step.skill]} ${step.skill.charAt(0).toUpperCase() + step.skill.slice(1)}
-                </span>
-            </div>
-        `;
-
-        // Language badge
-        if (step.question.includes('inglês') || step.question.includes('Diga em') || step.question.includes('Escreva em inglês')) {
-            html += `<div style="text-align:center;"><span class="lang-badge lang-en"><i class="fa-solid fa-flag-usa"></i> Inglês</span></div>`;
-        } else if (step.question.includes('português') || step.question.includes('traduza')) {
-            html += `<div style="text-align:center;"><span class="lang-badge lang-pt"><i class="fa-solid fa-flag"></i> Português</span></div>`;
-        }
-
-        html += `<h2 class="question-title">${step.question}</h2>`;
-
-        if (step.textToSpeak) {
-            html += `<button class="audio-btn" onclick="speakText('${step.textToSpeak}')" aria-label="Ouvir áudio"><i class="fa-solid fa-volume-high"></i></button>`;
-        }
-
-        if (step.options) {
+        
+        const exercise = data[index];
+        actionBtn.style.display = 'block';
+        isAnswered = false;
+        selectedOption = null;
+        
+        let html = '';
+        
+        if (currentTab === 'reading' || currentTab === 'listening' || currentTab === 'grammar') {
+            html += `<div class="exercise-card">`;
+            html += `<h3 class="question-title">${exercise.q}</h3>`;
+            
+            if (currentTab === 'listening' && exercise.audio) {
+                html += `<button class="audio-btn" onclick="playAudio('${exercise.audio}')"><i class="fa-solid fa-volume-high"></i></button>`;
+            }
+            
             html += `<div class="options-grid">`;
-            shuffledOptions.forEach((opt, i) => {
-                html += `<div class="option-card" onclick="selectOption(this, ${i})" role="button" tabindex="0">${opt.text}</div>`;
+            exercise.options.forEach((opt, i) => {
+                html += `<button class="option-btn" onclick="selectOption(${i})">${opt}</button>`;
             });
+            html += `</div></div>`;
+            
+            actionBtn.textContent = "Verificar";
+            actionBtn.disabled = true;
+            actionBtn.onclick = checkAnswer;
+            
+        } else if (currentTab === 'speaking') {
+            html += `<div class="exercise-card">`;
+            html += `<h3 class="question-title">${exercise.q}</h3>`;
+            html += `<button class="record-btn" id="recordBtn" onclick="toggleRecording('${exercise.phrase}')"><i class="fa-solid fa-microphone"></i></button>`;
+            html += `<p style="text-align:center;color:#777;">Clique no microfone e fale</p>`;
+            html += `<div id="speakingResult" style="text-align:center;margin-top:1rem;font-weight:700;display:none;"></div>`;
             html += `</div>`;
-        } else if (step.expectedPhrase) {
-            html += `
-                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${step.expectedPhrase}')" aria-label="Gravar voz">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-                <p style="text-align: center; color: #777; margin-bottom: 1rem;">Clique no microfone e fale claramente</p>
-                <div id="speakingScore" style="text-align: center; font-weight: 700; display: none;"></div>
-            `;
-        } else if (step.answer && !step.options) {
-            html += `
-                <input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta em inglês..." oninput="enableCheck()" autocomplete="off" autocapitalize="off">
-            `;
+            
+            actionBtn.textContent = "Continuar";
+            actionBtn.disabled = true;
+            actionBtn.onclick = nextExercise;
+            
+        } else if (currentTab === 'writing') {
+            html += `<div class="exercise-card">`;
+            html += `<h3 class="question-title">${exercise.q}</h3>`;
+            html += `<input type="text" id="writingInput" class="writing-input" placeholder="Digite sua resposta..." oninput="enableCheck()">`;
+            html += `</div>`;
+            
+            actionBtn.textContent = "Verificar";
+            actionBtn.disabled = true;
+            actionBtn.onclick = checkAnswer;
         }
-
-        gameArea.innerHTML = html;
-
-        actionBtn.textContent = "Verificar";
-        actionBtn.className = 'action-btn btn-check';
-        actionBtn.onclick = checkAnswer;
-        actionBtn.disabled = true;
         
-        if (step.answer && !step.options) {
-            setTimeout(() => {
-                const input = document.getElementById('writingInput');
-                if (input) input.focus();
-            }, 100);
-        }
+        document.getElementById(`tab-${currentTab}`).innerHTML = html;
     }
 
-    window.selectOption = (el, index) => {
+    window.selectOption = (index) => {
         if (isAnswered) return;
-        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
+        document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelectorAll('.option-btn')[index].classList.add('selected');
         selectedOption = index;
         actionBtn.disabled = false;
     };
 
     window.enableCheck = () => {
         const val = document.getElementById('writingInput')?.value.trim();
-        actionBtn.disabled = !val || val.length === 0;
+        actionBtn.disabled = !val;
     };
 
     window.handleAction = () => {
-        if (isAnswered) nextStep();
+        if (isAnswered) nextExercise();
         else checkAnswer();
     };
 
@@ -917,22 +687,13 @@
         if (isAnswered) return;
         isAnswered = true;
         
-        const step = lessonSteps[currentStepIndex];
+        const data = tabsData[currentTab];
+        const exercise = data[currentIndex[currentTab]];
         let isCorrect = false;
-
-        if (step.options) {
-            const cards = document.querySelectorAll('.option-card');
-            const correctIndex = step.shuffledAnswer;
-            if (selectedOption === correctIndex) {
-                cards[selectedOption].classList.add('correct');
-                isCorrect = true;
-            } else {
-                cards[selectedOption].classList.add('wrong');
-                cards[correctIndex].classList.add('correct');
-            }
-        } else if (step.answer && !step.options) {
+        
+        if (currentTab === 'writing') {
             const input = document.getElementById('writingInput');
-            if (input.value.trim().toLowerCase() === step.answer.toLowerCase()) {
+            if (input.value.trim().toLowerCase() === exercise.answer.toLowerCase()) {
                 input.style.borderColor = '#58cc02';
                 input.style.background = '#dcfce7';
                 isCorrect = true;
@@ -940,231 +701,216 @@
                 input.style.borderColor = '#ff4b4b';
                 input.style.background = '#fee2e2';
             }
-        } else if (step.expectedPhrase) {
-            return;
+        } else {
+            const buttons = document.querySelectorAll('.option-btn');
+            if (selectedOption === exercise.answer) {
+                buttons[selectedOption].classList.add('correct');
+                isCorrect = true;
+            } else {
+                buttons[selectedOption].classList.add('wrong');
+                buttons[exercise.answer].classList.add('correct');
+            }
         }
+        
+        showFeedback(isCorrect, exercise);
+    };
 
-        showFeedback(isCorrect, step);
+    window.playAudio = (text) => {
+        // Cancel any current speech
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            
+            // Get English voice
+            const voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+            if (enVoice) utterance.voice = enVoice;
+            
+            const btn = document.querySelector('.audio-btn');
+            if (btn) {
+                btn.classList.add('playing');
+                setTimeout(() => btn.classList.remove('playing'), 500);
+            }
+            
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert('Seu navegador não suporta áudio. Use Chrome ou Edge.');
+        }
     };
 
     window.toggleRecording = (expectedPhrase) => {
         const btn = document.getElementById('recordBtn');
-        const scoreDiv = document.getElementById('speakingScore');
+        const resultDiv = document.getElementById('speakingResult');
         
         if (!btn.classList.contains('recording')) {
-            if (!('webkitSpeechRecognition' in window)) {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                 alert('Use Chrome ou Edge para reconhecimento de voz.');
                 return;
             }
             
-            recognition = new webkitSpeechRecognition();
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
             recognition.continuous = false;
-            recognition.interimResults = false;
             
             btn.classList.add('recording');
             btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-            scoreDiv.style.display = 'block';
-            scoreDiv.innerHTML = '<span style="color: #1cb0f6;"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<span style="color:#1cb0f6;"><i class="fa-solid fa-spinner fa-spin"></i> Ouvindo...</span>';
             
             recognition.onresult = (event) => {
-                let transcript = event.results[0][0].transcript.trim().toLowerCase();
+                const transcript = event.results[0][0].transcript.trim().toLowerCase();
                 const confidence = event.results[0][0].confidence;
                 
-                const numMap = {
-                    '0':'zero','1':'one','2':'two','3':'three','4':'four','5':'five',
-                    '6':'six','7':'seven','8':'eight','9':'nine','10':'ten',
-                    '11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen',
-                    '16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen',
-                    '20':'twenty','21':'twenty-one','22':'twenty-two','23':'twenty-three',
-                    '24':'twenty-four','25':'twenty-five','26':'twenty-six','27':'twenty-seven',
-                    '28':'twenty-eight','29':'twenty-nine','30':'thirty',
-                    '40':'forty','50':'fifty','60':'sixty','70':'seventy','80':'eighty',
-                    '90':'ninety','100':'one hundred'
-                };
-                
-                Object.keys(numMap).forEach(num => {
-                    transcript = transcript.replace(new RegExp(`\\b${num}\\b`, 'g'), numMap[num]);
+                // Convert numbers to words
+                const numMap = { '11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen',
+                    '16':'sixteen','17':'seventeen','18':'eighteen','19':'nineteen','20':'twenty' };
+                let cleanTranscript = transcript;
+                Object.keys(numMap).forEach(k => {
+                    cleanTranscript = cleanTranscript.replace(k, numMap[k]);
                 });
                 
-                transcript = transcript.replace(/[.,!?]/g, '').trim();
-                const expected = expectedPhrase.toLowerCase().replace(/[.,!?]/g, '');
-                
-                const isMatch = transcript.includes(expected) || expected.includes(transcript) ||
-                               transcript.replace(/[-\s]/g, '') === expected.replace(/[-\s]/g, '');
-                
+                const isMatch = cleanTranscript.includes(expectedPhrase) || expectedPhrase.includes(cleanTranscript);
                 const accuracy = Math.round((isMatch ? 1 : 0) * confidence * 100);
                 
-                scoreDiv.innerHTML = `
-                    <div style="margin-bottom: 0.5rem;">
-                        <span style="color: ${accuracy >= 60 ? '#58cc02' : '#ff4b4b'}; font-size: 1.1rem;">
+                resultDiv.innerHTML = `
+                    <div style="margin-bottom:0.5rem;">
+                        <span style="color:${accuracy >= 60 ? '#58cc02' : '#ff4b4b'};">
                             ${accuracy}% de precisão
                         </span>
                     </div>
-                    <div style="font-size: 0.85rem; color: #777;">Você disse: "${transcript}"</div>
+                    <div style="font-size:0.85rem;color:#777;">Você disse: "${transcript}"</div>
                 `;
                 
-                showFeedback(accuracy >= 50, lessonSteps[currentStepIndex]);
+                if (accuracy >= 50) {
+                    score += 10;
+                    streak++;
+                    xpDisplay.textContent = score;
+                    streakDisplay.textContent = streak;
+                    saveProgress();
+                }
                 
                 btn.classList.remove('recording');
                 btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                actionBtn.disabled = false;
             };
             
             recognition.onerror = () => {
                 btn.classList.remove('recording');
                 btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                scoreDiv.innerHTML = '<span style="color: #ff4b4b;">Erro ao ouvir. Tente novamente.</span>';
+                resultDiv.innerHTML = '<span style="color:#ff4b4b;">Erro. Tente novamente.</span>';
             };
             
             recognition.start();
         }
     };
 
-    function showFeedback(isCorrect, step) {
+    function showFeedback(isCorrect, exercise) {
+        const overlay = document.getElementById('feedbackOverlay');
+        const sheet = document.getElementById('feedbackSheet');
         const icon = document.getElementById('feedbackIcon');
         const title = document.getElementById('feedbackTitle');
         const msg = document.getElementById('feedbackMsg');
-        const explanation = document.getElementById('feedbackExplanation');
-        const retryBtn = document.getElementById('retryBtn');
-        const continueBtn = document.getElementById('continueBtn');
-
-        feedbackSheet.classList.remove('correct', 'wrong');
+        
+        overlay.classList.add('show');
+        sheet.classList.remove('correct', 'wrong');
         
         if (isCorrect) {
-            feedbackSheet.classList.add('correct');
-            icon.innerHTML = '<i class="fa-solid fa-check" style="color: #58cc02;"></i>';
+            sheet.classList.add('correct');
+            icon.innerHTML = '<i class="fa-solid fa-check" style="color:#58cc02;"></i>';
             title.textContent = "Correto! 🎉";
             title.style.color = '#15803d';
             msg.textContent = `+10 XP • Sequência: ${streak + 1}`;
-            explanation.classList.add('hidden');
-            retryBtn.classList.add('hidden');
             
             score += 10;
             streak++;
             xpDisplay.textContent = score;
             streakDisplay.textContent = streak;
-            
-            saveProgressToFirebase();
-            if (currentUser) {
-                updateDoc(doc(db, "usuarios", currentUser.uid), {
-                    xp: score,
-                    streak: streak
-                }).catch(console.error);
-            }
+            saveProgress();
         } else {
-            feedbackSheet.classList.add('wrong');
-            icon.innerHTML = '<i class="fa-solid fa-rotate-right" style="color: #ff4b4b;"></i>';
+            sheet.classList.add('wrong');
+            icon.innerHTML = '<i class="fa-solid fa-rotate-right" style="color:#ff4b4b;"></i>';
             title.textContent = "Não foi dessa vez 💪";
             title.style.color = '#b91c1c';
             
             let correctAnswer = '';
-            if (step.options) correctAnswer = step.shuffledOptions ? step.shuffledOptions.find(o => o.isCorrect)?.text : step.options[step.answer];
-            else if (step.answer) correctAnswer = step.answer;
-            else if (step.expectedPhrase) correctAnswer = step.expectedPhrase;
+            if (exercise.options) correctAnswer = exercise.options[exercise.answer];
+            else if (exercise.answer) correctAnswer = exercise.answer;
             
             msg.textContent = `Resposta correta: ${correctAnswer}`;
-            
-            // Show explanation
-            if (step.explanation) {
-                explanation.textContent = `💡 ${step.explanation}`;
-                explanation.classList.remove('hidden');
-            } else {
-                const skillExplanations = explanations[step.skill] || explanations.reading;
-                explanation.textContent = skillExplanations[Math.floor(Math.random() * skillExplanations.length)];
-                explanation.classList.remove('hidden');
-            }
-            
-            retryBtn.classList.remove('hidden');
-            
             streak = 0;
             streakDisplay.textContent = streak;
         }
-
-        feedbackSheet.classList.add('show');
+        
+        sheet.classList.add('show');
         actionBtn.style.display = 'none';
     }
 
-    window.retryCurrent = () => {
-        feedbackSheet.classList.remove('show');
-        isAnswered = false;
-        selectedOption = null;
-        renderStep();
+    window.closeFeedback = () => {
+        document.getElementById('feedbackOverlay').classList.remove('show');
+        document.getElementById('feedbackSheet').classList.remove('show');
+        nextExercise();
+    };
+
+    function nextExercise() {
+        currentIndex[currentTab]++;
+        saveProgress();
+        renderExercise();
+        updateProgress();
         actionBtn.style.display = 'block';
-    };
-
-    window.nextStep = () => {
-        feedbackSheet.classList.remove('show');
-        currentStepIndex++;
-        saveProgressToFirebase();
-        setTimeout(() => {
-            renderStep();
-            actionBtn.style.display = 'block';
-        }, 300);
-    };
-
-    window.speakText = (text) => {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // Stop any current speech
-            const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''));
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            utterance.pitch = 1;
-            
-            // Try to get a good English voice
-            const voices = window.speechSynthesis.getVoices();
-            const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
-                                voices.find(v => v.lang.startsWith('en-US')) ||
-                                voices.find(v => v.lang.startsWith('en'));
-            if (englishVoice) utterance.voice = englishVoice;
-            
-            window.speechSynthesis.speak(utterance);
-        }
-    };
-
-    // Load voices
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.onvoiceschanged = () => {};
     }
 
-    function showCompletion() {
-        const totalQuestions = lessonSteps.filter(s => s.type === 'question').length;
-        gameArea.innerHTML = `
-            <div style="text-align: center; padding: 2rem 1rem;">
-                <div style="font-size: 5rem; margin-bottom: 1.5rem;">🏆</div>
-                <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; color: #58cc02;">
-                    Lição Completa!
-                </h2>
-                <p style="font-size: 1.25rem; margin-bottom: 1.5rem;">Você ganhou <strong style="color: #58cc02;">${score} XP</strong></p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 280px; margin: 0 auto 2rem;">
-                    <div style="background: white; padding: 1.25rem; border-radius: 16px; border: 3px solid #58cc02;">
-                        <div style="font-size: 1.75rem; font-weight: 800; color: #58cc02;">${streak}</div>
-                        <div style="font-size: 0.8rem; color: #777;">Melhor Sequência</div>
-                    </div>
-                    <div style="background: white; padding: 1.25rem; border-radius: 16px; border: 3px solid #1cb0f6;">
-                        <div style="font-size: 1.75rem; font-weight: 800; color: #1cb0f6;">${totalQuestions}</div>
-                        <div style="font-size: 0.8rem; color: #777;">Exercícios</div>
-                    </div>
-                </div>
-                
-                <p style="color: #777; margin-bottom: 1.5rem;">Progresso salvo automaticamente!</p>
-                
-                <button onclick="window.location.href='index.html'" class="action-btn btn-continue" style="max-width: 280px; margin: 0 auto;">
-                    <i class="fa-solid fa-house mr-2"></i> Voltar para Home
-                </button>
-            </div>
-        `;
-        document.querySelector('.bottom-bar').style.display = 'none';
-        progressBar.style.width = '100%';
-        progressText.textContent = 'Concluído! 🎉';
+    function saveProgress() {
+        if (!currentUser) return;
         
-        if (currentUser) {
-            updateDoc(doc(db, "usuarios", currentUser.uid), {
-                'progresso.u02_completed': true,
-                'progresso.u02_date': new Date().toISOString(),
-                'progresso.u02_finalScore': score
-            }).catch(console.error);
-        }
+        const progressData = {};
+        Object.keys(currentIndex).forEach(tab => {
+            progressData[`progresso.u02_${tab}`] = currentIndex[tab];
+        });
+        
+        updateDoc(doc(db, "usuarios", currentUser.uid), {
+            xp: score,
+            streak: streak,
+            ...progressData,
+            'progresso.u02_lastUpdate': new Date().toISOString()
+        }).catch(console.error);
+    }
+
+    function updateProgress() {
+        const totalExercises = Object.values(tabsData).reduce((acc, tab) => {
+            if (Array.isArray(tab)) return acc + tab.length;
+            return acc;
+        }, 0);
+        
+        const completedExercises = Object.values(currentIndex).reduce((a, b) => a + b, 0);
+        const pct = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
+        
+        progressBar.style.width = `${pct}%`;
+        progressText.textContent = `${pct}% completo (${completedExercises}/${totalExercises})`;
+        
+        // Update tab completion indicators
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            const tabName = btn.textContent.toLowerCase().split(' ')[0];
+            const tabData = tabsData[tabName];
+            if (tabData && Array.isArray(tabData) && currentIndex[tabName] >= tabData.length) {
+                btn.classList.add('completed');
+            }
+        });
+    }
+
+    window.saveAndExit = async () => {
+        actionBtn.disabled = true;
+        actionBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Salvando...';
+        await saveProgress();
+        window.location.href = 'index.html';
+    };
+
+    // Load voices on page load
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = () => {};
     }
 </script>
 </body>
