@@ -11,28 +11,16 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#22c55e',
-                        secondary: '#3b82f6',
-                        accent: '#f59e0b',
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#22c55e', secondary: '#3b82f6', accent: '#f59e0b' }
                 }
             }
         }
     </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
-        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
         
-        /* HEADER */
         .header {
             background: white;
             border-bottom: 1px solid #e2e8f0;
@@ -46,418 +34,133 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: #22c55e;
-        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #22c55e; }
+        .progress-section { flex: 1; max-width: 600px; margin: 0 2rem; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.5rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
         
-        .progress-section {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 2rem;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #22c55e, #16a34a);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-        
-        .stats {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        
+        .stats { display: flex; gap: 1.5rem; align-items: center; }
+        .stat { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.9rem; }
         .stat-fire { color: #f59e0b; }
         .stat-bolt { color: #3b82f6; }
         
-        .menu-btn {
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-            color: #64748b;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        .menu-btn:hover { background: #f1f5f9; color: #1e293b; }
+        .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
+        .menu-btn:hover { background: #f1f5f9; }
         
-        /* TABS */
-        .tabs {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 2rem;
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-        }
-        
+        .tabs { background: white; border-bottom: 1px solid #e2e8f0; padding: 0 2rem; display: flex; gap: 0.5rem; overflow-x: auto; }
         .tab {
-            padding: 1rem 1.5rem;
-            border: none;
-            background: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #64748b;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; font-size: 0.9rem;
+            color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.5rem;
         }
         .tab:hover { color: #1e293b; background: #f8fafc; }
-        .tab.active {
-            color: #22c55e;
-            border-bottom-color: #22c55e;
-        }
-        .tab.completed { color: #16a34a; }
-        .tab.completed::after {
-            content: '✓';
-            margin-left: 0.25rem;
-        }
+        .tab.active { color: #22c55e; border-bottom-color: #22c55e; }
         
-        /* MAIN CONTENT */
-        .main {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: calc(100vh - 200px);
-        }
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 200px); }
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-subtitle { color: #64748b; margin-bottom: 2rem; }
         
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-        }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         
-        .section-subtitle {
-            color: #64748b;
-            margin-bottom: 2rem;
-        }
-        
-        /* CARDS */
-        .card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        /* READING TEXT */
-        .reading-text {
-            font-size: 1.1rem;
-            line-height: 2;
-            color: #334155;
-        }
-        
+        .reading-text { font-size: 1.1rem; line-height: 2; color: #334155; margin-bottom: 1rem; }
         .highlight {
             background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
-            padding: 0 0.25rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
+            background-repeat: no-repeat; background-size: 100% 40%; background-position: 0 88%;
+            padding: 0 0.25rem; font-weight: 700; cursor: pointer;
         }
-        .highlight:hover {
-            background-size: 100% 100%;
-            transform: translateY(-2px);
-        }
+        .highlight:hover { background-size: 100% 100%; }
         
         .tts-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: #3b82f6; color: white; border: none; border-radius: 8px;
+            font-weight: 600; cursor: pointer; margin-top: 1rem;
         }
-        .tts-btn:hover { background: #2563eb; transform: translateY(-1px); }
         .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
         @keyframes pulse { 50% { opacity: 0.7; } }
         
-        /* VIDEO */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            background: #000;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 1.5rem; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
-        /* OPTIONS */
-        .options {
-            display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
+        .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
         .option {
-            padding: 1.25rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
         }
-        .option:hover {
-            border-color: #3b82f6;
-            background: #f8fafc;
-            transform: translateX(4px);
-        }
-        .option.selected {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        .option.correct {
-            border-color: #22c55e;
-            background: #f0fdf4;
-        }
-        .option.wrong {
-            border-color: #ef4444;
-            background: #fef2f2;
-            animation: shake 0.5s;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
+        .option:hover { border-color: #3b82f6; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .option.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
         
-        /* SPEAKING */
         .record-btn {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin: 2rem auto;
-            cursor: pointer;
-            border: none;
+            width: 120px; height: 120px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            margin: 2rem auto; cursor: pointer; border: none;
             box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
             transition: all 0.15s;
         }
-        .record-btn:active {
-            transform: translateY(8px);
-            box-shadow: 0 0 0 #b91c1c, 0 4px 8px rgba(239, 68, 68, 0.3);
-        }
-        .record-btn.recording {
-            animation: recording-pulse 1s infinite;
-        }
-        @keyframes recording-pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 10px 0 #b91c1c, 0 16px 32px rgba(239, 68, 68, 0.5); }
-        }
+        .record-btn:active { transform: translateY(8px); box-shadow: 0 0 0 #b91c1c; }
+        .record-btn.recording { animation: recording-pulse 1s infinite; }
+        @keyframes recording-pulse { 50% { transform: scale(1.05); } }
         
-        .score-display {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 1rem 0;
-        }
+        .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
         .score-display.good { color: #22c55e; }
         .score-display.bad { color: #ef4444; }
         
-        /* GRAMMAR EXPLANATION */
         .grammar-box {
-            background: #f0f9ff;
-            border-left: 4px solid #3b82f6;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
+            background: #f0f9ff; border-left: 4px solid #3b82f6;
+            padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;
         }
-        .grammar-box h4 {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: #1e40af;
-        }
-        .grammar-box ul {
-            margin-left: 1.5rem;
-            color: #475569;
-        }
-        .grammar-box li {
-            margin-bottom: 0.5rem;
-        }
+        .grammar-box h4 { font-weight: 700; margin-bottom: 0.75rem; color: #1e40af; }
+        .grammar-box ul { margin-left: 1.5rem; color: #475569; }
+        .grammar-box li { margin-bottom: 0.5rem; }
         
-        /* ACTIONS */
-        .actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e2e8f0;
-        }
+        .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; }
         
         .btn {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            flex: 1; padding: 1rem; border: none; border-radius: 12px; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
+        .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
+        .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
         
-        .btn-primary {
-            background: #22c55e;
-            color: white;
-            box-shadow: 0 4px 0 #16a34a;
-        }
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #16a34a;
-        }
-        .btn-primary:active:not(:disabled) {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 #16a34a;
-        }
-        .btn-primary:disabled {
-            background: #cbd5e1;
-            color: #94a3b8;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
         
-        .btn-secondary {
-            background: #f1f5f9;
-            color: #475569;
-            border: 2px solid #e2e8f0;
-        }
-        .btn-secondary:hover {
-            background: #e2e8f0;
-        }
+        .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
         
-        .btn-retry {
-            background: #f59e0b;
-            color: white;
-            box-shadow: 0 4px 0 #d97706;
-        }
-        .btn-retry:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #d97706;
-        }
+        .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
+        .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* FEEDBACK */
-        .feedback {
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 1.5rem;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-        .feedback.show { display: block; }
-        .feedback.correct {
-            background: #f0fdf4;
-            border: 2px solid #22c55e;
-        }
-        .feedback.wrong {
-            background: #fef2f2;
-            border: 2px solid #ef4444;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* INPUT */
         .input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.2s;
+            width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px;
+            font-size: 1.1rem; font-weight: 600; transition: all 0.2s;
         }
-        .input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+        .input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
         
-        /* SETTINGS MENU */
         .settings-menu {
-            position: fixed;
-            top: 80px;
-            right: 2rem;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            z-index: 200;
-            display: none;
-            min-width: 200px;
+            position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 200; display: none; min-width: 200px;
         }
         .settings-menu.show { display: block; }
-        
-        .settings-item {
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: all 0.2s;
-        }
+        .settings-item { padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; }
         .settings-item:hover { background: #f8fafc; }
+        
+        .audio-btn {
+            background: #3b82f6; color: white; border: none; width: 100%; max-width: 250px;
+            padding: 1.25rem; border-radius: 16px; font-size: 2rem; cursor: pointer;
+            margin: 0 auto 1.5rem; display: block; box-shadow: 0 4px 0 #2563eb;
+        }
+        .audio-btn:active { transform: translateY(4px); box-shadow: none; }
+        .audio-btn.playing { animation: pulse 0.5s; }
         
         @media (max-width: 768px) {
             .header { padding: 1rem; }
@@ -470,76 +173,35 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="header">
-        <div class="logo">
-            <i class="fa-solid fa-graduation-cap"></i>
-            EnglishPath
-        </div>
-        
+        <div class="logo"><i class="fa-solid fa-graduation-cap"></i> EnglishPath</div>
         <div class="progress-section">
-            <div class="progress-bar">
-                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
-            </div>
+            <div class="progress-bar"><div id="progressBar" class="progress-fill" style="width: 0%"></div></div>
             <div style="font-size: 0.85rem; color: #64748b; text-align: center;">
                 <span id="currentStep">0</span> de <span id="totalSteps">0</span> exercícios
             </div>
         </div>
-        
         <div class="stats">
-            <div class="stat stat-fire">
-                <i class="fa-solid fa-fire"></i>
-                <span id="streakDisplay">0</span>
-            </div>
-            <div class="stat stat-bolt">
-                <i class="fa-solid fa-bolt"></i>
-                <span id="xpDisplay">0</span>
-            </div>
-            <button class="menu-btn" onclick="toggleSettings()">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
+            <div class="stat stat-fire"><i class="fa-solid fa-fire"></i><span id="streakDisplay">0</span></div>
+            <div class="stat stat-bolt"><i class="fa-solid fa-bolt"></i><span id="xpDisplay">0</span></div>
+            <button class="menu-btn" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
     </div>
 
-    <!-- SETTINGS MENU -->
     <div class="settings-menu" id="settingsMenu">
-        <div class="settings-item" onclick="saveAndExit()">
-            <i class="fa-solid fa-house"></i>
-            Voltar para Home
-        </div>
-        <div class="settings-item" onclick="resetProgress()">
-            <i class="fa-solid fa-rotate-right"></i>
-            Reiniciar Lição
-        </div>
-        <div class="settings-item" onclick="toggleTheme()">
-            <i class="fa-solid fa-moon"></i>
-            Modo Escuro
-        </div>
+        <div class="settings-item" onclick="saveAndExit()"><i class="fa-solid fa-house"></i> Voltar para Home</div>
+        <div class="settings-item" onclick="resetProgress()"><i class="fa-solid fa-rotate-right"></i> Reiniciar Lição</div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
-        <button class="tab active" onclick="switchTab('video')">
-            <i class="fa-solid fa-video"></i> Video
-        </button>
-        <button class="tab" onclick="switchTab('reading')">
-            <i class="fa-solid fa-book-open"></i> Reading
-        </button>
-        <button class="tab" onclick="switchTab('listening')">
-            <i class="fa-solid fa-headphones"></i> Listening
-        </button>
-        <button class="tab" onclick="switchTab('speaking')">
-            <i class="fa-solid fa-microphone"></i> Speaking
-        </button>
-        <button class="tab" onclick="switchTab('grammar')">
-            <i class="fa-solid fa-spell-check"></i> Grammar
-        </button>
+        <button class="tab active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+        <button class="tab" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+        <button class="tab" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+        <button class="tab" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+        <button class="tab" onclick="switchTab('grammar')"><i class="fa-solid fa-spell-check"></i> Grammar</button>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main" id="mainContent">
-        <!-- Dynamic content -->
-    </div>
+    <div class="main" id="mainContent"></div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -560,55 +222,22 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== COMPREHENSIVE DATA =====
     const lessonData = {
-        video: {
-            url: 'YuXFxvTbviI',
-            title: 'Numbers 1-100 - Complete Guide',
-            startTime: 0,
-            endTime: 600
-        },
+        video: { url: 'YuXFxvTbviI', title: 'Numbers 1-100', startTime: 0, endTime: 600 },
         
         reading: {
-            text: `Hello! My name is <span class="highlight" data-word="Maria">Maria</span>. I am <span class="highlight" data-word="twenty-five">twenty-five</span> years old. I live in <span class="highlight" data-word="Brazil">Brazil</span> with my family.
+            text: `Hello! My name is <span class="highlight">Maria</span>. I am <span class="highlight">twenty-five</span> years old. I live in <span class="highlight">Brazil</span>.
 
-I have <span class="highlight" data-word="three">three</span> brothers and <span class="highlight" data-word="two">two</span> sisters. My oldest brother is <span class="highlight" data-word="thirty">thirty</span> years old. My youngest sister is <span class="highlight" data-word="twelve">twelve</span>.
+I have <span class="highlight">three</span> brothers and <span class="highlight">two</span> sisters. My oldest brother is <span class="highlight">thirty</span> years old.
 
-My phone number is <span class="highlight" data-word="five-five-five">five-five-five</span>, <span class="highlight" data-word="one-two-three-four">one-two-three-four</span>. I work at a big company with about <span class="highlight" data-word="fifty">fifty</span> people.
-
-My favorite number is <span class="highlight" data-word="seven">seven</span> because it's lucky. My apartment is on <span class="highlight" data-word="forty-second">forty-second</span> Street, number <span class="highlight" data-word="one-hundred">one hundred</span>.`,
+My phone number is <span class="highlight">five-five-five</span>, <span class="highlight">one-two-three-four</span>.`,
             
             questions: [
-                {
-                    q: 'How old is Maria?',
-                    options: ['20 years old', '25 years old', '30 years old', '35 years old'],
-                    answer: 1,
-                    explanation: 'Maria says "I am twenty-five years old"'
-                },
-                {
-                    q: 'How many siblings does Maria have?',
-                    options: ['3', '4', '5', '6'],
-                    answer: 2,
-                    explanation: 'She has 3 brothers + 2 sisters = 5 siblings'
-                },
-                {
-                    q: 'What is Maria\'s phone number?',
-                    options: ['555-4321', '555-1234', '555-5678', '555-9876'],
-                    answer: 1,
-                    explanation: 'She says "five-five-five, one-two-three-four"'
-                },
-                {
-                    q: 'Where does Maria live?',
-                    options: ['USA', 'England', 'Brazil', 'Canada'],
-                    answer: 2,
-                    explanation: 'She says "I live in Brazil"'
-                },
-                {
-                    q: 'What is Maria\'s favorite number?',
-                    options: ['7', '12', '25', '50'],
-                    answer: 0,
-                    explanation: 'She says "My favorite number is seven"'
-                }
+                { q: 'How old is Maria?', options: ['20 years old', '25 years old', '30 years old', '35 years old'], answer: 1, explanation: 'Maria says "I am twenty-five years old"' },
+                { q: 'How many siblings does Maria have?', options: ['3', '4', '5', '6'], answer: 2, explanation: '3 brothers + 2 sisters = 5 siblings' },
+                { q: 'What is Maria\'s phone number?', options: ['555-4321', '555-1234', '555-5678', '555-9876'], answer: 1, explanation: 'She says "five-five-five, one-two-three-four"' },
+                { q: 'Where does Maria live?', options: ['USA', 'England', 'Brazil', 'Canada'], answer: 2, explanation: 'She says "I live in Brazil"' },
+                { q: 'How old is Maria\'s oldest brother?', options: ['25', '30', '35', '40'], answer: 1, explanation: 'She says "My oldest brother is thirty years old"' }
             ]
         },
         
@@ -644,120 +273,43 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
             explanations: [
                 {
                     title: 'Cardinal Numbers (1-20)',
-                    content: `
-                        <p>Cardinal numbers are used for counting:</p>
-                        <ul>
-                            <li><strong>1-12:</strong> one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve</li>
-                            <li><strong>13-19:</strong> Add "-teen": thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen</li>
-                            <li><strong>20:</strong> twenty</li>
-                        </ul>
-                        <p><strong>Important:</strong> Notice the spelling changes:</p>
-                        <ul>
-                            <li>three → thirteen (not "threeteen")</li>
-                            <li>five → fifteen (not "fiveteen")</li>
-                            <li>eight → eighteen (only one 't')</li>
-                        </ul>
-                    `
+                    content: `<p><strong>1-12:</strong> one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve</p><p><strong>13-19:</strong> Add "-teen": thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen</p><p><strong>Note:</strong> three → thirteen, five → fifteen</p>`
                 },
                 {
                     title: 'Tens (20-90)',
-                    content: `
-                        <p>For multiples of ten:</p>
-                        <ul>
-                            <li><strong>20:</strong> twenty</li>
-                            <li><strong>30:</strong> thirty (note: no 'u' from three)</li>
-                            <li><strong>40:</strong> forty (not "fourty" - common mistake!)</li>
-                            <li><strong>50:</strong> fifty (five → fif)</li>
-                            <li><strong>60:</strong> sixty</li>
-                            <li><strong>70:</strong> seventy</li>
-                            <li><strong>80:</strong> eighty (only one 't')</li>
-                            <li><strong>90:</strong> ninety</li>
-                        </ul>
-                    `
+                    content: `<p><strong>20:</strong> twenty<br><strong>30:</strong> thirty (no 'u')<br><strong>40:</strong> forty (NOT "fourty")<br><strong>50:</strong> fifty<br><strong>60:</strong> sixty<br><strong>70:</strong> seventy<br><strong>80:</strong> eighty<br><strong>90:</strong> ninety</p>`
                 },
                 {
                     title: 'Compound Numbers (21-99)',
-                    content: `
-                        <p>For numbers between 21-99, use a <strong>hyphen</strong>:</p>
-                        <ul>
-                            <li>21 = twenty-one</li>
-                            <li>35 = thirty-five</li>
-                            <li>42 = forty-two</li>
-                            <li>88 = eighty-eight</li>
-                            <li>99 = ninety-nine</li>
-                        </ul>
-                        <p><strong>Rule:</strong> Always use hyphen between tens and units</p>
-                    `
+                    content: `<p>Use a <strong>hyphen</strong> between tens and units:</p><p>21 = twenty-one<br>35 = thirty-five<br>42 = forty-two<br>99 = ninety-nine</p>`
                 },
                 {
-                    title: 'Ordinal Numbers',
-                    content: `
-                        <p>Ordinal numbers show position or order:</p>
-                        <ul>
-                            <li><strong>1st:</strong> first (irregular)</li>
-                            <li><strong>2nd:</strong> second (irregular)</li>
-                            <li><strong>3rd:</strong> third (irregular)</li>
-                            <li><strong>4th-20th:</strong> Add "-th": fourth, fifth, sixth... twentieth</li>
-                            <li><strong>21st:</strong> twenty-first</li>
-                            <li><strong>22nd:</strong> twenty-second</li>
-                            <li><strong>23rd:</strong> twenty-third</li>
-                            <li><strong>24th-30th:</strong> twenty-fourth... thirtieth</li>
-                        </ul>
-                        <p><strong>Special spellings:</strong></p>
-                        <ul>
-                            <li>five → fifth (ve → f)</li>
-                            <li>twelve → twelfth (ve → f)</li>
-                            <li>twenty → twentieth (y → ie)</li>
-                        </ul>
-                    `
+                    title: 'Ordinal Numbers (1st-20th)',
+                    content: `<p><strong>1st:</strong> first<br><strong>2nd:</strong> second<br><strong>3rd:</strong> third<br><strong>4th-20th:</strong> Add "-th"</p><p><strong>Special:</strong> five → fifth, twelve → twelfth, twenty → twentieth</p>`
+                },
+                {
+                    title: 'Hundreds and Thousands',
+                    content: `<p><strong>100:</strong> one hundred (or a hundred)<br><strong>1000:</strong> one thousand</p><p>In British English, use "and":<br>105 = one hundred and five<br>250 = two hundred and fifty</p>`
                 }
             ],
             
             exercises: [
-                {
-                    q: 'How do you write 21?',
-                    options: ['Twenty one', 'Twenty-one', 'Twentyone', 'Twenty and one'],
-                    answer: 1,
-                    explanation: 'Use a hyphen: twenty-one'
-                },
-                {
-                    q: 'What is the ordinal for 1?',
-                    options: ['Oneth', 'First', 'One', 'Onest'],
-                    answer: 1,
-                    explanation: '1st = first (irregular form)'
-                },
-                {
-                    q: 'How do you spell 40?',
-                    options: ['Fourty', 'Forty', 'Four-zero', 'Forte'],
-                    answer: 1,
-                    explanation: 'Forty (no \'u\' - common mistake is "fourty")'
-                },
-                {
-                    q: 'What is the ordinal for 5?',
-                    options: ['Fiveth', 'Fifth', 'Five', 'Fivety'],
-                    answer: 1,
-                    explanation: '5th = fifth (ve changes to f)'
-                },
-                {
-                    q: 'How do you write 100?',
-                    options: ['Ten tens', 'One hundred', 'Hundred one', 'Ten hundred'],
-                    answer: 1,
-                    explanation: '100 = one hundred (or a hundred)'
-                }
+                { q: 'How do you write 21?', options: ['Twenty one', 'Twenty-one', 'Twentyone', 'Twenty and one'], answer: 1, explanation: 'Use a hyphen: twenty-one' },
+                { q: 'What is the ordinal for 1?', options: ['Oneth', 'First', 'One', 'Onest'], answer: 1, explanation: '1st = first (irregular)' },
+                { q: 'How do you spell 40?', options: ['Fourty', 'Forty', 'Four-zero', 'Forte'], answer: 1, explanation: 'Forty (no \'u\')' },
+                { q: 'What is the ordinal for 5?', options: ['Fiveth', 'Fifth', 'Five', 'Fivety'], answer: 1, explanation: '5th = fifth (ve → f)' },
+                { q: 'How do you write 100?', options: ['Ten tens', 'One hundred', 'Hundred one', 'Ten hundred'], answer: 1, explanation: '100 = one hundred' },
+                { q: 'How do you write 35?', options: ['Thirty five', 'Thirty-five', 'Thirtyfive', 'Three five'], answer: 1, explanation: 'Use hyphen: thirty-five' },
+                { q: 'What is 2nd?', options: ['Two', 'Second', 'Twoth', 'Twice'], answer: 1, explanation: '2nd = second (irregular)' }
             ]
         }
     };
 
     let currentTab = 'video';
     let currentIndex = { reading: 0, listening: 0, speaking: 0, grammar: 0 };
-    let score = 0;
-    let streak = 0;
-    let isAnswered = false;
-    let selectedOption = null;
-    let recognition = null;
-    let ttsPlaying = false;
+    let score = 0, streak = 0, isAnswered = false, selectedOption = null;
+    let recognition = null, ttsPlaying = false, silenceTimer = null;
 
-    // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             currentUser = user;
@@ -772,24 +324,17 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
                     
                     if (data.progresso) {
                         ['reading', 'listening', 'speaking', 'grammar'].forEach(tab => {
-                            const key = `u02_${tab}`;
-                            const val = data.progresso[key];
-                            if (typeof val === 'number' && !isNaN(val)) {
-                                currentIndex[tab] = val;
-                            }
+                            const val = data.progresso[`u02_${tab}`];
+                            if (typeof val === 'number' && !isNaN(val)) currentIndex[tab] = val;
                         });
                     }
                 }
-            } catch (error) {
-                console.error("Error:", error);
-            }
+            } catch (error) { console.error("Error:", error); }
         }
-        
         renderCurrentTab();
         updateProgress();
     });
 
-    // ===== TABS =====
     window.switchTab = (tab) => {
         currentTab = tab;
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -799,25 +344,15 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
 
     function renderCurrentTab() {
         const main = document.getElementById('mainContent');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         
         switch(currentTab) {
-            case 'video':
-                renderVideo();
-                break;
-            case 'reading':
-                renderReading();
-                break;
-            case 'listening':
-                renderListening();
-                break;
-            case 'speaking':
-                renderSpeaking();
-                break;
-            case 'grammar':
-                renderGrammar();
-                break;
+            case 'video': renderVideo(); break;
+            case 'reading': renderReading(); break;
+            case 'listening': renderListening(); break;
+            case 'speaking': renderSpeaking(); break;
+            case 'grammar': renderGrammar(); break;
         }
-        
         updateProgress();
     }
 
@@ -828,26 +363,23 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         main.innerHTML = `
             <h1 class="section-title">Video Lesson</h1>
             <p class="section-subtitle">Watch and learn numbers 1-100</p>
-            
             <div class="card">
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/${data.url}?start=${data.startTime}&end=${data.endTime}" 
-                            frameborder="0" allowfullscreen 
-                            title="${data.title}">
-                    </iframe>
+                    <iframe src="https://www.youtube.com/embed/${data.url}?start=${data.startTime}&end=${data.endTime}" frameborder="0" allowfullscreen title="${data.title}"></iframe>
                 </div>
-                <p style="text-align: center; color: #64748b; margin-top: 1rem;">
-                    Watch the video carefully. You can pause and replay as needed.
-                </p>
+                <p style="text-align: center; color: #64748b; margin-top: 1rem;">Watch the video carefully. You can pause and replay as needed.</p>
             </div>
-            
             <div class="actions">
-                <button class="btn btn-primary" onclick="switchTab('reading')">
+                <button class="btn btn-primary" onclick="startExercises()">
                     Start Exercises <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         `;
     }
+
+    window.startExercises = () => {
+        switchTab('reading');
+    };
 
     function renderReading() {
         const main = document.getElementById('mainContent');
@@ -855,13 +387,7 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         const questions = lessonData.reading.questions;
         
         if (index >= questions.length) {
-            main.innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
-                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Reading Complete!</h2>
-                    <p style="color: #64748b;">Great job understanding the text!</p>
-                </div>
-            `;
+            main.innerHTML = `<div style="text-align: center; padding: 3rem;"><i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i><h2 style="font-size: 2rem; font-weight: 800;">Reading Complete!</h2></div>`;
             return;
         }
         
@@ -870,39 +396,22 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         main.innerHTML = `
             <h1 class="section-title">Reading Comprehension</h1>
             <p class="section-subtitle">Read the text and answer the questions</p>
-            
             <div class="card">
-                <div class="reading-text">
-                    ${lessonData.reading.text}
-                </div>
-                <button class="tts-btn" id="ttsBtn" onclick="toggleTTS()">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <span>Listen to Text</span>
-                </button>
+                <div class="reading-text">${lessonData.reading.text}</div>
+                <button class="tts-btn" id="ttsBtn" onclick="toggleTTS()"><i class="fa-solid fa-volume-high"></i><span>Listen to Text</span></button>
             </div>
-            
             <div class="card">
                 <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${q.q}</h3>
                 <div class="options">
-                    ${q.options.map((opt, i) => `
-                        <div class="option" onclick="selectOption(${i})">
-                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
-                            <span>${opt}</span>
-                        </div>
-                    `).join('')}
+                    ${q.options.map((opt, i) => `<div class="option" onclick="selectOption(${i})"><span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">${String.fromCharCode(65 + i)}</span><span>${opt}</span></div>`).join('')}
                 </div>
-                
                 <div class="feedback" id="feedback"></div>
             </div>
-            
             <div class="actions">
-                <button class="btn btn-secondary btn-retry" onclick="retryExercise('reading')">
-                    <i class="fa-solid fa-rotate-right"></i> Retry
-                </button>
-                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
-                    Check Answer
-                </button>
+                <button class="btn btn-retry" onclick="retryExercise('reading')"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
             </div>
+            <p style="text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;">Press <kbd style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;">Enter</kbd> to check and continue</p>
         `;
     }
 
@@ -912,13 +421,7 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         const exercises = lessonData.listening.exercises;
         
         if (index >= exercises.length) {
-            main.innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
-                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Listening Complete!</h2>
-                    <p style="color: #64748b;">Excellent listening skills!</p>
-                </div>
-            `;
+            main.innerHTML = `<div style="text-align: center; padding: 3rem;"><i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e;"></i><h2 style="font-size: 2rem; font-weight: 800; margin-top: 1rem;">Listening Complete!</h2></div>`;
             return;
         }
         
@@ -927,37 +430,21 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         main.innerHTML = `
             <h1 class="section-title">Listening</h1>
             <p class="section-subtitle">Listen and choose the correct answer</p>
-            
             <div class="card" style="text-align: center;">
-                <button class="audio-btn" id="audioBtn" onclick="playAudio('${ex.audio}')">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <span style="display: block; margin-top: 0.5rem; font-size: 0.9rem;">Click to Play</span>
-                </button>
-                <p style="color: #64748b; margin-top: 1rem;">Click the button to hear the number</p>
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${ex.audio}')"><i class="fa-solid fa-volume-high"></i><span style="display: block; margin-top: 0.5rem; font-size: 0.9rem;">Click to Play</span></button>
             </div>
-            
             <div class="card">
-                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${ex.q}</h3>
+                <h3 style="font-size: 1.25rem; font-weight: 700;">${ex.q}</h3>
                 <div class="options">
-                    ${ex.options.map((opt, i) => `
-                        <div class="option" onclick="selectOption(${i})">
-                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
-                            <span>${opt}</span>
-                        </div>
-                    `).join('')}
+                    ${ex.options.map((opt, i) => `<div class="option" onclick="selectOption(${i})"><span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">${String.fromCharCode(65 + i)}</span><span>${opt}</span></div>`).join('')}
                 </div>
-                
                 <div class="feedback" id="feedback"></div>
             </div>
-            
             <div class="actions">
-                <button class="btn btn-secondary btn-retry" onclick="retryExercise('listening')">
-                    <i class="fa-solid fa-rotate-right"></i> Retry
-                </button>
-                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
-                    Check Answer
-                </button>
+                <button class="btn btn-retry" onclick="retryExercise('listening')"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
             </div>
+            <p style="text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;">Press <kbd style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;">Enter</kbd> to check and continue</p>
         `;
     }
 
@@ -967,13 +454,7 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         const exercises = lessonData.speaking.exercises;
         
         if (index >= exercises.length) {
-            main.innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
-                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Speaking Complete!</h2>
-                    <p style="color: #64748b;">Your pronunciation is improving!</p>
-                </div>
-            `;
+            main.innerHTML = `<div style="text-align: center; padding: 3rem;"><i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e;"></i><h2 style="font-size: 2rem; font-weight: 800; margin-top: 1rem;">Speaking Complete!</h2></div>`;
             return;
         }
         
@@ -982,27 +463,17 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         main.innerHTML = `
             <h1 class="section-title">Speaking</h1>
             <p class="section-subtitle">Practice your pronunciation</p>
-            
             <div class="card" style="text-align: center;">
-                <p style="font-size: 1.25rem; margin-bottom: 1rem; color: #475569;">${ex.prompt}</p>
-                
-                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${ex.phrase}')">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-                
-                <p id="recordStatus" style="color: #64748b; margin-bottom: 1rem;">Click the microphone and speak</p>
-                
+                <p style="font-size: 1.25rem; margin-bottom: 1rem;">${ex.prompt}</p>
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${ex.phrase}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color: #64748b; margin-bottom: 1rem;">Click and speak. Recording stops automatically when you pause.</p>
                 <div id="scoreDisplay" class="score-display" style="display: none;"></div>
             </div>
-            
             <div class="actions">
-                <button class="btn btn-secondary btn-retry" onclick="retryExercise('speaking')">
-                    <i class="fa-solid fa-rotate-right"></i> Retry
-                </button>
-                <button class="btn btn-primary" id="continueBtn" onclick="nextExercise('speaking')" disabled>
-                    Continue
-                </button>
+                <button class="btn btn-retry" onclick="retryExercise('speaking')"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextExercise('speaking')" disabled>Continue</button>
             </div>
+            <p style="text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;">Press <kbd style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;">Enter</kbd> to continue</p>
         `;
     }
 
@@ -1013,17 +484,10 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         const exercises = lessonData.grammar.exercises;
         
         if (index >= exercises.length) {
-            main.innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e; margin-bottom: 1rem;"></i>
-                    <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Grammar Complete!</h2>
-                    <p style="color: #64748b;">You've mastered numbers!</p>
-                </div>
-            `;
+            main.innerHTML = `<div style="text-align: center; padding: 3rem;"><i class="fa-solid fa-check-circle" style="font-size: 4rem; color: #22c55e;"></i><h2 style="font-size: 2rem; font-weight: 800; margin-top: 1rem;">Grammar Complete!</h2></div>`;
             return;
         }
         
-        // Show explanation first, then exercise
         const expIndex = Math.min(index, explanations.length - 1);
         const exp = explanations[expIndex];
         const q = exercises[index];
@@ -1031,40 +495,27 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         main.innerHTML = `
             <h1 class="section-title">Grammar</h1>
             <p class="section-subtitle">Learn the rules and practice</p>
-            
             <div class="card">
                 <div class="grammar-box">
                     <h4><i class="fa-solid fa-book" style="margin-right: 0.5rem;"></i>${exp.title}</h4>
                     ${exp.content}
                 </div>
             </div>
-            
             <div class="card">
                 <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">${q.q}</h3>
                 <div class="options">
-                    ${q.options.map((opt, i) => `
-                        <div class="option" onclick="selectOption(${i})">
-                            <span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">${String.fromCharCode(65 + i)}</span>
-                            <span>${opt}</span>
-                        </div>
-                    `).join('')}
+                    ${q.options.map((opt, i) => `<div class="option" onclick="selectOption(${i})"><span style="width: 32px; height: 32px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">${String.fromCharCode(65 + i)}</span><span>${opt}</span></div>`).join('')}
                 </div>
-                
                 <div class="feedback" id="feedback"></div>
             </div>
-            
             <div class="actions">
-                <button class="btn btn-secondary btn-retry" onclick="retryExercise('grammar')">
-                    <i class="fa-solid fa-rotate-right"></i> Retry
-                </button>
-                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>
-                    Check Answer
-                </button>
+                <button class="btn btn-retry" onclick="retryExercise('grammar')"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
             </div>
+            <p style="text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;">Press <kbd style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;">Enter</kbd> to check and continue</p>
         `;
     }
 
-    // ===== FUNCTIONS =====
     window.selectOption = (i) => {
         if (isAnswered) return;
         document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
@@ -1087,16 +538,11 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
             const u = new SpeechSynthesisUtterance(text);
             u.lang = 'en-US';
             u.rate = 0.9;
-            
             const voices = window.speechSynthesis.getVoices();
-            const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
+            const v = voices.find(x => x.lang === 'en-US');
             if (v) u.voice = v;
             
-            u.onend = () => {
-                ttsPlaying = false;
-                btn.classList.remove('playing');
-                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i><span>Listen to Text</span>';
-            };
+            u.onend = () => { ttsPlaying = false; btn.classList.remove('playing'); btn.innerHTML = '<i class="fa-solid fa-volume-high"></i><span>Listen to Text</span>'; };
             
             window.speechSynthesis.speak(u);
             ttsPlaying = true;
@@ -1108,19 +554,16 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
     window.playAudio = (text) => {
         const btn = document.getElementById('audioBtn');
         if (!btn) return;
-        
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US';
         u.rate = 0.85;
-        
         const voices = window.speechSynthesis.getVoices();
-        const v = voices.find(x => x.lang === 'en-US') || voices.find(x => x.lang.startsWith('en'));
+        const v = voices.find(x => x.lang === 'en-US');
         if (v) u.voice = v;
         
         btn.classList.add('playing');
         setTimeout(() => btn.classList.remove('playing'), 1000);
-        
         window.speechSynthesis.speak(u);
     };
 
@@ -1134,18 +577,21 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         
         if (!btn.classList.contains('recording')) {
             const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SR) {
-                alert('Use Chrome or Edge for voice recognition');
-                return;
-            }
+            if (!SR) { alert('Use Chrome or Edge'); return; }
             
             recognition = new SR();
             recognition.lang = 'en-US';
             recognition.continuous = false;
             recognition.interimResults = false;
             
+            // Auto-stop after silence
+            recognition.onend = () => {
+                btn.classList.remove('recording');
+                status.textContent = 'Processing...';
+            };
+            
             btn.classList.add('recording');
-            status.textContent = 'Listening... Speak now!';
+            status.textContent = 'Listening... Speak now! (Auto-stops when you pause)';
             scoreDiv.style.display = 'none';
             continueBtn.disabled = true;
             
@@ -1153,7 +599,6 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
                 const t = e.results[0][0].transcript.trim().toLowerCase();
                 const conf = e.results[0][0].confidence;
                 
-                // Normalize
                 const map = { '1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred' };
                 let clean = t;
                 Object.keys(map).forEach(k => { clean = clean.replace(new RegExp(`\\b${k}\\b`, 'g'), map[k]); });
@@ -1166,7 +611,6 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
                 scoreDiv.style.display = 'block';
                 
                 status.textContent = acc >= 60 ? 'Great job!' : 'Try again';
-                btn.classList.remove('recording');
                 
                 if (acc >= 50) {
                     score += 10; streak++;
@@ -1191,16 +635,9 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         isAnswered = true;
         
         let data, index, q;
-        if (currentTab === 'reading') {
-            data = lessonData.reading.questions;
-            index = currentIndex.reading;
-        } else if (currentTab === 'listening') {
-            data = lessonData.listening.exercises;
-            index = currentIndex.listening;
-        } else if (currentTab === 'grammar') {
-            data = lessonData.grammar.exercises;
-            index = currentIndex.grammar;
-        }
+        if (currentTab === 'reading') { data = lessonData.reading.questions; index = currentIndex.reading; }
+        else if (currentTab === 'listening') { data = lessonData.listening.exercises; index = currentIndex.listening; }
+        else if (currentTab === 'grammar') { data = lessonData.grammar.exercises; index = currentIndex.grammar; }
         
         q = data[index];
         const options = document.querySelectorAll('.option');
@@ -1224,6 +661,7 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
         }
         
         document.getElementById('checkBtn').disabled = true;
+        document.getElementById('checkBtn').innerHTML = '<i class="fa-solid fa-check"></i> Correct! Press Enter';
     };
 
     window.retryExercise = (tab) => {
@@ -1259,49 +697,39 @@ My favorite number is <span class="highlight" data-word="seven">seven</span> bec
     function saveProgress() {
         if (!currentUser) return;
         const data = {};
-        ['reading', 'listening', 'speaking', 'grammar'].forEach(t => {
-            data[`progresso.u02_${t}`] = currentIndex[t];
-        });
-        updateDoc(doc(db, "usuarios", currentUser.uid), {
-            xp: score, streak: streak, ...data
-        }).catch(console.error);
+        ['reading', 'listening', 'speaking', 'grammar'].forEach(t => { data[`progresso.u02_${t}`] = currentIndex[t]; });
+        updateDoc(doc(db, "usuarios", currentUser.uid), { xp: score, streak: streak, ...data }).catch(console.error);
     }
 
-    window.toggleSettings = () => {
-        document.getElementById('settingsMenu').classList.toggle('show');
-    };
+    window.toggleSettings = () => { document.getElementById('settingsMenu').classList.toggle('show'); };
+    window.saveAndExit = () => { saveProgress(); window.location.href = 'index.html'; };
+    window.resetProgress = () => { if (confirm('Restart?')) { currentIndex = { reading: 0, listening: 0, speaking: 0, grammar: 0 }; saveProgress(); renderCurrentTab(); } };
 
-    window.saveAndExit = () => {
-        saveProgress();
-        window.location.href = 'index.html';
-    };
-
-    window.resetProgress = () => {
-        if (confirm('Restart this lesson?')) {
-            currentIndex = { reading: 0, listening: 0, speaking: 0, grammar: 0 };
-            saveProgress();
-            renderCurrentTab();
-        }
-    };
-
-    window.toggleTheme = () => {
-        alert('Theme toggle coming soon!');
-    };
-
-    // Close settings when clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.menu-btn') && !e.target.closest('.settings-menu')) {
             document.getElementById('settingsMenu').classList.remove('show');
         }
     });
 
-    // Keyboard shortcuts
+    // Keyboard support - Enter to check and continue
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.repeat && currentTab !== 'video') {
-            if (!document.getElementById('checkBtn').disabled && !isAnswered) {
+            e.preventDefault();
+            const checkBtn = document.getElementById('checkBtn');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            if (checkBtn && !checkBtn.disabled && !isAnswered) {
                 checkAnswer();
-            } else if (isAnswered) {
-                nextExercise(currentTab);
+            } else if ((checkBtn && checkBtn.innerHTML.includes('Correct')) || (continueBtn && !continueBtn.disabled)) {
+                if (currentTab === 'speaking') nextExercise('speaking');
+                else {
+                    const tab = currentTab;
+                    currentIndex[tab]++;
+                    isAnswered = false;
+                    selectedOption = null;
+                    saveProgress();
+                    renderCurrentTab();
+                }
             }
         }
     });
