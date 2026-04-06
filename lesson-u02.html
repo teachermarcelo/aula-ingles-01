@@ -2,7 +2,7 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>U02: Numbers 1-100 | EnglishPath</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,25 +50,30 @@
         .slide-container {
             display: flex;
             transition: transform 0.3s ease;
-            height: calc(100vh - 140px);
+            height: calc(100vh - 180px);
         }
         .slide {
             min-width: 100%;
             height: 100%;
             overflow-y: auto;
+            overflow-x: hidden;
             padding: 1rem;
         }
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: var(--bg); }
+        .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         
         .skill-tab {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 8px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
             background: transparent;
             color: var(--text-muted);
+            white-space: nowrap;
         }
         .skill-tab.active {
             background: var(--primary);
@@ -79,15 +84,15 @@
         .exercise-card {
             background: var(--card);
             border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1rem;
             margin-bottom: 1rem;
         }
         
         .option-btn {
             width: 100%;
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 0.875rem;
+            border-radius: 10px;
             border: 2px solid var(--border);
             background: var(--bg);
             color: var(--text);
@@ -96,6 +101,7 @@
             transition: all 0.3s;
             text-align: left;
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
         .option-btn:hover { border-color: var(--primary); transform: translateX(4px); }
         .option-btn.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; }
@@ -104,13 +110,30 @@
         .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); transition: width 0.5s; }
         
+        /* VIDEO CONTAINER */
+        .video-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .video-container.expanded {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vh;
+            padding-bottom: 0;
+            z-index: 1000;
             border-radius: 16px;
-            margin-bottom: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
         .video-container iframe {
             position: absolute;
@@ -118,8 +141,46 @@
             left: 0;
             width: 100%;
             height: 100%;
+            border-radius: 12px;
+        }
+        .video-container.expanded iframe {
             border-radius: 16px;
         }
+        .expand-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 0.875rem;
+        }
+        .close-expanded {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 11;
+            font-size: 1.25rem;
+        }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 999;
+            display: none;
+        }
+        .overlay.show { display: block; }
         
         .nav-btn {
             padding: 0.75rem 1.5rem;
@@ -130,28 +191,31 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.875rem;
         }
         .nav-prev { background: var(--card-hover); color: var(--text); }
         .nav-next { background: var(--primary); color: white; }
+        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .record-btn {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: var(--danger);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin: 1rem auto;
             cursor: pointer;
+            transition: all 0.3s;
         }
         .record-btn.recording { animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
         .score-display {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -165,14 +229,16 @@
             border: 2px solid var(--border);
             background: var(--bg);
             color: var(--text);
+            font-size: 0.9rem;
         }
         .input-field:focus { outline: none; border-color: var(--primary); }
         
         .feedback {
-            padding: 1rem;
-            border-radius: 12px;
-            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-top: 0.75rem;
             display: none;
+            font-size: 0.875rem;
         }
         .feedback.show { display: block; }
         .feedback.correct { background: rgba(34,197,94,0.15); border-left: 4px solid #22c55e; }
@@ -189,31 +255,48 @@
             z-index: 3000;
             transform: translateX(150%);
             transition: transform 0.3s;
+            max-width: 300px;
         }
         .toast.show { transform: translateX(0); }
         
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .slide { padding: 0.5rem; }
-            .exercise-card { padding: 1rem; }
+            .exercise-card { padding: 0.75rem; }
+            .option-btn { padding: 0.75rem; font-size: 0.85rem; }
+            .video-container.expanded {
+                width: 100vw;
+                height: 60vh;
+                top: auto;
+                left: auto;
+                transform: none;
+                border-radius: 0;
+            }
+            .skill-tab { font-size: 0.65rem; padding: 0.4rem 0.6rem; }
+        }
+        
+        @media (min-width: 1024px) {
+            .exercise-card { padding: 1.5rem; }
+            .option-btn { padding: 1rem; font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
 
     <!-- HEADER -->
-    <header class="c-card border-b border-gray-700 p-4">
+    <header class="c-card border-b border-gray-700 p-3">
         <div class="max-w-6xl mx-auto">
-            <div class="flex items-center justify-between mb-3">
-                <a href="a1.html" class="flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-arrow-left"></i> Voltar para A1
+            <div class="flex items-center justify-between mb-2">
+                <a href="a1.html" class="flex items-center gap-2 text-xs sm:text-sm">
+                    <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Voltar para A1</span>
                 </a>
-                <h1 class="font-bold text-lg">U02: Numbers 1-100</h1>
+                <h1 class="font-bold text-sm sm:text-base">U02: Numbers 1-100</h1>
             </div>
-            <div class="progress-bar mb-2">
+            <div class="progress-bar mb-1">
                 <div id="totalProgress" class="progress-fill" style="width: 0%"></div>
             </div>
             <div class="flex justify-between text-xs text-muted">
-                <span>Progresso da Lição</span>
+                <span>Progresso</span>
                 <span id="progressText">0/60</span>
             </div>
         </div>
@@ -221,15 +304,18 @@
 
     <!-- SKILL TABS -->
     <div class="c-card border-b border-gray-700 p-2">
-        <div class="max-w-6xl mx-auto flex gap-2 overflow-x-auto">
-            <button class="skill-tab active" onclick="goToSlide(0)">📹 Video</button>
-            <button class="skill-tab" onclick="goToSlide(1)">📖 Reading</button>
-            <button class="skill-tab" onclick="goToSlide(2)">🎧 Listening</button>
-            <button class="skill-tab" onclick="goToSlide(3)">🗣️ Speaking</button>
-            <button class="skill-tab" onclick="goToSlide(4)">✍️ Writing</button>
-            <button class="skill-tab" onclick="goToSlide(5)">📚 Grammar</button>
+        <div class="max-w-6xl mx-auto flex gap-1 overflow-x-auto">
+            <button class="skill-tab active" onclick="goToSlide(0)"><i class="fa-solid fa-video mr-1"></i>Video</button>
+            <button class="skill-tab" onclick="goToSlide(1)"><i class="fa-solid fa-book mr-1"></i>Reading</button>
+            <button class="skill-tab" onclick="goToSlide(2)"><i class="fa-solid fa-headphones mr-1"></i>Listening</button>
+            <button class="skill-tab" onclick="goToSlide(3)"><i class="fa-solid fa-microphone mr-1"></i>Speaking</button>
+            <button class="skill-tab" onclick="goToSlide(4)"><i class="fa-solid fa-pen mr-1"></i>Writing</button>
+            <button class="skill-tab" onclick="goToSlide(5)"><i class="fa-solid fa-graduation-cap mr-1"></i>Grammar</button>
         </div>
     </div>
+
+    <!-- OVERLAY FOR EXPANDED VIDEO -->
+    <div class="overlay" id="overlay" onclick="closeExpandedVideo()"></div>
 
     <!-- SLIDES CONTAINER -->
     <div class="slide-container" id="slideContainer">
@@ -237,25 +323,35 @@
         <!-- SLIDE 1: VIDEO -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">📹 Video Lesson: Numbers 1-100</h2>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/YuXFxvTbviI" 
-                            title="Numbers 1-100" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                    </iframe>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">📹 Video Lesson: Numbers 1-100</h2>
+                
+                <div class="video-wrapper">
+                    <div class="video-container" id="videoContainer">
+                        <button class="expand-btn" onclick="expandVideo()">
+                            <i class="fa-solid fa-expand"></i> <span class="hidden sm:inline">Expandir</span>
+                        </button>
+                        <iframe src="https://www.youtube.com/embed/YuXFxvTbviI" 
+                                title="Numbers 1-100" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <button class="close-expanded hidden" id="closeExpanded" onclick="closeExpandedVideo()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-                <div class="c-card p-6 rounded-xl">
-                    <h3 class="font-bold mb-3">📝 O que você vai aprender:</h3>
-                    <ul class="space-y-2 text-sm">
+                
+                <div class="c-card p-4 rounded-xl">
+                    <h3 class="font-bold mb-2 text-sm sm:text-base">📝 O que você vai aprender:</h3>
+                    <ul class="space-y-1 text-xs sm:text-sm">
                         <li><i class="fa-solid fa-check c-primary mr-2"></i>Números de 1 a 100 em inglês</li>
                         <li><i class="fa-solid fa-check c-primary mr-2"></i>Pronúncia correta</li>
                         <li><i class="fa-solid fa-check c-primary mr-2"></i>Como contar em inglês</li>
                         <li><i class="fa-solid fa-check c-primary mr-2"></i>Números ordinais (1st, 2nd, 3rd...)</li>
                     </ul>
                 </div>
-                <div class="mt-6 text-center">
+                <div class="mt-4 text-center">
                     <button onclick="goToSlide(1)" class="nav-btn nav-next mx-auto">
                         Começar Exercícios <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -263,246 +359,117 @@
             </div>
         </div>
 
-        <!-- SLIDE 2: READING -->
+        <!-- SLIDE 2: READING (10 exercises) -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">📖 Reading: Numbers in Context</h2>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">📖 Reading: Numbers in Context</h2>
                 
-                <div class="c-card p-6 rounded-xl mb-6">
-                    <h3 class="font-bold mb-3">📝 Read the text:</h3>
-                    <p class="mb-4">Hello! My name is Maria. I am <span class="c-primary font-bold">twenty-five</span> years old. I have <span class="c-primary font-bold">three</span> brothers and <span class="c-primary font-bold">two</span> sisters. My phone number is <span class="c-primary font-bold">five-five-five, one-two-three-four</span>.</p>
-                    <p>My favorite number is <span class="c-primary font-bold">seven</span>. I live on <span class="c-primary font-bold">Forty-second</span> Street.</p>
+                <div class="c-card p-4 rounded-xl mb-4">
+                    <h3 class="font-bold mb-2 text-sm sm:text-base">📝 Read the text:</h3>
+                    <p class="text-xs sm:text-sm mb-2">Hello! My name is Maria. I am <span class="c-primary font-bold">twenty-five</span> years old. I have <span class="c-primary font-bold">three</span> brothers and <span class="c-primary font-bold">two</span> sisters.</p>
+                    <p class="text-xs sm:text-sm">My phone number is <span class="c-primary font-bold">five-five-five, one-two-three-four</span>. My favorite number is <span class="c-primary font-bold">seven</span>. I live on <span class="c-primary font-bold">Forty-second</span> Street.</p>
                 </div>
 
-                <!-- Exercise 1 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">1. How old is Maria?</h4>
-                    <button class="option-btn" onclick="checkReading(1, false)">A) 15 years old</button>
-                    <button class="option-btn" onclick="checkReading(1, true)">B) 25 years old</button>
-                    <button class="option-btn" onclick="checkReading(1, false)">C) 35 years old</button>
-                    <div class="feedback" id="feedback-reading-1"></div>
-                </div>
-
-                <!-- Exercise 2 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">2. How many brothers does she have?</h4>
-                    <button class="option-btn" onclick="checkReading(2, false)">A) 2 brothers</button>
-                    <button class="option-btn" onclick="checkReading(2, true)">B) 3 brothers</button>
-                    <button class="option-btn" onclick="checkReading(2, false)">C) 4 brothers</button>
-                    <div class="feedback" id="feedback-reading-2"></div>
-                </div>
-
-                <!-- Exercise 3 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">3. What is her favorite number?</h4>
-                    <button class="option-btn" onclick="checkReading(3, false)">A) 3</button>
-                    <button class="option-btn" onclick="checkReading(3, true)">B) 7</button>
-                    <button class="option-btn" onclick="checkReading(3, false)">C) 42</button>
-                    <div class="feedback" id="feedback-reading-3"></div>
-                </div>
-
-                <!-- Exercise 4 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">4. What street does she live on?</h4>
-                    <button class="option-btn" onclick="checkReading(4, true)">A) Forty-second Street</button>
-                    <button class="option-btn" onclick="checkReading(4, false)">B) Fifteenth Street</button>
-                    <button class="option-btn" onclick="checkReading(4, false)">C) Fifth Street</button>
-                    <div class="feedback" id="feedback-reading-4"></div>
-                </div>
-
-                <!-- Exercise 5 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">5. Complete: "I have _____ sisters."</h4>
-                    <button class="option-btn" onclick="checkReading(5, false)">A) three</button>
-                    <button class="option-btn" onclick="checkReading(5, true)">B) two</button>
-                    <button class="option-btn" onclick="checkReading(5, false)">C) five</button>
-                    <div class="feedback" id="feedback-reading-5"></div>
-                </div>
+                <!-- Exercises 1-10 -->
+                <div id="readingExercises"></div>
             </div>
         </div>
 
-        <!-- SLIDE 3: LISTENING -->
+        <!-- SLIDE 3: LISTENING (10 exercises) -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">🎧 Listening: Count the Numbers</h2>
-                
-                <!-- Exercise 1 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">1. Listen and choose the number:</h4>
-                    <button class="nav-btn nav-next mb-4" onclick="playAudio('fifteen')">
-                        <i class="fa-solid fa-play"></i> Play Audio
-                    </button>
-                    <button class="option-btn" onclick="checkListening(1, false)">A) 5</button>
-                    <button class="option-btn" onclick="checkListening(1, true)">B) 15</button>
-                    <button class="option-btn" onclick="checkListening(1, false)">C) 50</button>
-                    <div class="feedback" id="feedback-listening-1"></div>
-                </div>
-
-                <!-- Exercise 2 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">2. Listen and choose:</h4>
-                    <button class="nav-btn nav-next mb-4" onclick="playAudio('thirty')">
-                        <i class="fa-solid fa-play"></i> Play Audio
-                    </button>
-                    <button class="option-btn" onclick="checkListening(2, false)">A) 13</button>
-                    <button class="option-btn" onclick="checkListening(2, true)">B) 30</button>
-                    <button class="option-btn" onclick="checkListening(2, false)">C) 3</button>
-                    <div class="feedback" id="feedback-listening-2"></div>
-                </div>
-
-                <!-- Exercise 3 -->
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">3. Listen and choose:</h4>
-                    <button class="nav-btn nav-next mb-4" onclick="playAudio('eighty')">
-                        <i class="fa-solid fa-play"></i> Play Audio
-                    </button>
-                    <button class="option-btn" onclick="checkListening(3, false)">A) 18</button>
-                    <button class="option-btn" onclick="checkListening(3, false)">B) 8</button>
-                    <button class="option-btn" onclick="checkListening(3, true)">C) 80</button>
-                    <div class="feedback" id="feedback-listening-3"></div>
-                </div>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">🎧 Listening: Count the Numbers</h2>
+                <div id="listeningExercises"></div>
             </div>
         </div>
 
-        <!-- SLIDE 4: SPEAKING -->
+        <!-- SLIDE 4: SPEAKING (10 exercises) -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">🗣️ Speaking: Pronounce the Numbers</h2>
-                
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">1. Say: "Twenty-five"</h4>
-                    <button class="record-btn" id="record-1" onclick="toggleRecording(1, 'twenty-five')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <p class="text-center text-sm c-text-muted" id="status-1">Click to record</p>
-                    <div id="score-1" class="score-display text-center mt-2 hidden">0%</div>
-                    <div class="feedback" id="feedback-speaking-1"></div>
-                </div>
-
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">2. Say: "One hundred"</h4>
-                    <button class="record-btn" id="record-2" onclick="toggleRecording(2, 'one hundred')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <p class="text-center text-sm c-text-muted" id="status-2">Click to record</p>
-                    <div id="score-2" class="score-display text-center mt-2 hidden">0%</div>
-                    <div class="feedback" id="feedback-speaking-2"></div>
-                </div>
-
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">3. Say: "Forty-two"</h4>
-                    <button class="record-btn" id="record-3" onclick="toggleRecording(3, 'forty-two')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <p class="text-center text-sm c-text-muted" id="status-3">Click to record</p>
-                    <div id="score-3" class="score-display text-center mt-2 hidden">0%</div>
-                    <div class="feedback" id="feedback-speaking-3"></div>
-                </div>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">🗣️ Speaking: Pronounce the Numbers</h2>
+                <div id="speakingExercises"></div>
             </div>
         </div>
 
-        <!-- SLIDE 5: WRITING -->
+        <!-- SLIDE 5: WRITING (10 exercises) -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">✍️ Writing: Write the Numbers</h2>
-                
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">1. Write in English: 25</h4>
-                    <input type="text" id="write-1" class="input-field mb-3" placeholder="Type your answer...">
-                    <button class="nav-btn nav-next" onclick="checkWriting(1, 'twenty-five')">Check</button>
-                    <div class="feedback" id="feedback-writing-1"></div>
-                </div>
-
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">2. Write in English: 100</h4>
-                    <input type="text" id="write-2" class="input-field mb-3" placeholder="Type your answer...">
-                    <button class="nav-btn nav-next" onclick="checkWriting(2, 'one hundred')">Check</button>
-                    <div class="feedback" id="feedback-writing-2"></div>
-                </div>
-
-                <div class="exercise-card">
-                    <h4 class="font-bold mb-3">3. Write in English: 42</h4>
-                    <input type="text" id="write-3" class="input-field mb-3" placeholder="Type your answer...">
-                    <button class="nav-btn nav-next" onclick="checkWriting(3, 'forty-two')">Check</button>
-                    <div class="feedback" id="feedback-writing-3"></div>
-                </div>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">✍️ Writing: Write the Numbers</h2>
+                <div id="writingExercises"></div>
             </div>
         </div>
 
-        <!-- SLIDE 6: GRAMMAR -->
+        <!-- SLIDE 6: GRAMMAR (10 exercises + theory) -->
         <div class="slide">
             <div class="max-w-4xl mx-auto">
-                <h2 class="font-bold text-2xl mb-4">📚 Grammar: Numbers in English</h2>
+                <h2 class="font-bold text-lg sm:text-xl mb-3">📚 Grammar: Numbers in English</h2>
                 
-                <div class="c-card p-6 rounded-xl mb-6">
-                    <h3 class="font-bold mb-4 text-xl">📖 Cardinal Numbers (1-100)</h3>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="c-card p-4 rounded-lg">
-                            <h4 class="font-bold c-primary mb-2">1-12 (Irregular)</h4>
-                            <p class="text-sm">one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve</p>
+                <div class="c-card p-4 rounded-xl mb-4">
+                    <h3 class="font-bold mb-3 text-sm sm:text-base">📖 Cardinal Numbers (1-100)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <div class="c-card p-3 rounded-lg">
+                            <h4 class="font-bold c-primary mb-2 text-xs sm:text-sm">1-12 (Irregular)</h4>
+                            <p class="text-xs">one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve</p>
                         </div>
-                        <div class="c-card p-4 rounded-lg">
-                            <h4 class="font-bold c-primary mb-2">13-19 (-teen)</h4>
-                            <p class="text-sm">thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen</p>
+                        <div class="c-card p-3 rounded-lg">
+                            <h4 class="font-bold c-primary mb-2 text-xs sm:text-sm">13-19 (-teen)</h4>
+                            <p class="text-xs">thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen</p>
                         </div>
-                        <div class="c-card p-4 rounded-lg">
-                            <h4 class="font-bold c-primary mb-2">20-90 (-ty)</h4>
-                            <p class="text-sm">twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety</p>
+                        <div class="c-card p-3 rounded-lg">
+                            <h4 class="font-bold c-primary mb-2 text-xs sm:text-sm">20-90 (-ty)</h4>
+                            <p class="text-xs">twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety</p>
                         </div>
-                        <div class="c-card p-4 rounded-lg">
-                            <h4 class="font-bold c-primary mb-2">21-99 (Compound)</h4>
-                            <p class="text-sm">twenty-one, thirty-five, forty-two, ninety-nine</p>
+                        <div class="c-card p-3 rounded-lg">
+                            <h4 class="font-bold c-primary mb-2 text-xs sm:text-sm">21-99 (Compound)</h4>
+                            <p class="text-xs">twenty-one, thirty-five, forty-two, ninety-nine</p>
                         </div>
                     </div>
 
-                    <h3 class="font-bold mb-4 text-xl">📖 Ordinal Numbers (1st, 2nd, 3rd...)</h3>
-                    <div class="c-card p-4 rounded-lg">
-                        <p class="mb-2"><strong>1st</strong> - first</p>
-                        <p class="mb-2"><strong>2nd</strong> - second</p>
-                        <p class="mb-2"><strong>3rd</strong> - third</p>
-                        <p class="mb-2"><strong>4th</strong> - fourth</p>
-                        <p class="mb-2"><strong>5th</strong> - fifth</p>
-                        <p><strong>...</strong></p>
-                        <p class="mt-2"><strong>100th</strong> - one hundredth</p>
+                    <h3 class="font-bold mb-2 text-sm sm:text-base">📖 Ordinal Numbers</h3>
+                    <div class="c-card p-3 rounded-lg mb-4">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                            <p><strong>1st</strong> - first</p>
+                            <p><strong>2nd</strong> - second</p>
+                            <p><strong>3rd</strong> - third</p>
+                            <p><strong>4th</strong> - fourth</p>
+                            <p><strong>5th</strong> - fifth</p>
+                            <p><strong>10th</strong> - tenth</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="c-card p-6 rounded-xl">
-                    <h3 class="font-bold mb-4">💡 Important Rules:</h3>
-                    <ul class="space-y-3 text-sm">
-                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>Hyphen:</strong> Use hyphen for 21-99 (twenty-one, not twenty one)</li>
-                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>And:</strong> In British English: "one hundred and five"</li>
-                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>No "and":</strong> In American English: "one hundred five"</li>
-                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>Zero:</strong> "zero" or "oh" (for phone numbers)</li>
+                    <h3 class="font-bold mb-2 text-sm sm:text-base">💡 Important Rules:</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>Hyphen:</strong> Use hyphen for 21-99 (twenty-one)</li>
+                        <li><i class="fa-solid fa-circle-info c-primary mr-2"></i><strong>And:</strong> British: "one hundred and five" / American: "one hundred five"</li>
                     </ul>
                 </div>
 
-                <div class="mt-6 text-center">
+                <div id="grammarExercises"></div>
+
+                <div class="mt-4 text-center">
                     <button onclick="goToSlide(0)" class="nav-btn nav-prev mx-auto">
                         <i class="fa-solid fa-arrow-left"></i> Back to Video
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- BOTTOM NAVIGATION -->
-    <div class="fixed bottom-0 left-0 right-0 c-card border-t border-gray-700 p-4">
+    <div class="fixed bottom-0 left-0 right-0 c-card border-t border-gray-700 p-3">
         <div class="max-w-6xl mx-auto flex justify-between">
             <button class="nav-btn nav-prev" onclick="prevSlide()" id="prevBtn">
-                <i class="fa-solid fa-arrow-left"></i> Previous
+                <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Previous</span>
             </button>
             <button class="nav-btn nav-next" onclick="nextSlide()" id="nextBtn">
-                Next <i class="fa-solid fa-arrow-right"></i>
+                <span class="hidden sm:inline">Next</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
     </div>
 
     <!-- TOAST -->
     <div id="toast" class="toast">
-        <i class="fa-solid fa-check-circle c-primary text-2xl"></i>
+        <i class="fa-solid fa-check-circle c-primary text-xl"></i>
         <span id="toastMsg">Success!</span>
     </div>
 
@@ -530,29 +497,80 @@
         let completedExercises = 0;
         let recognition = null;
 
+        // EXERCISE DATA
+        const readingData = [
+            {q: "1. How old is Maria?", options: ["15 years old", "25 years old", "35 years old"], correct: 1},
+            {q: "2. How many brothers does she have?", options: ["2 brothers", "3 brothers", "4 brothers"], correct: 1},
+            {q: "3. What is her favorite number?", options: ["3", "7", "42"], correct: 1},
+            {q: "4. What street does she live on?", options: ["Forty-second Street", "Fifteenth Street", "Fifth Street"], correct: 0},
+            {q: "5. Complete: 'I have _____ sisters.'", options: ["three", "two", "five"], correct: 1},
+            {q: "6. What is her phone number?", options: ["555-4321", "555-1234", "555-5678"], correct: 1},
+            {q: "7. How many siblings total?", options: ["4", "5", "6"], correct: 1},
+            {q: "8. What does 'Forty-second' mean?", options: ["42nd", "24th", "14th"], correct: 0},
+            {q: "9. Is Maria twenty or thirty?", options: ["Twenty", "Thirty", "Twenty-five"], correct: 2},
+            {q: "10. What is NOT mentioned?", options: ["Her age", "Her job", "Her phone number"], correct: 1}
+        ];
+
+        const listeningData = [
+            {num: "fifteen", options: ["5", "15", "50"], correct: 1},
+            {num: "thirty", options: ["13", "30", "3"], correct: 1},
+            {num: "eighty", options: ["18", "8", "80"], correct: 2},
+            {num: "forty-two", options: ["24", "42", "14"], correct: 1},
+            {num: "one hundred", options: ["10", "100", "1000"], correct: 1},
+            {num: "seventy-five", options: ["57", "75", "17"], correct: 1},
+            {num: "twelve", options: ["20", "12", "2"], correct: 1},
+            {num: "ninety-nine", options: ["19", "99", "9"], correct: 1},
+            {num: "fifty", options: ["15", "50", "5"], correct: 1},
+            {num: "twenty-three", options: ["32", "23", "13"], correct: 1}
+        ];
+
+        const speakingData = [
+            "twenty-five", "one hundred", "forty-two", "fifteen", "seventy",
+            "thirty-three", "ninety-nine", "fifty", "eighty-eight", "twelve"
+        ];
+
+        const writingData = [
+            {num: 25, answer: "twenty-five"},
+            {num: 100, answer: "one hundred"},
+            {num: 42, answer: "forty-two"},
+            {num: 15, answer: "fifteen"},
+            {num: 70, answer: "seventy"},
+            {num: 33, answer: "thirty-three"},
+            {num: 99, answer: "ninety-nine"},
+            {num: 50, answer: "fifty"},
+            {num: 88, answer: "eighty-eight"},
+            {num: 12, answer: "twelve"}
+        ];
+
+        const grammarData = [
+            {q: "1. How do you write 21?", options: ["twenty one", "twenty-one", "twentyone"], correct: 1},
+            {q: "2. What is the ordinal for 1?", options: ["oneth", "first", "one"], correct: 1},
+            {q: "3. Which is correct?", options: ["fivety", "fifty", "fivety"], correct: 1},
+            {q: "4. How to say 100?", options: ["ten tens", "one hundred", "hundred one"], correct: 1},
+            {q: "5. What about 3rd?", options: ["threeth", "third", "three"], correct: 1},
+            {q: "6. 40 is written as:", options: ["fourty", "forty", "four-zero"], correct: 1},
+            {q: "7. 2nd means:", options: ["second", "two", "twelve"], correct: 0},
+            {q: "8. How to write 13?", options: ["threeteen", "thirteen", "threety"], correct: 1},
+            {q: "9. 99 in words:", options: ["ninty-nine", "ninety-nine", "nine-nine"], correct: 1},
+            {q: "10. 5th is:", options: ["fiveth", "fifth", "five"], correct: 1}
+        ];
+
         // SLIDE NAVIGATION
         function goToSlide(index) {
             currentSlide = index;
             document.getElementById('slideContainer').style.transform = `translateX(-${index * 100}%)`;
-            
-            // Update tabs
             document.querySelectorAll('.skill-tab').forEach((tab, i) => {
                 tab.classList.toggle('active', i === index);
             });
-            
             updateNavButtons();
         }
 
         function nextSlide() {
-            if (currentSlide < 5) {
-                goToSlide(currentSlide + 1);
-            }
+            if (currentSlide < 5) goToSlide(currentSlide + 1);
         }
 
         function prevSlide() {
-            if (currentSlide > 0) {
-                goToSlide(currentSlide - 1);
-            }
+            if (currentSlide > 0) goToSlide(currentSlide - 1);
         }
 
         function updateNavButtons() {
@@ -560,38 +578,118 @@
             document.getElementById('nextBtn').disabled = currentSlide === 5;
         }
 
-        // READING EXERCISES
+        // VIDEO EXPAND
+        function expandVideo() {
+            document.getElementById('videoContainer').classList.add('expanded');
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('closeExpanded').classList.remove('hidden');
+        }
+
+        function closeExpandedVideo() {
+            document.getElementById('videoContainer').classList.remove('expanded');
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('closeExpanded').classList.add('hidden');
+        }
+
+        // GENERATE EXERCISES
+        function generateReadingExercises() {
+            const container = document.getElementById('readingExercises');
+            container.innerHTML = readingData.map((ex, i) => `
+                <div class="exercise-card" id="reading-ex-${i}">
+                    <h4 class="font-bold mb-2 text-sm sm:text-base">${ex.q}</h4>
+                    ${ex.options.map((opt, j) => `
+                        <button class="option-btn" onclick="checkReading(${i}, ${j}, ${j === ex.correct})">
+                            ${String.fromCharCode(65 + j)}) ${opt}
+                        </button>
+                    `).join('')}
+                    <div class="feedback" id="feedback-reading-${i}"></div>
+                </div>
+            `).join('');
+        }
+
+        function generateListeningExercises() {
+            const container = document.getElementById('listeningExercises');
+            container.innerHTML = listeningData.map((ex, i) => `
+                <div class="exercise-card" id="listening-ex-${i}">
+                    <h4 class="font-bold mb-2 text-sm sm:text-base">${i+1}. Listen and choose:</h4>
+                    <button class="nav-btn nav-next mb-3" onclick="playAudio('${ex.num}')">
+                        <i class="fa-solid fa-play"></i> Play Audio
+                    </button>
+                    ${ex.options.map((opt, j) => `
+                        <button class="option-btn" onclick="checkListening(${i}, ${j}, ${j === ex.correct})">
+                            ${String.fromCharCode(65 + j)}) ${opt}
+                        </button>
+                    `).join('')}
+                    <div class="feedback" id="feedback-listening-${i}"></div>
+                </div>
+            `).join('');
+        }
+
+        function generateSpeakingExercises() {
+            const container = document.getElementById('speakingExercises');
+            container.innerHTML = speakingData.map((phrase, i) => `
+                <div class="exercise-card" id="speaking-ex-${i}">
+                    <h4 class="font-bold mb-2 text-sm sm:text-base">${i+1}. Say: "${phrase}"</h4>
+                    <button class="record-btn" id="record-${i}" onclick="toggleRecording(${i}, '${phrase}')">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                    <p class="text-center text-xs c-text-muted" id="status-${i}">Click to record</p>
+                    <div id="score-${i}" class="score-display text-center mt-2 hidden">0%</div>
+                    <div class="feedback" id="feedback-speaking-${i}"></div>
+                </div>
+            `).join('');
+        }
+
+        function generateWritingExercises() {
+            const container = document.getElementById('writingExercises');
+            container.innerHTML = writingData.map((ex, i) => `
+                <div class="exercise-card" id="writing-ex-${i}">
+                    <h4 class="font-bold mb-2 text-sm sm:text-base">${i+1}. Write in English: ${ex.num}</h4>
+                    <input type="text" id="write-${i}" class="input-field mb-2" placeholder="Type your answer...">
+                    <button class="nav-btn nav-next" onclick="checkWriting(${i}, '${ex.answer}')">Check</button>
+                    <div class="feedback" id="feedback-writing-${i}"></div>
+                </div>
+            `).join('');
+        }
+
+        function generateGrammarExercises() {
+            const container = document.getElementById('grammarExercises');
+            container.innerHTML = grammarData.map((ex, i) => `
+                <div class="exercise-card" id="grammar-ex-${i}">
+                    <h4 class="font-bold mb-2 text-sm sm:text-base">${ex.q}</h4>
+                    ${ex.options.map((opt, j) => `
+                        <button class="option-btn" onclick="checkGrammar(${i}, ${j}, ${j === ex.correct})">
+                            ${String.fromCharCode(65 + j)}) ${opt}
+                        </button>
+                    `).join('')}
+                    <div class="feedback" id="feedback-grammar-${i}"></div>
+                </div>
+            `).join('');
+        }
+
+        // CHECK FUNCTIONS
         let readingCompleted = {};
-        function checkReading(exNum, isCorrect) {
+        function checkReading(exNum, selected, isCorrect) {
             if (readingCompleted[exNum]) return;
-            
             const feedback = document.getElementById(`feedback-reading-${exNum}`);
-            const buttons = event.target.parentElement.querySelectorAll('.option-btn');
-            
+            const buttons = document.querySelectorAll(`#reading-ex-${exNum} .option-btn`);
             buttons.forEach(btn => btn.disabled = true);
             
             if (isCorrect) {
-                event.target.classList.add('correct');
+                buttons[selected].classList.add('correct');
                 feedback.className = 'feedback correct show';
                 feedback.innerHTML = '<i class="fa-solid fa-check"></i> Correct!';
                 readingCompleted[exNum] = true;
                 completedExercises++;
                 updateProgress();
             } else {
-                event.target.classList.add('wrong');
+                buttons[selected].classList.add('wrong');
+                buttons[readingData[exNum].correct].classList.add('correct');
                 feedback.className = 'feedback wrong show';
                 feedback.innerHTML = '<i class="fa-solid fa-xmark"></i> Try again!';
-                setTimeout(() => {
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('wrong');
-                    });
-                    feedback.classList.remove('show');
-                }, 1500);
             }
         }
 
-        // LISTENING EXERCISES
         let listeningCompleted = {};
         function playAudio(number) {
             const utterance = new SpeechSynthesisUtterance(number);
@@ -600,36 +698,27 @@
             speechSynthesis.speak(utterance);
         }
 
-        function checkListening(exNum, isCorrect) {
+        function checkListening(exNum, selected, isCorrect) {
             if (listeningCompleted[exNum]) return;
-            
             const feedback = document.getElementById(`feedback-listening-${exNum}`);
-            const buttons = event.target.parentElement.querySelectorAll('.option-btn');
-            
+            const buttons = document.querySelectorAll(`#listening-ex-${exNum} .option-btn`);
             buttons.forEach(btn => btn.disabled = true);
             
             if (isCorrect) {
-                event.target.classList.add('correct');
+                buttons[selected].classList.add('correct');
                 feedback.className = 'feedback correct show';
                 feedback.innerHTML = '<i class="fa-solid fa-check"></i> Correct!';
                 listeningCompleted[exNum] = true;
                 completedExercises++;
                 updateProgress();
             } else {
-                event.target.classList.add('wrong');
+                buttons[selected].classList.add('wrong');
+                buttons[listeningData[exNum].correct].classList.add('correct');
                 feedback.className = 'feedback wrong show';
                 feedback.innerHTML = '<i class="fa-solid fa-xmark"></i> Listen again!';
-                setTimeout(() => {
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('wrong');
-                    });
-                    feedback.classList.remove('show');
-                }, 1500);
             }
         }
 
-        // SPEAKING EXERCISES
         let speakingCompleted = {};
         function toggleRecording(exNum, expectedPhrase) {
             const btn = document.getElementById(`record-${exNum}`);
@@ -654,7 +743,6 @@
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
                     const confidence = event.results[0][0].confidence;
-                    
                     const accuracy = Math.round((transcript.toLowerCase().includes(expectedPhrase.toLowerCase()) ? 1 : 0) * confidence * 100);
                     
                     scoreDiv.textContent = accuracy + '%';
@@ -681,11 +769,9 @@
             }
         }
 
-        // WRITING EXERCISES
         let writingCompleted = {};
         function checkWriting(exNum, correctAnswer) {
             if (writingCompleted[exNum]) return;
-            
             const input = document.getElementById(`write-${exNum}`);
             const feedback = document.getElementById(`feedback-writing-${exNum}`);
             const userAnswer = input.value.trim().toLowerCase();
@@ -709,6 +795,28 @@
             }
         }
 
+        let grammarCompleted = {};
+        function checkGrammar(exNum, selected, isCorrect) {
+            if (grammarCompleted[exNum]) return;
+            const feedback = document.getElementById(`feedback-grammar-${exNum}`);
+            const buttons = document.querySelectorAll(`#grammar-ex-${exNum} .option-btn`);
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (isCorrect) {
+                buttons[selected].classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = '<i class="fa-solid fa-check"></i> Correct!';
+                grammarCompleted[exNum] = true;
+                completedExercises++;
+                updateProgress();
+            } else {
+                buttons[selected].classList.add('wrong');
+                buttons[grammarData[exNum].correct].classList.add('correct');
+                feedback.className = 'feedback wrong show';
+                feedback.innerHTML = '<i class="fa-solid fa-xmark"></i> Try again!';
+            }
+        }
+
         function updateProgress() {
             const pct = (completedExercises / totalExercises) * 100;
             document.getElementById('totalProgress').style.width = pct + '%';
@@ -726,19 +834,26 @@
         window.goToSlide = goToSlide;
         window.nextSlide = nextSlide;
         window.prevSlide = prevSlide;
+        window.expandVideo = expandVideo;
+        window.closeExpandedVideo = closeExpandedVideo;
         window.checkReading = checkReading;
         window.playAudio = playAudio;
         window.checkListening = checkListening;
         window.toggleRecording = toggleRecording;
         window.checkWriting = checkWriting;
+        window.checkGrammar = checkGrammar;
 
         // INIT
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-            }
+            if (user) currentUser = user;
         });
 
+        // Generate all exercises on load
+        generateReadingExercises();
+        generateListeningExercises();
+        generateSpeakingExercises();
+        generateWritingExercises();
+        generateGrammarExercises();
         updateNavButtons();
     </script>
 </body>
