@@ -383,7 +383,7 @@
         unitInfo: {
             level: 'A1',
             theme: 'Greetings & Introductions',
-            videoId: '5StvZZccECg', // Example video ID for greetings
+            videoId: '5StvZZccECg', // NOVO LINK DO YOUTUBE
             objectives: [
                 'Greet people formally and informally',
                 'Introduce yourself and others',
@@ -395,7 +395,7 @@
         tabs: {
             video: {
                 type: 'embed',
-                videoId: 'ks0sE5gFqfI',
+                videoId: '5StvZZccECg',
                 instructions: 'Watch the video carefully. Pay attention to how people greet each other.'
             },
             
@@ -586,12 +586,12 @@
                     prompt: 'Write 3 sentences introducing a friend.', minLength: 30, maxLength: 100 }
             ],
 
-            // VOCABULARY: 30 Words (NEW!)
+            // VOCABULARY: 30 Words
             vocabulary: [
-                { word: "Hello", pron: "/həˈloʊ/", meaning: "Olá (geral)", example: "Hello, how are you?" },
+                { word: "Hello", pron: "/həloʊ/", meaning: "Olá (geral)", example: "Hello, how are you?" },
                 { word: "Hi", pron: "/haɪ/", meaning: "Oi (informal)", example: "Hi, John!" },
                 { word: "Good morning", pron: "/ɡʊd ˈmɔːrnɪŋ/", meaning: "Bom dia", example: "Good morning, teacher." },
-                { word: "Good afternoon", pron: "/ɡʊd ˌæftərˈnuːn/", meaning: "Boa tarde", example: "Good afternoon, everyone." },
+                { word: "Good afternoon", pron: "/ɡʊd ˌæftərˈnun/", meaning: "Boa tarde", example: "Good afternoon, everyone." },
                 { word: "Good evening", pron: "/ɡʊd ˈiːvnɪŋ/", meaning: "Boa noite (chegada)", example: "Good evening, sir." },
                 { word: "Good night", pron: "/ɡʊd naɪt/", meaning: "Boa noite (saída/dormir)", example: "Good night, see you tomorrow." },
                 { word: "Name", pron: "/neɪm/", meaning: "Nome", example: "What is your name?" },
@@ -611,13 +611,13 @@
                 { word: "Brazil", pron: "/brəˈzɪl/", meaning: "Brasil", example: "She is from Brazil." },
                 { word: "USA", pron: "/ˌju.esˈe/", meaning: "EUA", example: "He is from the USA." },
                 { word: "Friend", pron: "/frend/", meaning: "Amigo(a)", example: "This is my friend." },
-                { word: "Teacher", pron: "/ˈtiːtʃər/", meaning: "Professor(a)", example: "Good morning, teacher." },
+                { word: "Teacher", pron: "/tiːtʃər/", meaning: "Professor(a)", example: "Good morning, teacher." },
                 { word: "Student", pron: "/stuːdənt/", meaning: "Aluno(a)", example: "I am a student." },
                 { word: "Welcome", pron: "/ˈwelkəm/", meaning: "Bem-vindo", example: "Welcome to the class." },
                 { word: "Please", pron: "/pliz/", meaning: "Por favor", example: "Sit down, please." },
                 { word: "Sorry", pron: "/ˈsɔːri/", meaning: "Desculpe", example: "Sorry, I am late." },
                 { word: "Excuse me", pron: "/ɪkˈskjuːz mi/", meaning: "Com licença", example: "Excuse me, where is the bathroom?" },
-                { word: "Goodbye", pron: "/ɡʊdˈbaɪ/", meaning: "Adeus/Tchau", example: "Goodbye, see you soon." }
+                { word: "Goodbye", pron: "/ɡʊdbaɪ/", meaning: "Adeus/Tchau", example: "Goodbye, see you soon." }
             ],
 
             // GRAMMAR: Only explanations and models
@@ -796,6 +796,10 @@
     let isAnswered = false, selectedOption = null, hintsUsed = 0;
     let recognition = null, ttsPlaying = false, currentTTS = null;
     let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
+    
+    // State specifically for Vocabulary Quiz
+    let vocabQuizSet = [];
+    let currentVocabQuizIndex = 0;
 
     // ===== DOM =====
     const mainContent = document.getElementById('mainContent');
@@ -852,10 +856,16 @@
         
         // Special handling for Vocabulary (Study Mode vs Quiz Mode)
         if (currentTab === 'vocabulary') {
+            // If index is less than total vocab words, show study list
             if (index < lessonData.tabs.vocabulary.length) {
-                renderVocabularyList(); // Show full list first
+                renderVocabularyList();
             } else {
-                renderVocabularyQuiz(); // Then show quiz
+                // If index equals or exceeds vocab length, we are in Quiz Mode
+                // Check if we need to initialize the quiz set
+                if (vocabQuizSet.length === 0) {
+                    initVocabQuiz();
+                }
+                renderVocabularyQuiz();
             }
             return;
         }
@@ -928,6 +938,7 @@
 
     window.retrySection = (tabName) => {
         questionIndex[tabName] = 0;
+        if (tabName === 'vocabulary') vocabQuizSet = []; // Reset quiz state
         saveProgress();
         renderCurrentTab();
     };
@@ -935,7 +946,7 @@
     // ===== RENDERERS =====
     function renderReading(q) {
         mainContent.innerHTML = `
-            <h1 class="section-title"> Reading</h1>
+            <h1 class="section-title">📖 Reading</h1>
             <p class="section-subtitle">Comprehension practice</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
@@ -955,12 +966,12 @@
                 <div class="feedback" id="feedback"></div>
                 <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
             </div>
-            <div class="notes-area"><strong> My Notes:</strong><textarea id="notesInput" placeholder="Notes...">${userNotes[q.id]||''}</textarea></div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes...">${userNotes[q.id]||''}</textarea></div>
             <div class="actions">
                 <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
-                <button class="btn btn-skip" onclick="skipQuestion()">Skip ️</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
             </div>
             <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
         `;
@@ -997,7 +1008,7 @@
 
     function renderSpeaking(q) {
         mainContent.innerHTML = `
-            <h1 class="section-title"> Speaking</h1>
+            <h1 class="section-title">💬 Speaking</h1>
             <p class="section-subtitle">Practice pronunciation</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
@@ -1038,7 +1049,15 @@
         `;
     }
 
-    // ===== NEW: VOCABULARY RENDERERS =====
+    // ===== NEW: VOCABULARY RENDERERS (FIXED) =====
+    
+    function initVocabQuiz() {
+        // Shuffle all vocabulary words and pick 5
+        const allVocab = [...lessonData.tabs.vocabulary];
+        vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
+        currentVocabQuizIndex = 0;
+    }
+
     function renderVocabularyList() {
         const vocabList = lessonData.tabs.vocabulary;
         let html = `
@@ -1068,64 +1087,37 @@
         mainContent.innerHTML = html;
     }
 
-    function startVocabQuiz() {
-        // Mark study phase as done, move to quiz phase logic (simulated by index jump)
-        questionIndex.vocabulary = 30; // Jump to quiz mode trigger
+    window.startVocabQuiz = () => {
+        // Mark study phase as done by moving index past the list length
+        questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
+        initVocabQuiz(); // Generate new random set
         renderVocabularyQuiz();
-    }
+    };
 
     function renderVocabularyQuiz() {
-        // Simple random quiz generator based on vocab list
-        const vocabList = lessonData.tabs.vocabulary;
-        // Pick 5 random words for the quiz session
-        const shuffled = [...vocabList].sort(() => 0.5 - Math.random());
-        const quizItems = shuffled.slice(0, 5);
-        
-        // If we are inside the quiz loop (handled by a separate state or simple re-render logic)
-        // For simplicity in this single-file structure, we'll just render the first of the 5 randomly picked
-        // Note: In a complex app, we'd track quizIndex separately. Here we simulate it.
-        
-        // Since we can't easily persist a sub-index without complicating the main state, 
-        // let's just show one random question from the list each time "Next" is clicked until 5 are done.
-        // But to keep it aligned with the main engine, let's assume the user does 5 specific questions.
-        
-        // Simplified approach: Just show a multiple choice question for the FIRST item of the shuffled list
-        // and let the "Next" button pick a new random one until 5 are done.
-        // We'll store the current quiz set in a temp variable or just regenerate (bad for consistency).
-        // Better: Store the current quiz question index in a local var outside render? 
-        // No, let's just make the "Next" button in this specific view call a custom function.
-        
-        // Actually, let's stick to the main engine pattern. We need 5 distinct questions in the data.
-        // Since I hardcoded the data above, I'll dynamically generate 5 questions for the quiz view.
-        
-        // Hack for this demo: We will just show the list again but with a "Take Quiz" button that opens a modal?
-        // No, let's integrate.
-        // Let's create a temporary "quiz mode" state.
-        
-        // Re-approach: The `questionIndex.vocabulary` goes 0..29 for study. 
-        // When it hits 30, we enter Quiz Mode.
-        // We need to track `quizQuestionCount`.
-        
-        // Let's simplify: The "Start Quiz" button renders a static quiz view that cycles through 5 random questions internally.
-        
-        const currentQuizIdx = (questionIndex.vocabulary - 30) % 5; // 0 to 4
-        
-        if (currentQuizIdx === 0 && questionIndex.vocabulary === 30) {
-             // First load of quiz, generate the set
-             window.currentVocabQuizSet = shuffled;
+        if (currentVocabQuizIndex >= vocabQuizSet.length) {
+            // Quiz finished
+            questionIndex.vocabulary++; // Move past quiz completely
+            saveProgress();
+            renderSectionComplete('vocabulary');
+            return;
         }
-        
-        const item = window.currentVocabQuizSet[currentQuizIdx];
-        
-        // Generate options
-        const correctMeaning = item.meaning;
-        const wrongOptions = vocabList.filter(w => w.word !== item.word).map(w => w.meaning);
-        const shuffledOptions = [correctMeaning, ...wrongOptions].sort(() => 0.5 - Math.random()).slice(0, 4);
-        const correctIndex = shuffledOptions.indexOf(correctMeaning);
 
+        const item = vocabQuizSet[currentVocabQuizIndex];
+        
+        // Generate options (1 correct + 3 wrong)
+        const correctMeaning = item.meaning;
+        const wrongOptions = lessonData.tabs.vocabulary
+            .filter(w => w.word !== item.word)
+            .map(w => w.meaning);
+        
+        // Shuffle wrong options and take 3
+        const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
+        
         mainContent.innerHTML = `
-            <h1 class="section-title">📝 Vocabulary Quiz</h1>
-            <p class="section-subtitle">Question ${currentQuizIdx + 1} of 5</p>
+            <h1 class="section-title"> Vocabulary Quiz</h1>
+            <p class="section-subtitle">Question ${currentVocabQuizIndex + 1} of 5</p>
             <div class="card">
                 <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
                 <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
@@ -1133,7 +1125,7 @@
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
                 <div class="options" style="margin-top:2rem;">
-                    ${shuffledOptions.map((opt, i) => `
+                    ${allOptions.map((opt, i) => `
                         <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
                             <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
                             <span>${opt}</span>
@@ -1160,29 +1152,22 @@
     window.checkVocabAnswer = () => {
         const feedback = document.getElementById('feedback');
         const opts = document.querySelectorAll('.option');
-        const isCorrect = opts[window.selectedVocabOption].querySelector('span:last-child').textContent === window.correctVocabAnswer;
+        const selectedText = opts[window.selectedVocabOption].querySelector('span:last-child').textContent;
+        const isCorrect = selectedText === window.correctVocabAnswer;
         
         if (isCorrect) {
             opts[window.selectedVocabOption].classList.add('correct');
             feedback.className = 'feedback correct show';
             feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
             addXP(10);
+            
             setTimeout(() => {
-                // Next question logic
-                const nextIdx = (questionIndex.vocabulary - 30) + 1;
-                if (nextIdx < 5) {
-                    questionIndex.vocabulary = 30 + nextIdx;
-                    renderVocabularyQuiz();
-                } else {
-                    // Quiz finished
-                    questionIndex.vocabulary++; // Move past quiz
-                    saveProgress();
-                    renderSectionComplete('vocabulary');
-                }
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
             }, 1500);
         } else {
             opts[window.selectedVocabOption].classList.add('wrong');
-            // Find correct
+            // Find and highlight correct one
             Array.from(opts).forEach(opt => {
                 if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
                     opt.classList.add('correct');
@@ -1190,18 +1175,12 @@
             });
             feedback.className = 'feedback wrong show';
             feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
+            
             document.getElementById('checkBtn').disabled = true;
             document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
             document.getElementById('checkBtn').onclick = () => {
-                 const nextIdx = (questionIndex.vocabulary - 30) + 1;
-                 if (nextIdx < 5) {
-                    questionIndex.vocabulary = 30 + nextIdx;
-                    renderVocabularyQuiz();
-                 } else {
-                    questionIndex.vocabulary++;
-                    saveProgress();
-                    renderSectionComplete('vocabulary');
-                 }
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
             };
         }
         saveProgress();
@@ -1210,7 +1189,7 @@
     function renderGrammar(q) {
         const exp = q.explanation;
         mainContent.innerHTML = `
-            <h1 class="section-title"> Grammar</h1>
+            <h1 class="section-title">📖 Grammar</h1>
             <p class="section-subtitle">Learn & practice</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
             <div class="card">
@@ -1218,9 +1197,9 @@
             </div>
             <div class="grammar-explanation">
                 <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
-                <div class="rule"><strong> Rule:</strong> ${exp.theory}</div>
-                <div class="formula"><strong> Formula:</strong> ${exp.formula}</div>
-                <div><strong> Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
+                <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
+                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
                 ${exp.exceptions ? `<div><strong>️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
                 <div class="tip"><strong> Memory Tip:</strong> ${exp.tip}</div>
                 <div><strong> When to Use:</strong> ${exp.usage}</div>
@@ -1278,7 +1257,7 @@
                 status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
                 if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
             };
-            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent=' Error. Try again.'; };
             recognition.start();
         }
     };
@@ -1357,7 +1336,7 @@
                 ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
                 
                 <div class="report-card">
-                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;"> Performance Report</h3>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
                     <div class="report-grid">
                         <div class="report-item">
                             <div class="report-value">${final}</div>
@@ -1452,7 +1431,7 @@
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
     window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
     window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
-    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; saveProgress(); renderCurrentTab(); } };
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
 
     document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
 
@@ -1472,4 +1451,3 @@
 </script>
 </body>
 </html>
-```
