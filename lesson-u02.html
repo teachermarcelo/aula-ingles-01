@@ -200,6 +200,20 @@
         .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
         .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
         .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .btn-next-section { 
+            background: #22c55e; 
+            color: white; 
+            box-shadow: 0 4px 0 #16a34a;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .btn-refazer { 
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
         
         /* FEEDBACK */
         .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
@@ -246,19 +260,13 @@
         .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
         .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
         
-        /* REPORT CARD */
-        .report-card {
-            background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
-            margin: 2rem 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        /* SECTION COMPLETE SCREEN */
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
         }
-        .report-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;
-        }
-        .report-item {
-            text-align: center; padding: 1rem; border-radius: 12px; background: #f8fafc;
-        }
-        .report-value { font-size: 2rem; font-weight: 800; color: #22c55e; }
-        .report-label { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
+        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
         
         /* ENTER KEY HINT */
         .enter-hint {
@@ -268,14 +276,6 @@
             background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
             font-family: monospace; font-weight: 600;
         }
-        
-        /* SECTION COMPLETE SCREEN */
-        .section-complete {
-            text-align: center; padding: 3rem 1rem;
-        }
-        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
-        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
-        .section-complete p { color: #64748b; margin-bottom: 2rem; }
         
         @media (max-width: 768px) {
             .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -379,7 +379,7 @@
                 instructions: 'Watch the video carefully. Listen for numbers 1-100. You can pause and replay.'
             },
             
-            // READING: 10 questions - FIXED
+            // READING: 10 questions
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
@@ -483,7 +483,7 @@
                 }
             ],
             
-            // LISTENING: 15 questions (INCREASED)
+            // LISTENING: 15 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
                     q: "Which number do you hear?", tts: "one", options: ["1", "10", "11", "100"], answer: 0, speed: 0.85 },
@@ -517,7 +517,7 @@
                     q: "Which number do you hear?", tts: "five", options: ["5", "15", "50", "55"], answer: 0, speed: 0.85 }
             ],
             
-            // SPEAKING: 10 activities with IMPROVED RECOGNITION
+            // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "One"', model: "one", expected: "one" },
@@ -552,7 +552,7 @@
                     prompt: 'Count from 1 to 10 in English.', minWords: 10, expectedPattern: "one two three four five six seven eight nine ten" }
             ],
             
-            // WRITING: 10 intelligent tasks with BETTER FEEDBACK
+            // WRITING: 10 intelligent tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "I am _____ years old." (25)', answer: 'twenty-five', example: 'I am twenty-five years old.' },
@@ -860,9 +860,13 @@
                 <i class="fa-solid fa-check-circle"></i>
                 <h2>${tabNames[tabName]} Complete! ✓</h2>
                 <p>Great progress! Move to the next section.</p>
-                <div class="actions" style="justify-content:center;">
-                    <button class="btn btn-primary" onclick="nextSection()">Next Section ➡️</button>
-                    <button class="btn btn-retry" onclick="retrySection('${tabName}')">Refazer Atividade 🔄</button>
+                <div class="actions" style="justify-content:center; gap: 1rem;">
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
+                    <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
+                        Refazer Atividade 🔄
+                    </button>
                 </div>
             </div>
         `;
@@ -991,7 +995,7 @@
             </div>
             <div class="grammar-explanation">
                 <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
-                <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
+                <div class="rule"><strong> Rule:</strong> ${exp.theory}</div>
                 <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
                 <div><strong> Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
                 ${exp.exceptions ? `<div><strong>️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
@@ -999,7 +1003,7 @@
                 <div><strong> When to Use:</strong> ${exp.usage}</div>
             </div>
             <div class="actions">
-                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ️</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
             </div>
             <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
         `;
@@ -1058,14 +1062,32 @@
     
     function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
 
-    // ===== ANSWER CHECKING WITH BETTER FEEDBACK =====
+    // ===== ANSWER CHECKING WITH AUTO-ADVANCE =====
     window.checkAnswer = () => {
         if(isAnswered||selectedOption===null) return; isAnswered=true;
         const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
         const correct=selectedOption===q.answer;
-        if(correct){ options[selectedOption].classList.add('correct'); feedback.className='feedback correct show'; feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; addXP(q.xp); }
-        else{ options[selectedOption].classList.add('wrong'); options[q.answer].classList.add('correct'); feedback.className='feedback wrong show'; feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; streak=0; streakDisplay.textContent='0'; }
-        document.getElementById('checkBtn').disabled=true; document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct! Press Enter':'<i class="fa-solid fa-xmark"></i> Review & Press Enter';
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
         saveProgress();
     };
 
@@ -1078,14 +1100,21 @@
             feedback.className='feedback correct show'; 
             feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
             addXP(q.xp); 
-            document.getElementById('checkBtn').innerHTML='<i class="fa-solid fa-check"></i> Submitted! Press Enter'; 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
         }
         else{ 
             input.style.borderColor='#ef4444'; 
             feedback.className='feedback wrong show'; 
             feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+            // Stay on question, allow retry
         }
-        document.getElementById('checkBtn').disabled=true; saveProgress();
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
     };
 
     // ===== NAVIGATION =====
@@ -1105,7 +1134,7 @@
                 ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
                 
                 <div class="report-card">
-                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;"> Performance Report</h3>
                     <div class="report-grid">
                         <div class="report-item">
                             <div class="report-value">${final}</div>
