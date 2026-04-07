@@ -4,20 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishPath — Plataforma Completa de Inglês</title>
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Chart.js para Gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Configuração Tailwind -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -41,8 +31,6 @@
             }
         }
     </script>
-
-    <!-- CSS Personalizado -->
     <style>
         :root {
             --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --card-hover: #334155;
@@ -61,7 +49,7 @@
             --glow-primary: 0 0 20px rgba(34, 197, 94, 0.2);
             --glow-accent: 0 0 20px rgba(251, 191, 36, 0.2);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; }
         body {
             font-family: 'Nunito', sans-serif;
             background: var(--bg);
@@ -91,7 +79,7 @@
         .c-danger { color: var(--danger); }
         .c-danger-bg { background: var(--danger); }
         
-        /* 👑 Crown Button - GOLD */
+        /* 👑 Crown Button - GOLD (FIXED) */
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
@@ -305,14 +293,6 @@
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
-        
-        /* Ranking Table */
-        .ranking-table { width: 100%; border-collapse: collapse; }
-        .ranking-table th { text-align: left; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-bottom: 1px solid var(--border); }
-        .ranking-table td { padding: 0.75rem; border-bottom: 1px solid var(--border); }
-        .ranking-table tr:last-child td { border-bottom: none; }
-        .rank-pos { font-weight: bold; width: 40px; }
-        .rank-1 { color: #fbbf24; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -726,7 +706,7 @@
         </div>
     </div>
 
-    <!-- ===== HEADER ===== -->
+    <!-- ===== HEADER (WITH GOLDEN CROWN FIX) ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
@@ -764,7 +744,7 @@
                             <span id="displayUserName">Usuário</span>
                         </span>
                         
-                        <!-- 👑 GOLDEN CROWN BUTTON (Admin Only) -->
+                        <!-- 👑 GOLDEN CROWN BUTTON (Admin Only) - FIXED -->
                         <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
                         </button>
@@ -935,59 +915,99 @@
                 </a>
             </div>
             
-            <!-- SPECIAL COURSES SECTION (WHATSAPP INTEGRATION) -->
+            <!-- SPECIAL COURSES SECTION -->
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="font-display font-bold text-xl">🎓 Cursos Especiais</h3>
-                    <span class="text-sm c-text-muted">Conteúdo exclusivo via WhatsApp</span>
+                    <span class="text-sm c-text-muted">Conteúdo exclusivo</span>
                 </div>
                 
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <!-- Business -->
-                    <div onclick="openCourseWhatsapp('Business English')" class="course-card">
+                    <a href="business.html" class="course-card">
                         <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
                         <h4 class="font-bold text-sm mb-1">Business</h4>
                         <p class="text-xs c-text-muted">Inglês corporativo</p>
-                    </div>
+                    </a>
                     <!-- Biblical -->
-                    <div onclick="openCourseWhatsapp('Bíblico')" class="course-card">
+                    <a href="biblico.html" class="course-card">
                         <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
                         <h4 class="font-bold text-sm mb-1">Bíblico</h4>
                         <p class="text-xs c-text-muted">Textos sagrados</p>
-                    </div>
+                    </a>
                     <!-- Kids -->
-                    <div onclick="openCourseWhatsapp('Kids')" class="course-card">
+                    <a href="kids.html" class="course-card">
                         <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
                         <h4 class="font-bold text-sm mb-1">Kids</h4>
                         <p class="text-xs c-text-muted">Para crianças</p>
-                    </div>
+                    </a>
                     <!-- Airport -->
-                    <div onclick="openCourseWhatsapp('Airport')" class="course-card">
+                    <a href="airport.html" class="course-card">
                         <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
                         <h4 class="font-bold text-sm mb-1">Airport</h4>
                         <p class="text-xs c-text-muted">Viagens aéreas</p>
-                    </div>
+                    </a>
                     <!-- Travel -->
-                    <div onclick="openCourseWhatsapp('Travel')" class="course-card">
+                    <a href="travel.html" class="course-card">
                         <div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div>
                         <h4 class="font-bold text-sm mb-1">Travel</h4>
                         <p class="text-xs c-text-muted">Turismo</p>
-                    </div>
+                    </a>
                 </div>
             </div>
             
-            <!-- Today's Lessons Preview (DYNAMIC) -->
+            <!-- Today's Lessons Preview -->
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="font-display font-bold text-xl">📚 Lições de Hoje</h3>
                     <span class="text-sm c-text-muted">3 disponíveis</span>
                 </div>
                 
-                <div id="todayLessonsContainer" class="space-y-3">
-                    <!-- Dynamic content will be loaded here based on user level -->
-                    <div class="text-center c-text-muted py-4">
-                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando lições...
-                    </div>
+                <div class="space-y-3">
+                    <a href="lesson-u01.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold mb-1">Greetings & Introductions</h4>
+                                <p class="text-sm c-text-muted">Saudações e apresentações básicas</p>
+                            </div>
+                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-bolt"></i> +50 XP
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="lesson-u02.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl c-secondary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
+                                <i class="fa-solid fa-hashtag"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold mb-1">Numbers 1-20</h4>
+                                <p class="text-sm c-text-muted">Números e contagem</p>
+                            </div>
+                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
+                                <i class="fa-solid fa-bolt"></i> +50 XP
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="lesson-u03.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all opacity-75">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl c-accent-bg flex items-center justify-center text-xl text-white flex-shrink-0">
+                                <i class="fa-solid fa-palette"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold mb-1">Colors</h4>
+                                <p class="text-sm c-text-muted">Cores básicas</p>
+                            </div>
+                            <div class="bg-gray-600 text-gray-300 px-3 py-1.5 rounded-full text-xs font-bold">
+                                Em breve
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1045,22 +1065,15 @@
         window.approveUser = approveUser;
         window.rejectUser = rejectUser;
         window.showForgotPassword = showForgotPassword;
-        window.openCourseWhatsapp = openCourseWhatsapp;
 
         // ===== AUTH STATE LISTENER =====
         onAuthStateChanged(auth, async (user) => {
-            console.log('🔄 Auth state changed:', user ? 'LOGGED IN' : 'LOGGED OUT');
-            
             if (user) {
                 try {
-                    console.log('🔍 Buscando dados do usuário no Firestore...');
                     const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-                    
                     if (userDoc.exists()) {
                         userData = { uid: user.uid, ...userDoc.data() };
                         currentUser = user;
-                        
-                        console.log('✅ Dados do usuário carregados:', userData);
                         
                         // Update last login
                         await updateDoc(doc(db, "usuarios", user.uid), {
@@ -1068,33 +1081,25 @@
                         });
                         
                         if (userData.status === 'approved') {
-                            console.log('✅ Usuário aprovado - atualizando UI');
                             updateUI();
-                            loadDynamicLessons();
                             showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                         } else {
-                            console.warn('⚠️ Usuário não aprovado:', userData.status);
-                            showToast('Aguarde', `Seu cadastro está "${userData.status}". Contate o admin.`, 'warning');
+                            showToast('Aguarde', `Seu cadastro está ${userData.status}. Contate o admin.`, 'warning');
                             await logout();
                         }
-                    } else {
-                        console.error('❌ Documento do usuário não encontrado no Firestore');
-                        showToast('Erro', 'Dados do usuário não encontrados.', 'error');
-                        await logout();
                     }
                 } catch (error) {
-                    console.error('❌ Erro ao carregar usuário:', error);
-                    showToast('Erro', 'Falha ao carregar dados. Tente fazer login novamente.', 'error');
+                    console.error("Erro ao carregar usuário:", error);
+                    showToast('Erro ao carregar dados', 'error');
                 }
             } else {
-                console.log('🚪 Usuário deslogado');
                 currentUser = null;
                 userData = null;
                 updateUI();
             }
         });
 
-        // ===== UI UPDATES =====
+        // ===== UI UPDATES (CROWN BUTTON FIX) =====
         function updateUI() {
             const authButtons = document.getElementById('authButtons');
             const userInfo = document.getElementById('userInfo');
@@ -1102,7 +1107,11 @@
             const loggedInView = document.getElementById('loggedInView');
             const adminBtn = document.getElementById('adminBtn');
             
-            console.log('🔄 Atualizando UI:', { userData: userData?.role });
+            // Debug log
+            console.log("👑 Admin Check:", {
+                userData: userData?.role,
+                adminBtn: adminBtn
+            });
             
             if (userData) {
                 // Hide guest, show logged in
@@ -1130,16 +1139,16 @@
                 const xpBar = document.getElementById('xpBar');
                 if (xpBar) xpBar.style.width = xpPercent + '%';
                 
-                // 👑 CROWN BUTTON LOGIC
+                // 👑 CROWN BUTTON LOGIC (FIXED)
                 if (adminBtn) {
                     if (userData.role === 'admin') {
                         adminBtn.classList.remove('hidden');
-                        adminBtn.style.display = 'flex';
-                        console.log('👑 Crown shown for admin');
+                        adminBtn.style.display = 'flex'; // Force display
+                        console.log("👑 Crown shown for admin");
                     } else {
                         adminBtn.classList.add('hidden');
                         adminBtn.style.display = 'none';
-                        console.log('👑 Crown hidden for non-admin');
+                        console.log("👑 Crown hidden for non-admin");
                     }
                 }
                 
@@ -1215,22 +1224,16 @@
             const senha = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirmPassword').value;
             
-            console.log('📝 Tentando registro:', { nome, email });
-            
             if (senha !== confirm) { showToast('Erro', 'As senhas não coincidem', 'error'); return; }
             if (senha.length < 6) { showToast('Erro', 'Senha deve ter pelo menos 6 caracteres', 'error'); return; }
             
             btn.classList.add('loading'); btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Criando...';
             
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-                const uid = userCredential.user.uid;
-                
-                console.log('✅ Usuário criado no Auth:', uid);
                 
                 // Save user data to Firestore
-                await setDoc(doc(db, "usuarios", uid), {
+                await setDoc(doc(db, "usuarios", userCredential.user.uid), {
                     nome, email,
                     role: 'student',
                     status: 'pending', // Requires admin approval
@@ -1240,8 +1243,6 @@
                     progresso: {},
                     cursosEspeciais: {}
                 });
-                
-                console.log('✅ Dados salvos no Firestore');
                 
                 closeModal('registerModal');
                 showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação do admin.', 'success');
@@ -1256,17 +1257,9 @@
                 }, 2000);
                 
             } catch (error) {
-                console.error('❌ Erro no registro:', error.code, error.message);
-                
-                let msg = 'Erro ao criar conta. Tente novamente.';
-                if (error.code === 'auth/email-already-in-use') msg = 'Este email já está em uso.';
-                else if (error.code === 'auth/invalid-email') msg = 'Email inválido.';
-                else if (error.code === 'auth/weak-password') msg = 'Senha muito fraca.';
-                
-                showToast('Erro', msg, 'error');
+                showToast('Erro', error.message, 'error');
             } finally {
                 btn.classList.remove('loading'); btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Criar conta';
             }
         }
 
@@ -1274,40 +1267,19 @@
         async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            const email = document.getElementById('loginEmail').value.trim();
+            const email = document.getElementById('loginEmail').value;
             const senha = document.getElementById('loginPassword').value;
             
-            console.log('🔐 Tentando login:', { email });
-            
             btn.classList.add('loading'); btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Entrando...';
             
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-                console.log('✅ Login sucesso:', userCredential.user.uid);
-                
-                // Aguarda o onAuthStateChanged atualizar a UI
+                await signInWithEmailAndPassword(auth, email, senha);
                 closeModal('loginModal');
-                showToast('Bem-vindo!', 'Login realizado com sucesso!', 'success');
-                
-                // Limpa campos
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-                
+                // onAuthStateChanged will handle UI update
             } catch (error) {
-                console.error('❌ Erro no login:', error.code, error.message);
-                
-                // Mensagens amigáveis por tipo de erro
-                let msg = 'Erro ao fazer login. Tente novamente.';
-                if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
-                else if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
-                else if (error.code === 'auth/invalid-email') msg = 'Email inválido.';
-                else if (error.code === 'auth/user-disabled') msg = 'Conta desativada.';
-                
-                showToast('Erro', msg, 'error');
+                showToast('Erro', error.message, 'error');
             } finally {
                 btn.classList.remove('loading'); btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Entrar';
             }
         }
 
@@ -1335,12 +1307,9 @@
         // ===== ADMIN: LOAD DASHBOARD DATA =====
         async function loadDashboardData() {
             try {
-                console.log('📊 Carregando dados do dashboard...');
                 const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
                 const snapshot = await getDocs(q);
                 allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                console.log('✅ Dados carregados:', allStudents.length, 'alunos');
                 
                 updateStats();
                 renderCharts();
@@ -1349,7 +1318,7 @@
                 updateCourseStats();
                 
             } catch (error) {
-                console.error('❌ Erro ao carregar dashboard:', error);
+                console.error('Erro ao carregar dashboard:', error);
                 showToast('Erro', 'Falha ao carregar dados', 'error');
             }
         }
@@ -1710,63 +1679,8 @@
             showToast('Em desenvolvimento', 'Funcionalidade em breve!', 'warning');
         }
 
-        // ===== WHATSAPP COURSES =====
-        window.openCourseWhatsapp = (courseName) => {
-            const phone = "5541999653041";
-            const msg = `Olá! Gostaria de desbloquear o curso especial: *${courseName}*. Como faço?`;
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
-        };
-
-        // ===== DYNAMIC LESSONS LOADER =====
-        function loadDynamicLessons() {
-            const container = document.getElementById('todayLessonsContainer');
-            const level = (userData.level || 'A1').toLowerCase();
-            let lessonsHtml = '';
-
-            // Map levels to folders/files
-            const lessonMap = {
-                'a1': [
-                    { title: 'Greetings & Introductions', desc: 'Saudações básicas', icon: 'comments', file: 'lesson-u01.html', xp: 50 },
-                    { title: 'Numbers 1-100', desc: 'Contagem e quantidades', icon: 'hashtag', file: 'lesson-u02.html', xp: 50 },
-                    { title: 'Colors', desc: 'Cores e adjetivos', icon: 'palette', file: 'lesson-u03.html', xp: 50 }
-                ],
-                'a2': [
-                    { title: 'Daily Routine', desc: 'Rotina diária', icon: 'sun', file: 'a2-u01.html', xp: 60 },
-                    { title: 'Family Members', desc: 'Família', icon: 'users', file: 'a2-u02.html', xp: 60 }
-                ]
-                // Add more levels as you create files
-            };
-
-            const currentLessons = lessonMap[level] || lessonMap['a1']; // Fallback to A1 if unknown
-
-            if (currentLessons.length > 0) {
-                lessonsHtml = currentLessons.map(l => `
-                    <a href="${l.file}" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-${l.icon}"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">${l.title}</h4>
-                                <p class="text-sm c-text-muted">${l.desc}</p>
-                            </div>
-                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
-                                <i class="fa-solid fa-bolt"></i> +${l.xp} XP
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
-            } else {
-                lessonsHtml = '<div class="text-center c-text-muted py-4">Nenhuma lição disponível neste nível no momento.</div>';
-            }
-            container.innerHTML = lessonsHtml;
-        }
-
         // ===== INIT =====
         window.addEventListener('DOMContentLoaded', () => {
-            console.log('🚀 EnglishPath initialized');
-            
             // Close modals on outside click
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
@@ -1786,18 +1700,6 @@
                     });
                 }
             });
-            
-            // Debug: Test Firebase connection
-            (async function testFirebaseConnection() {
-                try {
-                    console.log('🔌 Testando conexão Firebase...');
-                    await getDocs(query(collection(db, "usuarios"), limit(1)));
-                    console.log('✅ Conexão Firebase OK!');
-                } catch (e) {
-                    console.error('❌ Erro de conexão Firebase:', e.message);
-                    console.log('💡 Dica: Verifique se está usando servidor local (não file://)');
-                }
-            })();
         });
     </script>
 </body>
