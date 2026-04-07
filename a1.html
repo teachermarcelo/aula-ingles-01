@@ -56,7 +56,7 @@
         .skill-tab.active { color: #fff; background: var(--primary); border-color: var(--primary); }
         .skill-tab:not(.active):hover { color: var(--fg); border-color: var(--border); background: var(--card); }
         
-        .unit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem; transition: all .3s; display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; }
+        .unit-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem; transition: all .3s; display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; position: relative; overflow: hidden; }
         .unit-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
         .unit-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
         .skill-badge { font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
@@ -65,7 +65,7 @@
         .skill-speaking { background: rgba(34,197,94,0.15); color: #22c55e; }
         .skill-writing { background: rgba(139,92,246,0.15); color: #8b5cf6; }
         
-        .progress-ring { width: 40px; height: 40px; border-radius: 50%; background: conic-gradient(var(--primary) var(--progress, 0%), var(--border) 0); display: flex; align-items: center; justify-content: center; position: relative; font-weight: 700; font-size: 0.7rem; }
+        .progress-ring { width: 40px; height: 40px; border-radius: 50%; background: conic-gradient(var(--primary) var(--progress, 0%), var(--border) 0); display: flex; align-items: center; justify-content: center; position: relative; font-weight: 700; font-size: 0.7rem; transition: background 0.5s ease; }
         .progress-ring::before { content: ''; position: absolute; inset: 4px; background: var(--card); border-radius: 50%; }
         .progress-ring span { position: relative; z-index: 1; }
         
@@ -264,13 +264,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app); // ✅ CORREÇÃO: era getFirestore(db)
+const db = getFirestore(app);
 
 // ===== STATE =====
 let currentUser = null;
 let userData = null;
 let activeSkill = 'all';
 let userProgress = {};
+let refreshInterval = null;
 
 // ===== 30 UNITS DATA =====
 const UNITS = [
@@ -306,6 +307,17 @@ const UNITS = [
     {id:'u30',title:'A1 Final Challenge',icon:'fa-trophy',color:'#dc2626',skills:['reading','listening','speaking','writing']}
 ];
 
+// Configuração específica de questões por unidade (para cálculo de progresso)
+const UNIT_QUESTION_COUNTS = {
+    'u02': { reading: 10, listening: 15, speaking: 10, writing: 10 }, // U02 tem mais listening
+    // Padrão para outras unidades se não especificado
+    'default': { reading: 10, listening: 10, speaking: 10, writing: 10 }
+};
+
+function getUnitTotals(unitId) {
+    return UNIT_QUESTION_COUNTS[unitId] || UNIT_QUESTION_COUNTS['default'];
+}
+
 // ===== AUTH STATE LISTENER =====
 onAuthStateChanged(auth, async (user) => {
     console.log("Auth state changed:", user ? "Logged in" : "Logged out");
@@ -326,6 +338,9 @@ onAuthStateChanged(auth, async (user) => {
                 renderUnits();
                 updateLevelProgress();
                 
+                // Iniciar sincronização automática
+                startAutoSync();
+
                 if (userData.role === 'admin') {
                     document.getElementById('adminBtn').classList.remove('hidden');
                 }
@@ -343,10 +358,50 @@ onAuthStateChanged(auth, async (user) => {
         currentUser = null;
         userData = null;
         userProgress = {};
+        stopAutoSync();
         updateAuthUI();
         renderUnits();
     }
 });
+
+// ===== AUTO SYNC =====
+function startAutoSync() {
+    if (refreshInterval) clearInterval(refreshInterval);
+    // Atualiza dados a cada 5 segundos
+    refreshInterval = setInterval(() => {
+        if (currentUser) refreshUserData();
+    }, 5000);
+}
+
+function stopAutoSync() {
+    if (refreshInterval) clearInterval(refreshInterval);
+    refreshInterval = null;
+}
+
+async function refreshUserData() {
+    if (!currentUser) return;
+    try {
+        const userDocRef = doc(db, "usuarios", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+            const newData = userDoc.data();
+            // Só atualiza se houver mudança real no progresso para evitar re-render desnecessário
+            const oldProgressStr = JSON.stringify(userProgress);
+            const newProgressStr = JSON.stringify(newData.progresso || {});
+            
+            if (oldProgressStr !== newProgressStr) {
+                userProgress = newData.progresso || {};
+                userData = { ...userData, ...newData };
+                renderUnits();
+                updateLevelProgress();
+                console.log("🔄 Progresso atualizado automaticamente");
+            }
+        }
+    } catch (error) {
+        console.error("Erro na sincronização:", error);
+    }
+}
 
 // ===== UI FUNCTIONS =====
 function updateAuthUI() {
@@ -379,6 +434,8 @@ function renderUnits() {
     grid.innerHTML = filtered.map((u, i) => {
         const progress = getUnitProgress(u.id);
         const linkFile = `lesson-${u.id}.html`;
+        const isCompleted = progress === 100;
+        
         return `
         <a href="${linkFile}" class="unit-card reveal" style="transition-delay:${i*30}ms">
             <div class="flex items-start gap-3">
@@ -395,7 +452,7 @@ function renderUnits() {
             </div>
             <div class="flex items-center justify-between text-xs c-muted">
                 <span><i class="fa-regular fa-clock"></i> ~10 min each</span>
-                <span class="c-primary font-medium">${progress === 100 ? 'Concluído' : progress > 0 ? 'Em andamento' : 'Começar'}</span>
+                <span class="${isCompleted ? 'c-primary' : 'c-muted'} font-medium">${isCompleted ? 'Concluído' : progress > 0 ? 'Em andamento' : 'Começar'}</span>
             </div>
         </a>`;
     }).join('');
@@ -409,15 +466,41 @@ function getSkillIcon(skill) {
 }
 
 function getUnitProgress(unitId) {
+    const totals = getUnitTotals(unitId);
     const skills = ['reading','listening','speaking','writing'];
-    const done = skills.filter(s => userProgress[`${unitId}_${s}`]?.completed).length;
-    return Math.round((done / 4) * 100);
+    let completedCount = 0;
+
+    skills.forEach(skill => {
+        const progressVal = userProgress[`${unitId}_${skill}`];
+        const totalForSkill = totals[skill] || 10; // Default 10 se não definido
+        
+        // Lógica corrigida: Aceita objeto {completed: true} OU número >= total
+        if (progressVal?.completed || (typeof progressVal === 'number' && progressVal >= totalForSkill)) {
+            completedCount++;
+        }
+    });
+
+    return Math.round((completedCount / 4) * 100);
 }
 
 function getLevelProgress() {
-    const total = UNITS.length * 4;
-    const done = Object.values(userProgress).filter(p => p.completed).length;
-    return total > 0 ? Math.round((done / total) * 100) : 0;
+    let totalSkills = 0;
+    let completedSkills = 0;
+
+    UNITS.forEach(unit => {
+        const totals = getUnitTotals(unit.id);
+        unit.skills.forEach(skill => {
+            totalSkills++;
+            const progressVal = userProgress[`${unit.id}_${skill}`];
+            const totalForSkill = totals[skill] || 10;
+            
+            if (progressVal?.completed || (typeof progressVal === 'number' && progressVal >= totalForSkill)) {
+                completedSkills++;
+            }
+        });
+    });
+
+    return totalSkills > 0 ? Math.round((completedSkills / totalSkills) * 100) : 0;
 }
 
 function updateLevelProgress() {
