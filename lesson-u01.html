@@ -1,1552 +1,1486 @@
+Perfeito! Essa é uma adição excelente para consolidar o aprendizado. Vamos criar uma **7ª Aba: Vocabulary**, focada em **30 palavras-chave** relacionadas ao tema da lição (U01: Greetings & Introductions).
+
+Esta aba terá:
+1.  **Lista de 30 Palavras**: Pronúncia (TTS), Significado em PT-BR, Exemplo de uso.
+2.  **Modo Estudo**: O aluno pode ouvir a pronúncia e ler os exemplos.
+3.  **Mini-Quiz Rápido**: 5 perguntas de múltipla escolha aleatórias sobre essas palavras para garantir que aprendeu.
+4.  **Design Integrado**: Segue o mesmo padrão visual das outras abas.
+
+Aqui está o código completo da **`lesson-u01.html`** com a nova aba de Vocabulário incluída:
+
+```html
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U01: Greetings & Introductions | EnglishPath</title>
+    <title>U01: Greetings & Introductions | EnglishPath A1</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        display: ['Fredoka', 'sans-serif'],
-                        body: ['Nunito', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 3s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
-                        'bounce-slight': 'bounce-slight 0.5s ease-in-out',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        },
-                        shake: {
-                            '10%, 90%': { transform: 'translateX(-1px)' },
-                            '20%, 80%': { transform: 'translateX(2px)' },
-                            '30%, 50%, 70%': { transform: 'translateX(-4px)' },
-                            '40%, 60%': { transform: 'translateX(4px)' }
-                        },
-                        'bounce-slight': {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-5px)' }
-                        }
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#22c55e', secondary: '#3b82f6', accent: '#f59e0b', danger: '#ef4444' }
                 }
             }
         }
     </script>
     <style>
-        :root {
-            --bg: #0f172a; --bg2: #1e293b; --card: #1e293b; --card-hover: #334155;
-            --border: #334155; --text: #f1f5f9; --text-muted: #94a3b8;
-            --primary: #22c55e; --primary-dark: #16a34a;
-            --secondary: #3b82f6; --accent: #fbbf24; --accent-dark: #f59e0b;
-            --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
-            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
-        }
-        [data-theme="light"] {
-            --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
-            --border: #e2e8f0; --text: #0f172a; --text-muted: #64748b;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        * { box-sizing: border-box; margin: 0; }
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
-            padding-bottom: 100px;
-        }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
         
-        .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
-        .c-card:hover { border-color: var(--primary); }
-        .c-text { color: var(--text); }
-        .c-text-muted { color: var(--text-muted); }
-        .c-primary { color: var(--primary); }
-        .c-primary-bg { background: var(--primary); }
-        .c-secondary { color: var(--secondary); }
-        .c-secondary-bg { background: var(--secondary); }
-        .c-accent { color: var(--accent); }
-        .c-accent-bg { background: var(--accent); }
-        .c-gem { color: var(--gem); }
-        .c-streak { color: var(--streak); }
-        .c-xp { color: var(--xp); }
-        .c-danger { color: var(--danger); }
-        .c-danger-bg { background: var(--danger); }
-        
-        .btn {
-            padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
-            font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
-            border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
+        /* HEADER */
+        .header {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
-        .btn-secondary { background: var(--secondary); color: white; }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-lg { padding: 1rem 2rem; font-size: 1.1rem; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        .theme-toggle {
-            width: 52px; height: 28px; border-radius: 14px;
-            background: var(--border); position: relative; cursor: pointer; border: none;
-            transition: background 0.3s;
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #22c55e; cursor: pointer; }
+        .logo:hover { color: #16a34a; }
+        .cefr-badge {
+            padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+            background: #dbeafe; color: #1e40af;
         }
-        .theme-toggle::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 22px; height: 22px; border-radius: 50%;
-            background: var(--primary); transition: transform 0.3s;
+        
+        .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
+        
+        .stats { display: flex; gap: 1rem; align-items: center; }
+        .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
+        .stat-fire { background: #fff7ed; color: #f59e0b; }
+        .stat-bolt { background: #eff6ff; color: #3b82f6; }
+        .stat-xp { background: #f0fdf4; color: #22c55e; }
+        
+        .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
+        .menu-btn:hover { background: #f1f5f9; }
+        
+        /* TABS - CENTRALIZED */
+        .tabs-container {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
+            display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
         }
-        [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
-        
-        .skill-section { display: none; animation: fadeIn 0.3s ease; }
-        .skill-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .exercise-card {
-            background: var(--card); border: 2px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
-            transition: all 0.3s;
+        .tabs {
+            display: flex; gap: 0.25rem; overflow-x: auto; max-width: 900px;
         }
-        .exercise-card:hover { border-color: var(--primary); transform: translateY(-2px); }
-        .exercise-card.completed { border-color: var(--primary); background: rgba(34,197,94,0.05); }
-        .exercise-card.correct { border-color: #22c55e; background: rgba(34,197,94,0.1); }
-        .exercise-card.wrong { border-color: #ef4444; background: rgba(239,68,68,0.1); animation: shake 0.5s; }
-        
-        .option-btn {
-            width: 100%; padding: 1rem; border-radius: 12px;
-            border: 2px solid var(--border); background: var(--bg);
-            color: var(--text); font-weight: 600; cursor: pointer;
-            transition: all 0.3s; text-align: left;
-            display: flex; align-items: center; gap: 0.75rem;
-            margin-bottom: 0.75rem;
+        .tab-btn {
+            padding: 0.75rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.85rem;
+            color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-        .option-btn:hover { border-color: var(--primary); transform: translateX(4px); }
-        .option-btn.selected { background: rgba(34,197,94,0.2); border-color: #22c55e; }
-        .option-btn.correct { background: rgba(34,197,94,0.3); border-color: #22c55e; }
-        .option-btn.wrong { background: rgba(239,68,68,0.3); border-color: #ef4444; }
+        .tab-btn:hover { background: #f8fafc; color: #1e293b; }
+        .tab-btn.active { background: #22c55e; color: white; }
+        .tab-btn.completed { color: #16a34a; }
+        .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
         
-        .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
-        
-        /* Voice Recording Styles */
-        .voice-recorder {
-            background: var(--card-hover); border-radius: 20px; padding: 2rem;
-            text-align: center; border: 2px solid var(--border);
+        /* DIFFICULTY */
+        .difficulty {
+            display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
         }
+        .difficulty.easy { background: #dcfce7; color: #166534; }
+        .difficulty.medium { background: #fef3c7; color: #92400e; }
+        .difficulty.hard { background: #fed7aa; color: #c2410c; }
+        
+        /* MAIN */
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 220px); }
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+        .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
+        .objective-box {
+            background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px;
+            margin-bottom: 2rem; font-size: 0.9rem;
+        }
+        
+        /* CARDS */
+        .card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
+            margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        /* VOCABULARY CARD STYLE */
+        .vocab-card {
+            display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+            padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
+            background: white; transition: all 0.2s;
+        }
+        .vocab-card:hover { border-color: #3b82f6; transform: translateX(4px); }
+        .vocab-word { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+        .vocab-pron { font-size: 0.9rem; color: #64748b; font-style: italic; }
+        .vocab-meaning { font-size: 1rem; color: #3b82f6; font-weight: 600; margin-top: 0.25rem; }
+        .vocab-example { font-size: 0.9rem; color: #475569; margin-top: 0.5rem; font-style: italic; }
+        .vocab-audio-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: #eff6ff; color: #3b82f6;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
+        }
+        .vocab-audio-btn:hover { background: #3b82f6; color: white; }
+        .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
+        
+        /* TTS */
+        .tts-controls {
+            display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
+        }
+        .tts-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: #3b82f6; color: white; border: none; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        .speed-select {
+            padding: 0.4rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px;
+            background: white; font-size: 0.85rem; cursor: pointer;
+        }
+        .transcript {
+            background: #f8fafc; padding: 1rem; border-radius: 8px; margin-top: 0.75rem;
+            font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
+        }
+        .transcript.show { display: block; }
+        
+        /* READING */
+        .reading-text { font-size: 1.1rem; line-height: 2; color: #334155; margin-bottom: 1rem; }
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat; background-size: 100% 40%; background-position: 0 88%;
+            padding: 0 0.25rem; font-weight: 700; cursor: pointer;
+        }
+        .highlight:hover { background-size: 100% 100%; }
+        
+        /* VIDEO */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; margin: 1rem 0; background: #000;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        
+        /* OPTIONS */
+        .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .option {
+            padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
+        }
+        .option:hover { border-color: #3b82f6; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .option.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        
+        /* SPEAKING */
         .record-btn {
             width: 120px; height: 120px; border-radius: 50%;
-            background: var(--danger); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; margin: 0 auto 1.5rem; cursor: pointer;
-            transition: all 0.3s; box-shadow: 0 0 30px rgba(239,68,68,0.4);
-            position: relative;
+            background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            margin: 2rem auto; cursor: pointer; border: none;
+            box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
         }
-        .record-btn:hover { transform: scale(1.1); }
-        .record-btn.recording { 
-            animation: pulse-slow; 
-            background: #dc2626;
-            box-shadow: 0 0 50px rgba(239,68,68,0.8);
+        .record-btn:active { transform: translateY(8px); box-shadow: none; }
+        .record-btn.recording { animation: recording-pulse 1s infinite; }
+        @keyframes recording-pulse { 50% { transform: scale(1.05); } }
+        
+        .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
+        .score-display.good { color: #22c55e; }
+        .score-display.bad { color: #ef4444; }
+        
+        /* WRITING */
+        .writing-area {
+            width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
         }
-        .record-btn.listening {
-            background: var(--secondary);
-            box-shadow: 0 0 30px rgba(59,130,246,0.6);
+        .writing-area:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
+        
+        /* GRAMMAR EXPLANATION */
+        .grammar-explanation {
+            background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 12px;
+            padding: 1.5rem; margin: 1.5rem 0;
         }
-        .record-btn.playing {
-            background: var(--primary);
-            box-shadow: 0 0 30px rgba(34,197,94,0.6);
+        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center; gap: 0.5rem; }
+        .grammar-explanation .rule { background: white; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; }
+        .grammar-explanation .formula {
+            background: #dbeafe; padding: 0.75rem; border-radius: 8px; font-family: monospace;
+            font-weight: 600; margin: 0.75rem 0; text-align: center;
+        }
+        .grammar-explanation ul { margin-left: 1.5rem; color: #475569; }
+        .grammar-explanation li { margin-bottom: 0.5rem; }
+        .grammar-explanation .tip {
+            background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem;
+            margin: 0.75rem 0; font-size: 0.9rem;
         }
         
-        .waveform {
-            height: 60px; display: flex; align-items: center; justify-content: center;
-            gap: 4px; margin: 1.5rem 0; opacity: 0; transition: opacity 0.3s;
-        }
-        .waveform.active { opacity: 1; }
-        .wave-bar {
-            width: 6px; background: var(--primary); border-radius: 3px;
-            animation: wave 0.5s ease-in-out infinite alternate;
-        }
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
-        .wave-bar:nth-child(6) { animation-delay: 0.5s; }
-        .wave-bar:nth-child(7) { animation-delay: 0.6s; }
-        @keyframes wave { from { height: 10px; } to { height: 50px; } }
+        /* ACTIONS - IMPROVED BUTTONS */
+        .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
         
-        .score-display {
-            font-size: 2.5rem; font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 1rem 0;
+        .btn {
+            padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-width: 120px;
+        }
+        .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
+        .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+        .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
+        .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
+        .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .btn-next-section { 
+            background: #22c55e; 
+            color: white; 
+            box-shadow: 0 4px 0 #16a34a;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .btn-refazer { 
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
         }
         
-        .feedback {
-            padding: 1rem; border-radius: 12px; margin-top: 1rem;
-            display: none; animation: slideUp 0.3s ease;
-        }
-        .feedback.show { display: block; }
-        .feedback.correct { background: rgba(34,197,94,0.15); border-left: 4px solid #22c55e; }
-        .feedback.wrong { background: rgba(239,68,68,0.15); border-left: 4px solid #ef4444; }
+        /* FEEDBACK */
+        .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
+        .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .skill-tab {
-            padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 600;
-            transition: all 0.3s; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
-            border: 2px solid transparent;
+        /* HINTS */
+        .hint-box {
+            background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0; display: none;
         }
-        .skill-tab.active { background: var(--card-hover); border-color: var(--primary); }
-        .skill-tab[data-skill="reading"].active { border-color: #06b6d4; color: #06b6d4; }
-        .skill-tab[data-skill="listening"].active { border-color: #dc2626; color: #dc2626; }
-        .skill-tab[data-skill="speaking"].active { border-color: #22c55e; color: #22c55e; }
-        .skill-tab[data-skill="writing"].active { border-color: #8b5cf6; color: #8b5cf6; }
-        .skill-tab:not(.active):hover { background: var(--card-hover); }
+        .hint-box.show { display: block; }
+        .hint-cost { font-size: 0.8rem; color: #92400e; margin-left: 0.5rem; }
         
+        /* NOTES */
+        .notes-area {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0;
+        }
+        .notes-area textarea {
+            width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
+            border-radius: 8px; font-family: inherit; resize: vertical;
+        }
+        
+        /* SETTINGS */
+        .settings-menu {
+            position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 200; display: none; min-width: 220px;
+        }
+        .settings-menu.show { display: block; }
+        .settings-item {
+            padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex;
+            align-items: center; gap: 0.75rem; font-size: 0.9rem;
+        }
+        .settings-item:hover { background: #f8fafc; }
+        
+        /* COMPLETION */
         .completion-screen {
-            text-align: center; padding: 3rem;
+            text-align: center; padding: 3rem 1rem;
         }
-        .xp-reward {
-            font-size: 4rem; font-weight: 800; color: var(--xp);
-            text-shadow: 0 0 30px rgba(6,182,212,0.6);
-            animation: float 2s ease-in-out infinite;
-        }
+        .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
         
-        .lesson-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: var(--card); border-top: 1px solid var(--border);
-            padding: 1rem; z-index: 100;
+        /* SECTION COMPLETE SCREEN */
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
         }
-        .nav-btn {
-            flex: 1; padding: 0.75rem; border-radius: 12px;
-            font-weight: 600; cursor: pointer; transition: all 0.3s;
-            border: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-        }
-        .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .nav-prev { background: var(--card-hover); color: var(--text); margin-right: 0.5rem; }
-        .nav-prev:hover:not(:disabled) { background: var(--border); }
-        .nav-next { background: var(--primary); color: white; margin-left: 0.5rem; }
-        .nav-next:hover:not(:disabled) { background: var(--primary-dark); }
+        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
         
-        .toast {
-            position: fixed; bottom: 100px; right: 20px;
-            background: var(--card); border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem; border-radius: 12px;
-            box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
-            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
-            max-width: 350px;
+        /* ENTER KEY HINT */
+        .enter-hint {
+            text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
         }
-        .toast.show { transform: translateX(0); }
-        .toast.success { border-left-color: #22c55e; }
-        .toast.error { border-left-color: #ef4444; }
-        
-        .input-field {
-            width: 100%; padding: 0.75rem 1rem;
-            border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg); color: var(--text);
-            font-family: inherit; font-size: 1rem;
-            transition: border-color 0.3s;
+        .enter-hint kbd {
+            background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: monospace; font-weight: 600;
         }
-        .input-field:focus { outline: none; border-color: var(--primary); }
         
         @media (max-width: 768px) {
-            body { padding-bottom: 110px; }
-            .record-btn { width: 100px; height: 100px; font-size: 2.5rem; }
-            .xp-reward { font-size: 3rem; }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .progress-section { margin: 0; width: 100%; }
+            .main { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .actions { flex-direction: column; }
+            .tabs-container { padding: 0.5rem 1rem; }
+            .btn { min-width: 100px; padding: 0.75rem 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="sticky top-0 z-50 c-card border-b border-gray-700">
-        <div class="max-w-4xl mx-auto px-4 py-3">
-            <div class="flex items-center justify-between mb-3">
-                <a href="a1.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg c-primary-bg flex items-center justify-center">
-                        <i class="fa-solid fa-arrow-left text-white text-sm"></i>
-                    </div>
-                    <span class="font-bold text-sm hidden sm:inline">Voltar para A1</span>
-                </a>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo" onclick="goHome()">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>EnglishPath</span>
+            <span class="cefr-badge" id="cefrBadge">A1</span>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
-            
-            <!-- Lesson Progress -->
-            <div class="mb-2">
-                <div class="flex justify-between text-xs mb-2">
-                    <span class="c-text-muted">U01: Greetings & Introductions</span>
-                    <span class="font-bold"><span id="completedExercises">0</span>/40 exercícios</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="lessonProgress" class="progress-fill" style="width: 0%"></div>
-                </div>
-            </div>
-            
-            <!-- Skill Progress -->
-            <div class="grid grid-cols-4 gap-2 text-xs">
-                <div class="text-center">
-                    <div class="c-text-muted mb-1">Reading</div>
-                    <div class="progress-bar h-1.5">
-                        <div id="readingProgress" class="progress-fill bg-cyan-500" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <div class="c-text-muted mb-1">Listening</div>
-                    <div class="progress-bar h-1.5">
-                        <div id="listeningProgress" class="progress-fill bg-red-500" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <div class="c-text-muted mb-1">Speaking</div>
-                    <div class="progress-bar h-1.5">
-                        <div id="speakingProgress" class="progress-fill bg-green-500" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <div class="c-text-muted mb-1">Writing</div>
-                    <div class="progress-bar h-1.5">
-                        <div id="writingProgress" class="progress-fill bg-purple-500" style="width: 0%"></div>
-                    </div>
-                </div>
+            <div class="progress-stats">
+                <span><span id="currentQ">0</span>/<span id="totalQ">65</span> questões</span>
+                <span id="progressPercent">0%</span>
             </div>
         </div>
-    </header>
-
-    <!-- ===== SKILL TABS ===== -->
-    <div class="sticky top-28 z-40 c-card border-b border-gray-700">
-        <div class="max-w-4xl mx-auto px-4 py-3 overflow-x-auto">
-            <div class="flex items-center gap-2">
-                <button class="skill-tab active" onclick="switchSkill('reading')" data-skill="reading">
-                    <i class="fa-solid fa-book-open"></i> Reading <span class="text-xs">(10)</span>
-                </button>
-                <button class="skill-tab" onclick="switchSkill('listening')" data-skill="listening">
-                    <i class="fa-solid fa-headphones"></i> Listening <span class="text-xs">(10)</span>
-                </button>
-                <button class="skill-tab" onclick="switchSkill('speaking')" data-skill="speaking">
-                    <i class="fa-solid fa-microphone"></i> Speaking <span class="text-xs">(10)</span>
-                </button>
-                <button class="skill-tab" onclick="switchSkill('writing')" data-skill="writing">
-                    <i class="fa-solid fa-pen-nib"></i> Writing <span class="text-xs">(10)</span>
-                </button>
-            </div>
+        
+        <div class="stats">
+            <div class="stat stat-fire"><i class="fa-solid fa-fire"></i><span id="streakDisplay">0</span></div>
+            <div class="stat stat-bolt"><i class="fa-solid fa-bolt"></i><span id="xpDisplay">0</span></div>
+            <button class="menu-btn" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
     </div>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="max-w-4xl mx-auto px-4 py-6">
-        
-        <!-- ===== READING SECTION (10 exercises) ===== -->
-        <section id="reading" class="skill-section active">
-            <div class="mb-6">
-                <h2 class="font-display font-bold text-2xl mb-2">📖 Reading: Greetings & Introductions</h2>
-                <p class="c-text-muted">Leia o texto e complete os 10 exercícios de compreensão</p>
-            </div>
-            
-            <!-- Reading Text -->
-            <div class="c-card rounded-2xl p-6 mb-6">
-                <h3 class="font-bold text-lg mb-4">📝 Meet Maria and John</h3>
-                <div class="reading-text text-lg leading-relaxed space-y-4" id="readingText">
-                    <p>Hello! My name is <span class="vocab-highlight c-primary font-bold">Maria</span>. I am from Brazil. I am twenty-five years old.</p>
-                    <p>Nice to meet you! What is your name?</p>
-                    <p>Hi Maria! I am <span class="vocab-highlight c-primary font-bold">John</span>. I am from the United States. I am thirty years old.</p>
-                    <p>Goodbye! See you later!</p>
-                </div>
-                <button onclick="speakText('readingText')" class="btn btn-secondary mt-4">
-                    <i class="fa-solid fa-volume-high"></i> Ouvir Texto
-                </button>
-            </div>
-            
-            <!-- Exercise 1 -->
-            <div class="exercise-card" id="reading-ex-1">
-                <h4 class="font-bold mb-3">1. What is Maria's name?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', false)">
-                        <span class="option-letter">A</span> John
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', true)">
-                        <span class="option-letter">B</span> Maria
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(1, 'Maria', false)">
-                        <span class="option-letter">C</span> Brazil
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 2 -->
-            <div class="exercise-card" id="reading-ex-2">
-                <h4 class="font-bold mb-3">2. Where is Maria from?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', true)">
-                        <span class="option-letter">A</span> Brazil
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', false)">
-                        <span class="option-letter">B</span> United States
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(2, 'Brazil', false)">
-                        <span class="option-letter">C</span> England
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 3 -->
-            <div class="exercise-card" id="reading-ex-3">
-                <h4 class="font-bold mb-3">3. How old is Maria?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', true)">
-                        <span class="option-letter">A</span> 25 years old
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', false)">
-                        <span class="option-letter">B</span> 30 years old
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(3, '25', false)">
-                        <span class="option-letter">C</span> 20 years old
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 4 -->
-            <div class="exercise-card" id="reading-ex-4">
-                <h4 class="font-bold mb-3">4. Where is John from?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', false)">
-                        <span class="option-letter">A</span> Brazil
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', true)">
-                        <span class="option-letter">B</span> United States
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(4, 'United States', false)">
-                        <span class="option-letter">C</span> Canada
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 5 -->
-            <div class="exercise-card" id="reading-ex-5">
-                <h4 class="font-bold mb-3">5. How old is John?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', false)">
-                        <span class="option-letter">A</span> 25 years old
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', true)">
-                        <span class="option-letter">B</span> 30 years old
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(5, '30', false)">
-                        <span class="option-letter">C</span> 35 years old
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 6 -->
-            <div class="exercise-card" id="reading-ex-6">
-                <h4 class="font-bold mb-3">6. Complete: "Nice to _____ you!"</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', true)">
-                        <span class="option-letter">A</span> meet
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', false)">
-                        <span class="option-letter">B</span> see
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(6, 'meet', false)">
-                        <span class="option-letter">C</span> know
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 7 -->
-            <div class="exercise-card" id="reading-ex-7">
-                <h4 class="font-bold mb-3">7. Complete: "Good_____! See you later."</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', true)">
-                        <span class="option-letter">A</span> bye
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', false)">
-                        <span class="option-letter">B</span> morning
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(7, 'bye', false)">
-                        <span class="option-letter">C</span> night
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 8 -->
-            <div class="exercise-card" id="reading-ex-8">
-                <h4 class="font-bold mb-3">8. What does "Nice to meet you" mean?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', true)">
-                        <span class="option-letter">A</span> Prazer em conhecer
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', false)">
-                        <span class="option-letter">B</span> Adeus
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(8, 'Prazer', false)">
-                        <span class="option-letter">C</span> Bom dia
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 9 -->
-            <div class="exercise-card" id="reading-ex-9">
-                <h4 class="font-bold mb-3">9. Which greeting is formal?</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', true)">
-                        <span class="option-letter">A</span> Hello
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', false)">
-                        <span class="option-letter">B</span> Hi
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(9, 'Hello', false)">
-                        <span class="option-letter">C</span> Hey
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 10 -->
-            <div class="exercise-card" id="reading-ex-10">
-                <h4 class="font-bold mb-3">10. Choose the correct introduction:</h4>
-                <div class="options">
-                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', true)">
-                        <span class="option-letter">A</span> My name is Maria
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', false)">
-                        <span class="option-letter">B</span> I name Maria
-                    </button>
-                    <button class="option-btn" onclick="checkReadingAnswer(10, 'My name is', false)">
-                        <span class="option-letter">C</span> Name is Maria
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-        </section>
-        
-        <!-- ===== LISTENING SECTION (10 exercises) ===== -->
-        <section id="listening" class="skill-section">
-            <div class="mb-6">
-                <h2 class="font-display font-bold text-2xl mb-2">🎧 Listening: Greetings Audio</h2>
-                <p class="c-text-muted">Ouça os áudios e complete os 10 exercícios</p>
-            </div>
-            
-            <!-- Exercise 1 -->
-            <div class="exercise-card" id="listening-ex-1">
-                <h4 class="font-bold mb-3">1. Listen and choose what you hear:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(1, 'Hello')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', true)">
-                        <span class="option-letter">A</span> Hello
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', false)">
-                        <span class="option-letter">B</span> Goodbye
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(1, 'Hello', false)">
-                        <span class="option-letter">C</span> Thank you
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 2 -->
-            <div class="exercise-card" id="listening-ex-2">
-                <h4 class="font-bold mb-3">2. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(2, 'My name is John')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', false)">
-                        <span class="option-letter">A</span> My name is Maria
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', true)">
-                        <span class="option-letter">B</span> My name is John
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(2, 'My name is John', false)">
-                        <span class="option-letter">C</span> I am John
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 3 -->
-            <div class="exercise-card" id="listening-ex-3">
-                <h4 class="font-bold mb-3">3. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(3, 'Nice to meet you')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', true)">
-                        <span class="option-letter">A</span> Nice to meet you
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', false)">
-                        <span class="option-letter">B</span> Nice to see you
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(3, 'Nice to meet you', false)">
-                        <span class="option-letter">C</span> Good to meet you
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 4 -->
-            <div class="exercise-card" id="listening-ex-4">
-                <h4 class="font-bold mb-3">4. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(4, 'Goodbye')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', true)">
-                        <span class="option-letter">A</span> Goodbye
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', false)">
-                        <span class="option-letter">B</span> Good morning
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(4, 'Goodbye', false)">
-                        <span class="option-letter">C</span> Good night
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 5 -->
-            <div class="exercise-card" id="listening-ex-5">
-                <h4 class="font-bold mb-3">5. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(5, 'I am from Brazil')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', true)">
-                        <span class="option-letter">A</span> I am from Brazil
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', false)">
-                        <span class="option-letter">B</span> I am from USA
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(5, 'I am from Brazil', false)">
-                        <span class="option-letter">C</span> I am from England
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 6 -->
-            <div class="exercise-card" id="listening-ex-6">
-                <h4 class="font-bold mb-3">6. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(6, 'See you later')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', true)">
-                        <span class="option-letter">A</span> See you later
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', false)">
-                        <span class="option-letter">B</span> See you soon
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(6, 'See you later', false)">
-                        <span class="option-letter">C</span> See you tomorrow
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 7 -->
-            <div class="exercise-card" id="listening-ex-7">
-                <h4 class="font-bold mb-3">7. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(7, 'How are you?')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', true)">
-                        <span class="option-letter">A</span> How are you?
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', false)">
-                        <span class="option-letter">B</span> How old are you?
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(7, 'How are you?', false)">
-                        <span class="option-letter">C</span> Where are you?
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 8 -->
-            <div class="exercise-card" id="listening-ex-8">
-                <h4 class="font-bold mb-3">8. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(8, 'I am fine')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', true)">
-                        <span class="option-letter">A</span> I am fine
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', false)">
-                        <span class="option-letter">B</span> I am good
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(8, 'I am fine', false)">
-                        <span class="option-letter">C</span> I am well
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 9 -->
-            <div class="exercise-card" id="listening-ex-9">
-                <h4 class="font-bold mb-3">9. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(9, 'What is your name?')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', true)">
-                        <span class="option-letter">A</span> What is your name?
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', false)">
-                        <span class="option-letter">B</span> Where is your name?
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(9, 'What is your name?', false)">
-                        <span class="option-letter">C</span> Who is your name?
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 10 -->
-            <div class="exercise-card" id="listening-ex-10">
-                <h4 class="font-bold mb-3">10. Listen and choose:</h4>
-                <div class="voice-recorder mb-4">
-                    <button class="play-btn w-16 h-16 rounded-full c-primary-bg text-white text-2xl mx-auto mb-2" onclick="playListeningAudio(10, 'Thank you very much')">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-                    <p class="text-sm c-text-muted">Clique para ouvir</p>
-                </div>
-                <div class="options">
-                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', true)">
-                        <span class="option-letter">A</span> Thank you very much
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', false)">
-                        <span class="option-letter">B</span> Thanks a lot
-                    </button>
-                    <button class="option-btn" onclick="checkListeningAnswer(10, 'Thank you very much', false)">
-                        <span class="option-letter">C</span> Thank you
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-        </section>
-        
-        <!-- ===== SPEAKING SECTION (10 exercises with Voice Recognition) ===== -->
-        <section id="speaking" class="skill-section">
-            <div class="mb-6">
-                <h2 class="font-display font-bold text-2xl mb-2">🗣️ Speaking: Pronunciation Practice</h2>
-                <p class="c-text-muted">Fale as 10 frases. O sistema vai avaliar sua pronúncia automaticamente!</p>
-                <div class="c-card rounded-xl p-4 mt-4 bg-blue-500/10 border-blue-500">
-                    <p class="text-sm"><i class="fa-solid fa-info-circle mr-2"></i><strong>Como funciona:</strong></p>
-                    <ul class="text-sm mt-2 space-y-1 list-disc list-inside">
-                        <li>Clique no microfone e fale a frase em inglês</li>
-                        <li>O sistema para automaticamente quando você termina</li>
-                        <li>Receba uma nota de 0-100% baseada na precisão</li>
-                        <li>Pode tentar quantas vezes quiser!</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Speaking Exercise 1 -->
-            <div class="exercise-card" id="speaking-ex-1">
-                <h4 class="font-bold mb-3">1. Say: "Hello"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-1" onclick="toggleRecording(1, 'Hello')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-1">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-1">Clique no microfone e fale "Hello"</p>
-                    <div id="score-1" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-1" onclick="toggleRecording(1, 'Hello')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 2 -->
-            <div class="exercise-card" id="speaking-ex-2">
-                <h4 class="font-bold mb-3">2. Say: "My name is"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-2" onclick="toggleRecording(2, 'My name is')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-2">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-2">Clique no microfone e fale "My name is"</p>
-                    <div id="score-2" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-2" onclick="toggleRecording(2, 'My name is')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 3 -->
-            <div class="exercise-card" id="speaking-ex-3">
-                <h4 class="font-bold mb-3">3. Say: "Nice to meet you"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-3" onclick="toggleRecording(3, 'Nice to meet you')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-3">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-3">Clique no microfone e fale "Nice to meet you"</p>
-                    <div id="score-3" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-3" onclick="toggleRecording(3, 'Nice to meet you')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 4 -->
-            <div class="exercise-card" id="speaking-ex-4">
-                <h4 class="font-bold mb-3">4. Say: "Goodbye"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-4" onclick="toggleRecording(4, 'Goodbye')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-4">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-4">Clique no microfone e fale "Goodbye"</p>
-                    <div id="score-4" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-4" onclick="toggleRecording(4, 'Goodbye')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 5 -->
-            <div class="exercise-card" id="speaking-ex-5">
-                <h4 class="font-bold mb-3">5. Say: "I am from Brazil"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-5" onclick="toggleRecording(5, 'I am from Brazil')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-5">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-5">Clique no microfone e fale "I am from Brazil"</p>
-                    <div id="score-5" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-5" onclick="toggleRecording(5, 'I am from Brazil')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 6 -->
-            <div class="exercise-card" id="speaking-ex-6">
-                <h4 class="font-bold mb-3">6. Say: "See you later"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-6" onclick="toggleRecording(6, 'See you later')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-6">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-6">Clique no microfone e fale "See you later"</p>
-                    <div id="score-6" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-6" onclick="toggleRecording(6, 'See you later')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 7 -->
-            <div class="exercise-card" id="speaking-ex-7">
-                <h4 class="font-bold mb-3">7. Say: "How are you?"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-7" onclick="toggleRecording(7, 'How are you?')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-7">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-7">Clique no microfone e fale "How are you?"</p>
-                    <div id="score-7" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-7" onclick="toggleRecording(7, 'How are you?')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 8 -->
-            <div class="exercise-card" id="speaking-ex-8">
-                <h4 class="font-bold mb-3">8. Say: "I am fine"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-8" onclick="toggleRecording(8, 'I am fine')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-8">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-8">Clique no microfone e fale "I am fine"</p>
-                    <div id="score-8" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-8" onclick="toggleRecording(8, 'I am fine')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 9 -->
-            <div class="exercise-card" id="speaking-ex-9">
-                <h4 class="font-bold mb-3">9. Say: "What is your name?"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-9" onclick="toggleRecording(9, 'What is your name?')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-9">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-9">Clique no microfone e fale "What is your name?"</p>
-                    <div id="score-9" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-9" onclick="toggleRecording(9, 'What is your name?')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Speaking Exercise 10 -->
-            <div class="exercise-card" id="speaking-ex-10">
-                <h4 class="font-bold mb-3">10. Say: "Thank you very much"</h4>
-                <div class="voice-recorder">
-                    <button class="record-btn" id="record-btn-10" onclick="toggleRecording(10, 'Thank you very much')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <div class="waveform" id="waveform-10">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    <p class="text-sm c-text-muted mb-2" id="status-10">Clique no microfone e fale "Thank you very much"</p>
-                    <div id="score-10" class="score-display hidden">0%</div>
-                    <button class="btn btn-outline btn-sm mt-2 hidden" id="retry-10" onclick="toggleRecording(10, 'Thank you very much')">
-                        <i class="fa-solid fa-rotate"></i> Tentar novamente
-                    </button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-        </section>
-        
-        <!-- ===== WRITING SECTION (10 exercises) ===== -->
-        <section id="writing" class="skill-section">
-            <div class="mb-6">
-                <h2 class="font-display font-bold text-2xl mb-2">✍️ Writing: Complete the Sentences</h2>
-                <p class="c-text-muted">Complete as 10 frases com as palavras corretas</p>
-            </div>
-            
-            <!-- Exercise 1 -->
-            <div class="exercise-card" id="writing-ex-1">
-                <h4 class="font-bold mb-3">1. Complete: "_____ to meet you!"</h4>
-                <input type="text" id="write-1" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(1, 'Nice')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 2 -->
-            <div class="exercise-card" id="writing-ex-2">
-                <h4 class="font-bold mb-3">2. Complete: "My _____ is Maria."</h4>
-                <input type="text" id="write-2" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(2, 'name')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 3 -->
-            <div class="exercise-card" id="writing-ex-3">
-                <h4 class="font-bold mb-3">3. Complete: "I _____ from Brazil."</h4>
-                <input type="text" id="write-3" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(3, 'am')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 4 -->
-            <div class="exercise-card" id="writing-ex-4">
-                <h4 class="font-bold mb-3">4. Complete: "Good_____!"</h4>
-                <input type="text" id="write-4" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(4, 'bye')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 5 -->
-            <div class="exercise-card" id="writing-ex-5">
-                <h4 class="font-bold mb-3">5. Complete: "See you _____!"</h4>
-                <input type="text" id="write-5" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(5, 'later')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 6 -->
-            <div class="exercise-card" id="writing-ex-6">
-                <h4 class="font-bold mb-3">6. Complete: "_____ are you?"</h4>
-                <input type="text" id="write-6" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(6, 'How')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 7 -->
-            <div class="exercise-card" id="writing-ex-7">
-                <h4 class="font-bold mb-3">7. Complete: "I am _____, thank you."</h4>
-                <input type="text" id="write-7" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(7, 'fine')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 8 -->
-            <div class="exercise-card" id="writing-ex-8">
-                <h4 class="font-bold mb-3">8. Complete: "_____ is your name?"</h4>
-                <input type="text" id="write-8" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(8, 'What')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 9 -->
-            <div class="exercise-card" id="writing-ex-9">
-                <h4 class="font-bold mb-3">9. Complete: "_____ you very much!"</h4>
-                <input type="text" id="write-9" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(9, 'Thank')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-            
-            <!-- Exercise 10 -->
-            <div class="exercise-card" id="writing-ex-10">
-                <h4 class="font-bold mb-3">10. Complete: "I am twenty-_____ years old."</h4>
-                <input type="text" id="write-10" class="input-field mb-3" placeholder="Digite sua resposta...">
-                <button onclick="checkWritingAnswer(10, 'five')" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Verificar
-                </button>
-                <div class="feedback"></div>
-            </div>
-        </section>
-        
-        <!-- ===== COMPLETION SCREEN ===== -->
-        <section id="completion" class="skill-section">
-            <div class="completion-screen">
-                <div class="text-6xl mb-4">🎉</div>
-                <h2 class="font-display font-bold text-3xl mb-2">Lição Completa!</h2>
-                <p class="c-text-muted mb-6 text-lg">Você dominou: Greetings & Introductions</p>
-                
-                <div class="xp-reward mb-6">+500 XP</div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-primary">40/40</div>
-                        <div class="text-xs c-text-muted">Exercícios</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-streak">🔥</div>
-                        <div class="text-xs c-text-muted">Streak +1</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-gem">💎</div>
-                        <div class="text-xs c-text-muted">+50 Gems</div>
-                    </div>
-                    <div class="c-card rounded-xl p-4 text-center">
-                        <div class="text-2xl font-bold c-xp">500</div>
-                        <div class="text-xs c-text-muted">XP Total</div>
-                    </div>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a href="a1.html" class="btn btn-outline">
-                        <i class="fa-solid fa-arrow-left"></i> Voltar para A1
-                    </a>
-                    <a href="lesson-u02.html" class="btn btn-primary">
-                        Próxima Lição: Numbers <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
-        
-    </main>
+    <!-- SETTINGS MENU -->
+    <div class="settings-menu" id="settingsMenu">
+        <div class="settings-item" onclick="goHome()"><i class="fa-solid fa-house"></i> Voltar para Home</div>
+        <div class="settings-item" onclick="resetProgress()"><i class="fa-solid fa-rotate-right"></i> Reiniciar Lição</div>
+        <div class="settings-item" onclick="toggleVoice()"><i class="fa-solid fa-volume-high"></i> Voz: <span id="voiceLabel">US</span></div>
+        <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
+    </div>
 
-    <!-- ===== BOTTOM NAVIGATION ===== -->
-    <div class="lesson-nav">
-        <div class="max-w-4xl mx-auto flex">
-            <button class="nav-btn nav-prev" id="prevBtn" onclick="prevSkill()">
-                <i class="fa-solid fa-arrow-left"></i> Anterior
-            </button>
-            <button class="nav-btn nav-next" id="nextBtn" onclick="nextSkill()">
-                Próximo <i class="fa-solid fa-arrow-right"></i>
-            </button>
+    <!-- TABS - CENTRALIZED -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
-        <div>
-            <div class="font-bold" id="toastTitle">Sucesso!</div>
-            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div>
-        </div>
-    </div>
+    <!-- MAIN CONTENT -->
+    <div class="main" id="mainContent"></div>
 
-    <!-- ===== JAVASCRIPT LOGIC ===== -->
-    <script type="module">
-        // ===== STATE =====
-        let currentSkill = 'reading';
-        let completedExercises = {
-            reading: 0, listening: 0, speaking: 0, writing: 0
-        };
-        let recognition = null;
-        let isRecording = false;
-        let currentExercise = null;
-        let expectedPhrase = '';
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ===== EXPOSE FUNCTIONS =====
-        window.toggleTheme = toggleTheme;
-        window.switchSkill = switchSkill;
-        window.checkReadingAnswer = checkReadingAnswer;
-        window.checkListeningAnswer = checkListeningAnswer;
-        window.checkWritingAnswer = checkWritingAnswer;
-        window.toggleRecording = toggleRecording;
-        window.prevSkill = prevSkill;
-        window.nextSkill = nextSkill;
-        window.speakText = speakText;
-        window.playListeningAudio = playListeningAudio;
+    // ===== FIREBASE =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+        authDomain: "englishpath-2d558.firebaseapp.com",
+        projectId: "englishpath-2d558",
+        storageBucket: "englishpath-2d558.firebasestorage.app",
+        messagingSenderId: "384301599670",
+        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+    };
 
-        // ===== THEME =====
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('ep_theme', html.dataset.theme);
-        }
-        (function(){ const t = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
 
-        // ===== SKILL NAVIGATION =====
-        function switchSkill(skill) {
-            document.querySelectorAll('.skill-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelector(`[data-skill="${skill}"]`).classList.add('active');
+    // ===== LESSON DATA (U01: GREETINGS & INTRODUCTIONS) =====
+    const lessonData = {
+        unitInfo: {
+            level: 'A1',
+            theme: 'Greetings & Introductions',
+            videoId: 'ks0sE5gFqfI', // Example video ID for greetings
+            objectives: [
+                'Greet people formally and informally',
+                'Introduce yourself and others',
+                'Ask and answer "How are you?"',
+                'Use basic subject pronouns (I, You, He, She)'
+            ]
+        },
+        
+        tabs: {
+            video: {
+                type: 'embed',
+                videoId: 'ks0sE5gFqfI',
+                instructions: 'Watch the video carefully. Pay attention to how people greet each other.'
+            },
             
-            document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(skill).classList.add('active');
-            
-            currentSkill = skill;
-            updateProgress();
-            updateNavButtons();
-        }
-
-        function prevSkill() {
-            const skills = ['reading', 'listening', 'speaking', 'writing'];
-            const idx = skills.indexOf(currentSkill);
-            if (idx > 0) switchSkill(skills[idx - 1]);
-        }
-
-        function nextSkill() {
-            const skills = ['reading', 'listening', 'speaking', 'writing'];
-            const idx = skills.indexOf(currentSkill);
-            if (idx < skills.length - 1) switchSkill(skills[idx + 1]);
-            else if (allSkillsComplete()) showCompletion();
-        }
-
-        function updateProgress() {
-            const total = 40;
-            const completed = Object.values(completedExercises).reduce((a, b) => a + b, 0);
-            document.getElementById('completedExercises').textContent = completed;
-            document.getElementById('lessonProgress').style.width = (completed / total * 100) + '%';
-            
-            // Update individual skill progress
-            ['reading', 'listening', 'speaking', 'writing'].forEach(skill => {
-                const pct = (completedExercises[skill] / 10 * 100);
-                document.getElementById(`${skill}Progress`).style.width = pct + '%';
-            });
-        }
-
-        function updateNavButtons() {
-            const skills = ['reading', 'listening', 'speaking', 'writing'];
-            const idx = skills.indexOf(currentSkill);
-            document.getElementById('prevBtn').disabled = idx === 0;
-            
-            const nextBtn = document.getElementById('nextBtn');
-            if (idx === skills.length - 1) {
-                nextBtn.innerHTML = allSkillsComplete() ? 
-                    'Concluir Lição <i class="fa-solid fa-trophy"></i>' : 
-                    'Próximo <i class="fa-solid fa-arrow-right"></i>';
-            }
-        }
-
-        function allSkillsComplete() {
-            return Object.values(completedExercises).every(v => v === 10);
-        }
-
-        // ===== TTS =====
-        function speakText(elementId) {
-            if ('speechSynthesis' in window) {
-                const text = document.getElementById(elementId).innerText;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                speechSynthesis.speak(utterance);
-                showToast('Reproduzindo áudio...', 'success');
-            }
-        }
-
-        function playListeningAudio(exNum, text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.85;
-                speechSynthesis.speak(utterance);
-            }
-        }
-
-        // ===== READING EXERCISES =====
-        function checkReadingAnswer(exNum, correctAnswer, isCorrect) {
-            const card = document.getElementById(`reading-ex-${exNum}`);
-            const feedback = card.querySelector('.feedback');
-            const buttons = card.querySelectorAll('.option-btn');
-            
-            buttons.forEach(btn => btn.disabled = true);
-            
-            if (isCorrect) {
-                event.target.closest('.option-btn').classList.add('correct');
-                feedback.className = 'feedback correct show';
-                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! Great job!';
-                card.classList.add('completed');
-                if (!card.dataset.completed) {
-                    completedExercises.reading++;
-                    card.dataset.completed = 'true';
-                    updateProgress();
+            // READING: 10 questions
+            reading: [
+                {
+                    id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: "Hello! My name is John. Nice to meet you. I am from Canada. How are you today? I am fine, thank you.",
+                    q: "Where is John from?",
+                    options: ["USA", "Canada", "Brazil", "UK"],
+                    answer: 1,
+                    tts: "Hello! My name is John. Nice to meet you. I am from Canada. How are you today? I am fine, thank you.",
+                    explanation: "John says 'I am from Canada'.",
+                    cefr: "Can understand short, simple introductions."
+                },
+                {
+                    id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
+                    text: "Good morning, Sarah! How are you? I'm great, thanks. And you? I'm good too.",
+                    q: "What time of day is it?",
+                    options: ["Morning", "Afternoon", "Evening", "Night"],
+                    answer: 0,
+                    tts: "Good morning, Sarah! How are you? I'm great, thanks. And you? I'm good too.",
+                    explanation: "The text starts with 'Good morning'.",
+                    cefr: "Can identify specific greetings."
+                },
+                {
+                    id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
+                    text: "This is my friend, Ana. She is from Brazil. Nice to meet you, Ana!",
+                    q: "Who is Ana?",
+                    options: ["John's sister", "John's friend", "John's teacher", "John's boss"],
+                    answer: 1,
+                    tts: "This is my friend, Ana. She is from Brazil. Nice to meet you, Ana!",
+                    explanation: "John introduces Ana as 'my friend'.",
+                    cefr: "Can understand basic relationships."
+                },
+                {
+                    id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: "Hi there! I'm Tom. What's your name? My name is Lisa. Pleased to meet you, Tom.",
+                    q: "How does Lisa feel about meeting Tom?",
+                    options: ["She is sad", "She is pleased/happy", "She is angry", "She is tired"],
+                    answer: 1,
+                    tts: "Hi there! I'm Tom. What's your name? My name is Lisa. Pleased to meet you, Tom.",
+                    explanation: "Lisa says 'Pleased to meet you', which means she is happy.",
+                    cefr: "Can infer feelings from polite expressions."
+                },
+                {
+                    id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: "Good evening, Mr. Smith. Good evening, Mrs. Jones. How do you do?",
+                    q: "Is this a formal or informal situation?",
+                    options: ["Informal", "Formal", "Angry", "Funny"],
+                    answer: 1,
+                    tts: "Good evening, Mr. Smith. Good evening, Mrs. Jones. How do you do?",
+                    explanation: "Using 'Mr.', 'Mrs.' and 'How do you do?' indicates a formal situation.",
+                    cefr: "Can distinguish formal vs informal registers."
+                },
+                {
+                    id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
+                    text: "Hey! What's up? Not much, just chilling. See you later!",
+                    q: "What does 'See you later' mean?",
+                    options: ["Hello", "Goodbye", "Thank you", "Sorry"],
+                    answer: 1,
+                    tts: "Hey! What's up? Not much, just chilling. See you later!",
+                    explanation: "'See you later' is a common way to say goodbye.",
+                    cefr: "Can understand common farewell phrases."
+                },
+                {
+                    id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
+                    text: "I'm doing well, thanks for asking. And yourself?",
+                    q: "What does 'yourself' refer to?",
+                    options: ["Me", "You", "Him", "Her"],
+                    answer: 1,
+                    tts: "I'm doing well, thanks for asking. And yourself?",
+                    explanation: "'Yourself' refers to the person being spoken to ('you').",
+                    cefr: "Can understand reflexive pronouns in context."
+                },
+                {
+                    id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: "Oh no, I'm late! Sorry I'm late. That's okay, don't worry about it.",
+                    q: "Why is the person apologizing?",
+                    options: ["They are sick", "They are late", "They are hungry", "They are sad"],
+                    answer: 1,
+                    tts: "Oh no, I'm late! Sorry I'm late. That's okay, don't worry about it.",
+                    explanation: "The person says 'I'm late' and 'Sorry'.",
+                    cefr: "Can understand reasons for apologies."
+                },
+                {
+                    id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
+                    text: "Nice meeting you, David. Likewise, Maria. Let's keep in touch.",
+                    q: "What does 'Likewise' mean here?",
+                    options: ["Me too", "No way", "Maybe", "Later"],
+                    answer: 0,
+                    tts: "Nice meeting you, David. Likewise, Maria. Let's keep in touch.",
+                    explanation: "'Likewise' means 'the same to you' or 'me too'.",
+                    cefr: "Can understand conversational connectors."
+                },
+                {
+                    id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
+                    text: "Have a nice day! You too, bye!",
+                    q: "When do people usually say 'Have a nice day'?",
+                    options: ["When arriving", "When leaving", "When eating", "When sleeping"],
+                    answer: 1,
+                    tts: "Have a nice day! You too, bye!",
+                    explanation: "It is a common farewell phrase used when parting ways.",
+                    cefr: "Can understand context of common wishes."
                 }
-            } else {
-                event.target.closest('.option-btn').classList.add('wrong');
-                feedback.className = 'feedback wrong show';
-                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Try again!';
-                setTimeout(() => {
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('wrong');
-                    });
-                    feedback.classList.remove('show');
-                }, 1500);
-            }
-        }
+            ],
+            
+            // LISTENING: 10 questions
+            listening: [
+                { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Which greeting do you hear?", tts: "Hello", options: ["Hello", "Goodbye", "Thanks", "Sorry"], answer: 0, speed: 0.85 },
+                { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "What phrase is spoken?", tts: "Nice to meet you", options: ["Nice to meet you", "See you later", "How are you", "Good morning"], answer: 0, speed: 0.85 },
+                { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Listen and choose:", tts: "Good morning", options: ["Good night", "Good afternoon", "Good morning", "Good evening"], answer: 2, speed: 0.85 },
+                { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "How does the person feel?", tts: "I'm fine, thanks", options: ["Sad", "Fine", "Angry", "Tired"], answer: 1, speed: 0.85 },
+                { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "What is the name mentioned?", tts: "My name is Sarah", options: ["John", "Sarah", "Ana", "Tom"], answer: 1, speed: 0.85 },
+                { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "Listen carefully:", tts: "Where are you from?", options: ["How are you?", "Where are you from?", "What is your name?", "Nice to meet you"], answer: 1, speed: 0.85 },
+                { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
+                    q: "Which farewell?", tts: "See you later", options: ["Goodbye", "See you soon", "See you later", "Bye"], answer: 2, speed: 0.85 },
+                { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'I'm great'", tts: "I'm great", options: ["True", "False"], answer: 0, speed: 0.85 },
+                { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'Good night'", tts: "Good evening", options: ["True", "False"], answer: 1, speed: 0.85 },
+                { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
+                    q: "What comes after 'Nice to'?", tts: "Nice to meet you", options: ["see you", "meet you", "know you", "help you"], answer: 1, speed: 0.85 }
+            ],
+            
+            // SPEAKING: 10 activities
+            speaking: [
+                { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "Hello"', model: "hello", expected: "hello" },
+                { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "Nice to meet you"', model: "nice to meet you", expected: "nice to meet you" },
+                { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "How are you?"', model: "how are you", expected: "how are you" },
+                { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Meeting someone new',
+                    prompt: 'Say: "Hi, my name is [Your Name]. Nice to meet you."',
+                    model: "Hi, my name is John. Nice to meet you.",
+                    expected: "hi my name is nice to meet you" },
+                { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Responding to greeting',
+                    prompt: 'Say: "I\'m fine, thank you. And you?"',
+                    model: "I'm fine, thank you. And you?",
+                    expected: "i'm fine thank you and you" },
+                { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Saying goodbye',
+                    prompt: 'Say: "Goodbye! Have a nice day."',
+                    model: "Goodbye! Have a nice day.",
+                    expected: "goodbye have a nice day" },
+                { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of two people shaking hands]. Say what they are doing.',
+                    expected: "meeting shaking hands", minWords: 2 },
+                { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of a clock at 8 AM]. Say the greeting.',
+                    expected: "good morning", minWords: 2 },
+                { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Introduce yourself in English (Name + Country).', minWords: 5, expectedPattern: "my name is i am from" },
+                { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Ask someone how they are.', minWords: 3, expectedPattern: "how are you" }
+            ],
+            
+            // WRITING: 10 intelligent tasks
+            writing: [
+                { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "_____ to meet you." (Nice)', answer: 'Nice', example: 'Nice to meet you.' },
+                { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "My _____ is John." (name)', answer: 'name', example: 'My name is John.' },
+                { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Write the greeting for 8:00 AM:', answer: 'Good morning', example: 'Good morning' },
+                { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Rewrite formally: "Hi, I\'m Tom"', answer: 'Hello, I am Tom', example: 'Hello, I am Tom' },
+                { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Change to question: "You are from Brazil"', answer: 'Are you from Brazil?', example: 'Are you from Brazil?' },
+                { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Write the contraction: "I am"', answer: 'I\'m', example: 'I\'m' },
+                { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write a short introduction (Name + Origin).', example: 'Hi, I\'m Ana. I\'m from Brazil.', minLength: 15, maxLength: 40 },
+                { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write a polite response to "How are you?".', example: 'I\'m fine, thank you.', minLength: 10, maxLength: 30 },
+                { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Write a short dialogue (2 lines) saying hello and goodbye.', minLength: 20, maxLength: 80 },
+                { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Write 3 sentences introducing a friend.', minLength: 30, maxLength: 100 }
+            ],
 
-        // ===== LISTENING EXERCISES =====
-        function checkListeningAnswer(exNum, correctAnswer, isCorrect) {
-            const card = document.getElementById(`listening-ex-${exNum}`);
-            const feedback = card.querySelector('.feedback');
-            const buttons = card.querySelectorAll('.option-btn');
-            
-            buttons.forEach(btn => btn.disabled = true);
-            
-            if (isCorrect) {
-                event.target.closest('.option-btn').classList.add('correct');
-                feedback.className = 'feedback correct show';
-                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! You heard it right!';
-                card.classList.add('completed');
-                if (!card.dataset.completed) {
-                    completedExercises.listening++;
-                    card.dataset.completed = 'true';
-                    updateProgress();
-                }
-            } else {
-                event.target.closest('.option-btn').classList.add('wrong');
-                feedback.className = 'feedback wrong show';
-                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Listen again!';
-                setTimeout(() => {
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.classList.remove('wrong');
-                    });
-                    feedback.classList.remove('show');
-                }, 1500);
-            }
-        }
+            // VOCABULARY: 30 Words (NEW!)
+            vocabulary: [
+                { word: "Hello", pron: "/həˈloʊ/", meaning: "Olá (geral)", example: "Hello, how are you?" },
+                { word: "Hi", pron: "/haɪ/", meaning: "Oi (informal)", example: "Hi, John!" },
+                { word: "Good morning", pron: "/ɡʊd ˈmɔːrnɪŋ/", meaning: "Bom dia", example: "Good morning, teacher." },
+                { word: "Good afternoon", pron: "/ɡʊd ˌæftərˈnuːn/", meaning: "Boa tarde", example: "Good afternoon, everyone." },
+                { word: "Good evening", pron: "/ɡʊd ˈiːvnɪŋ/", meaning: "Boa noite (chegada)", example: "Good evening, sir." },
+                { word: "Good night", pron: "/ɡʊd naɪt/", meaning: "Boa noite (saída/dormir)", example: "Good night, see you tomorrow." },
+                { word: "Name", pron: "/neɪm/", meaning: "Nome", example: "What is your name?" },
+                { word: "My", pron: "/maɪ/", meaning: "Meu/minha", example: "My name is Sarah." },
+                { word: "Your", pron: "/jʊr/", meaning: "Seu/sua", example: "What is your job?" },
+                { word: "Meet", pron: "/miːt/", meaning: "Conhecer/encontrar", example: "Nice to meet you." },
+                { word: "Nice", pron: "/naɪs/", meaning: "Prazeroso/legal", example: "It is nice to see you." },
+                { word: "To", pron: "/tu/", meaning: "Para/a", example: "Nice to meet you." },
+                { word: "You", pron: "/ju/", meaning: "Você/vocês", example: "How are you?" },
+                { word: "How", pron: "/ha/", meaning: "Como", example: "How are you?" },
+                { word: "Are", pron: "/ɑːr/", meaning: "Está/estão (verbo ser/estar)", example: "How are you?" },
+                { word: "Fine", pron: "/faɪn/", meaning: "Bem", example: "I am fine, thanks." },
+                { word: "Thanks", pron: "/θæŋks/", meaning: "Obrigado", example: "Thanks for asking." },
+                { word: "Thank you", pron: "/θæŋk ju/", meaning: "Obrigado(a)", example: "Thank you very much." },
+                { word: "And", pron: "/ænd/", meaning: "E", example: "I am fine, and you?" },
+                { word: "From", pron: "/frʌm/", meaning: "De (origem)", example: "I am from Brazil." },
+                { word: "Brazil", pron: "/brəˈzɪl/", meaning: "Brasil", example: "She is from Brazil." },
+                { word: "USA", pron: "/ˌju.esˈe/", meaning: "EUA", example: "He is from the USA." },
+                { word: "Friend", pron: "/frend/", meaning: "Amigo(a)", example: "This is my friend." },
+                { word: "Teacher", pron: "/ˈtiːtʃər/", meaning: "Professor(a)", example: "Good morning, teacher." },
+                { word: "Student", pron: "/stuːdənt/", meaning: "Aluno(a)", example: "I am a student." },
+                { word: "Welcome", pron: "/ˈwelkəm/", meaning: "Bem-vindo", example: "Welcome to the class." },
+                { word: "Please", pron: "/pliz/", meaning: "Por favor", example: "Sit down, please." },
+                { word: "Sorry", pron: "/ˈsɔːri/", meaning: "Desculpe", example: "Sorry, I am late." },
+                { word: "Excuse me", pron: "/ɪkˈskjuːz mi/", meaning: "Com licença", example: "Excuse me, where is the bathroom?" },
+                { word: "Goodbye", pron: "/ɡʊdˈbaɪ/", meaning: "Adeus/Tchau", example: "Goodbye, see you soon." }
+            ],
 
-        // ===== SPEAKING EXERCISES (VOICE RECOGNITION) =====
-        function toggleRecording(exNum, phrase) {
-            const btn = document.getElementById(`record-btn-${exNum}`);
-            const waveform = document.getElementById(`waveform-${exNum}`);
-            const status = document.getElementById(`status-${exNum}`);
-            const scoreDiv = document.getElementById(`score-${exNum}`);
-            const retryBtn = document.getElementById(`retry-${exNum}`);
-            
-            if (!isRecording) {
-                // Start recording
-                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                    showToast('Seu navegador não suporta reconhecimento de voz. Use Chrome ou Edge.', 'error');
-                    return;
-                }
-                
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.lang = 'en-US';
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                
-                isRecording = true;
-                currentExercise = exNum;
-                expectedPhrase = phrase;
-                
-                btn.classList.add('recording');
-                waveform.classList.add('active');
-                status.textContent = 'Ouvindo... Fale agora!';
-                scoreDiv.classList.add('hidden');
-                retryBtn.classList.add('hidden');
-                
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    const confidence = event.results[0][0].confidence;
-                    evaluateSpeech(exNum, phrase, transcript, confidence);
-                };
-                
-                recognition.onerror = (event) => {
-                    console.error('Speech recognition error:', event.error);
-                    status.textContent = 'Erro ao ouvir. Tente novamente.';
-                    resetRecordingUI(btn, waveform, status);
-                };
-                
-                recognition.onend = () => {
-                    if (isRecording) {
-                        resetRecordingUI(btn, waveform, status);
+            // GRAMMAR: Only explanations and models
+            grammar: [
+                {
+                    id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Subject Pronouns',
+                    explanation: {
+                        theory: 'Subject pronouns replace the name of the person/thing doing the action. They come before the verb.',
+                        formula: 'I / You / He / She / It / We / They',
+                        examples: [
+                            'I am from Brazil.',
+                            'She is a teacher.',
+                            'They are students.'
+                        ],
+                        exceptions: 'None for basic usage.',
+                        tip: 'Think: HE/SHE for people, IT for things/animals.',
+                        usage: 'Always use a subject pronoun before the verb "to be".'
                     }
-                };
-                
-                recognition.start();
-                
+                },
+                {
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Verb To Be (Affirmative)',
+                    explanation: {
+                        theory: 'The verb "to be" changes form depending on the subject: Am, Is, Are.',
+                        formula: 'I am | He/She/It is | You/We/They are',
+                        examples: [
+                            'I am happy.',
+                            'He is from Canada.',
+                            'We are friends.'
+                        ],
+                        exceptions: 'Contractions: I\'m, He\'s, She\'s, It\'s, You\'re, We\'re, They\'re.',
+                        tip: 'Sing-song: I Am, You Are, He Is, She Is, It Is, We Are, They Are.',
+                        usage: 'Use for identity, origin, feelings, and professions.'
+                    }
+                },
+                {
+                    id: 'g3', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Greetings: Formal vs Informal',
+                    explanation: {
+                        theory: 'English has different greetings depending on the time of day and the level of formality.',
+                        formula: 'Formal: Good morning/afternoon/evening | Informal: Hi / Hey',
+                        examples: [
+                            'Good morning, Mr. Smith. (Formal)',
+                            'Hi, John! (Informal)',
+                            'Good evening, ladies and gentlemen. (Formal)'
+                        ],
+                        exceptions: '"Good night" is ONLY for saying goodbye or going to sleep, never for greeting.',
+                        tip: 'Morning (sunrise-noon), Afternoon (noon-6pm), Evening (6pm-bedtime).',
+                        usage: 'Use formal greetings with strangers, bosses, or elders. Use informal with friends.'
+                    }
+                },
+                {
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Asking "How are you?"',
+                    explanation: {
+                        theory: 'The standard way to ask about someone\'s well-being.',
+                        formula: 'How + are + you?',
+                        examples: [
+                            'How are you?',
+                            'How are you doing?',
+                            'How is everything?'
+                        ],
+                        exceptions: 'Informal: "What\'s up?" (doesn\'t always need an answer about feelings).',
+                        tip: 'Common answers: Fine, Good, Great, Okay, Not bad.',
+                        usage: 'Use in almost every conversation start.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Introducing Yourself',
+                    explanation: {
+                        theory: 'Two main ways to say your name.',
+                        formula: 'My name is [Name] OR I am [Name]',
+                        examples: [
+                            'My name is Sarah.',
+                            'I\'m John.',
+                            'My name is Dr. Evans.'
+                        ],
+                        exceptions: 'None.',
+                        tip: '"My name is" is slightly more formal than "I\'m".',
+                        usage: 'Use when meeting someone for the first time.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Origin: "To be from"',
+                    explanation: {
+                        theory: 'Used to say where someone comes from (country/city).',
+                        formula: 'Subject + am/is/are + from + Place',
+                        examples: [
+                            'I am from Brazil.',
+                            'She is from London.',
+                            'They are from the USA.'
+                        ],
+                        exceptions: 'Don\'t use "come from" with "am/is/are" (e.g., NOT "I am come from").',
+                        tip: 'Remember: "From" indicates origin/source.',
+                        usage: 'Essential for introductions.'
+                    }
+                },
+                {
+                    id: 'g7', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Polite Expressions',
+                    explanation: {
+                        theory: 'Key words to be polite in English.',
+                        formula: 'Please / Thank you / Sorry / Excuse me',
+                        examples: [
+                            'Please sit down.',
+                            'Thank you for your help.',
+                            'Sorry, I didn\'t understand.',
+                            'Excuse me, is this seat taken?'
+                        ],
+                        exceptions: '"Excuse me" (before an action) vs "Sorry" (after a mistake).',
+                        tip: 'When in doubt, add "Please" and "Thank you".',
+                        usage: 'Use constantly in social interactions.'
+                    }
+                },
+                {
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Farewells',
+                    explanation: {
+                        theory: 'Different ways to say goodbye.',
+                        formula: 'Goodbye / Bye / See you later / Have a nice day',
+                        examples: [
+                            'Goodbye, everyone.',
+                            'Bye! See you tomorrow.',
+                            'Have a nice day!',
+                            'See you later, alligator.'
+                        ],
+                        exceptions: '"Good night" is also a farewell but specifically for night/sleep.',
+                        tip: '"See you..." implies you will meet again soon.',
+                        usage: 'Use at the end of conversations.'
+                    }
+                },
+                {
+                    id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Possessive Adjectives (Basic)',
+                    explanation: {
+                        theory: 'Words that show ownership before a noun.',
+                        formula: 'My / Your / His / Her / Its / Our / Their',
+                        examples: [
+                            'My name is...',
+                            'Your book is here.',
+                            'Her friend is nice.'
+                        ],
+                        exceptions: 'Do not confuse with pronouns (My vs Mine). Here we use before nouns.',
+                        tip: 'My (mine), Your (yours), His (his), Her (hers).',
+                        usage: 'Essential for introductions ("My name", "My country").'
+                    }
+                },
+                {
+                    id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Question Words (Wh-)',
+                    explanation: {
+                        theory: 'Words used to ask specific information.',
+                        formula: 'What / Where / Who / How',
+                        examples: [
+                            'What is your name?',
+                            'Where are you from?',
+                            'Who is she?',
+                            'How are you?'
+                        ],
+                        exceptions: 'Word order: Wh- + Verb + Subject?',
+                        tip: 'What = Thing, Where = Place, Who = Person, How = Manner/Condition.',
+                        usage: 'Fundamental for keeping a conversation going.'
+                    }
+                }
+            ]
+        }
+    };
+
+    // ===== STATE =====
+    let currentTab = 'video';
+    let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0, grammar: 0 };
+    let score = 0, streak = 0, totalXP = 0;
+    let isAnswered = false, selectedOption = null, hintsUsed = 0;
+    let recognition = null, ttsPlaying = false, currentTTS = null;
+    let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
+
+    // ===== DOM =====
+    const mainContent = document.getElementById('mainContent');
+    const progressBar = document.getElementById('progressBar');
+    const currentQEl = document.getElementById('currentQ');
+    const totalQEl = document.getElementById('totalQ');
+    const progressPercentEl = document.getElementById('progressPercent');
+    const xpDisplay = document.getElementById('xpDisplay');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const cefrBadge = document.getElementById('cefrBadge');
+
+    // ===== INIT =====
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            try {
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    score = Number(data.xp) || 0;
+                    streak = Number(data.streak) || 0;
+                    totalXP = Number(data.totalXP) || 0;
+                    xpDisplay.textContent = String(totalXP);
+                    streakDisplay.textContent = String(streak);
+                    cefrBadge.textContent = lessonData.unitInfo.level;
+                    
+                    if (data.progresso) {
+                        const prefix = 'u01_';
+                        Object.keys(questionIndex).forEach(sec => {
+                            const key = `${prefix}${sec}`;
+                            if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
+                        });
+                    }
+                    userNotes = data.notes?.u01 || {};
+                }
+            } catch (error) { console.error("Load error:", error); }
+        } else { cefrBadge.textContent = lessonData.unitInfo.level; }
+        renderCurrentTab();
+        updateProgress();
+    });
+
+    // ===== NAVIGATION =====
+    window.switchTab = (tab) => {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.closest('.tab-btn').classList.add('active');
+        renderCurrentTab();
+    };
+
+    function renderCurrentTab() {
+        if (currentTab === 'video') { renderVideo(); return; }
+        const section = lessonData.tabs[currentTab];
+        const index = questionIndex[currentTab];
+        
+        // Special handling for Vocabulary (Study Mode vs Quiz Mode)
+        if (currentTab === 'vocabulary') {
+            if (index < lessonData.tabs.vocabulary.length) {
+                renderVocabularyList(); // Show full list first
             } else {
-                // Stop recording
-                recognition.stop();
-                isRecording = false;
-                resetRecordingUI(btn, waveform, status);
+                renderVocabularyQuiz(); // Then show quiz
             }
+            return;
         }
 
-        function evaluateSpeech(exNum, expected, transcript, confidence) {
-            const btn = document.getElementById(`record-btn-${exNum}`);
-            const waveform = document.getElementById(`waveform-${exNum}`);
-            const status = document.getElementById(`status-${exNum}`);
-            const scoreDiv = document.getElementById(`score-${exNum}`);
-            const retryBtn = document.getElementById(`retry-${exNum}`);
-            const feedback = document.querySelector(`#speaking-ex-${exNum} .feedback`);
-            
-            // Calculate accuracy (simple word matching)
-            const expectedWords = expected.toLowerCase().split(' ');
-            const transcriptWords = transcript.toLowerCase().split(' ');
-            let matches = 0;
-            
-            expectedWords.forEach(word => {
-                if (transcriptWords.some(tw => tw.includes(word) || word.includes(tw))) {
-                    matches++;
+        if (index >= section.length) { renderSectionComplete(currentTab); return; }
+        
+        switch(currentTab) {
+            case 'reading': renderReading(section[index]); break;
+            case 'listening': renderListening(section[index]); break;
+            case 'speaking': renderSpeaking(section[index]); break;
+            case 'writing': renderWriting(section[index]); break;
+            case 'grammar': renderGrammar(section[index]); break;
+        }
+        updateProgress();
+    }
+
+    function renderVideo() {
+        const video = lessonData.tabs.video;
+        mainContent.innerHTML = `
+            <h1 class="section-title"> Video Lesson</h1>
+            <p class="section-subtitle">Watch and learn greetings & introductions</p>
+            <div class="objective-box">
+                <strong> Learning Objectives:</strong><br>
+                ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
+            </div>
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <p style="text-align:center;color:#64748b;">${video.instructions}</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startActivities()">
+                    Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    window.startActivities = () => {
+        switchTab('reading');
+    };
+
+    function renderSectionComplete(tabName) {
+        const tabNames = {
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            vocabulary: 'Vocabulary',
+            grammar: 'Grammar'
+        };
+        
+        mainContent.innerHTML = `
+            <div class="section-complete">
+                <i class="fa-solid fa-check-circle"></i>
+                <h2>${tabNames[tabName]} Complete! ✓</h2>
+                <p>Great progress! Move to the next section.</p>
+                <div class="actions" style="justify-content:center; gap: 1rem;">
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
+                    <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
+                        Refazer Atividade 🔄
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    window.retrySection = (tabName) => {
+        questionIndex[tabName] = 0;
+        saveProgress();
+        renderCurrentTab();
+    };
+
+    // ===== RENDERERS =====
+    function renderReading(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title"> Reading</h1>
+            <p class="section-subtitle">Comprehension practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <div class="reading-text">${q.text}</div>
+                <div class="tts-controls">
+                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-volume-high"></i> Listen
+                    </button>
+                    <select class="speed-select" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="0.85" selected>0.85x</option><option value="1">1x</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+                <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
+            </div>
+            <div class="notes-area"><strong> My Notes:</strong><textarea id="notesInput" placeholder="Notes...">${userNotes[q.id]||''}</textarea></div>
+            <div class="actions">
+                <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderListening(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title"> Listening</h1>
+            <p class="section-subtitle">Train your ear</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
+                <div class="tts-controls" style="justify-content:center;">
+                    <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option><option value="1">1x</option>
+                    </select>
+                </div>
+                <div class="transcript" id="transcript"><strong>Transcript:</strong> ${q.tts}</div>
+                <button class="btn btn-secondary" style="margin-top:0.5rem;" onclick="toggleTranscript()"><i class="fa-solid fa-align-left"></i> Show Transcript</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderSpeaking(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title"> Speaking</h1>
+            <p class="section-subtitle">Practice pronunciation</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
+                ${q.model ? `<button class="tts-btn" onclick="playAudio('${q.model}')"><i class="fa-solid fa-volume-high"></i> Hear Example</button>` : ''}
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${q.expected||''}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click mic & speak. Auto-stops when you pause.</p>
+                <div id="scoreDisplay" class="score-display" style="display:none;"></div>
+                ${q.minWords ? `<p style="font-size:0.85rem;color:#64748b;margin-top:1rem;">Minimum ${q.minWords} words</p>` : ''}
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextQuestion()" disabled>Continue</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    function renderWriting(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">✍️ Writing</h1>
+            <p class="section-subtitle">Practice writing</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
+                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;">Example: ${q.example}</p>` : ''}
+                <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
+                <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
+                <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
+        `;
+    }
+
+    // ===== NEW: VOCABULARY RENDERERS =====
+    function renderVocabularyList() {
+        const vocabList = lessonData.tabs.vocabulary;
+        let html = `
+            <h1 class="section-title">📚 Vocabulary Study</h1>
+            <p class="section-subtitle">30 Essential Words for Greetings</p>
+            <div class="card">
+                <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
+                <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
+                    ${vocabList.map((item, idx) => `
+                        <div class="vocab-card">
+                            <div>
+                                <div class="vocab-word">${item.word} <span class="vocab-pron">${item.pron}</span></div>
+                                <div class="vocab-meaning">${item.meaning}</div>
+                                <div class="vocab-example">"${item.example}"</div>
+                            </div>
+                            <button class="vocab-audio-btn" onclick="playAudio('${item.word}')">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startVocabQuiz()">Start Quiz ➡️</button>
+            </div>
+        `;
+        mainContent.innerHTML = html;
+    }
+
+    function startVocabQuiz() {
+        // Mark study phase as done, move to quiz phase logic (simulated by index jump)
+        questionIndex.vocabulary = 30; // Jump to quiz mode trigger
+        renderVocabularyQuiz();
+    }
+
+    function renderVocabularyQuiz() {
+        // Simple random quiz generator based on vocab list
+        const vocabList = lessonData.tabs.vocabulary;
+        // Pick 5 random words for the quiz session
+        const shuffled = [...vocabList].sort(() => 0.5 - Math.random());
+        const quizItems = shuffled.slice(0, 5);
+        
+        // If we are inside the quiz loop (handled by a separate state or simple re-render logic)
+        // For simplicity in this single-file structure, we'll just render the first of the 5 randomly picked
+        // Note: In a complex app, we'd track quizIndex separately. Here we simulate it.
+        
+        // Since we can't easily persist a sub-index without complicating the main state, 
+        // let's just show one random question from the list each time "Next" is clicked until 5 are done.
+        // But to keep it aligned with the main engine, let's assume the user does 5 specific questions.
+        
+        // Simplified approach: Just show a multiple choice question for the FIRST item of the shuffled list
+        // and let the "Next" button pick a new random one until 5 are done.
+        // We'll store the current quiz set in a temp variable or just regenerate (bad for consistency).
+        // Better: Store the current quiz question index in a local var outside render? 
+        // No, let's just make the "Next" button in this specific view call a custom function.
+        
+        // Actually, let's stick to the main engine pattern. We need 5 distinct questions in the data.
+        // Since I hardcoded the data above, I'll dynamically generate 5 questions for the quiz view.
+        
+        // Hack for this demo: We will just show the list again but with a "Take Quiz" button that opens a modal?
+        // No, let's integrate.
+        // Let's create a temporary "quiz mode" state.
+        
+        // Re-approach: The `questionIndex.vocabulary` goes 0..29 for study. 
+        // When it hits 30, we enter Quiz Mode.
+        // We need to track `quizQuestionCount`.
+        
+        // Let's simplify: The "Start Quiz" button renders a static quiz view that cycles through 5 random questions internally.
+        
+        const currentQuizIdx = (questionIndex.vocabulary - 30) % 5; // 0 to 4
+        
+        if (currentQuizIdx === 0 && questionIndex.vocabulary === 30) {
+             // First load of quiz, generate the set
+             window.currentVocabQuizSet = shuffled;
+        }
+        
+        const item = window.currentVocabQuizSet[currentQuizIdx];
+        
+        // Generate options
+        const correctMeaning = item.meaning;
+        const wrongOptions = vocabList.filter(w => w.word !== item.word).map(w => w.meaning);
+        const shuffledOptions = [correctMeaning, ...wrongOptions].sort(() => 0.5 - Math.random()).slice(0, 4);
+        const correctIndex = shuffledOptions.indexOf(correctMeaning);
+
+        mainContent.innerHTML = `
+            <h1 class="section-title">📝 Vocabulary Quiz</h1>
+            <p class="section-subtitle">Question ${currentQuizIdx + 1} of 5</p>
+            <div class="card">
+                <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
+                <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
+                <button class="tts-btn" style="margin:0 auto;display:flex;" onclick="playAudio('${item.word}')">
+                    <i class="fa-solid fa-volume-high"></i> Listen
+                </button>
+                <div class="options" style="margin-top:2rem;">
+                    ${shuffledOptions.map((opt, i) => `
+                        <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
+                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="checkBtn" onclick="checkVocabAnswer()" disabled>Check Answer</button>
+            </div>
+        `;
+        window.selectedVocabOption = null;
+        window.correctVocabAnswer = correctMeaning;
+    }
+
+    window.selectVocabOption = (idx, val, correct) => {
+        window.selectedVocabOption = idx;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.option')[idx].classList.add('selected');
+        document.getElementById('checkBtn').disabled = false;
+    };
+
+    window.checkVocabAnswer = () => {
+        const feedback = document.getElementById('feedback');
+        const opts = document.querySelectorAll('.option');
+        const isCorrect = opts[window.selectedVocabOption].querySelector('span:last-child').textContent === window.correctVocabAnswer;
+        
+        if (isCorrect) {
+            opts[window.selectedVocabOption].classList.add('correct');
+            feedback.className = 'feedback correct show';
+            feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
+            addXP(10);
+            setTimeout(() => {
+                // Next question logic
+                const nextIdx = (questionIndex.vocabulary - 30) + 1;
+                if (nextIdx < 5) {
+                    questionIndex.vocabulary = 30 + nextIdx;
+                    renderVocabularyQuiz();
+                } else {
+                    // Quiz finished
+                    questionIndex.vocabulary++; // Move past quiz
+                    saveProgress();
+                    renderSectionComplete('vocabulary');
+                }
+            }, 1500);
+        } else {
+            opts[window.selectedVocabOption].classList.add('wrong');
+            // Find correct
+            Array.from(opts).forEach(opt => {
+                if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
+                    opt.classList.add('correct');
                 }
             });
-            
-            const accuracy = Math.round((matches / expectedWords.length) * 100 * confidence);
-            const finalScore = Math.min(accuracy, 100);
-            
-            // Display score
-            scoreDiv.textContent = finalScore + '%';
-            scoreDiv.classList.remove('hidden');
-            retryBtn.classList.remove('hidden');
-            
-            // Color code the score
-            if (finalScore >= 80) {
-                scoreDiv.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-                feedback.className = 'feedback correct show';
-                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Excellent! ${finalScore}% accuracy!`;
-            } else if (finalScore >= 60) {
-                scoreDiv.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
-                feedback.className = 'feedback show';
-                feedback.style.borderLeftColor = '#f59e0b';
-                feedback.innerHTML = `<i class="fa-solid fa-circle-info"></i> Good! ${finalScore}% - Keep practicing!`;
-            } else {
-                scoreDiv.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-                feedback.className = 'feedback wrong show';
-                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Try again! ${finalScore}% - Listen and repeat!`;
-            }
-            
-            // Mark as completed if score >= 70%
-            const card = document.getElementById(`speaking-ex-${exNum}`);
-            if (finalScore >= 70 && !card.dataset.completed) {
-                completedExercises.speaking++;
-                card.dataset.completed = 'true';
-                card.classList.add('completed');
-                updateProgress();
-            }
-            
-            status.textContent = `Você disse: "${transcript}"`;
-            resetRecordingUI(btn, waveform, status);
+            feedback.className = 'feedback wrong show';
+            feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
+            document.getElementById('checkBtn').onclick = () => {
+                 const nextIdx = (questionIndex.vocabulary - 30) + 1;
+                 if (nextIdx < 5) {
+                    questionIndex.vocabulary = 30 + nextIdx;
+                    renderVocabularyQuiz();
+                 } else {
+                    questionIndex.vocabulary++;
+                    saveProgress();
+                    renderSectionComplete('vocabulary');
+                 }
+            };
         }
+        saveProgress();
+    };
 
-        function resetRecordingUI(btn, waveform, status) {
-            btn.classList.remove('recording');
-            waveform.classList.remove('active');
-            if (!isRecording) {
-                status.textContent = 'Clique no microfone para falar';
-            }
-        }
+    function renderGrammar(q) {
+        const exp = q.explanation;
+        mainContent.innerHTML = `
+            <h1 class="section-title"> Grammar</h1>
+            <p class="section-subtitle">Learn & practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
+            </div>
+            <div class="grammar-explanation">
+                <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
+                <div class="rule"><strong> Rule:</strong> ${exp.theory}</div>
+                <div class="formula"><strong> Formula:</strong> ${exp.formula}</div>
+                <div><strong> Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="tip"><strong> Memory Tip:</strong> ${exp.tip}</div>
+                <div><strong> When to Use:</strong> ${exp.usage}</div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
 
-        // ===== WRITING EXERCISES =====
-        function checkWritingAnswer(exNum, correctAnswer) {
-            const input = document.getElementById(`write-${exNum}`);
-            const card = document.getElementById(`writing-ex-${exNum}`);
-            const feedback = card.querySelector('.feedback');
-            const userAnswer = input.value.trim().toLowerCase();
-            
-            if (userAnswer === correctAnswer.toLowerCase()) {
-                input.style.borderColor = '#22c55e';
-                feedback.className = 'feedback correct show';
-                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! Well done!';
-                card.classList.add('completed');
-                if (!card.dataset.completed) {
-                    completedExercises.writing++;
-                    card.dataset.completed = 'true';
-                    updateProgress();
-                }
-                input.disabled = true;
-            } else {
-                input.style.borderColor = '#ef4444';
-                feedback.className = 'feedback wrong show';
-                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Try again! The correct answer is "${correctAnswer}"`;
-                setTimeout(() => {
-                    input.style.borderColor = 'var(--border)';
-                    feedback.classList.remove('show');
-                }, 3000);
-            }
-        }
-
-        // ===== COMPLETION =====
-        function showCompletion() {
-            document.querySelectorAll('.skill-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById('completion').classList.add('active');
-            document.querySelector('.lesson-nav').style.display = 'none';
-            createConfetti();
-            showToast('🎉 Lesson completed! +500 XP total', 'success');
-        }
-
-        function createConfetti() {
-            const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899'];
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.cssText = `
-                    position: fixed; width: 10px; height: 10px;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    left: ${Math.random() * 100}%; top: -10px;
-                    pointer-events: none; z-index: 9999;
-                    animation: confetti-fall ${1 + Math.random()}s ease-out forwards;
-                `;
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 2000);
-            }
-        }
-
-        // ===== TOAST =====
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastTitle').textContent = type === 'success' ? 'Sucesso!' : 'Erro';
-            document.getElementById('toastMessage').textContent = message;
-            document.getElementById('toastIcon').className = `fa-solid fa-${type === 'success' ? 'circle-check c-primary' : 'circle-exclamation c-danger'} text-2xl`;
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // ===== INIT =====
-        window.addEventListener('DOMContentLoaded', () => {
-            updateProgress();
-            updateNavButtons();
-            
-            document.getElementById('toast').addEventListener('click', () => {
-                document.getElementById('toast').classList.remove('show');
-            });
-        });
-    </script>
+    // ===== INTERACTIONS =====
+    window.selectOption = (i) => { if(isAnswered) return; document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected')); document.querySelectorAll('.option')[i].classList.add('selected'); selectedOption=i; document.getElementById('checkBtn').disabled=false; };
+    window.enableCheck = () => { const input=document.getElementById('fillInput'); if(input) document.getElementById('checkBtn').disabled=!input.value.trim(); };
+    window.updateCharCount = (min,max) => { const input=document.getElementById('writingInput'), count=document.getElementById('charCount'); if(input&&count){count.textContent=input.value.length; document.getElementById('checkBtn').disabled=input.value.length<(min||0);} };
     
-    <style>
-        @keyframes confetti-fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    window.toggleTTS = (text) => {
+        const btn=document.getElementById('ttsBtn'); if(!btn) return;
+        if(ttsPlaying){ if(currentTTS) currentTTS.cancel(); ttsPlaying=false; btn.classList.remove('playing'); btn.innerHTML='<i class="fa-solid fa-volume-high"></i> Listen'; }
+        else { currentTTS=speakText(text); if(currentTTS){ ttsPlaying=true; btn.classList.add('playing'); btn.innerHTML='<i class="fa-solid fa-stop"></i> Stop'; } }
+    };
+    
+    window.playAudio = (text) => { const btn=document.getElementById('audioBtn'); if(btn){ btn.classList.add('playing'); setTimeout(()=>btn.classList.remove('playing'),1000); } speakText(text); };
+    window.readAloud = (id) => { const el=document.getElementById(id); if(el?.value) speakText(el.value); };
+    window.toggleTranscript = () => { const el=document.getElementById('transcript'); if(el) el.classList.toggle('show'); };
+    
+    function speakText(text) {
+        if(!('speechSynthesis' in window)){ alert('TTS not supported'); return null; }
+        window.speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
+        u.lang=voice; u.rate=ttsRate;
+        const voices=window.speechSynthesis.getVoices(), v=voices.find(x=>x.lang===voice);
+        if(v) u.voice=v;
+        window.speechSynthesis.speak(u);
+        return window.speechSynthesis;
+    }
+    
+    window.changeSpeed = (rate) => { ttsRate=parseFloat(rate); };
+
+    window.toggleRecording = (expected) => {
+        const btn=document.getElementById('recordBtn'), status=document.getElementById('recordStatus'), scoreDiv=document.getElementById('scoreDisplay'), continueBtn=document.getElementById('continueBtn');
+        if(!btn) return;
+        if(!btn.classList.contains('recording')){
+            const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+            if(!SR){ alert('Use Chrome/Edge'); return; }
+            recognition=new SR(); recognition.lang=voice; recognition.continuous=false;
+            recognition.onspeechend=()=>recognition.stop();
+            btn.classList.add('recording'); status.textContent=' Listening...'; if(scoreDiv) scoreDiv.style.display='none'; if(continueBtn) continueBtn.disabled=true;
+            recognition.onresult=(e)=>{
+                const transcript=e.results[0][0].transcript.trim().toLowerCase(), conf=e.results[0][0].confidence;
+                const clean=normalizeText(transcript), exp=normalizeText(expected||'');
+                const match=clean.includes(exp)||exp.includes(clean)||clean.replace(/[-\s]/g,'')===exp.replace(/[-\s]/g,'');
+                const acc=match?Math.round(conf*100):0;
+                if(scoreDiv){ scoreDiv.textContent=`${acc}% Accuracy`; scoreDiv.className=`score-display ${acc>=60?'good':'bad'}`; scoreDiv.style.display='block'; }
+                status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
+                if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
+            };
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
+            recognition.start();
         }
-    </style>
+    };
+    
+    function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
+
+    // ===== ANSWER CHECKING WITH AUTO-ADVANCE =====
+    window.checkAnswer = () => {
+        if(isAnswered||selectedOption===null) return; isAnswered=true;
+        const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
+        const correct=selectedOption===q.answer;
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.checkWriting = () => {
+        const input=document.getElementById('writingInput'); if(!input) return;
+        const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
+        const valid=input.value.trim().length>=(q.minLength||0);
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    // ===== NAVIGATION =====
+    window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
+    window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.nextSection = () => { const sections=['reading','listening','speaking','writing','vocabulary','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
+
+    function showCompletion() {
+        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
+        mainContent.innerHTML = `
+            <div class="completion-screen">
+                <i class="fa-solid fa-trophy"></i>
+                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">🎉 Lesson Complete!</h2>
+                <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
+                <div class="xp-reward">+600 XP</div>
+                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
+                
+                <div class="report-card">
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;"> Performance Report</h3>
+                    <div class="report-grid">
+                        <div class="report-item">
+                            <div class="report-value">${final}</div>
+                            <div class="report-label">Total XP Earned</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${streak}</div>
+                            <div class="report-label">Day Streak</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">65</div>
+                            <div class="report-label">Questions Completed</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${Math.round((final/800)*100)}%</div>
+                            <div class="report-label">Success Rate</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:2rem;">
+                        <h4 style="font-weight:700;margin-bottom:1rem;">Skills Breakdown:</h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#22c55e;">Reading</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#3b82f6;">Listening</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#f59e0b;">Speaking</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#ef4444;">Writing</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#8b5cf6;">Vocabulary</div>
+                                <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
+                            </div>
+                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#6366f1;">Grammar</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color:#64748b;margin:2rem 0;">Progress saved automatically!</p>
+                <div class="actions" style="justify-content:center;">
+                    <button class="btn btn-primary" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
+                </div>
+            </div>
+        `;
+        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u01_completed`]:true,[`progresso.u01_date`]:new Date().toISOString(),[`progresso.u01_score`]:final}).catch(console.error);
+    }
+
+    // ===== XP & PROGRESS =====
+    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function unlockBadge(id){ console.log(`Badge: ${id}`); }
+    
+    function updateProgress(){
+        const total=65; let done=0; Object.values(questionIndex).forEach(v=>done+=v);
+        const pct=Math.round((done/total)*100);
+        progressBar.style.width=`${pct}%`; currentQEl.textContent=String(done); totalQEl.textContent=String(total); progressPercentEl.textContent=`${pct}%`;
+        document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ const sections=['video','reading','listening','speaking','writing','vocabulary','grammar'], sec=sections[i]; if(sec!=='video'&&questionIndex[sec]>=lessonData.tabs[sec].length) btn.classList.add('completed'); });
+    }
+
+    function saveProgress(){
+        if(!currentUser) return;
+        const data={}; const prefix='u01_';
+        Object.keys(questionIndex).forEach(sec=>{ data[`progresso.${prefix}${sec}`]=questionIndex[sec]; });
+        updateDoc(doc(db,"usuarios",currentUser.uid),{ xp:score, streak:streak, totalXP:totalXP, ...data, 'progresso.lastUpdate':new Date().toISOString(), 'notes':{ u01:userNotes } }).catch(console.error);
+    }
+
+    // ===== HINTS =====
+    window.showHint = () => {
+        if(hintsUsed>=3){ alert('Max hints reached'); return; }
+        const cost=hintsUsed===0?5:hintsUsed===1?10:20;
+        if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
+        totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
+        const hints=['Think about the number words you\'ve learned.','Remember: hyphens for 21-99!','Listen for the stress pattern.'];
+        document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
+        document.getElementById('hintBox').classList.add('show');
+        saveProgress();
+    };
+
+    // ===== UTILS =====
+    window.goHome = () => { saveProgress(); window.location.href='index.html'; };
+    window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
+    window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
+    window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; saveProgress(); renderCurrentTab(); } };
+
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
+
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
+            e.preventDefault();
+            const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
+            if(checkBtn&&!checkBtn.disabled&&!isAnswered) checkAnswer();
+            else if((checkBtn&&checkBtn.textContent.includes('Correct'))||(continueBtn&&!continueBtn.disabled)){
+                if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
+                else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
+            }
+        }
+    });
+
+    if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
+</script>
 </body>
 </html>
+```
