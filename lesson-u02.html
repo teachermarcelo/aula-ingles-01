@@ -48,10 +48,13 @@
         .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
         .menu-btn:hover { background: #f1f5f9; }
         
-        /* TABS */
-        .tabs {
+        /* TABS - CENTRALIZED */
+        .tabs-container {
             background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
-            display: flex; gap: 0.25rem; overflow-x: auto; position: sticky; top: 72px; z-index: 99;
+            display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
+        }
+        .tabs {
+            display: flex; gap: 0.25rem; overflow-x: auto; max-width: 800px;
         }
         .tab-btn {
             padding: 0.75rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.85rem;
@@ -178,13 +181,14 @@
             margin: 0.75rem 0; font-size: 0.9rem;
         }
         
-        /* ACTIONS */
+        /* ACTIONS - IMPROVED BUTTONS */
         .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
         
         .btn {
             padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
             font-size: 1rem; cursor: pointer; transition: all 0.2s;
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-width: 120px;
         }
         .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
         .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
@@ -192,6 +196,9 @@
         .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
         .btn-secondary:hover { background: #e2e8f0; }
         .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+        .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
+        .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
         .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
         
         /* FEEDBACK */
@@ -253,13 +260,23 @@
         .report-value { font-size: 2rem; font-weight: 800; color: #22c55e; }
         .report-label { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
         
+        /* ENTER KEY HINT */
+        .enter-hint {
+            text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
+        }
+        .enter-hint kbd {
+            background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: monospace; font-weight: 600;
+        }
+        
         @media (max-width: 768px) {
             .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
             .progress-section { margin: 0; width: 100%; }
             .main { padding: 1rem; }
             .card { padding: 1.5rem; }
             .actions { flex-direction: column; }
-            .tabs { padding: 0.5rem 1rem; }
+            .tabs-container { padding: 0.5rem 1rem; }
+            .btn { min-width: 100px; padding: 0.75rem 1rem; }
         }
     </style>
 </head>
@@ -298,14 +315,16 @@
         <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
     </div>
 
-    <!-- TABS -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
-        <button class="tab-btn" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
-        <button class="tab-btn" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
-        <button class="tab-btn" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
-        <button class="tab-btn" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
-        <button class="tab-btn" onclick="switchTab('grammar')"><i class="fa-solid fa-spell-check"></i> Grammar</button>
+    <!-- TABS - CENTRALIZED -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" onclick="switchTab('grammar')"><i class="fa-solid fa-spell-check"></i> Grammar</button>
+        </div>
     </div>
 
     <!-- MAIN CONTENT -->
@@ -352,7 +371,7 @@
                 instructions: 'Watch the video carefully. Listen for numbers 1-100. You can pause and replay.'
             },
             
-            // READING: 10 questions
+            // READING: 10 questions - FIXED
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
@@ -456,7 +475,7 @@
                 }
             ],
             
-            // LISTENING: 10 questions with TTS
+            // LISTENING: 15 questions (INCREASED)
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
                     q: "Which number do you hear?", tts: "one", options: ["1", "10", "11", "100"], answer: 0, speed: 0.85 },
@@ -477,10 +496,20 @@
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
                     q: "True or False: The speaker says 'fifty-five'", tts: "fifty", options: ["True", "False"], answer: 1, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: "What number comes after nineteen?", tts: "twenty", options: ["19", "20", "21", "30"], answer: 1, speed: 0.85 }
+                    q: "What number comes after nineteen?", tts: "twenty", options: ["19", "20", "21", "30"], answer: 1, speed: 0.85 },
+                { id: 'l11', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Which number?", tts: "twelve", options: ["2", "12", "20", "21"], answer: 1, speed: 0.85 },
+                { id: 'l12', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "Listen:", tts: "eighty-eight", options: ["18", "80", "88", "8"], answer: 2, speed: 0.85 },
+                { id: 'l13', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'sixty-six'", tts: "sixty", options: ["True", "False"], answer: 1, speed: 0.85 },
+                { id: 'l14', type: 'specific', difficulty: 'hard', xp: 30,
+                    q: "What number?", tts: "ninety", options: ["19", "90", "9", "900"], answer: 1, speed: 0.85 },
+                { id: 'l15', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Which number do you hear?", tts: "five", options: ["5", "15", "50", "55"], answer: 0, speed: 0.85 }
             ],
             
-            // SPEAKING: 10 activities
+            // SPEAKING: 10 activities with SKIP button
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "One"', model: "one", expected: "one" },
@@ -515,7 +544,7 @@
                     prompt: 'Count from 1 to 10 in English.', minWords: 10, expectedPattern: "one two three four five six seven eight nine ten" }
             ],
             
-            // WRITING: 10 activities
+            // WRITING: 10 intelligent tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "I am _____ years old." (25)', answer: 'twenty-five', example: 'I am twenty-five years old.' },
@@ -539,13 +568,11 @@
                     prompt: 'Describe your daily routine using times (7 AM, 12 PM, etc.).', minLength: 50, maxLength: 150 }
             ],
             
-            // GRAMMAR: 10 questions with DETAILED explanations
+            // GRAMMAR: Only explanations and models
             grammar: [
                 {
-                    id: 'g1', type: 'theory', difficulty: 'easy', xp: 10,
-                    q: 'What are cardinal numbers used for?',
-                    options: ['Showing order/position', 'Counting quantities', 'Asking questions', 'Describing colors'],
-                    answer: 1,
+                    id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Cardinal Numbers (1-20)',
                     explanation: {
                         theory: 'Cardinal numbers (one, two, three...) are used for counting and expressing quantities. They answer "How many?"',
                         formula: 'Cardinal Number = Quantity (one apple, two books, three people)',
@@ -560,10 +587,8 @@
                     }
                 },
                 {
-                    id: 'g2', type: 'form', difficulty: 'easy', xp: 10,
-                    q: 'How do you write 21 in English?',
-                    options: ['Twenty one', 'Twenty-one', 'Twentyone', 'Two-one'],
-                    answer: 1,
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Compound Numbers (21-99)',
                     explanation: {
                         theory: 'Compound numbers from 21-99 use a hyphen between the tens and units.',
                         formula: '[Tens]-[Units] = twenty-one, thirty-five, ninety-nine',
@@ -579,10 +604,8 @@
                     }
                 },
                 {
-                    id: 'g3', type: 'form', difficulty: 'easy', xp: 10,
-                    q: 'What is the correct spelling of 40?',
-                    options: ['Fourty', 'Forty', 'Four-zero', 'Forte'],
-                    answer: 1,
+                    id: 'g3', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Spelling Exceptions',
                     explanation: {
                         theory: 'The number 40 is spelled "forty" - without the "u" from "four". This is a common spelling exception.',
                         formula: '4 → four, but 40 → forty (drop the "u")',
@@ -597,10 +620,8 @@
                     }
                 },
                 {
-                    id: 'g4', type: 'usage', difficulty: 'medium', xp: 20,
-                    q: 'When do we use ordinal numbers (1st, 2nd, 3rd)?',
-                    options: ['For counting objects', 'For showing position/order', 'For phone numbers', 'For prices'],
-                    answer: 1,
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Ordinal Numbers',
                     explanation: {
                         theory: 'Ordinal numbers (first, second, third...) indicate position, rank, or order in a sequence.',
                         formula: 'Ordinal = Position (1st place, 2nd floor, 3rd birthday)',
@@ -615,28 +636,24 @@
                     }
                 },
                 {
-                    id: 'g5', type: 'form', difficulty: 'medium', xp: 20,
-                    q: 'What is the ordinal form of 5?',
-                    options: ['Fiveth', 'Fifth', 'Five', 'Fivety'],
-                    answer: 1,
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Ordinal Spelling Changes',
                     explanation: {
-                        theory: 'The ordinal of 5 is "fifth". Note the spelling change: five → fif + th',
-                        formula: 'five → fif + th = fifth',
+                        theory: 'Some ordinals have spelling changes: five → fifth, twelve → twelfth',
+                        formula: 'five → fif + th = fifth | twelve → twelf + th = twelfth',
                         examples: [
                             'She is the fifth student. (NOT fiveth)',
-                            'This is my fifth coffee today.',
-                            'He lives on the fifth floor.'
+                            'This is my twelfth birthday.',
+                            'He lives on the twelfth floor.'
                         ],
-                        exceptions: 'Similar change: twelve → twelfth (ve → f + th)',
-                        tip: 'Remember: FIVE → FIFTH (ve changes to f)',
-                        usage: 'Use "fifth" for positions: 5th place, 5th floor, 5th birthday'
+                        exceptions: 'Similar pattern: five → fifth, twelve → twelfth (ve → f)',
+                        tip: 'TWELVE → TWELFTH: ve becomes f, then add th',
+                        usage: 'Use "fifth" and "twelfth" for positions: 5th place, 12th floor, etc.'
                     }
                 },
                 {
-                    id: 'g6', type: 'usage', difficulty: 'medium', xp: 20,
-                    q: 'In British English, how do you say 105?',
-                    options: ['One hundred five', 'One hundred and five', 'One-oh-five', 'Hundred five'],
-                    answer: 1,
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'British vs American English',
                     explanation: {
                         theory: 'British English uses "and" between hundreds and tens/units. American English often omits it.',
                         formula: 'UK: [hundred] + and + [rest] | US: [hundred] + [rest]',
@@ -651,28 +668,8 @@
                     }
                 },
                 {
-                    id: 'g7', type: 'error', difficulty: 'medium', xp: 20,
-                    q: 'Find the error: "I am twenty five years old."',
-                    options: ['No error', 'Should be "twenty-five"', 'Should be "twentyfive"', 'Should be "two-five"'],
-                    answer: 1,
-                    explanation: {
-                        theory: 'Compound numbers 21-99 require a hyphen when written out.',
-                        formula: 'Incorrect: twenty five | Correct: twenty-five',
-                        examples: [
-                            '❌ I am twenty five. → ✅ I am twenty-five.',
-                            '❌ She has thirty two books. → ✅ She has thirty-two books.',
-                            '❌ It costs ninety nine dollars. → ✅ It costs ninety-nine dollars.'
-                        ],
-                        exceptions: 'No hyphen needed for multiples of ten alone: twenty, thirty, forty',
-                        tip: 'If you can say "and" between words (twenty AND five), you need a hyphen',
-                        usage: 'Always hyphenate compound numbers in formal writing'
-                    }
-                },
-                {
-                    id: 'g8', type: 'theory', difficulty: 'hard', xp: 30,
-                    q: 'Which numbers always end in "-teen"?',
-                    options: ['1-10', '11-19', '20-90', '100+'],
-                    answer: 1,
+                    id: 'g7', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Teen Numbers (13-19)',
                     explanation: {
                         theory: 'Numbers 13-19 end with the suffix "-teen" (thirteen, fourteen... nineteen). Note: 11 and 12 are irregular (eleven, twelve).',
                         formula: '13-19 = [base] + teen (with spelling adjustments)',
@@ -688,34 +685,8 @@
                     }
                 },
                 {
-                    id: 'g9', type: 'error', difficulty: 'hard', xp: 30,
-                    q: 'Correct this: "She is the twelveth person."',
-                    options: ['twelveth', 'twelfth', 'twelve', 'twelth'],
-                    answer: 1,
-                    explanation: {
-                        theory: 'The ordinal of 12 is "twelfth". Spelling: twelve → twelf + th (ve → f)',
-                        formula: 'twelve → twelf + th = twelfth',
-                        examples: [
-                            '❌ twelveth → ✅ twelfth',
-                            'She is the twelfth student in line.',
-                            'This is my twelfth birthday.',
-                            'He lives on the twelfth floor.'
-                        ],
-                        exceptions: 'Similar pattern: five → fifth, twelve → twelfth (ve → f)',
-                        tip: 'TWELVE → TWELFTH: ve becomes f, then add th',
-                        usage: 'Use "twelfth" for 12th position: dates, floors, rankings'
-                    }
-                },
-                {
-                    id: 'g10', type: 'usage', difficulty: 'hard', xp: 30,
-                    q: 'When asking age, which is correct?',
-                    options: [
-                        'How many years you have?',
-                        'How old are you?',
-                        'What is your age number?',
-                        'How old you are?'
-                    ],
-                    answer: 1,
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Asking Age Correctly',
                     explanation: {
                         theory: 'The standard question for age in English is "How old are you?" using the verb "to be".',
                         formula: 'How old + [be verb] + [subject]? = How old are you?',
@@ -728,6 +699,40 @@
                         exceptions: 'In very informal speech, some say "What\'s your age?" but "How old...?" is standard',
                         tip: 'Remember: OLD goes with BE (How old ARE you? / I AM...)',
                         usage: 'Use "How old are/is...?" for asking age in all formal and informal contexts'
+                    }
+                },
+                {
+                    id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Hundreds and Thousands',
+                    explanation: {
+                        theory: 'For large numbers, use "hundred" and "thousand" with proper pluralization.',
+                        formula: '[number] + hundred/thousand + [rest]',
+                        examples: [
+                            '100 = one hundred',
+                            '200 = two hundred',
+                            '1000 = one thousand',
+                            '2500 = two thousand five hundred'
+                        ],
+                        exceptions: 'No "s" in hundred/thousand when preceded by a number: "two hundred" NOT "two hundreds"',
+                        tip: 'HUNDRED/THOUSAND stay singular when used with numbers',
+                        usage: 'Use for prices, populations, distances, large quantities'
+                    }
+                },
+                {
+                    id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Decimal Numbers',
+                    explanation: {
+                        theory: 'Decimal numbers use "point" to separate whole numbers from fractions.',
+                        formula: '[whole number] + point + [decimal digits]',
+                        examples: [
+                            '3.14 = three point one four',
+                            '2.5 = two point five',
+                            '0.75 = zero point seven five',
+                            '10.99 = ten point nine nine'
+                        ],
+                        exceptions: 'Money: $2.50 = "two dollars and fifty cents" (not "two point five zero")',
+                        tip: 'POINT = decimal separator in English',
+                        usage: 'Use for measurements, prices, scientific data, percentages'
                     }
                 }
             ]
@@ -794,7 +799,7 @@
         if (currentTab === 'video') { renderVideo(); return; }
         const section = lessonData.tabs[currentTab];
         const index = questionIndex[currentTab];
-        if (index >= section.length) { renderSectionComplete(section[0]?.q?.split(' ')[0] || currentTab); return; }
+        if (index >= section.length) { renderSectionComplete(section[0]?.title || currentTab); return; }
         
         switch(currentTab) {
             case 'reading': renderReading(section[index]); break;
@@ -812,7 +817,7 @@
             <h1 class="section-title">📺 Video Lesson</h1>
             <p class="section-subtitle">Watch and learn numbers 1-100</p>
             <div class="objective-box">
-                <strong>🎯 Learning Objectives:</strong><br>
+                <strong> Learning Objectives:</strong><br>
                 ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
             </div>
             <div class="card">
@@ -822,12 +827,16 @@
                 <p style="text-align:center;color:#64748b;">${video.instructions}</p>
             </div>
             <div class="actions">
-                <button class="btn btn-primary" onclick="switchTab('reading')">
+                <button class="btn btn-primary" onclick="startActivities()">
                     Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         `;
     }
+
+    window.startActivities = () => {
+        switchTab('reading');
+    };
 
     function renderSectionComplete(title) {
         mainContent.innerHTML = `
@@ -845,7 +854,7 @@
     // ===== RENDERERS =====
     function renderReading(q) {
         mainContent.innerHTML = `
-            <h1 class="section-title">📖 Reading</h1>
+            <h1 class="section-title"> Reading</h1>
             <p class="section-subtitle">Comprehension practice</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
@@ -870,8 +879,9 @@
                 <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
             </div>
-            <p style="text-align:center;color:#64748b;margin-top:1rem;font-size:0.85rem;">Press <kbd style="background:#f1f5f9;padding:0.25rem 0.5rem;border-radius:4px;">Enter</kbd> to check & continue</p>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
         `;
     }
 
@@ -898,8 +908,9 @@
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
             </div>
-            <p style="text-align:center;color:#64748b;margin-top:1rem;font-size:0.85rem;">Press <kbd style="background:#f1f5f9;padding:0.25rem 0.5rem;border-radius:4px;">Enter</kbd> to check & continue</p>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
         `;
     }
 
@@ -919,8 +930,9 @@
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="continueBtn" onclick="nextQuestion()" disabled>Continue</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
             </div>
-            <p style="text-align:center;color:#64748b;margin-top:1rem;font-size:0.85rem;">Press <kbd style="background:#f1f5f9;padding:0.25rem 0.5rem;border-radius:4px;">Enter</kbd> to continue</p>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
         `;
     }
 
@@ -939,8 +951,9 @@
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
             </div>
-            <p style="text-align:center;color:#64748b;margin-top:1rem;font-size:0.85rem;">Press <kbd style="background:#f1f5f9;padding:0.25rem 0.5rem;border-radius:4px;">Enter</kbd> to submit</p>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
         `;
     }
 
@@ -949,26 +962,23 @@
         mainContent.innerHTML = `
             <h1 class="section-title"> Grammar</h1>
             <p class="section-subtitle">Learn & practice</p>
-            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
             <div class="card">
-                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
-                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
-                <div class="feedback" id="feedback"></div>
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
             </div>
             <div class="grammar-explanation">
                 <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
                 <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
                 <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
-                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
-                ${exp.exceptions ? `<div><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
-                <div class="tip"><strong>🧠 Memory Tip:</strong> ${exp.tip}</div>
+                <div><strong> Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="tip"><strong> Memory Tip:</strong> ${exp.tip}</div>
                 <div><strong> When to Use:</strong> ${exp.usage}</div>
             </div>
             <div class="actions">
-                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
-                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ️</button>
             </div>
-            <p style="text-align:center;color:#64748b;margin-top:1rem;font-size:0.85rem;">Press <kbd style="background:#f1f5f9;padding:0.25rem 0.5rem;border-radius:4px;">Enter</kbd> to check & continue</p>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
         `;
     }
 
@@ -1048,6 +1058,7 @@
     // ===== NAVIGATION =====
     window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
     window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
     window.nextSection = () => { const sections=['reading','listening','speaking','writing','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
 
     function showCompletion() {
@@ -1089,7 +1100,7 @@
                             </div>
                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
                                 <div style="font-weight:700;color:#3b82f6;">Listening</div>
-                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                                <div style="font-size:1.5rem;font-weight:800;">15/15</div>
                             </div>
                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
                                 <div style="font-weight:700;color:#f59e0b;">Speaking</div>
