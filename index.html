@@ -13,20 +13,9 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        display: ['Fredoka', 'sans-serif'],
-                        body: ['Nunito', 'sans-serif'],
-                    },
-                    animation: {
-                        'float': 'float 3s ease-in-out infinite',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
-                    }
+                    fontFamily: { display: ['Fredoka', 'sans-serif'], body: ['Nunito', 'sans-serif'] },
+                    animation: { 'float': 'float 3s ease-in-out infinite', 'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite' },
+                    keyframes: { float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } } }
                 }
             }
         }
@@ -50,262 +39,87 @@
             --glow-accent: 0 0 20px rgba(251, 191, 36, 0.2);
         }
         * { box-sizing: border-box; margin: 0; }
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        
-        /* Utility Classes */
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); transition: all 0.3s ease; min-height: 100vh; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
         .c-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
-        .c-text { color: var(--text); }
-        .c-text-muted { color: var(--text-muted); }
-        .c-primary { color: var(--primary); }
-        .c-primary-bg { background: var(--primary); }
-        .c-secondary { color: var(--secondary); }
-        .c-secondary-bg { background: var(--secondary); }
-        .c-accent { color: var(--accent); }
-        .c-accent-bg { background: var(--accent); }
-        .c-gem { color: var(--gem); }
-        .c-streak { color: var(--streak); }
-        .c-xp { color: var(--xp); }
-        .c-danger { color: var(--danger); }
-        .c-danger-bg { background: var(--danger); }
-        
-        /* 👑 Crown Button - GOLD (FIXED) */
-        .crown-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-            color: #78350f !important;
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
-            transition: all 0.3s ease;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-        }
-        .crown-btn:hover {
-            transform: translateY(-2px) scale(1.1);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
-            filter: brightness(1.1);
-        }
+        .c-text { color: var(--text); } .c-text-muted { color: var(--text-muted); }
+        .c-primary { color: var(--primary); } .c-primary-bg { background: var(--primary); }
+        .c-secondary { color: var(--secondary); } .c-secondary-bg { background: var(--secondary); }
+        .c-accent { color: var(--accent); } .c-accent-bg { background: var(--accent); }
+        .c-gem { color: var(--gem); } .c-streak { color: var(--streak); }
+        .c-xp { color: var(--xp); } .c-danger { color: var(--danger); } .c-danger-bg { background: var(--danger); }
+        .crown-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%); color: #78350f !important; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); transition: all 0.3s ease; display: flex !important; align-items: center; justify-content: center; }
+        .crown-btn:hover { transform: translateY(-2px) scale(1.1); box-shadow: 0 0 30px rgba(251, 191, 36, 0.8); filter: brightness(1.1); }
         .crown-btn i { color: #78350f !important; }
-        
-        /* Buttons */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-        }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
         .btn-secondary { background: var(--secondary); color: white; }
-        .btn-secondary:hover { background: #2563eb; transform: translateY(-2px); }
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-danger { background: var(--danger); color: white; }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            width: 52px; height: 28px; border-radius: 14px;
-            background: var(--border); position: relative; cursor: pointer; border: none;
-            transition: background 0.3s;
-        }
-        .theme-toggle::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 22px; height: 22px; border-radius: 50%;
-            background: var(--primary); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        .theme-toggle { width: 52px; height: 28px; border-radius: 14px; background: var(--border); position: relative; cursor: pointer; border: none; transition: background 0.3s; }
+        .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); transition: transform 0.3s cubic-bezier(.4,0,.2,1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
-        
-        /* Modals */
-        .modal {
-            display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
-            backdrop-filter: blur(8px);
-        }
+        .modal { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .modal.active { display: flex; }
-        .modal-content {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 24px; padding: 2rem;
-            max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto;
-            animation: slideUp 0.3s ease;
-            box-shadow: var(--shadow);
-        }
+        .modal-content { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; box-shadow: var(--shadow); }
         .modal-content.full { max-width: 1200px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Inputs */
-        .input-field {
-            width: 100%; padding: 0.75rem 1rem;
-            border: 2px solid var(--border); border-radius: 12px;
-            background: var(--bg); color: var(--text);
-            font-family: inherit; transition: all 0.3s;
-        }
+        .input-field { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--border); border-radius: 12px; background: var(--bg); color: var(--text); font-family: inherit; transition: all 0.3s; }
         .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-        
-        /* Animations */
         .fade-in { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         .loading { opacity: 0.7; pointer-events: none; position: relative; }
-        .loading::after {
-            content: ''; position: absolute; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.1); border-radius: inherit;
-        }
-        .loading::before {
-            content: ''; position: absolute; width: 24px; height: 24px;
-            border: 3px solid var(--border); border-top-color: var(--primary);
-            border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
-        }
+        .loading::after { content: ''; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.1); border-radius: inherit; }
+        .loading::before { content: ''; position: absolute; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; z-index: 1; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Stats Cards */
-        .stat-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem;
-            transition: all 0.3s;
-        }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; transition: all 0.3s; }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-        
-        /* User Rows */
-        .user-row {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
-            transition: all 0.3s; cursor: pointer;
-        }
+        .user-row { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; transition: all 0.3s; cursor: pointer; }
         .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
-        .user-row.active { border-color: var(--primary); background: rgba(34,197,94,0.05); }
-        
-        /* Status Badges */
-        .status-badge {
-            padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700;
-        }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
         .status-pending { background: #fbbf24; color: #78350f; }
         .status-approved { background: #22c55e; color: white; }
         .status-rejected { background: #ef4444; color: white; }
-        
-        /* Progress Bar */
         .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
-        
-        /* Admin Tabs */
-        .tab-btn {
-            padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
-            font-weight: 600; transition: all 0.3s; border: none;
-            background: transparent; color: var(--text-muted); cursor: pointer;
-            position: relative;
-        }
-        .tab-btn.active {
-            background: var(--card); color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
+        .tab-btn { padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0; font-weight: 600; transition: all 0.3s; border: none; background: transparent; color: var(--text-muted); cursor: pointer; position: relative; }
+        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); }
         .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
-        
         .hidden-section { display: none !important; }
-        
-        /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
-        
-        /* Level Track - A1 to C2 */
-        .level-track {
-            display: flex; align-items: center; justify-content: center;
-            gap: 1rem; padding: 1.5rem; flex-wrap: wrap;
-        }
-        .level-node {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 0.5rem; padding: 1rem; border-radius: 16px;
-            transition: all 0.3s; cursor: pointer;
-            min-width: 80px;
-        }
+        .level-track { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; flex-wrap: wrap; }
+        .level-node { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem; border-radius: 16px; transition: all 0.3s; cursor: pointer; min-width: 80px; }
         .level-node:hover { transform: translateY(-4px); }
-        .level-node.active {
-            background: rgba(34,197,94,0.15);
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow-primary);
-        }
+        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: var(--glow-primary); }
         .level-node.completed { opacity: 0.8; }
         .level-node.locked { opacity: 0.5; cursor: not-allowed; }
-        .level-icon {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: white; font-weight: bold;
-        }
-        .level-A1 { background: #22c55e; }
-        .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; }
-        .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; }
-        .level-C2 { background: #dc2626; }
-        
-        /* Special Courses Grid */
-        .course-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 20px; padding: 1.5rem;
-            transition: all 0.3s; cursor: pointer;
-            text-align: center;
-        }
-        .course-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent);
-            box-shadow: var(--glow-accent);
-        }
-        .course-icon {
-            width: 70px; height: 70px; border-radius: 20px;
-            margin: 0 auto 1rem;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.75rem; color: white;
-        }
+        .level-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; font-weight: bold; }
+        .level-A1 { background: #22c55e; } .level-A2 { background: #10b981; } .level-B1 { background: #06b6d4; }
+        .level-B2 { background: #f59e0b; } .level-C1 { background: #f97316; } .level-C2 { background: #dc2626; }
+        .course-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; text-align: center; }
+        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow-accent); }
+        .course-icon { width: 70px; height: 70px; border-radius: 20px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: white; }
         .course-business { background: linear-gradient(135deg, #1e40af, #3b82f6); }
         .course-biblico { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
         .course-kids { background: linear-gradient(135deg, #ec4899, #f472b6); }
         .course-airport { background: linear-gradient(135deg, #0891b2, #22d3ee); }
         .course-travel { background: linear-gradient(135deg, #059669, #34d399); }
-        
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--card); border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem; border-radius: 12px;
-            box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
-            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
-            max-width: 350px;
-        }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: var(--card); border-left: 4px solid var(--primary); padding: 1rem 1.5rem; border-radius: 12px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem; z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease; max-width: 350px; }
         .toast.show { transform: translateX(0); }
-        .toast.success { border-left-color: #22c55e; }
-        .toast.error { border-left-color: #ef4444; }
-        .toast.warning { border-left-color: #f59e0b; }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .modal-content { padding: 1rem; max-width: 95%; }
-            .stat-card { padding: 1rem; }
-            .level-track { gap: 0.5rem; }
-            .level-node { min-width: 60px; padding: 0.75rem; }
-            .level-icon { width: 44px; height: 44px; font-size: 1.25rem; }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
+        .toast.success { border-left-color: #22c55e; } .toast.error { border-left-color: #ef4444; } .toast.warning { border-left-color: #f59e0b; }
+        .ranking-table { width: 100%; border-collapse: collapse; }
+        .ranking-table th { text-align: left; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-bottom: 1px solid var(--border); }
+        .ranking-table td { padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .ranking-table tr:last-child td { border-bottom: none; }
+        .rank-pos { font-weight: bold; width: 40px; }
+        .rank-1 { color: #fbbf24; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
+        @media (max-width: 768px) { .modal-content { padding: 1rem; max-width: 95%; } .stat-card { padding: 1rem; } .level-track { gap: 0.5rem; } .level-node { min-width: 60px; padding: 0.75rem; } .level-icon { width: 44px; height: 44px; font-size: 1.25rem; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
     </style>
 </head>
 <body>
@@ -315,41 +129,20 @@
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Bem-vindo de volta! 👋</h2>
-                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Email</label>
-                        <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required>
-                    </div>
+                    <div><label class="block text-sm font-bold mb-2">Email</label><input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Senha</label><input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required></div>
                     <div class="flex justify-between text-sm">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" class="rounded">
-                            <span class="c-text-muted">Lembrar-me</span>
-                        </label>
-                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">
-                            Esqueceu a senha?
-                        </button>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded"><span class="c-text-muted">Lembrar-me</span></label>
+                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">Esqueceu a senha?</button>
                     </div>
-                    <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3">
-                        <i class="fa-solid fa-right-to-bracket"></i> Entrar
-                    </button>
+                    <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
                 </div>
             </form>
-            <div class="mt-6 text-center">
-                <p class="c-text-muted">Não tem conta? 
-                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">
-                        Cadastre-se gratuitamente
-                    </button>
-                </p>
-            </div>
+            <div class="mt-6 text-center"><p class="c-text-muted">Não tem conta? <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">Cadastre-se gratuitamente</button></p></div>
         </div>
     </div>
 
@@ -358,401 +151,107 @@
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Crie sua conta 🚀</h2>
-                <button onclick="closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="handleRegister(event)">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Nome completo</label>
-                        <input type="text" id="regName" class="input-field" placeholder="João Silva" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Email</label>
-                        <input type="email" id="regEmail" class="input-field" placeholder="seu@email.com" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="regPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Confirmar senha</label>
-                        <input type="password" id="regConfirmPassword" class="input-field" placeholder="Digite novamente" required>
-                    </div>
-                    <div class="flex items-start gap-2">
-                        <input type="checkbox" id="regTerms" required class="mt-1">
-                        <label for="regTerms" class="text-sm c-text-muted">
-                            Concordo com os termos de uso e política de privacidade
-                        </label>
-                    </div>
-                    <button type="submit" id="registerBtn" class="btn btn-primary w-full py-3">
-                        <i class="fa-solid fa-user-plus"></i> Criar conta
-                    </button>
+                    <div><label class="block text-sm font-bold mb-2">Nome completo</label><input type="text" id="regName" class="input-field" placeholder="João Silva" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Email</label><input type="email" id="regEmail" class="input-field" placeholder="seu@email.com" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Senha</label><input type="password" id="regPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Confirmar senha</label><input type="password" id="regConfirmPassword" class="input-field" placeholder="Digite novamente" required></div>
+                    <div class="flex items-start gap-2"><input type="checkbox" id="regTerms" required class="mt-1"><label for="regTerms" class="text-sm c-text-muted">Concordo com os termos de uso e política de privacidade</label></div>
+                    <button type="submit" id="registerBtn" class="btn btn-primary w-full py-3"><i class="fa-solid fa-user-plus"></i> Criar conta</button>
                 </div>
             </form>
-            <div class="mt-6 text-center">
-                <p class="c-text-muted">Já tem conta? 
-                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">
-                        Faça login
-                    </button>
-                </p>
-            </div>
+            <div class="mt-6 text-center"><p class="c-text-muted">Já tem conta? <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">Faça login</button></p></div>
         </div>
     </div>
 
-    <!-- ===== MODAL: ADMIN DASHBOARD (FULL) ===== -->
+    <!-- ===== MODAL: ADMIN DASHBOARD ===== -->
     <div id="adminModal" class="modal">
         <div class="modal-content full">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl crown-btn flex items-center justify-center">
-                        <i class="fa-solid fa-crown text-lg"></i>
-                    </div>
+                    <div class="w-10 h-10 rounded-xl crown-btn flex items-center justify-center"><i class="fa-solid fa-crown text-lg"></i></div>
                     <h2 class="font-display font-bold text-2xl">Painel Administrativo</h2>
                 </div>
-                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <!-- Admin Tabs -->
             <div class="flex gap-1 mb-0 border-b border-gray-700 overflow-x-auto pb-1">
-                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active">
-                    <i class="fa-solid fa-chart-line mr-2"></i>Dashboard
-                </button>
-                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn">
-                    <i class="fa-solid fa-users mr-2"></i>Alunos
-                </button>
-                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn">
-                    <i class="fa-solid fa-file-alt mr-2"></i>Relatórios
-                </button>
-                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn">
-                    <i class="fa-solid fa-graduation-cap mr-2"></i>Cursos
-                </button>
-                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn">
-                    <i class="fa-solid fa-cog mr-2"></i>Config
-                </button>
+                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active"><i class="fa-solid fa-chart-line mr-2"></i>Dashboard</button>
+                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn"><i class="fa-solid fa-users mr-2"></i>Alunos</button>
+                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn"><i class="fa-solid fa-file-alt mr-2"></i>Relatórios</button>
+                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn"><i class="fa-solid fa-graduation-cap mr-2"></i>Cursos</button>
+                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn"><i class="fa-solid fa-cog mr-2"></i>Config</button>
             </div>
-            
-            <!-- Tab: Dashboard -->
             <div id="admin-dashboard" class="admin-section p-6">
                 <h3 class="font-bold text-lg mb-4">📊 Visão Geral da Plataforma</h3>
-                
-                <!-- Stats Cards -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
-                        <div class="text-sm c-text-muted">Total Alunos</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
-                        <div class="text-sm c-text-muted">Ativos Hoje</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div>
-                        <div class="text-sm c-text-muted">Pendentes</div>
-                    </div>
-                    <div class="stat-card text-center">
-                        <div class="text-3xl font-bold c-gem mb-1" id="statAvgTime">0h</div>
-                        <div class="text-sm c-text-muted">Tempo Médio/Dia</div>
-                    </div>
+                    <div class="stat-card text-center"><div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div><div class="text-sm c-text-muted">Total Alunos</div></div>
+                    <div class="stat-card text-center"><div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div><div class="text-sm c-text-muted">Ativos Hoje</div></div>
+                    <div class="stat-card text-center"><div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div><div class="text-sm c-text-muted">Pendentes</div></div>
+                    <div class="stat-card text-center"><div class="text-3xl font-bold c-gem mb-1" id="statAvgTime">0h</div><div class="text-sm c-text-muted">Tempo Médio/Dia</div></div>
                 </div>
-                
-                <!-- Charts Row -->
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">📈 Progresso por Nível (CEFR)</h4>
-                        <div class="chart-container"><canvas id="chartLevels"></canvas></div>
-                    </div>
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">📅 Atividade Semanal</h4>
-                        <div class="chart-container"><canvas id="chartActivity"></canvas></div>
-                    </div>
-                </div>
-                
-                <!-- Second Charts Row -->
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">🎯 Cursos Especiais Mais Acessados</h4>
-                        <div class="chart-container"><canvas id="chartCourses"></canvas></div>
-                    </div>
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">⭐ Top 5 Alunos (XP)</h4>
-                        <div id="topStudents" class="space-y-3"></div>
-                    </div>
+                    <div class="stat-card"><h4 class="font-bold mb-4">📈 Progresso por Nível (CEFR)</h4><div class="chart-container"><canvas id="chartLevels"></canvas></div></div>
+                    <div class="stat-card"><h4 class="font-bold mb-4">🏆 Ranking Top 5 (Gamificação)</h4><table class="ranking-table"><thead><tr><th>#</th><th>Aluno</th><th>Nível</th><th>XP Total</th></tr></thead><tbody id="rankingBody"><tr><td colspan="4" class="text-center c-text-muted py-4">Carregando ranking...</td></tr></tbody></table></div>
                 </div>
             </div>
-            
-            <!-- Tab: Students -->
             <div id="admin-students" class="admin-section hidden-section p-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                     <h3 class="font-bold text-lg">👥 Gestão de Alunos</h3>
                     <div class="flex gap-2 flex-wrap">
                         <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="filterStudents()">
-                        <select id="filterLevel" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos os níveis</option>
-                            <option value="A1">A1</option><option value="A2">A2</option>
-                            <option value="B1">B1</option><option value="B2">B2</option>
-                            <option value="C1">C1</option><option value="C2">C2</option>
-                        </select>
-                        <select id="filterStatus" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos status</option>
-                            <option value="approved">Aprovados</option>
-                            <option value="pending">Pendentes</option>
-                        </select>
+                        <select id="filterLevel" class="input-field" onchange="filterStudents()"><option value="all">Todos os níveis</option><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option><option value="C1">C1</option><option value="C2">C2</option></select>
+                        <select id="filterStatus" class="input-field" onchange="filterStudents()"><option value="all">Todos status</option><option value="approved">Aprovados</option><option value="pending">Pendentes</option></select>
                     </div>
                 </div>
-                
-                <!-- Students Table Header -->
-                <div class="c-card rounded-xl p-3 mb-3 hidden md:grid md:grid-cols-6 text-sm font-bold c-text-muted">
-                    <div>Aluno</div><div>Email</div><div>Nível</div><div>XP</div><div>Status</div><div>Ações</div>
-                </div>
-                
-                <!-- Students List -->
-                <div id="studentsList" class="space-y-2 max-h-96 overflow-y-auto">
-                    <div class="text-center c-text-muted py-8">
-                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
-                        <p>Carregando alunos...</p>
-                    </div>
-                </div>
+                <div id="studentsList" class="space-y-2 max-h-96 overflow-y-auto"><div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando alunos...</p></div></div>
             </div>
-            
-            <!-- Tab: Reports -->
             <div id="admin-reports" class="admin-section hidden-section p-6">
                 <h3 class="font-bold text-lg mb-4">📋 Relatórios Detalhados</h3>
-                
                 <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Student Selector -->
-                    <div class="stat-card">
-                        <label class="block text-sm font-bold mb-2">Selecione um aluno:</label>
-                        <select id="reportStudentSelect" class="input-field mb-4" onchange="loadStudentReport(this.value)">
-                            <option value="">-- Selecione --</option>
-                        </select>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-2">Período:</label>
-                            <div class="flex gap-2">
-                                <input type="date" id="reportStartDate" class="input-field">
-                                <input type="date" id="reportEndDate" class="input-field">
-                            </div>
-                        </div>
-                        
-                        <button onclick="generateReport()" class="btn btn-secondary w-full">
-                            <i class="fa-solid fa-download"></i> Gerar Relatório
-                        </button>
-                    </div>
-                    
-                    <!-- Report Preview -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">Pré-visualização</h4>
-                        <div id="reportPreview" class="c-text-muted text-sm">
-                            Selecione um aluno para visualizar o relatório.
-                        </div>
-                    </div>
+                    <div class="stat-card"><label class="block text-sm font-bold mb-2">Selecione um aluno:</label><select id="reportStudentSelect" class="input-field mb-4" onchange="loadStudentReport(this.value)"><option value="">-- Selecione --</option></select><button onclick="generateReport()" class="btn btn-secondary w-full"><i class="fa-solid fa-download"></i> Exportar PDF</button></div>
+                    <div class="stat-card" id="reportPreview"><h4 class="font-bold mb-3">Pré-visualização</h4><p class="c-text-muted text-sm">Selecione um aluno para ver detalhes completos.</p></div>
                 </div>
-                
-                <!-- Student Report Details (hidden until selected) -->
-                <div id="studentReport" class="hidden-section mt-6">
-                    <!-- Dynamic content -->
-                </div>
+                <div id="studentReport" class="hidden-section mt-6"></div>
             </div>
-            
-            <!-- Tab: Courses (Special) -->
             <div id="admin-courses" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">🎓 Cursos Especiais</h3>
-                
+                <h3 class="font-bold text-lg mb-4">🎓 Cursos Especiais (Solicitações)</h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Business English -->
-                    <div class="course-card">
-                        <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
-                        <h4 class="font-bold mb-2">Business English</h4>
-                        <p class="text-sm c-text-muted mb-3">Inglês para negócios e carreira</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseBusiness">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 45%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
-                    </div>
-                    
-                    <!-- Biblical English -->
-                    <div class="course-card">
-                        <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
-                        <h4 class="font-bold mb-2">Bíblico</h4>
-                        <p class="text-sm c-text-muted mb-3">Inglês com foco em textos bíblicos</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseBiblico">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 30%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
-                    </div>
-                    
-                    <!-- Kids English -->
-                    <div class="course-card">
-                        <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
-                        <h4 class="font-bold mb-2">Kids</h4>
-                        <p class="text-sm c-text-muted mb-3">Inglês divertido para crianças</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseKids">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 60%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
-                    </div>
-                    
-                    <!-- Airport English -->
-                    <div class="course-card">
-                        <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
-                        <h4 class="font-bold mb-2">Airport & Travel</h4>
-                        <p class="text-sm c-text-muted mb-3">Inglês para viagens e aeroportos</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseAirport">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 25%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
-                    </div>
-                    
-                    <!-- Travel English -->
-                    <div class="course-card">
-                        <div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div>
-                        <h4 class="font-bold mb-2">Travel Conversations</h4>
-                        <p class="text-sm c-text-muted mb-3">Diálogos para turistas</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseTravel">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 35%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
-                    </div>
-                    
-                    <!-- Add New Course -->
-                    <div class="course-card border-2 border-dashed border-gray-600 hover:border-primary cursor-pointer" onclick="showAddCourseModal()">
-                        <div class="w-16 h-16 mx-auto rounded-2xl bg-gray-700 flex items-center justify-center mb-3">
-                            <i class="fa-solid fa-plus text-2xl c-text-muted"></i>
-                        </div>
-                        <h4 class="font-bold mb-2 c-text-muted">Adicionar Curso</h4>
-                        <p class="text-sm c-text-muted">Crie um novo curso especial</p>
-                    </div>
+                    <div class="course-card"><div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div><h4 class="font-bold mb-2">Business English</h4><p class="text-sm c-text-muted mb-3">Inglês para negócios</p><div class="text-xs c-text-muted">Solicitações: 12</div></div>
+                    <div class="course-card"><div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div><h4 class="font-bold mb-2">Bíblico</h4><p class="text-sm c-text-muted mb-3">Textos sagrados</p><div class="text-xs c-text-muted">Solicitações: 8</div></div>
+                    <div class="course-card"><div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div><h4 class="font-bold mb-2">Kids</h4><p class="text-sm c-text-muted mb-3">Para crianças</p><div class="text-xs c-text-muted">Solicitações: 25</div></div>
                 </div>
             </div>
-            
-            <!-- Tab: Settings -->
             <div id="admin-settings" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">⚙️ Configurações do Sistema</h3>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- System Settings -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">🔧 Sistema</h4>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span>Notificações por email</span>
-                                <input type="checkbox" class="toggle" checked>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Aprovação automática de cadastros</span>
-                                <input type="checkbox" class="toggle">
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Modo manutenção</span>
-                                <input type="checkbox" class="toggle">
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Backup automático diário</span>
-                                <input type="checkbox" class="toggle" checked>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Data Management -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-4">💾 Dados</h4>
-                        <div class="space-y-3">
-                            <button onclick="exportData('json')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-code mr-2"></i> Exportar JSON
-                            </button>
-                            <button onclick="exportData('csv')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-csv mr-2"></i> Exportar CSV
-                            </button>
-                            <button onclick="exportData('pdf')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-pdf mr-2"></i> Exportar PDF
-                            </button>
-                            <hr class="border-gray-700">
-                            <button onclick="logout()" class="btn btn-danger w-full">
-                                <i class="fa-solid fa-sign-out-alt mr-2"></i> Sair do Painel
-                            </button>
-                        </div>
-                    </div>
+                <h3 class="font-bold text-lg mb-4">⚙️ Configurações</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between stat-card"><span>Aprovação automática</span><input type="checkbox" class="toggle"></div>
+                    <button onclick="logout()" class="btn btn-danger w-full"><i class="fa-solid fa-sign-out-alt mr-2"></i> Sair do Painel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== MODAL: Student Details ===== -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">👤 Relatório do Aluno</h2>
-                <button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div id="studentDetailsContent">
-                <!-- Dynamic content -->
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== HEADER (WITH GOLDEN CROWN FIX) ===== -->
+    <!-- ===== HEADER ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <!-- Logo -->
                 <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center shadow-lg">
-                        <i class="fa-solid fa-graduation-cap text-white text-lg"></i>
-                    </div>
-                    <div class="hidden sm:block">
-                        <h1 class="font-display font-bold text-lg leading-none">EnglishPath</h1>
-                        <p class="text-[10px] c-text-muted font-medium">Do A1 ao C2 • Cursos Especiais</p>
-                    </div>
+                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center shadow-lg"><i class="fa-solid fa-graduation-cap text-white text-lg"></i></div>
+                    <div class="hidden sm:block"><h1 class="font-display font-bold text-lg leading-none">EnglishPath</h1><p class="text-[10px] c-text-muted font-medium">Do A1 ao C2 • Cursos Especiais</p></div>
                 </a>
-                
-                <!-- Right Side Controls -->
                 <div class="flex items-center gap-3">
-                    <!-- Theme Toggle -->
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
-                    
-                    <!-- Auth Buttons (When logged out) -->
                     <div id="authButtons" class="flex items-center gap-2">
-                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm">
-                            <i class="fa-solid fa-right-to-bracket"></i> Login
-                        </button>
-                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-user-plus"></i> Cadastrar
-                        </button>
+                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm"><i class="fa-solid fa-user-plus"></i> Cadastrar</button>
                     </div>
-                    
-                    <!-- User Info (When logged in) -->
                     <div id="userInfo" class="hidden flex items-center gap-3">
-                        <!-- Nome do Usuário -->
-                        <span id="userName" class="font-bold text-sm hidden md:inline text-right">
-                            <span class="block text-xs c-text-muted font-normal">Olá,</span>
-                            <span id="displayUserName">Usuário</span>
-                        </span>
-                        
-                        <!-- 👑 GOLDEN CROWN BUTTON (Admin Only) - FIXED -->
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
-                            <i class="fa-solid fa-crown"></i>
-                        </button>
-                        
-                        <!-- Logout -->
-                        <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </button>
+                        <span id="userName" class="font-bold text-sm hidden md:inline text-right"><span class="block text-xs c-text-muted font-normal">Olá,</span><span id="displayUserName">Usuário</span></span>
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo"><i class="fa-solid fa-crown"></i></button>
+                        <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
                 </div>
             </div>
@@ -761,275 +260,67 @@
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        
-        <!-- ===== GUEST VIEW ===== -->
-        <div id="guestView" class="fade-in">
-            <div class="text-center py-12 md:py-20">
-                <div class="w-28 h-28 mx-auto mb-8 rounded-2xl c-primary-bg flex items-center justify-center text-6xl text-white shadow-2xl animate-float">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <h2 class="font-display font-black text-4xl md:text-5xl mb-4">
-                    Aprenda Inglês de Forma <span class="c-primary">Divertida</span>! 🎮
-                </h2>
-                <p class="text-xl c-text-muted mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Do básico ao avançado, jogue, aprenda e acompanhe seu progresso. 
-                    Cursos especiais para Business, Bíblico, Kids, Viagens e muito mais!
-                </p>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
-                        <i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!
-                    </button>
-                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4">
-                        <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Features Grid -->
-            <div class="grid md:grid-cols-3 gap-6 mt-16">
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-primary-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-2">Aprenda Jogando</h3>
-                    <p class="c-text-muted">Lições interativas com gamificação, XP, conquistas e recompensas.</p>
-                </div>
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-secondary-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-2">Acompanhe seu Progresso</h3>
-                    <p class="c-text-muted">Veja sua evolução do A1 ao C2 com relatórios detalhados e gráficos.</p>
-                </div>
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-volume-high"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-2">Áudio Nativo TTS</h3>
-                    <p class="c-text-muted">Tecnologia de texto-para-fala para ouvir e repetir a pronúncia correta.</p>
-                </div>
+        <!-- GUEST VIEW -->
+        <div id="guestView" class="fade-in text-center py-12">
+            <div class="w-24 h-24 mx-auto mb-8 rounded-2xl c-primary-bg flex items-center justify-center text-5xl text-white shadow-2xl animate-float"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h2 class="font-display font-black text-4xl mb-4">Aprenda Inglês de Forma <span class="c-primary">Divertida</span>! 🎮</h2>
+            <p class="c-text-muted mb-8 max-w-xl mx-auto">Do básico ao avançado, jogue, aprenda e acompanhe seu progresso.</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="openModal('register')" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Começar Agora</button>
+                <button onclick="openModal('login')" class="btn btn-outline"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
             </div>
         </div>
 
-        <!-- ===== LOGGED IN VIEW ===== -->
+        <!-- LOGGED IN VIEW -->
         <div id="loggedInView" class="hidden fade-in space-y-8">
-            
-            <!-- Welcome Section -->
             <div class="text-center mb-8">
-                <h2 class="font-display font-bold text-3xl md:text-4xl mb-2">
-                    Olá, <span id="welcomeName" class="c-primary">Aluno</span>! 👋
-                </h2>
-                <p class="c-text-muted text-lg">Continue sua jornada no inglês. Você está indo muito bem!</p>
+                <h2 class="font-display font-bold text-3xl">Olá, <span id="welcomeName" class="c-primary">Aluno</span>! 👋</h2>
+                <p class="c-text-muted">Continue sua jornada no inglês.</p>
             </div>
-            
-            <!-- User Stats Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="c-card rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div>
-                    <div class="text-xs c-text-muted">XP Total</div>
-                </div>
-                <div class="c-card rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire"></i> <span id="userStreak">0</span></div>
-                    <div class="text-xs c-text-muted">Dias Seguidos</div>
-                </div>
-                <div class="c-card rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem"></i> <span id="userGems">0</span></div>
-                    <div class="text-xs c-text-muted">Gemas</div>
-                </div>
-                <div class="c-card rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div>
-                    <div class="text-xs c-text-muted">Nível Atual</div>
-                </div>
+                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div><div class="text-xs c-text-muted">XP Total</div></div>
+                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire"></i> <span id="userStreak">0</span></div><div class="text-xs c-text-muted">Dias Seguidos</div></div>
+                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem"></i> <span id="userGems">0</span></div><div class="text-xs c-text-muted">Gemas</div></div>
+                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div><div class="text-xs c-text-muted">Nível Atual</div></div>
             </div>
-            
-            <!-- LEVEL TRACK: A1 → C2 (ALWAYS VISIBLE) -->
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display font-bold text-xl">🗺️ Sua Jornada: A1 ao C2</h3>
-                    <span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary" id="currentLevel">A1</span></span>
+                    <h3 class="font-display font-bold text-xl">🗺️ Sua Jornada</h3>
+                    <span class="text-sm c-text-muted">Nível: <span class="font-bold c-primary" id="currentLevel">A1</span></span>
                 </div>
-                
                 <div class="level-track">
-                    <!-- A1 -->
-                    <a href="a1.html" class="level-node active">
-                        <div class="level-icon level-A1"><i class="fa-solid fa-seedling"></i></div>
-                        <span class="font-bold text-sm">A1</span>
-                        <span class="text-xs c-text-muted">Beginner</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- A2 -->
-                    <a href="a2.html" class="level-node completed">
-                        <div class="level-icon level-A2"><i class="fa-solid fa-leaf"></i></div>
-                        <span class="font-bold text-sm">A2</span>
-                        <span class="text-xs c-text-muted">Elementary</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- B1 -->
-                    <a href="b1.html" class="level-node">
-                        <div class="level-icon level-B1"><i class="fa-solid fa-water"></i></div>
-                        <span class="font-bold text-sm">B1</span>
-                        <span class="text-xs c-text-muted">Intermediate</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- B2 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-B2"><i class="fa-solid fa-fire"></i></div>
-                        <span class="font-bold text-sm">B2</span>
-                        <span class="text-xs c-text-muted">Upper-Int</span>
-                    </div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- C1 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-C1"><i class="fa-solid fa-bolt"></i></div>
-                        <span class="font-bold text-sm">C1</span>
-                        <span class="text-xs c-text-muted">Advanced</span>
-                    </div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- C2 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-C2"><i class="fa-solid fa-crown"></i></div>
-                        <span class="font-bold text-sm">C2</span>
-                        <span class="text-xs c-text-muted">Mastery</span>
-                    </div>
+                    <a href="a1.html" class="level-node active"><div class="level-icon level-A1"><i class="fa-solid fa-seedling"></i></div><span class="font-bold">A1</span><span class="text-xs c-text-muted">Beginner</span></a>
+                    <a href="a2.html" class="level-node"><div class="level-icon level-A2"><i class="fa-solid fa-leaf"></i></div><span class="font-bold">A2</span><span class="text-xs c-text-muted">Elementary</span></a>
+                    <a href="b1.html" class="level-node"><div class="level-icon level-B1"><i class="fa-solid fa-water"></i></div><span class="font-bold">B1</span><span class="text-xs c-text-muted">Intermediate</span></a>
                 </div>
-                
-                <!-- XP Progress Bar -->
-                <div class="mt-6">
-                    <div class="flex justify-between text-xs mb-2">
-                        <span class="c-text-muted">Progresso para próximo nível</span>
-                        <span class="font-bold"><span id="currentXp">0</span>/2,500 XP</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div id="xpBar" class="progress-fill" style="width: 0%"></div>
-                    </div>
-                </div>
-                
-                <!-- CTA Button -->
-                <a href="a1.html" class="btn btn-primary w-full mt-6">
-                    <i class="fa-solid fa-play"></i> Continuar Estudos
-                </a>
+                <div class="mt-6"><div class="flex justify-between text-xs mb-2"><span>Progresso para próximo nível</span><span class="font-bold"><span id="currentXp">0</span>/2,500 XP</span></div><div class="progress-bar"><div id="xpBar" class="progress-fill" style="width:0%;background:var(--primary)"></div></div></div>
+                <a href="a1.html" class="btn btn-primary w-full mt-6"><i class="fa-solid fa-play"></i> Continuar Estudos</a>
             </div>
-            
-            <!-- SPECIAL COURSES SECTION -->
             <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display font-bold text-xl">🎓 Cursos Especiais</h3>
-                    <span class="text-sm c-text-muted">Conteúdo exclusivo</span>
-                </div>
-                
+                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">🎓 Cursos Especiais</h3><span class="text-sm c-text-muted">Via WhatsApp</span></div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <!-- Business -->
-                    <a href="business.html" class="course-card">
-                        <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Business</h4>
-                        <p class="text-xs c-text-muted">Inglês corporativo</p>
-                    </a>
-                    <!-- Biblical -->
-                    <a href="biblico.html" class="course-card">
-                        <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Bíblico</h4>
-                        <p class="text-xs c-text-muted">Textos sagrados</p>
-                    </a>
-                    <!-- Kids -->
-                    <a href="kids.html" class="course-card">
-                        <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Kids</h4>
-                        <p class="text-xs c-text-muted">Para crianças</p>
-                    </a>
-                    <!-- Airport -->
-                    <a href="airport.html" class="course-card">
-                        <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Airport</h4>
-                        <p class="text-xs c-text-muted">Viagens aéreas</p>
-                    </a>
-                    <!-- Travel -->
-                    <a href="travel.html" class="course-card">
-                        <div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Travel</h4>
-                        <p class="text-xs c-text-muted">Turismo</p>
-                    </a>
+                    <div onclick="openCourseWhatsapp('Business English')" class="course-card"><div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div><h4 class="font-bold text-sm mb-1">Business</h4><p class="text-xs c-text-muted">Corporativo</p></div>
+                    <div onclick="openCourseWhatsapp('Bíblico')" class="course-card"><div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div><h4 class="font-bold text-sm mb-1">Bíblico</h4><p class="text-xs c-text-muted">Sagrado</p></div>
+                    <div onclick="openCourseWhatsapp('Kids')" class="course-card"><div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div><h4 class="font-bold text-sm mb-1">Kids</h4><p class="text-xs c-text-muted">Crianças</p></div>
+                    <div onclick="openCourseWhatsapp('Airport')" class="course-card"><div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div><h4 class="font-bold text-sm mb-1">Airport</h4><p class="text-xs c-text-muted">Viagens</p></div>
+                    <div onclick="openCourseWhatsapp('Travel')" class="course-card"><div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div><h4 class="font-bold text-sm mb-1">Travel</h4><p class="text-xs c-text-muted">Turismo</p></div>
                 </div>
             </div>
-            
-            <!-- Today's Lessons Preview -->
             <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display font-bold text-xl">📚 Lições de Hoje</h3>
-                    <span class="text-sm c-text-muted">3 disponíveis</span>
-                </div>
-                
-                <div class="space-y-3">
-                    <a href="lesson-u01.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-comments"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Greetings & Introductions</h4>
-                                <p class="text-sm c-text-muted">Saudações e apresentações básicas</p>
-                            </div>
-                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
-                                <i class="fa-solid fa-bolt"></i> +50 XP
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <a href="lesson-u02.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-secondary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-hashtag"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Numbers 1-20</h4>
-                                <p class="text-sm c-text-muted">Números e contagem</p>
-                            </div>
-                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
-                                <i class="fa-solid fa-bolt"></i> +50 XP
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <a href="lesson-u03.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all opacity-75">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-accent-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-palette"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Colors</h4>
-                                <p class="text-sm c-text-muted">Cores básicas</p>
-                            </div>
-                            <div class="bg-gray-600 text-gray-300 px-3 py-1.5 rounded-full text-xs font-bold">
-                                Em breve
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">📚 Lições de Hoje</h3><span class="text-sm c-text-muted">Nível: <span id="lessonsLevelBadge" class="font-bold c-primary">A1</span></span></div>
+                <div id="todayLessonsContainer" class="space-y-3"><div class="text-center c-text-muted py-4"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</div></div>
             </div>
         </div>
     </main>
 
-    <!-- ===== TOAST NOTIFICATION ===== -->
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
-        <div>
-            <div class="font-bold" id="toastTitle">Sucesso!</div>
-            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div>
-        </div>
-    </div>
+    <!-- TOAST -->
+    <div id="toast" class="toast"><i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i><div><div class="font-bold" id="toastTitle">Sucesso!</div><div class="text-xs c-text-muted" id="toastMessage"></div></div></div>
 
-    <!-- ===== FIREBASE + APP LOGIC ===== -->
     <script type="module">
-        // ===== IMPORTS =====
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
             apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
             authDomain: "englishpath-2d558.firebaseapp.com",
@@ -1039,34 +330,18 @@
             appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
         };
 
-        // ===== INITIALIZE =====
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        let currentUser = null, userData = null, allStudents = [], charts = {};
 
-        // ===== STATE =====
-        let currentUser = null;
-        let userData = null;
-        let allStudents = [];
-        let charts = {};
+        // GLOBALS
+        window.openModal = openModal; window.closeModal = closeModal; window.switchModal = switchModal;
+        window.toggleTheme = toggleTheme; window.handleLogin = handleLogin; window.handleRegister = handleRegister;
+        window.logout = logout; window.showAdminTab = showAdminTab; window.filterStudents = filterStudents;
+        window.loadStudentReport = loadStudentReport; window.approveUser = approveUser; window.rejectUser = rejectUser;
+        window.openCourseWhatsapp = openCourseWhatsapp;
 
-        // ===== EXPOSE GLOBAL FUNCTIONS =====
-        window.openModal = openModal;
-        window.closeModal = closeModal;
-        window.switchModal = switchModal;
-        window.toggleTheme = toggleTheme;
-        window.handleLogin = handleLogin;
-        window.handleRegister = handleRegister;
-        window.logout = logout;
-        window.showAdminTab = showAdminTab;
-        window.filterStudents = filterStudents;
-        window.loadStudentReport = loadStudentReport;
-        window.exportData = exportData;
-        window.approveUser = approveUser;
-        window.rejectUser = rejectUser;
-        window.showForgotPassword = showForgotPassword;
-
-        // ===== AUTH STATE LISTENER =====
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
@@ -1074,633 +349,172 @@
                     if (userDoc.exists()) {
                         userData = { uid: user.uid, ...userDoc.data() };
                         currentUser = user;
-                        
-                        // Update last login
-                        await updateDoc(doc(db, "usuarios", user.uid), {
-                            ultimoLogin: new Date().toISOString()
-                        });
-                        
+                        await updateDoc(doc(db, "usuarios", user.uid), { ultimoLogin: new Date().toISOString() });
                         if (userData.status === 'approved') {
-                            updateUI();
+                            updateUI(); loadDynamicLessons();
                             showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                         } else {
-                            showToast('Aguarde', `Seu cadastro está ${userData.status}. Contate o admin.`, 'warning');
+                            showToast('Aguarde', `Status: ${userData.status}`, 'error');
                             await logout();
                         }
                     }
-                } catch (error) {
-                    console.error("Erro ao carregar usuário:", error);
-                    showToast('Erro ao carregar dados', 'error');
-                }
+                } catch (e) { console.error(e); }
             } else {
-                currentUser = null;
-                userData = null;
-                updateUI();
+                currentUser = null; userData = null; updateUI();
             }
         });
 
-        // ===== UI UPDATES (CROWN BUTTON FIX) =====
         function updateUI() {
-            const authButtons = document.getElementById('authButtons');
+            const authSec = document.getElementById('authButtons');
             const userInfo = document.getElementById('userInfo');
-            const guestView = document.getElementById('guestView');
-            const loggedInView = document.getElementById('loggedInView');
-            const adminBtn = document.getElementById('adminBtn');
+            const guest = document.getElementById('guestView');
+            const logged = document.getElementById('loggedInView');
+            const crown = document.getElementById('adminBtn');
             
-            // Debug log
-            console.log("👑 Admin Check:", {
-                userData: userData?.role,
-                adminBtn: adminBtn
-            });
-            
-            if (userData) {
-                // Hide guest, show logged in
-                authButtons.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-                
-                // Update user info
-                const displayUserName = document.getElementById('displayUserName');
-                if (displayUserName) displayUserName.textContent = userData.nome || 'Usuário';
-                
-                if (document.getElementById('welcomeName')) {
-                    document.getElementById('welcomeName').textContent = userData.nome || 'Usuário';
-                }
-                
-                // Update stats
-                if (document.getElementById('userXp')) document.getElementById('userXp').textContent = (userData.xp || 0).toLocaleString();
-                if (document.getElementById('userStreak')) document.getElementById('userStreak').textContent = userData.streak || 0;
-                if (document.getElementById('userGems')) document.getElementById('userGems').textContent = userData.gems || 0;
-                if (document.getElementById('userLevel')) document.getElementById('userLevel').textContent = userData.level || 'A1';
-                if (document.getElementById('currentLevel')) document.getElementById('currentLevel').textContent = userData.level || 'A1';
-                if (document.getElementById('currentXp')) document.getElementById('currentXp').textContent = userData.xp || 0;
-                
-                // XP bar
-                const xpPercent = Math.min((userData.xp || 0) / 2500 * 100, 100);
-                const xpBar = document.getElementById('xpBar');
-                if (xpBar) xpBar.style.width = xpPercent + '%';
-                
-                // 👑 CROWN BUTTON LOGIC (FIXED)
-                if (adminBtn) {
-                    if (userData.role === 'admin') {
-                        adminBtn.classList.remove('hidden');
-                        adminBtn.style.display = 'flex'; // Force display
-                        console.log("👑 Crown shown for admin");
-                    } else {
-                        adminBtn.classList.add('hidden');
-                        adminBtn.style.display = 'none';
-                        console.log("👑 Crown hidden for non-admin");
-                    }
-                }
-                
-                // Show logged view
-                if (guestView) guestView.classList.add('hidden');
-                if (loggedInView) loggedInView.classList.remove('hidden');
-                
+            if (currentUser && userData) {
+                authSec.innerHTML = `<button onclick="logout()" class="btn btn-outline text-xs py-1.5 px-3">Sair</button>`;
+                document.getElementById('displayUserName').textContent = userData.nome;
+                document.getElementById('welcomeName').textContent = userData.nome;
+                document.getElementById('userXp').textContent = (userData.xp || 0).toLocaleString();
+                document.getElementById('userStreak').textContent = userData.streak || 0;
+                document.getElementById('userGems').textContent = userData.gems || 0;
+                const lvl = userData.level || 'A1';
+                document.getElementById('userLevel').textContent = lvl;
+                document.getElementById('currentLevel').textContent = lvl;
+                document.getElementById('lessonsLevelBadge').textContent = lvl;
+                document.getElementById('currentXp').textContent = userData.xp || 0;
+                document.getElementById('xpBar').style.width = Math.min((userData.xp||0)/2500*100,100) + '%';
+                crown.style.display = userData.role === 'admin' ? 'flex' : 'none';
+                guest.classList.add('hidden'); logged.classList.remove('hidden');
             } else {
-                // Show guest view
-                if (authButtons) authButtons.classList.remove('hidden');
-                if (userInfo) userInfo.classList.add('hidden');
-                if (guestView) guestView.classList.remove('hidden');
-                if (loggedInView) loggedInView.classList.add('hidden');
-                if (adminBtn) {
-                    adminBtn.classList.add('hidden');
-                    adminBtn.style.display = 'none';
-                }
+                authSec.innerHTML = `<button onclick="openModal('login')" class="btn btn-outline text-xs py-1.5 px-3">Login</button>`;
+                guest.classList.remove('hidden'); logged.classList.add('hidden');
+                crown.style.display = 'none';
             }
         }
 
-        // ===== MODAL FUNCTIONS =====
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                if (modalId === 'adminModal') loadDashboardData();
-            }
-        }
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-        function switchModal(from, to) {
-            closeModal(from);
-            setTimeout(() => openModal(to), 200);
+        // ===== WHATSAPP COURSES =====
+        window.openCourseWhatsapp = (courseName) => {
+            const phone = "5541999653041";
+            const msg = `Olá! Quero desbloquear o curso especial: *${courseName}*. Como faço?`;
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        };
+
+        // ===== DYNAMIC LESSONS LOADER =====
+        function loadDynamicLessons() {
+            const lvl = (userData.level || 'A1').toLowerCase();
+            const map = {
+                'a1': [
+                    { t: 'Greetings & Introductions', d: 'Saudações', i: 'comments', f: 'lesson-u01.html' },
+                    { t: 'Numbers 1-100', d: 'Contagem', i: 'hashtag', f: 'lesson-u02.html' },
+                    { t: 'Colors', d: 'Cores', i: 'palette', f: 'lesson-u03.html' }
+                ],
+                'a2': [
+                    { t: 'Daily Routine', d: 'Rotina diária', i: 'sun', f: 'a2-u01.html' },
+                    { t: 'Family Members', d: 'Família', i: 'users', f: 'a2-u02.html' }
+                ]
+            };
+            const list = map[lvl] || map['a1'];
+            document.getElementById('todayLessonsContainer').innerHTML = list.map(l => `
+                <a href="${l.f}" class="c-card rounded-xl p-4 flex items-center gap-4 hover:border-primary transition-all">
+                    <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white"><i class="fa-solid fa-${l.i}"></i></div>
+                    <div class="flex-1"><h4 class="font-bold">${l.t}</h4><p class="text-sm c-text-muted">${l.d}</p></div>
+                    <div class="c-primary-bg text-white px-3 py-1 rounded-full text-xs font-bold">+50 XP</div>
+                </a>
+            `).join('');
         }
 
-        // ===== THEME TOGGLE =====
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('ep_theme', html.dataset.theme);
-        }
-        // Load saved theme
-        (function(){
-            const saved = localStorage.getItem('ep_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
-        })();
-
-        // ===== TOAST NOTIFICATIONS =====
-        function showToast(title, message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const icons = { success: 'fa-circle-check c-primary', error: 'fa-circle-exclamation c-danger', warning: 'fa-triangle-exclamation c-accent' };
-            
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMessage').textContent = message;
-            document.getElementById('toastIcon').className = `fa-solid ${icons[type]} text-2xl`;
-            
-            toast.className = `toast ${type} show`;
-            setTimeout(() => toast.classList.remove('show'), 4000);
-        }
-
-        // ===== AUTH: REGISTER =====
         async function handleRegister(e) {
             e.preventDefault();
-            const btn = document.getElementById('registerBtn');
             const nome = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value;
-            const senha = document.getElementById('regPassword').value;
-            const confirm = document.getElementById('regConfirmPassword').value;
-            
-            if (senha !== confirm) { showToast('Erro', 'As senhas não coincidem', 'error'); return; }
-            if (senha.length < 6) { showToast('Erro', 'Senha deve ter pelo menos 6 caracteres', 'error'); return; }
-            
-            btn.classList.add('loading'); btn.disabled = true;
-            
+            const pass = document.getElementById('regPass').value;
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-                
-                // Save user data to Firestore
-                await setDoc(doc(db, "usuarios", userCredential.user.uid), {
-                    nome, email,
-                    role: 'student',
-                    status: 'pending', // Requires admin approval
-                    createdAt: new Date().toISOString(),
-                    xp: 0, level: 'A1', streak: 0, gems: 0,
-                    tempoTotal: 0, ultimoLogin: null,
-                    progresso: {},
-                    cursosEspeciais: {}
-                });
-                
-                closeModal('registerModal');
-                showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação do admin.', 'success');
-                
-                // Auto-open login after 2s
-                setTimeout(() => {
-                    document.getElementById('regName').value = '';
-                    document.getElementById('regEmail').value = '';
-                    document.getElementById('regPassword').value = '';
-                    document.getElementById('regConfirmPassword').value = '';
-                    openModal('loginModal');
-                }, 2000);
-                
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            } finally {
-                btn.classList.remove('loading'); btn.disabled = false;
-            }
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                await setDoc(doc(db, "usuarios", cred.user.uid), { nome, email, role: 'student', status: 'pending', createdAt: new Date().toISOString(), xp: 0, level: 'A1', streak: 0, gems: 0, progresso: {} });
+                closeModal('register'); showToast('Sucesso', 'Aguarde aprovação.', 'success');
+                setTimeout(() => openModal('login'), 2000);
+            } catch (err) { showToast('Erro', err.message, 'error'); }
         }
 
-        // ===== AUTH: LOGIN =====
         async function handleLogin(e) {
             e.preventDefault();
-            const btn = document.getElementById('loginBtn');
-            const email = document.getElementById('loginEmail').value;
-            const senha = document.getElementById('loginPassword').value;
-            
-            btn.classList.add('loading'); btn.disabled = true;
-            
-            try {
-                await signInWithEmailAndPassword(auth, email, senha);
-                closeModal('loginModal');
-                // onAuthStateChanged will handle UI update
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            } finally {
-                btn.classList.remove('loading'); btn.disabled = false;
-            }
+            try { await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPass').value); closeModal('login'); }
+            catch (err) { showToast('Erro', err.message, 'error'); }
         }
 
-        // ===== AUTH: LOGOUT =====
-        async function logout() {
-            await signOut(auth);
-            closeModal('adminModal');
-            closeModal('studentModal');
-            showToast('Logout', 'Você saiu do sistema', 'success');
-        }
+        async function logout() { await signOut(auth); showToast('Logout', 'Você saiu.', 'success'); }
 
-        // ===== AUTH: FORGOT PASSWORD =====
-        async function showForgotPassword() {
-            const email = prompt('Digite seu email para recuperar a senha:');
-            if (!email) return;
-            
-            try {
-                await sendPasswordResetEmail(auth, email);
-                showToast('Enviado', 'Verifique seu email para recuperar a senha', 'success');
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
-        }
-
-        // ===== ADMIN: LOAD DASHBOARD DATA =====
         async function loadDashboardData() {
             try {
-                const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-                allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const snap = await getDocs(query(collection(db, "usuarios"), orderBy("createdAt", "desc")));
+                allStudents = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                document.getElementById('statTotal').textContent = allStudents.length;
+                const now = new Date();
+                document.getElementById('statActive').textContent = allStudents.filter(u => u.ultimoLogin && new Date(u.ultimoLogin) > new Date(now - 86400000)).length;
+                document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
                 
-                updateStats();
-                renderCharts();
+                // Ranking Top 5 by XP
+                const top5 = [...allStudents].sort((a,b) => (b.xp||0) - (a.xp||0)).slice(0,5);
+                document.getElementById('rankingBody').innerHTML = top5.map((u,i) => `<tr><td class="rank-pos rank-${i+1}">#${i+1}</td><td>${u.nome}</td><td>${u.level||'A1'}</td><td class="c-primary font-bold">${(u.xp||0).toLocaleString()}</td></tr>`).join('');
+                
+                // Chart: Levels Distribution
+                const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+                allStudents.filter(u=>u.status==='approved').forEach(u=>{ if(levels[u.level]!==undefined) levels[u.level]++; });
+                if(charts.levels) charts.levels.destroy();
+                charts.levels = new Chart(document.getElementById('chartLevels'), {
+                    type: 'bar', data: { labels: ['A1','A2','B1','B2','C1','C2'], datasets: [{ label: 'Alunos', data: Object.values(levels), backgroundColor: ['#22c55e','#10b981','#06b6d4','#f59e0b','#f97316','#dc2626'] }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                });
+                
                 renderStudentsList();
-                populateReportSelect();
-                updateCourseStats();
-                
-            } catch (error) {
-                console.error('Erro ao carregar dashboard:', error);
-                showToast('Erro', 'Falha ao carregar dados', 'error');
-            }
-        }
-
-        function updateStats() {
-            document.getElementById('statTotal').textContent = allStudents.length;
-            document.getElementById('statActive').textContent = allStudents.filter(u => 
-                u.status === 'approved' && 
-                u.ultimoLogin && 
-                new Date(u.ultimoLogin) > new Date(Date.now() - 86400000)
-            ).length;
-            document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
-            
-            const avgTime = allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1);
-            document.getElementById('statAvgTime').textContent = (avgTime / 3600000).toFixed(1) + 'h';
-        }
-
-        function renderCharts() {
-            // Chart 1: Levels Distribution
-            const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
-            allStudents.filter(u => u.status === 'approved').forEach(u => {
-                if (levels[u.level] !== undefined) levels[u.level]++;
-            });
-            
-            const ctxLevels = document.getElementById('chartLevels').getContext('2d');
-            if (charts.levels) charts.levels.destroy();
-            charts.levels = new Chart(ctxLevels, {
-                type: 'bar',
-                data: {
-                    labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
-                    datasets: [{
-                        label: 'Alunos',
-                        data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2],
-                        backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626']
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
-            });
-            
-            // Chart 2: Weekly Activity (mock data for demo)
-            const ctxActivity = document.getElementById('chartActivity').getContext('2d');
-            if (charts.activity) charts.activity.destroy();
-            charts.activity = new Chart(ctxActivity, {
-                type: 'line',
-                data: {
-                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                    datasets: [{
-                        label: 'Atividade',
-                        data: [12, 19, 15, 22, 18, 10, 8],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
-            });
-            
-            // Chart 3: Special Courses
-            const ctxCourses = document.getElementById('chartCourses').getContext('2d');
-            if (charts.courses) charts.courses.destroy();
-            charts.courses = new Chart(ctxCourses, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'],
-                    datasets: [{
-                        data: [45, 30, 60, 25, 35],
-                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e']
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } }
-                }
-            });
-        }
-
-        function updateCourseStats() {
-            // Mock data - replace with real Firestore queries
-            document.getElementById('courseBusiness').textContent = '45';
-            document.getElementById('courseBiblico').textContent = '30';
-            document.getElementById('courseKids').textContent = '60';
-            document.getElementById('courseAirport').textContent = '25';
-            document.getElementById('courseTravel').textContent = '35';
+                document.getElementById('reportStudentSelect').innerHTML = '<option value="">Selecione</option>' + allStudents.filter(u=>u.status==='approved').map(u=>`<option value="${u.id}">${u.nome}</option>`).join('');
+            } catch(e) { console.error(e); }
         }
 
         function renderStudentsList() {
-            const container = document.getElementById('studentsList');
-            if (!allStudents.length) {
-                container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>';
-                return;
-            }
-            
-            container.innerHTML = allStudents.map(u => `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
-                                ${u.nome.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                                <div class="font-bold">${u.nome}</div>
-                                <div class="text-sm c-text-muted">${u.email}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">
-                                ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
-                            </span>
-                            ${u.status === 'pending' ? `
-                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary">
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            ` : `
-                                <div class="text-right text-xs hidden md:block">
-                                    <div class="c-text-muted">${u.level || 'A1'}</div>
-                                    <div class="font-bold c-primary">${(u.xp || 0).toLocaleString()} XP</div>
-                                </div>
-                            `}
-                        </div>
+            const s = document.getElementById('searchStudent').value.toLowerCase();
+            const st = document.getElementById('filterStatus').value;
+            const f = allStudents.filter(u => (u.nome.toLowerCase().includes(s) || u.email.includes(s)) && (st==='all' || u.status===st));
+            document.getElementById('studentsList').innerHTML = f.map(u => `
+                <div class="c-card rounded-lg p-3 flex items-center justify-between">
+                    <div><div class="font-bold">${u.nome}</div><div class="text-xs c-text-muted">${u.email}</div></div>
+                    <div class="flex gap-2 items-center">
+                        <span class="text-xs px-2 py-1 rounded ${u.status==='approved'?'bg-green-500/20 text-green-500':'bg-yellow-500/20 text-yellow-500'}">${u.status}</span>
+                        ${u.status==='pending'?`<button onclick="approveUser('${u.id}')" class="px-2 py-1 rounded bg-green-500/20 text-green-500">✓</button><button onclick="rejectUser('${u.id}')" class="px-2 py-1 rounded bg-red-500/20 text-red-500">✗</button>`:''}
                     </div>
                 </div>
             `).join('');
         }
+        window.filterStudents = renderStudentsList;
 
-        function populateReportSelect() {
-            const select = document.getElementById('reportStudentSelect');
-            select.innerHTML = '<option value="">-- Selecione --</option>' + 
-                allStudents.filter(u => u.status === 'approved').map(u => 
-                    `<option value="${u.id}">${u.nome} (${u.email})</option>`
-                ).join('');
+        function loadStudentReport(id) {
+            const u = allStudents.find(x=>x.id===id);
+            if(!u) return;
+            const timeHours = ((u.tempoTotal || 0) / 3600000).toFixed(1);
+            const lastLogin = u.ultimoLogin ? new Date(u.ultimoLogin).toLocaleString('pt-BR') : 'Nunca';
+            document.getElementById('studentReport').innerHTML = `
+                <div class="stat-card mt-4"><h4 class="font-bold mb-2">${u.nome}</h4>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div><strong>XP Total:</strong> ${(u.xp||0).toLocaleString()}</div><div><strong>Nível:</strong> ${u.level||'A1'}</div>
+                    <div><strong>Streak:</strong> ${u.streak||0}</div><div><strong>Tempo Estudo:</strong> ${timeHours} horas</div>
+                    <div><strong>Último Acesso:</strong> ${lastLogin}</div>
+                </div></div>`;
         }
 
-        // ===== ADMIN: APPROVE/REJECT USERS =====
-        async function approveUser(userId) {
-            try {
-                await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
-                showToast('Sucesso', 'Aluno aprovado!', 'success');
-                loadDashboardData();
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
-        }
+        async function approveUser(id) { await updateDoc(doc(db,"usuarios",id),{status:'approved'}); loadDashboardData(); showToast('Aprovado','Aluno aprovado.','success'); }
+        async function rejectUser(id) { if(!confirm('Rejeitar?')) return; await updateDoc(doc(db,"usuarios",id),{status:'rejected'}); loadDashboardData(); showToast('Rejeitado','Cadastro rejeitado.','error'); }
+        function showAdminTab(t) { document.querySelectorAll('.admin-section').forEach(s=>s.classList.add('hidden-section')); document.getElementById(`admin-${t}`).classList.remove('hidden-section'); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); document.getElementById(`tab-${t}`).classList.add('active'); if(t==='dashboard') loadDashboardData(); }
 
-        async function rejectUser(userId) {
-            if (!confirm('Rejeitar este aluno? Esta ação não pode ser desfeita.')) return;
-            try {
-                await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
-                showToast('Rejeitado', 'Cadastro rejeitado', 'error');
-                loadDashboardData();
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
-        }
+        function openModal(id) { const m = document.getElementById(id+'Modal'); if(m) { m.classList.add('active'); document.body.style.overflow = 'hidden'; if(id==='admin') loadDashboardData(); } }
+        function closeModal(id) { const m = document.getElementById(id+'Modal'); if(m) { m.classList.remove('active'); document.body.style.overflow = ''; } }
+        function switchModal(f,t) { closeModal(f); setTimeout(()=>openModal(t),200); }
+        function toggleTheme() { const h = document.documentElement; h.dataset.theme = h.dataset.theme==='dark'?'light':'dark'; localStorage.setItem('ep_theme',h.dataset.theme); }
+        function showToast(t,m,type='success') { const ts = document.getElementById('toast'); document.getElementById('toastTitle').textContent = t; document.getElementById('toastMessage').textContent = m; document.getElementById('toastIcon').className = type==='success'?'fa-solid fa-circle-check c-primary':'fa-solid fa-circle-exclamation c-danger'; ts.className = `toast ${type} show`; setTimeout(()=>ts.classList.remove('show'),3000); }
 
-        // ===== ADMIN: FILTER STUDENTS =====
-        function filterStudents() {
-            const search = document.getElementById('searchStudent').value.toLowerCase();
-            const level = document.getElementById('filterLevel').value;
-            const status = document.getElementById('filterStatus').value;
-            
-            let filtered = allStudents.filter(u => {
-                const matchSearch = u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
-                const matchLevel = level === 'all' || u.level === level;
-                const matchStatus = status === 'all' || u.status === status;
-                return matchSearch && matchLevel && matchStatus;
-            });
-            
-            const container = document.getElementById('studentsList');
-            container.innerHTML = filtered.map(u => `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
-                                ${u.nome.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                                <div class="font-bold">${u.nome}</div>
-                                <div class="text-sm c-text-muted">${u.email}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">${u.status}</span>
-                            <div class="text-right text-xs hidden md:block">
-                                <div class="c-text-muted">${u.level || 'A1'}</div>
-                                <div class="font-bold c-primary">${(u.xp || 0).toLocaleString()} XP</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ===== ADMIN: OPEN STUDENT DETAILS =====
-        function openStudentDetails(userId) {
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
-            const content = document.getElementById('studentDetailsContent');
-            content.innerHTML = `
-                <div class="space-y-4">
-                    <!-- Header -->
-                    <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white font-bold">
-                            ${student.nome.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-xl">${student.nome}</h3>
-                            <p class="c-text-muted">${student.email}</p>
-                            <span class="status-badge status-${student.status}">${student.status}</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Stats Grid -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-xp">${(student.xp || 0).toLocaleString()}</div>
-                            <div class="text-xs c-text-muted">XP Total</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-streak">${student.streak || 0}</div>
-                            <div class="text-xs c-text-muted">Dias Seguidos</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-gem">${student.gems || 0}</div>
-                            <div class="text-xs c-text-muted">Gemas</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-primary">${student.level || 'A1'}</div>
-                            <div class="text-xs c-text-muted">Nível</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Study Time -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">⏱️ Tempo de Estudo</h4>
-                        <p class="c-text-muted">Total: <span class="font-bold">${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas</span></p>
-                        <p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</span></p>
-                    </div>
-                    
-                    <!-- Skills Progress -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">📊 Progresso por Habilidade</h4>
-                        <div class="space-y-3">
-                            ${['reading', 'listening', 'speaking', 'writing'].map(skill => {
-                                const progress = Math.floor(Math.random() * 100); // Mock data
-                                return `
-                                    <div>
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span class="capitalize">${skill}</span>
-                                            <span class="c-text-muted">${progress}%</span>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: ${progress}%"></div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                    
-                    <!-- Actions -->
-                    <div class="flex gap-2 pt-4">
-                        ${student.status === 'pending' ? `
-                            <button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1">
-                                <i class="fa-solid fa-check"></i> Aprovar
-                            </button>
-                            <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1">
-                                <i class="fa-solid fa-xmark"></i> Rejeitar
-                            </button>
-                        ` : `
-                            <button class="btn btn-secondary flex-1">
-                                <i class="fa-solid fa-key"></i> Resetar Senha
-                            </button>
-                            <button class="btn btn-outline flex-1">
-                                <i class="fa-solid fa-pen"></i> Editar
-                            </button>
-                        `}
-                    </div>
-                </div>
-            `;
-            openModal('studentModal');
-        }
-
-        // ===== ADMIN: LOAD STUDENT REPORT =====
-        async function loadStudentReport(userId) {
-            if (!userId) {
-                document.getElementById('studentReport').classList.add('hidden-section');
-                return;
-            }
-            
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
-            const container = document.getElementById('studentReport');
-            container.classList.remove('hidden-section');
-            container.innerHTML = `
-                <div class="stat-card mb-4">
-                    <h4 class="font-bold mb-3">${student.nome} - Relatório Detalhado</h4>
-                    <div class="space-y-3">
-                        <div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <h5 class="font-bold mb-3">📈 Histórico Recente</h5>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Hoje: A1.1 - Greetings</span><span class="c-primary">+50 XP</span></div>
-                        <div class="flex justify-between"><span>Ontem: A1.2 - Numbers</span><span class="c-primary">+50 XP</span></div>
-                        <div class="flex justify-between"><span>2 dias: Revisão</span><span class="c-primary">+25 XP</span></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateReport() {
-            showToast('Gerando...', 'Relatório sendo preparado', 'success');
-            setTimeout(() => {
-                showToast('Pronto!', 'Relatório exportado com sucesso', 'success');
-            }, 1500);
-        }
-
-        // ===== ADMIN: TABS =====
-        function showAdminTab(tab) {
-            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
-            document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-        }
-
-        // ===== ADMIN: EXPORT DATA =====
-        function exportData(format) {
-            const data = JSON.stringify(allStudents, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `englishpath-backup-${new Date().toISOString().split('T')[0]}.${format}`;
-            a.click();
-            showToast('Sucesso', `Dados exportados em ${format.toUpperCase()}!`, 'success');
-        }
-
-        function showAddCourseModal() {
-            showToast('Em desenvolvimento', 'Funcionalidade em breve!', 'warning');
-        }
-
-        // ===== INIT =====
-        window.addEventListener('DOMContentLoaded', () => {
-            // Close modals on outside click
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
-            });
-            
-            // ESC to close modals
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal.active').forEach(m => {
-                        m.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                }
-            });
-        });
+        (function(){ const s = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.dataset.theme = s; })();
+        document.addEventListener('click', e => { if(e.target.classList.contains('modal')) { e.target.classList.remove('active'); } });
     </script>
 </body>
 </html>
