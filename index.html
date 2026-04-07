@@ -20,12 +20,16 @@
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow-gold': 'glowGold 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.4s ease',
+                        'bounce-in': 'bounceIn 0.5s ease',
+                        'count-up': 'countUp 1s ease-out',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+                        glowGold: { '0%': { boxShadow: '0 0 10px rgba(251,191,36,0.4)' }, '100%': { boxShadow: '0 0 25px rgba(251,191,36,0.8)' } },
+                        slideUp: { from: { opacity: 0, transform: 'translateY(20px)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+                        bounceIn: { '0%': { transform: 'scale(0.3)', opacity: 0 }, '50%': { transform: 'scale(1.05)' }, '70%': { transform: 'scale(0.9)' }, '100%': { transform: 'scale(1)', opacity: 1 } },
                     }
                 }
             }
@@ -52,63 +56,39 @@
         * { box-sizing: border-box; margin: 0; }
         body {
             font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: all 0.3s ease;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background: var(--bg); color: var(--text);
+            transition: all 0.3s ease; min-height: 100vh; overflow-x: hidden;
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        
-        /* Utility Classes */
         .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
         .c-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
-        .c-text { color: var(--text); }
-        .c-text-muted { color: var(--text-muted); }
-        .c-primary { color: var(--primary); }
-        .c-primary-bg { background: var(--primary); }
-        .c-secondary { color: var(--secondary); }
-        .c-secondary-bg { background: var(--secondary); }
-        .c-accent { color: var(--accent); }
-        .c-accent-bg { background: var(--accent); }
-        .c-gem { color: var(--gem); }
-        .c-streak { color: var(--streak); }
-        .c-xp { color: var(--xp); }
-        .c-danger { color: var(--danger); }
-        .c-danger-bg { background: var(--danger); }
-        
-        /* 👑 Crown Button - GOLD (FIXED) */
+        .c-text { color: var(--text); } .c-text-muted { color: var(--text-muted); }
+        .c-primary { color: var(--primary); } .c-primary-bg { background: var(--primary); }
+        .c-secondary { color: var(--secondary); } .c-secondary-bg { background: var(--secondary); }
+        .c-accent { color: var(--accent); } .c-accent-bg { background: var(--accent); }
+        .c-gem { color: var(--gem); } .c-streak { color: var(--streak); }
+        .c-xp { color: var(--xp); } .c-danger { color: var(--danger); } .c-danger-bg { background: var(--danger); }
+
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
             transition: all 0.3s ease;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
+            display: flex !important; align-items: center; justify-content: center;
         }
         .crown-btn:hover {
             transform: translateY(-2px) scale(1.1);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
-            filter: brightness(1.1);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.8); filter: brightness(1.1);
         }
         .crown-btn i { color: #78350f !important; }
-        
-        /* Buttons */
+
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
+            padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
+            font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
+            border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
+            text-decoration: none;
         }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
@@ -117,14 +97,17 @@
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 0 20px rgba(37,211,102,0.4); }
+        .btn-gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 800; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: var(--glow-accent); }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        /* Theme Toggle */
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
         .theme-toggle {
             width: 52px; height: 28px; border-radius: 14px;
-            background: var(--border); position: relative; cursor: pointer; border: none;
-            transition: background 0.3s;
+            background: var(--border); position: relative; cursor: pointer; border: none; transition: background 0.3s;
         }
         .theme-toggle::after {
             content: ''; position: absolute; top: 3px; left: 3px;
@@ -133,25 +116,21 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
-        
-        /* Modals */
+
         .modal {
             display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(8px);
         }
         .modal.active { display: flex; }
         .modal-content {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 24px; padding: 2rem;
             max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto;
-            animation: slideUp 0.3s ease;
-            box-shadow: var(--shadow);
+            animation: slideUp 0.3s ease; box-shadow: var(--shadow);
         }
         .modal-content.full { max-width: 1200px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Inputs */
+
         .input-field {
             width: 100%; padding: 0.75rem 1rem;
             border: 2px solid var(--border); border-radius: 12px;
@@ -159,11 +138,10 @@
             font-family: inherit; transition: all 0.3s;
         }
         .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
-        
-        /* Animations */
+
         .fade-in { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
+
         .loading { opacity: 0.7; pointer-events: none; position: relative; }
         .loading::after {
             content: ''; position: absolute; inset: 0;
@@ -176,133 +154,137 @@
             border-radius: 50%; animation: spin 1s linear infinite; z-index: 1;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Stats Cards */
+
         .stat-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem;
-            transition: all 0.3s;
+            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
         }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-        
-        /* User Rows */
+        .stat-card-gold {
+            background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.05));
+            border: 1px solid rgba(251,191,36,0.3);
+        }
+        .stat-card-gold:hover { border-color: var(--accent); box-shadow: var(--glow-accent); }
+
         .user-row {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
             transition: all 0.3s; cursor: pointer;
         }
         .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
-        .user-row.active { border-color: var(--primary); background: rgba(34,197,94,0.05); }
-        
-        /* Status Badges */
-        .status-badge {
-            padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700;
-        }
+
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
         .status-pending { background: #fbbf24; color: #78350f; }
         .status-approved { background: #22c55e; color: white; }
         .status-rejected { background: #ef4444; color: white; }
-        
-        /* Progress Bar */
+
         .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
-        
-        /* Admin Tabs */
+        .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+        .progress-fill-gold { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .progress-fill-blue { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .progress-fill-purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
         .tab-btn {
             padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
             font-weight: 600; transition: all 0.3s; border: none;
-            background: transparent; color: var(--text-muted); cursor: pointer;
-            position: relative;
+            background: transparent; color: var(--text-muted); cursor: pointer; position: relative;
+            white-space: nowrap;
         }
-        .tab-btn.active {
-            background: var(--card); color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
+        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); }
         .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
-        
+
         .hidden-section { display: none !important; }
-        
-        /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
-        
-        /* Level Track - A1 to C2 */
-        .level-track {
-            display: flex; align-items: center; justify-content: center;
-            gap: 1rem; padding: 1.5rem; flex-wrap: wrap;
-        }
+
+        .level-track { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; flex-wrap: wrap; }
         .level-node {
             display: flex; flex-direction: column; align-items: center;
-            gap: 0.5rem; padding: 1rem; border-radius: 16px;
-            transition: all 0.3s; cursor: pointer;
-            min-width: 80px;
+            gap: 0.5rem; padding: 1rem; border-radius: 16px; transition: all 0.3s; cursor: pointer; min-width: 80px;
+            text-decoration: none; color: var(--text);
         }
         .level-node:hover { transform: translateY(-4px); }
-        .level-node.active {
-            background: rgba(34,197,94,0.15);
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow-primary);
-        }
+        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: var(--glow-primary); }
         .level-node.completed { opacity: 0.8; }
         .level-node.locked { opacity: 0.5; cursor: not-allowed; }
-        .level-icon {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: white; font-weight: bold;
-        }
-        .level-A1 { background: #22c55e; }
-        .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; }
-        .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; }
-        .level-C2 { background: #dc2626; }
-        
-        /* Special Courses Grid */
+        .level-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; font-weight: bold; }
+        .level-A1 { background: #22c55e; } .level-A2 { background: #10b981; }
+        .level-B1 { background: #06b6d4; } .level-B2 { background: #f59e0b; }
+        .level-C1 { background: #f97316; } .level-C2 { background: #dc2626; }
+
         .course-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 20px; padding: 1.5rem;
-            transition: all 0.3s; cursor: pointer;
-            text-align: center;
+            border-radius: 20px; padding: 1.5rem; transition: all 0.3s; cursor: pointer; text-align: center;
         }
-        .course-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent);
-            box-shadow: var(--glow-accent);
-        }
+        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow-accent); }
         .course-icon {
-            width: 70px; height: 70px; border-radius: 20px;
-            margin: 0 auto 1rem;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.75rem; color: white;
+            width: 70px; height: 70px; border-radius: 20px; margin: 0 auto 1rem;
+            display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: white;
         }
         .course-business { background: linear-gradient(135deg, #1e40af, #3b82f6); }
         .course-biblico { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
         .course-kids { background: linear-gradient(135deg, #ec4899, #f472b6); }
         .course-airport { background: linear-gradient(135deg, #0891b2, #22d3ee); }
         .course-travel { background: linear-gradient(135deg, #059669, #34d399); }
-        
-        /* Toast */
+
         .toast {
             position: fixed; bottom: 20px; right: 20px;
             background: var(--card); border-left: 4px solid var(--primary);
             padding: 1rem 1.5rem; border-radius: 12px;
             box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
-            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
-            max-width: 350px;
+            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease; max-width: 350px;
         }
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
-        
-        /* Responsive */
+
+        /* Ranking */
+        .rank-item {
+            display: flex; align-items: center; gap: 1rem; padding: 0.75rem;
+            border-radius: 12px; transition: all 0.3s; border: 1px solid transparent;
+        }
+        .rank-item:hover { background: var(--card-hover); border-color: var(--border); }
+        .rank-1 { background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(245,158,11,0.05)); border-color: rgba(251,191,36,0.3); }
+        .rank-2 { background: linear-gradient(135deg, rgba(148,163,184,0.15), rgba(148,163,184,0.05)); border-color: rgba(148,163,184,0.3); }
+        .rank-3 { background: linear-gradient(135deg, rgba(180,83,9,0.15), rgba(180,83,9,0.05)); border-color: rgba(180,83,9,0.3); }
+        .rank-medal {
+            width: 36px; height: 36px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-weight: 900; font-size: 0.875rem;
+        }
+        .medal-gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; }
+        .medal-silver { background: linear-gradient(135deg, #94a3b8, #64748b); color: white; }
+        .medal-bronze { background: linear-gradient(135deg, #d97706, #b45309); color: white; }
+        .medal-default { background: var(--border); color: var(--text-muted); }
+
+        /* Online indicator */
+        .online-dot {
+            width: 10px; height: 10px; border-radius: 50%; background: #22c55e;
+            display: inline-block; animation: pulse 2s infinite;
+        }
+        .offline-dot { width: 10px; height: 10px; border-radius: 50%; background: #64748b; display: inline-block; }
+
+        /* Lesson card enhanced */
+        .lesson-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 1rem; transition: all 0.3s; display: block;
+            text-decoration: none; color: var(--text);
+        }
+        .lesson-card:hover { border-color: var(--primary); transform: translateX(4px); box-shadow: var(--shadow); }
+        .lesson-card.completed-lesson { opacity: 0.7; border-left: 4px solid var(--primary); }
+        .lesson-card.current-lesson { border-left: 4px solid var(--accent); box-shadow: var(--glow-accent); }
+        .lesson-card.locked-lesson { opacity: 0.5; pointer-events: none; }
+
+        /* Time tracker bar */
+        .time-tracker { background: var(--bg); border-radius: 12px; padding: 1rem; border: 1px solid var(--border); }
+
         @media (max-width: 768px) {
             .modal-content { padding: 1rem; max-width: 95%; }
             .stat-card { padding: 1rem; }
             .level-track { gap: 0.5rem; }
             .level-node { min-width: 60px; padding: 0.75rem; }
             .level-icon { width: 44px; height: 44px; font-size: 1.25rem; }
+            .tab-btn { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
         }
-        
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
@@ -331,12 +313,9 @@
                     </div>
                     <div class="flex justify-between text-sm">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" class="rounded">
-                            <span class="c-text-muted">Lembrar-me</span>
+                            <input type="checkbox" class="rounded"><span class="c-text-muted">Lembrar-me</span>
                         </label>
-                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">
-                            Esqueceu a senha?
-                        </button>
+                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">Esqueceu a senha?</button>
                     </div>
                     <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3">
                         <i class="fa-solid fa-right-to-bracket"></i> Entrar
@@ -344,10 +323,8 @@
                 </div>
             </form>
             <div class="mt-6 text-center">
-                <p class="c-text-muted">Não tem conta? 
-                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">
-                        Cadastre-se gratuitamente
-                    </button>
+                <p class="c-text-muted">Não tem conta?
+                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">Cadastre-se gratuitamente</button>
                 </p>
             </div>
         </div>
@@ -382,9 +359,7 @@
                     </div>
                     <div class="flex items-start gap-2">
                         <input type="checkbox" id="regTerms" required class="mt-1">
-                        <label for="regTerms" class="text-sm c-text-muted">
-                            Concordo com os termos de uso e política de privacidade
-                        </label>
+                        <label for="regTerms" class="text-sm c-text-muted">Concordo com os termos de uso e política de privacidade</label>
                     </div>
                     <button type="submit" id="registerBtn" class="btn btn-primary w-full py-3">
                         <i class="fa-solid fa-user-plus"></i> Criar conta
@@ -392,54 +367,44 @@
                 </div>
             </form>
             <div class="mt-6 text-center">
-                <p class="c-text-muted">Já tem conta? 
-                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">
-                        Faça login
-                    </button>
+                <p class="c-text-muted">Já tem conta?
+                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">Faça login</button>
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- ===== MODAL: ADMIN DASHBOARD (FULL) ===== -->
+    <!-- ===== MODAL: ADMIN DASHBOARD ===== -->
     <div id="adminModal" class="modal">
         <div class="modal-content full">
-            <div class="flex justify-between items-center mb-6">
+            <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl crown-btn flex items-center justify-center">
                         <i class="fa-solid fa-crown text-lg"></i>
                     </div>
-                    <h2 class="font-display font-bold text-2xl">Painel Administrativo</h2>
+                    <div>
+                        <h2 class="font-display font-bold text-2xl">Painel Administrativo</h2>
+                        <p class="text-xs c-text-muted">Gerencie toda a plataforma</p>
+                    </div>
                 </div>
                 <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            
+
             <!-- Admin Tabs -->
             <div class="flex gap-1 mb-0 border-b border-gray-700 overflow-x-auto pb-1">
-                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active">
-                    <i class="fa-solid fa-chart-line mr-2"></i>Dashboard
-                </button>
-                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn">
-                    <i class="fa-solid fa-users mr-2"></i>Alunos
-                </button>
-                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn">
-                    <i class="fa-solid fa-file-alt mr-2"></i>Relatórios
-                </button>
-                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn">
-                    <i class="fa-solid fa-graduation-cap mr-2"></i>Cursos
-                </button>
-                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn">
-                    <i class="fa-solid fa-cog mr-2"></i>Config
-                </button>
+                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active"><i class="fa-solid fa-chart-line mr-1"></i>Dashboard</button>
+                <button onclick="showAdminTab('ranking')" id="tab-ranking" class="tab-btn"><i class="fa-solid fa-trophy mr-1"></i>Ranking</button>
+                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn"><i class="fa-solid fa-users mr-1"></i>Alunos</button>
+                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn"><i class="fa-solid fa-file-alt mr-1"></i>Relatórios</button>
+                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn"><i class="fa-solid fa-graduation-cap mr-1"></i>Cursos</button>
+                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn"><i class="fa-solid fa-cog mr-1"></i>Config</button>
             </div>
-            
+
             <!-- Tab: Dashboard -->
             <div id="admin-dashboard" class="admin-section p-6">
                 <h3 class="font-bold text-lg mb-4">📊 Visão Geral da Plataforma</h3>
-                
-                <!-- Stats Cards -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
@@ -447,7 +412,7 @@
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
-                        <div class="text-sm c-text-muted">Ativos Hoje</div>
+                        <div class="text-sm c-text-muted"><span class="online-dot mr-1"></span>Online Agora</div>
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div>
@@ -458,8 +423,25 @@
                         <div class="text-sm c-text-muted">Tempo Médio/Dia</div>
                     </div>
                 </div>
-                
-                <!-- Charts Row -->
+                <!-- Segunda linha de stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-xp mb-1" id="statTotalXp">0</div>
+                        <div class="text-sm c-text-muted">XP Total Plataforma</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-streak mb-1" id="statActiveWeek">0</div>
+                        <div class="text-sm c-text-muted">Ativos Esta Semana</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-gem mb-1" id="statTotalGems">0</div>
+                        <div class="text-sm c-text-muted">Gemas Totais</div>
+                    </div>
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-primary mb-1" id="statAvgStreak">0</div>
+                        <div class="text-sm c-text-muted">Streak Médio</div>
+                    </div>
+                </div>
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
                     <div class="stat-card">
                         <h4 class="font-bold mb-4">📈 Progresso por Nível (CEFR)</h4>
@@ -470,20 +452,59 @@
                         <div class="chart-container"><canvas id="chartActivity"></canvas></div>
                     </div>
                 </div>
-                
-                <!-- Second Charts Row -->
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="stat-card">
                         <h4 class="font-bold mb-4">🎯 Cursos Especiais Mais Acessados</h4>
                         <div class="chart-container"><canvas id="chartCourses"></canvas></div>
                     </div>
                     <div class="stat-card">
-                        <h4 class="font-bold mb-4">⭐ Top 5 Alunos (XP)</h4>
-                        <div id="topStudents" class="space-y-3"></div>
+                        <h4 class="font-bold mb-4">⏱️ Tempo de Estudo por Nível</h4>
+                        <div class="chart-container"><canvas id="chartTimeByLevel"></canvas></div>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Tab: Ranking (NOVO) -->
+            <div id="admin-ranking" class="admin-section hidden-section p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h3 class="font-bold text-lg">🏆 Ranking de Gamificação</h3>
+                        <p class="text-sm c-text-muted">Alunos ranqueados por pontuação total</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="setRankingType('xp')" id="rankXpBtn" class="btn btn-sm btn-primary">Por XP</button>
+                        <button onclick="setRankingType('streak')" id="rankStreakBtn" class="btn btn-sm btn-outline">Por Streak</button>
+                        <button onclick="setRankingType('gems')" id="rankGemsBtn" class="btn btn-sm btn-outline">Por Gemas</button>
+                        <button onclick="setRankingType('time')" id="rankTimeBtn" class="btn btn-sm btn-outline">Por Tempo</button>
+                    </div>
+                </div>
+                <!-- Podio -->
+                <div class="grid grid-cols-3 gap-4 mb-6 max-w-lg mx-auto">
+                    <div class="text-center order-2 md:order-1 mt-6">
+                        <div class="rank-medal medal-silver mx-auto mb-2 text-lg">2</div>
+                        <div class="w-14 h-14 rounded-full c-secondary-bg flex items-center justify-center text-xl text-white font-bold mx-auto mb-1" id="podium2avatar">?</div>
+                        <div class="font-bold text-sm" id="podium2name">---</div>
+                        <div class="text-xs c-text-muted" id="podium2score">0 XP</div>
+                    </div>
+                    <div class="text-center order-1 md:order-2">
+                        <div class="rank-medal medal-gold mx-auto mb-2 text-lg animate-glow-gold">1</div>
+                        <div class="w-16 h-16 rounded-full c-accent-bg flex items-center justify-center text-2xl text-white font-bold mx-auto mb-1" id="podium1avatar">?</div>
+                        <div class="font-bold" id="podium1name">---</div>
+                        <div class="text-xs c-accent" id="podium1score">0 XP</div>
+                    </div>
+                    <div class="text-center order-3 mt-6">
+                        <div class="rank-medal medal-bronze mx-auto mb-2 text-lg">3</div>
+                        <div class="w-14 h-14 rounded-full bg-amber-700 flex items-center justify-center text-xl text-white font-bold mx-auto mb-1" id="podium3avatar">?</div>
+                        <div class="font-bold text-sm" id="podium3name">---</div>
+                        <div class="text-xs c-text-muted" id="podium3score">0 XP</div>
+                    </div>
+                </div>
+                <!-- Lista completa -->
+                <div class="stat-card">
+                    <div id="rankingList" class="space-y-1 max-h-96 overflow-y-auto"></div>
+                </div>
+            </div>
+
             <!-- Tab: Students -->
             <div id="admin-students" class="admin-section hidden-section p-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
@@ -491,7 +512,7 @@
                     <div class="flex gap-2 flex-wrap">
                         <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="filterStudents()">
                         <select id="filterLevel" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos os níveis</option>
+                            <option value="all">Todos níveis</option>
                             <option value="A1">A1</option><option value="A2">A2</option>
                             <option value="B1">B1</option><option value="B2">B2</option>
                             <option value="C1">C1</option><option value="C2">C2</option>
@@ -500,190 +521,106 @@
                             <option value="all">Todos status</option>
                             <option value="approved">Aprovados</option>
                             <option value="pending">Pendentes</option>
+                            <option value="rejected">Rejeitados</option>
                         </select>
                     </div>
                 </div>
-                
-                <!-- Students Table Header -->
-                <div class="c-card rounded-xl p-3 mb-3 hidden md:grid md:grid-cols-6 text-sm font-bold c-text-muted">
-                    <div>Aluno</div><div>Email</div><div>Nível</div><div>XP</div><div>Status</div><div>Ações</div>
-                </div>
-                
-                <!-- Students List -->
-                <div id="studentsList" class="space-y-2 max-h-96 overflow-y-auto">
-                    <div class="text-center c-text-muted py-8">
-                        <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
-                        <p>Carregando alunos...</p>
-                    </div>
+                <div id="studentsList" class="space-y-2 max-h-[500px] overflow-y-auto">
+                    <div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando alunos...</p></div>
                 </div>
             </div>
-            
-            <!-- Tab: Reports -->
+
+            <!-- Tab: Reports (MELHORADO) -->
             <div id="admin-reports" class="admin-section hidden-section p-6">
                 <h3 class="font-bold text-lg mb-4">📋 Relatórios Detalhados</h3>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Student Selector -->
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
                     <div class="stat-card">
                         <label class="block text-sm font-bold mb-2">Selecione um aluno:</label>
-                        <select id="reportStudentSelect" class="input-field mb-4" onchange="loadStudentReport(this.value)">
+                        <select id="reportStudentSelect" class="input-field mb-3" onchange="loadStudentReport(this.value)">
                             <option value="">-- Selecione --</option>
                         </select>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-2">Período:</label>
-                            <div class="flex gap-2">
-                                <input type="date" id="reportStartDate" class="input-field">
-                                <input type="date" id="reportEndDate" class="input-field">
-                            </div>
-                        </div>
-                        
-                        <button onclick="generateReport()" class="btn btn-secondary w-full">
-                            <i class="fa-solid fa-download"></i> Gerar Relatório
-                        </button>
-                    </div>
-                    
-                    <!-- Report Preview -->
-                    <div class="stat-card">
-                        <h4 class="font-bold mb-3">Pré-visualização</h4>
-                        <div id="reportPreview" class="c-text-muted text-sm">
-                            Selecione um aluno para visualizar o relatório.
+                        <label class="block text-sm font-bold mb-2">Período:</label>
+                        <div class="flex gap-2">
+                            <input type="date" id="reportStartDate" class="input-field text-sm">
+                            <input type="date" id="reportEndDate" class="input-field text-sm">
                         </div>
                     </div>
+                    <div class="stat-card col-span-2" id="reportPreview">
+                        <h4 class="font-bold mb-3">Selecione um aluno para ver o relatório</h4>
+                        <div class="c-text-muted text-sm">O relatório mostrará: pontuação exata, tempo de estudo, último login, lições completadas, streak, ranking e muito mais.</div>
+                    </div>
                 </div>
-                
-                <!-- Student Report Details (hidden until selected) -->
-                <div id="studentReport" class="hidden-section mt-6">
-                    <!-- Dynamic content -->
-                </div>
+                <div id="studentReport" class="hidden-section"></div>
             </div>
-            
-            <!-- Tab: Courses (Special) -->
+
+            <!-- Tab: Courses -->
             <div id="admin-courses" class="admin-section hidden-section p-6">
                 <h3 class="font-bold text-lg mb-4">🎓 Cursos Especiais</h3>
-                
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Business English -->
                     <div class="course-card">
                         <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
                         <h4 class="font-bold mb-2">Business English</h4>
                         <p class="text-sm c-text-muted mb-3">Inglês para negócios e carreira</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseBusiness">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 45%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
+                        <div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Interessados:</span><span class="font-bold" id="courseBusiness">0</span></div>
+                        <div class="progress-bar mb-2"><div class="progress-fill progress-fill-blue" style="width: 0%"></div></div>
                     </div>
-                    
-                    <!-- Biblical English -->
                     <div class="course-card">
                         <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
                         <h4 class="font-bold mb-2">Bíblico</h4>
                         <p class="text-sm c-text-muted mb-3">Inglês com foco em textos bíblicos</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseBiblico">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 30%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
+                        <div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Interessados:</span><span class="font-bold" id="courseBiblico">0</span></div>
+                        <div class="progress-bar mb-2"><div class="progress-fill progress-fill-purple" style="width: 0%"></div></div>
                     </div>
-                    
-                    <!-- Kids English -->
                     <div class="course-card">
                         <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
                         <h4 class="font-bold mb-2">Kids</h4>
                         <p class="text-sm c-text-muted mb-3">Inglês divertido para crianças</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseKids">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 60%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
+                        <div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Interessados:</span><span class="font-bold" id="courseKids">0</span></div>
+                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 0%"></div></div>
                     </div>
-                    
-                    <!-- Airport English -->
                     <div class="course-card">
                         <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
                         <h4 class="font-bold mb-2">Airport & Travel</h4>
                         <p class="text-sm c-text-muted mb-3">Inglês para viagens e aeroportos</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseAirport">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 25%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
+                        <div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Interessados:</span><span class="font-bold" id="courseAirport">0</span></div>
+                        <div class="progress-bar mb-2"><div class="progress-fill progress-fill-blue" style="width: 0%"></div></div>
                     </div>
-                    
-                    <!-- Travel English -->
                     <div class="course-card">
                         <div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div>
                         <h4 class="font-bold mb-2">Travel Conversations</h4>
                         <p class="text-sm c-text-muted mb-3">Diálogos para turistas</p>
-                        <div class="flex justify-between text-xs mb-2">
-                            <span class="c-text-muted">Alunos:</span>
-                            <span class="font-bold" id="courseTravel">0</span>
-                        </div>
-                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 35%"></div></div>
-                        <button class="btn btn-sm btn-outline w-full">Gerenciar</button>
+                        <div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Interessados:</span><span class="font-bold" id="courseTravel">0</span></div>
+                        <div class="progress-bar mb-2"><div class="progress-fill" style="width: 0%"></div></div>
                     </div>
-                    
-                    <!-- Add New Course -->
-                    <div class="course-card border-2 border-dashed border-gray-600 hover:border-primary cursor-pointer" onclick="showAddCourseModal()">
-                        <div class="w-16 h-16 mx-auto rounded-2xl bg-gray-700 flex items-center justify-center mb-3">
+                    <div class="course-card border-2 border-dashed" style="border-color: var(--border);" onclick="showToast('Em desenvolvimento','Novos cursos em breve!','warning')">
+                        <div class="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-3" style="background: var(--border);">
                             <i class="fa-solid fa-plus text-2xl c-text-muted"></i>
                         </div>
                         <h4 class="font-bold mb-2 c-text-muted">Adicionar Curso</h4>
-                        <p class="text-sm c-text-muted">Crie um novo curso especial</p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Tab: Settings -->
             <div id="admin-settings" class="admin-section hidden-section p-6">
                 <h3 class="font-bold text-lg mb-4">⚙️ Configurações do Sistema</h3>
-                
                 <div class="grid md:grid-cols-2 gap-6">
-                    <!-- System Settings -->
                     <div class="stat-card">
                         <h4 class="font-bold mb-4">🔧 Sistema</h4>
                         <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span>Notificações por email</span>
-                                <input type="checkbox" class="toggle" checked>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Aprovação automática de cadastros</span>
-                                <input type="checkbox" class="toggle">
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Modo manutenção</span>
-                                <input type="checkbox" class="toggle">
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span>Backup automático diário</span>
-                                <input type="checkbox" class="toggle" checked>
-                            </div>
+                            <div class="flex items-center justify-between"><span>Notificações por email</span><input type="checkbox" checked></div>
+                            <div class="flex items-center justify-between"><span>Aprovação automática</span><input type="checkbox"></div>
+                            <div class="flex items-center justify-between"><span>Modo manutenção</span><input type="checkbox"></div>
+                            <div class="flex items-center justify-between"><span>Backup automático</span><input type="checkbox" checked></div>
                         </div>
                     </div>
-                    
-                    <!-- Data Management -->
                     <div class="stat-card">
                         <h4 class="font-bold mb-4">💾 Dados</h4>
                         <div class="space-y-3">
-                            <button onclick="exportData('json')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-code mr-2"></i> Exportar JSON
-                            </button>
-                            <button onclick="exportData('csv')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-csv mr-2"></i> Exportar CSV
-                            </button>
-                            <button onclick="exportData('pdf')" class="btn btn-outline w-full justify-start">
-                                <i class="fa-solid fa-file-pdf mr-2"></i> Exportar PDF
-                            </button>
-                            <hr class="border-gray-700">
-                            <button onclick="logout()" class="btn btn-danger w-full">
-                                <i class="fa-solid fa-sign-out-alt mr-2"></i> Sair do Painel
-                            </button>
+                            <button onclick="exportData('json')" class="btn btn-outline w-full justify-start"><i class="fa-solid fa-file-code mr-2"></i>Exportar JSON</button>
+                            <button onclick="exportData('csv')" class="btn btn-outline w-full justify-start"><i class="fa-solid fa-file-csv mr-2"></i>Exportar CSV</button>
+                            <hr style="border-color: var(--border);">
+                            <button onclick="logout()" class="btn btn-danger w-full"><i class="fa-solid fa-sign-out-alt mr-2"></i>Sair do Painel</button>
                         </div>
                     </div>
                 </div>
@@ -700,18 +637,15 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div id="studentDetailsContent">
-                <!-- Dynamic content -->
-            </div>
+            <div id="studentDetailsContent"></div>
         </div>
     </div>
 
-    <!-- ===== HEADER (WITH GOLDEN CROWN FIX) ===== -->
-    <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
+    <!-- ===== HEADER ===== -->
+    <header class="sticky top-0 z-50 c-card border-b shadow-sm" style="border-color: var(--border);">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <a href="index.html" class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3" style="text-decoration:none; color: var(--text);">
                     <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center shadow-lg">
                         <i class="fa-solid fa-graduation-cap text-white text-lg"></i>
                     </div>
@@ -720,36 +654,20 @@
                         <p class="text-[10px] c-text-muted font-medium">Do A1 ao C2 • Cursos Especiais</p>
                     </div>
                 </a>
-                
-                <!-- Right Side Controls -->
                 <div class="flex items-center gap-3">
-                    <!-- Theme Toggle -->
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
-                    
-                    <!-- Auth Buttons (When logged out) -->
                     <div id="authButtons" class="flex items-center gap-2">
-                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm">
-                            <i class="fa-solid fa-right-to-bracket"></i> Login
-                        </button>
-                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-user-plus"></i> Cadastrar
-                        </button>
+                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm"><i class="fa-solid fa-user-plus"></i> Cadastrar</button>
                     </div>
-                    
-                    <!-- User Info (When logged in) -->
                     <div id="userInfo" class="hidden flex items-center gap-3">
-                        <!-- Nome do Usuário -->
                         <span id="userName" class="font-bold text-sm hidden md:inline text-right">
                             <span class="block text-xs c-text-muted font-normal">Olá,</span>
                             <span id="displayUserName">Usuário</span>
                         </span>
-                        
-                        <!-- 👑 GOLDEN CROWN BUTTON (Admin Only) - FIXED -->
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn shadow-md hover:scale-105 transition-transform" title="Painel Administrativo" style="display:none;">
                             <i class="fa-solid fa-crown"></i>
                         </button>
-                        
-                        <!-- Logout -->
                         <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
@@ -759,10 +677,10 @@
         </div>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- ===== MAIN ===== -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        
-        <!-- ===== GUEST VIEW ===== -->
+
+        <!-- GUEST VIEW -->
         <div id="guestView" class="fade-in">
             <div class="text-center py-12 md:py-20">
                 <div class="w-28 h-28 mx-auto mb-8 rounded-2xl c-primary-bg flex items-center justify-center text-6xl text-white shadow-2xl animate-float">
@@ -772,58 +690,44 @@
                     Aprenda Inglês de Forma <span class="c-primary">Divertida</span>! 🎮
                 </h2>
                 <p class="text-xl c-text-muted mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Do básico ao avançado, jogue, aprenda e acompanhe seu progresso. 
+                    Do básico ao avançado, jogue, aprenda e acompanhe seu progresso.
                     Cursos especiais para Business, Bíblico, Kids, Viagens e muito mais!
                 </p>
                 <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
-                        <i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!
-                    </button>
-                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4">
-                        <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta
-                    </button>
+                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4"><i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!</button>
+                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4"><i class="fa-solid fa-right-to-bracket"></i> Já tenho conta</button>
                 </div>
             </div>
-            
-            <!-- Features Grid -->
             <div class="grid md:grid-cols-3 gap-6 mt-16">
                 <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-primary-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-primary-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-gamepad"></i></div>
                     <h3 class="font-bold text-xl mb-2">Aprenda Jogando</h3>
                     <p class="c-text-muted">Lições interativas com gamificação, XP, conquistas e recompensas.</p>
                 </div>
                 <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-secondary-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-secondary-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-chart-line"></i></div>
                     <h3 class="font-bold text-xl mb-2">Acompanhe seu Progresso</h3>
                     <p class="c-text-muted">Veja sua evolução do A1 ao C2 com relatórios detalhados e gráficos.</p>
                 </div>
                 <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white">
-                        <i class="fa-solid fa-volume-high"></i>
-                    </div>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-volume-high"></i></div>
                     <h3 class="font-bold text-xl mb-2">Áudio Nativo TTS</h3>
                     <p class="c-text-muted">Tecnologia de texto-para-fala para ouvir e repetir a pronúncia correta.</p>
                 </div>
             </div>
         </div>
 
-        <!-- ===== LOGGED IN VIEW ===== -->
+        <!-- LOGGED IN VIEW -->
         <div id="loggedInView" class="hidden fade-in space-y-8">
-            
-            <!-- Welcome Section -->
+
+            <!-- Welcome -->
             <div class="text-center mb-8">
-                <h2 class="font-display font-bold text-3xl md:text-4xl mb-2">
-                    Olá, <span id="welcomeName" class="c-primary">Aluno</span>! 👋
-                </h2>
+                <h2 class="font-display font-bold text-3xl md:text-4xl mb-2">Olá, <span id="welcomeName" class="c-primary">Aluno</span>! 👋</h2>
                 <p class="c-text-muted text-lg">Continue sua jornada no inglês. Você está indo muito bem!</p>
             </div>
-            
-            <!-- User Stats Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div class="c-card rounded-xl p-4 text-center">
                     <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div>
                     <div class="text-xs c-text-muted">XP Total</div>
@@ -840,180 +744,74 @@
                     <div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div>
                     <div class="text-xs c-text-muted">Nível Atual</div>
                 </div>
+                <div class="c-card rounded-xl p-4 text-center col-span-2 md:col-span-1">
+                    <div class="text-2xl font-bold c-secondary"><i class="fa-solid fa-clock"></i> <span id="userTime">0m</span></div>
+                    <div class="text-xs c-text-muted">Tempo de Estudo</div>
+                </div>
             </div>
-            
-            <!-- LEVEL TRACK: A1 → C2 (ALWAYS VISIBLE) -->
+
+            <!-- Time Tracker -->
+            <div class="time-tracker">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-bold"><i class="fa-solid fa-stopwatch mr-1 c-secondary"></i> Sessão Atual</span>
+                    <span class="font-bold c-secondary" id="sessionTimer">00:00</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="sessionBar" class="progress-fill progress-fill-blue" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-xs c-text-muted mt-1">
+                    <span>Meta: 30 minutos</span>
+                    <span id="sessionPercent">0%</span>
+                </div>
+            </div>
+
+            <!-- LEVEL TRACK -->
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="font-display font-bold text-xl">🗺️ Sua Jornada: A1 ao C2</h3>
-                    <span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary" id="currentLevel">A1</span></span>
+                    <span class="text-sm c-text-muted">Nível: <span class="font-bold c-primary" id="currentLevel">A1</span></span>
                 </div>
-                
-                <div class="level-track">
-                    <!-- A1 -->
-                    <a href="a1.html" class="level-node active">
-                        <div class="level-icon level-A1"><i class="fa-solid fa-seedling"></i></div>
-                        <span class="font-bold text-sm">A1</span>
-                        <span class="text-xs c-text-muted">Beginner</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- A2 -->
-                    <a href="a2.html" class="level-node completed">
-                        <div class="level-icon level-A2"><i class="fa-solid fa-leaf"></i></div>
-                        <span class="font-bold text-sm">A2</span>
-                        <span class="text-xs c-text-muted">Elementary</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- B1 -->
-                    <a href="b1.html" class="level-node">
-                        <div class="level-icon level-B1"><i class="fa-solid fa-water"></i></div>
-                        <span class="font-bold text-sm">B1</span>
-                        <span class="text-xs c-text-muted">Intermediate</span>
-                    </a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- B2 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-B2"><i class="fa-solid fa-fire"></i></div>
-                        <span class="font-bold text-sm">B2</span>
-                        <span class="text-xs c-text-muted">Upper-Int</span>
-                    </div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- C1 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-C1"><i class="fa-solid fa-bolt"></i></div>
-                        <span class="font-bold text-sm">C1</span>
-                        <span class="text-xs c-text-muted">Advanced</span>
-                    </div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    
-                    <!-- C2 -->
-                    <div class="level-node locked">
-                        <div class="level-icon level-C2"><i class="fa-solid fa-crown"></i></div>
-                        <span class="font-bold text-sm">C2</span>
-                        <span class="text-xs c-text-muted">Mastery</span>
-                    </div>
+                <div class="level-track" id="levelTrackContainer">
+                    <!-- Gerado dinamicamente -->
                 </div>
-                
-                <!-- XP Progress Bar -->
                 <div class="mt-6">
                     <div class="flex justify-between text-xs mb-2">
                         <span class="c-text-muted">Progresso para próximo nível</span>
-                        <span class="font-bold"><span id="currentXp">0</span>/2,500 XP</span>
+                        <span class="font-bold"><span id="currentXp">0</span>/<span id="nextLevelXp">500</span> XP</span>
                     </div>
                     <div class="progress-bar">
-                        <div id="xpBar" class="progress-fill" style="width: 0%"></div>
+                        <div id="xpBar" class="progress-fill progress-fill-gold" style="width: 0%"></div>
                     </div>
                 </div>
-                
-                <!-- CTA Button -->
-                <a href="a1.html" class="btn btn-primary w-full mt-6">
-                    <i class="fa-solid fa-play"></i> Continuar Estudos
-                </a>
+                <a href="a1.html" id="continueStudyBtn" class="btn btn-primary w-full mt-6"><i class="fa-solid fa-play"></i> Continuar Estudos</a>
             </div>
-            
-            <!-- SPECIAL COURSES SECTION -->
+
+            <!-- SPECIAL COURSES (WHATSAPP) -->
             <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center justify-between mb-2">
                     <h3 class="font-display font-bold text-xl">🎓 Cursos Especiais</h3>
-                    <span class="text-sm c-text-muted">Conteúdo exclusivo</span>
+                    <span class="status-badge status-pending"><i class="fa-solid fa-lock mr-1"></i>Premium</span>
                 </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <!-- Business -->
-                    <a href="business.html" class="course-card">
-                        <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Business</h4>
-                        <p class="text-xs c-text-muted">Inglês corporativo</p>
-                    </a>
-                    <!-- Biblical -->
-                    <a href="biblico.html" class="course-card">
-                        <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Bíblico</h4>
-                        <p class="text-xs c-text-muted">Textos sagrados</p>
-                    </a>
-                    <!-- Kids -->
-                    <a href="kids.html" class="course-card">
-                        <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Kids</h4>
-                        <p class="text-xs c-text-muted">Para crianças</p>
-                    </a>
-                    <!-- Airport -->
-                    <a href="airport.html" class="course-card">
-                        <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Airport</h4>
-                        <p class="text-xs c-text-muted">Viagens aéreas</p>
-                    </a>
-                    <!-- Travel -->
-                    <a href="travel.html" class="course-card">
-                        <div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div>
-                        <h4 class="font-bold text-sm mb-1">Travel</h4>
-                        <p class="text-xs c-text-muted">Turismo</p>
-                    </a>
+                <p class="text-sm c-text-muted mb-6">Cursos exclusivos para acelerar seu inglês em áreas específicas. Clique para solicitar desbloqueio via WhatsApp.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="specialCoursesGrid">
+                    <!-- Gerado dinamicamente -->
                 </div>
             </div>
-            
-            <!-- Today's Lessons Preview -->
+
+            <!-- TODAY'S LESSONS (DINÂMICO) -->
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="font-display font-bold text-xl">📚 Lições de Hoje</h3>
-                    <span class="text-sm c-text-muted">3 disponíveis</span>
+                    <span class="text-sm c-text-muted" id="lessonsCount">0 disponíveis</span>
                 </div>
-                
-                <div class="space-y-3">
-                    <a href="lesson-u01.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-comments"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Greetings & Introductions</h4>
-                                <p class="text-sm c-text-muted">Saudações e apresentações básicas</p>
-                            </div>
-                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
-                                <i class="fa-solid fa-bolt"></i> +50 XP
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <a href="lesson-u02.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-secondary-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-hashtag"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Numbers 1-20</h4>
-                                <p class="text-sm c-text-muted">Números e contagem</p>
-                            </div>
-                            <div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold">
-                                <i class="fa-solid fa-bolt"></i> +50 XP
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <a href="lesson-u03.html" class="c-card rounded-xl p-4 block hover:border-primary transition-all opacity-75">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl c-accent-bg flex items-center justify-center text-xl text-white flex-shrink-0">
-                                <i class="fa-solid fa-palette"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold mb-1">Colors</h4>
-                                <p class="text-sm c-text-muted">Cores básicas</p>
-                            </div>
-                            <div class="bg-gray-600 text-gray-300 px-3 py-1.5 rounded-full text-xs font-bold">
-                                Em breve
-                            </div>
-                        </div>
-                    </a>
+                <div class="space-y-3" id="todayLessonsContainer">
+                    <!-- Gerado dinamicamente -->
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ===== TOAST NOTIFICATION ===== -->
+    <!-- TOAST -->
     <div id="toast" class="toast">
         <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
         <div>
@@ -1024,12 +822,10 @@
 
     <!-- ===== FIREBASE + APP LOGIC ===== -->
     <script type="module">
-        // ===== IMPORTS =====
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
             apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
             authDomain: "englishpath-2d558.firebaseapp.com",
@@ -1039,34 +835,68 @@
             appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
         };
 
-        // ===== INITIALIZE =====
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // ===== STATE =====
+        // ===== ESTADO GLOBAL =====
         let currentUser = null;
         let userData = null;
         let allStudents = [];
         let charts = {};
+        let currentRankingType = 'xp';
+        let sessionSeconds = 0;
+        let sessionInterval = null;
 
-        // ===== EXPOSE GLOBAL FUNCTIONS =====
-        window.openModal = openModal;
-        window.closeModal = closeModal;
-        window.switchModal = switchModal;
-        window.toggleTheme = toggleTheme;
-        window.handleLogin = handleLogin;
-        window.handleRegister = handleRegister;
-        window.logout = logout;
-        window.showAdminTab = showAdminTab;
-        window.filterStudents = filterStudents;
-        window.loadStudentReport = loadStudentReport;
-        window.exportData = exportData;
-        window.approveUser = approveUser;
-        window.rejectUser = rejectUser;
-        window.showForgotPassword = showForgotPassword;
+        // ===== DADOS DAS LIÇÕES POR NÍVEL =====
+        const LESSONS_DATA = {
+            A1: [
+                { id: 'u01', title: 'Greetings & Introductions', desc: 'Saudações e apresentações básicas', icon: 'fa-comments', color: 'primary', xp: 50, href: 'lesson-u01.html' },
+                { id: 'u02', title: 'Numbers 1-20', desc: 'Números e contagem', icon: 'fa-hashtag', color: 'secondary', xp: 50, href: 'lesson-u02.html' },
+                { id: 'u03', title: 'Colors', desc: 'Cores básicas', icon: 'fa-palette', color: 'accent', xp: 50, href: 'lesson-u03.html' },
+                { id: 'u04', title: 'The Alphabet', desc: 'O alfabeto em inglês', icon: 'fa-font', color: 'primary', xp: 50, href: 'lesson-u04.html' },
+                { id: 'u05', title: 'Family Members', desc: 'Membros da família', icon: 'fa-people-roof', color: 'secondary', xp: 60, href: 'lesson-u05.html' },
+                { id: 'u06', title: 'Days of the Week', desc: 'Dias da semana', icon: 'fa-calendar-days', color: 'accent', xp: 50, href: 'lesson-u06.html' },
+                { id: 'u07', title: 'Months & Seasons', desc: 'Meses e estações', icon: 'fa-cloud-sun', color: 'primary', xp: 60, href: 'lesson-u07.html' },
+                { id: 'u08', title: 'Food & Drinks', desc: 'Comida e bebida', icon: 'fa-utensils', color: 'secondary', xp: 60, href: 'lesson-u08.html' },
+            ],
+            A2: [
+                { id: 'a2-01', title: 'Daily Routines', desc: 'Rotina diária', icon: 'fa-clock', color: 'primary', xp: 70, href: 'a2-lesson01.html' },
+                { id: 'a2-02', title: 'At the Restaurant', desc: 'No restaurante', icon: 'fa-utensils', color: 'secondary', xp: 70, href: 'a2-lesson02.html' },
+                { id: 'a2-03', title: 'Weather Talk', desc: 'Conversando sobre o clima', icon: 'fa-cloud', color: 'accent', xp: 70, href: 'a2-lesson03.html' },
+            ],
+            B1: [
+                { id: 'b1-01', title: 'Past Experiences', desc: 'Experiências passadas', icon: 'fa-book', color: 'primary', xp: 80, href: 'b1-lesson01.html' },
+                { id: 'b1-02', title: 'Future Plans', desc: 'Planos futuros', icon: 'fa-plane', color: 'secondary', xp: 80, href: 'b1-lesson02.html' },
+            ],
+            B2: [{ id: 'b2-01', title: 'Debating Skills', desc: 'Habilidades de debate', icon: 'fa-microphone', color: 'accent', xp: 100, href: 'b2-lesson01.html' }],
+            C1: [{ id: 'c1-01', title: 'Academic Writing', desc: 'Escrita acadêmica', icon: 'fa-pen-fancy', color: 'primary', xp: 120, href: 'c1-lesson01.html' }],
+            C2: [{ id: 'c2-01', title: 'Native Fluency', desc: 'Fluência nativa', icon: 'fa-crown', color: 'accent', xp: 150, href: 'c2-lesson01.html' }],
+        };
 
-        // ===== AUTH STATE LISTENER =====
+        // XP necessário por nível
+        const LEVEL_XP = { A1: 0, A2: 500, B1: 1200, B2: 2500, C1: 4500, C2: 7500 };
+        const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+        // Cursos especiais com link WhatsApp
+        const SPECIAL_COURSES = [
+            { id: 'business', name: 'Business', desc: 'Inglês corporativo', icon: 'fa-briefcase', cssClass: 'course-business', msg: 'Quero desbloquear o curso Business English' },
+            { id: 'biblico', name: 'Bíblico', desc: 'Textos sagrados', icon: 'fa-book-bible', cssClass: 'course-biblico', msg: 'Quero desbloquear o curso Bíblico' },
+            { id: 'kids', name: 'Kids', desc: 'Para crianças', icon: 'fa-child', cssClass: 'course-kids', msg: 'Quero desbloquear o curso Kids English' },
+            { id: 'airport', name: 'Airport', desc: 'Viagens aéreas', icon: 'fa-plane', cssClass: 'course-airport', msg: 'Quero desbloquear o curso Airport & Travel' },
+            { id: 'travel', name: 'Travel', desc: 'Turismo', icon: 'fa-suitcase-rolling', cssClass: 'course-travel', msg: 'Quero desbloquear o curso Travel Conversations' },
+        ];
+
+        // ===== EXPOSE GLOBAL =====
+        window.openModal = openModal; window.closeModal = closeModal; window.switchModal = switchModal;
+        window.toggleTheme = toggleTheme; window.handleLogin = handleLogin; window.handleRegister = handleRegister;
+        window.logout = logout; window.showAdminTab = showAdminTab; window.filterStudents = filterStudents;
+        window.loadStudentReport = loadStudentReport; window.exportData = exportData;
+        window.approveUser = approveUser; window.rejectUser = rejectUser;
+        window.showForgotPassword = showForgotPassword; window.setRankingType = setRankingType;
+        window.openSpecialCourse = openSpecialCourse;
+
+        // ===== AUTH STATE =====
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
@@ -1074,143 +904,284 @@
                     if (userDoc.exists()) {
                         userData = { uid: user.uid, ...userDoc.data() };
                         currentUser = user;
-                        
-                        // Update last login
+                        // Atualizar último login e registrar tempo de sessão
                         await updateDoc(doc(db, "usuarios", user.uid), {
                             ultimoLogin: new Date().toISOString()
                         });
-                        
                         if (userData.status === 'approved') {
                             updateUI();
+                            startSessionTimer();
                             showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                         } else {
-                            showToast('Aguarde', `Seu cadastro está ${userData.status}. Contate o admin.`, 'warning');
-                            await logout();
+                            showToast('Aguarde', `Seu cadastro está ${userData.status === 'pending' ? 'pendente de aprovação' : 'rejeitado'}.`, 'warning');
+                            await signOut(auth);
                         }
                     }
                 } catch (error) {
                     console.error("Erro ao carregar usuário:", error);
-                    showToast('Erro ao carregar dados', 'error');
                 }
             } else {
-                currentUser = null;
-                userData = null;
+                currentUser = null; userData = null;
+                stopSessionTimer();
                 updateUI();
             }
         });
 
-        // ===== UI UPDATES (CROWN BUTTON FIX) =====
+        // ===== SESSION TIMER =====
+        function startSessionTimer() {
+            stopSessionTimer();
+            sessionSeconds = 0;
+            sessionInterval = setInterval(() => {
+                sessionSeconds++;
+                const m = String(Math.floor(sessionSeconds / 60)).padStart(2, '0');
+                const s = String(sessionSeconds % 60).padStart(2, '0');
+                const el = document.getElementById('sessionTimer');
+                if (el) el.textContent = `${m}:${s}`;
+                const pct = Math.min((sessionSeconds / 1800) * 100, 100);
+                const bar = document.getElementById('sessionBar');
+                if (bar) bar.style.width = pct + '%';
+                const pctEl = document.getElementById('sessionPercent');
+                if (pctEl) pctEl.textContent = Math.floor(pct) + '%';
+                // Salvar tempo a cada 60s no Firestore
+                if (sessionSeconds % 60 === 0 && currentUser) {
+                    saveSessionTime(60);
+                }
+            }, 1000);
+        }
+        function stopSessionTimer() {
+            if (sessionInterval) { clearInterval(sessionInterval); sessionInterval = null; }
+            if (sessionSeconds > 0 && currentUser) saveSessionTime(sessionSeconds % 60);
+        }
+        async function saveSessionTime(seconds) {
+            if (!currentUser) return;
+            try {
+                await updateDoc(doc(db, "usuarios", currentUser.uid), {
+                    tempoTotal: increment(seconds * 1000) // ms
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        // ===== FORMATAR TEMPO =====
+        function formatTime(ms) {
+            if (!ms || ms === 0) return '0m';
+            const totalMin = Math.floor(ms / 60000);
+            if (totalMin < 60) return totalMin + 'm';
+            const h = Math.floor(totalMin / 60);
+            const m = totalMin % 60;
+            return h + 'h' + (m > 0 ? m + 'm' : '');
+        }
+
+        // ===== UI UPDATE =====
         function updateUI() {
             const authButtons = document.getElementById('authButtons');
             const userInfo = document.getElementById('userInfo');
             const guestView = document.getElementById('guestView');
             const loggedInView = document.getElementById('loggedInView');
             const adminBtn = document.getElementById('adminBtn');
-            
-            // Debug log
-            console.log("👑 Admin Check:", {
-                userData: userData?.role,
-                adminBtn: adminBtn
-            });
-            
+
             if (userData) {
-                // Hide guest, show logged in
                 authButtons.classList.add('hidden');
                 userInfo.classList.remove('hidden');
-                
-                // Update user info
-                const displayUserName = document.getElementById('displayUserName');
-                if (displayUserName) displayUserName.textContent = userData.nome || 'Usuário';
-                
-                if (document.getElementById('welcomeName')) {
-                    document.getElementById('welcomeName').textContent = userData.nome || 'Usuário';
-                }
-                
-                // Update stats
-                if (document.getElementById('userXp')) document.getElementById('userXp').textContent = (userData.xp || 0).toLocaleString();
-                if (document.getElementById('userStreak')) document.getElementById('userStreak').textContent = userData.streak || 0;
-                if (document.getElementById('userGems')) document.getElementById('userGems').textContent = userData.gems || 0;
-                if (document.getElementById('userLevel')) document.getElementById('userLevel').textContent = userData.level || 'A1';
-                if (document.getElementById('currentLevel')) document.getElementById('currentLevel').textContent = userData.level || 'A1';
-                if (document.getElementById('currentXp')) document.getElementById('currentXp').textContent = userData.xp || 0;
-                
-                // XP bar
-                const xpPercent = Math.min((userData.xp || 0) / 2500 * 100, 100);
-                const xpBar = document.getElementById('xpBar');
-                if (xpBar) xpBar.style.width = xpPercent + '%';
-                
-                // 👑 CROWN BUTTON LOGIC (FIXED)
+                document.getElementById('displayUserName').textContent = userData.nome || 'Usuário';
+                document.getElementById('welcomeName').textContent = userData.nome || 'Usuário';
+
+                // Stats precisos
+                document.getElementById('userXp').textContent = (userData.xp || 0).toLocaleString();
+                document.getElementById('userStreak').textContent = userData.streak || 0;
+                document.getElementById('userGems').textContent = (userData.gems || 0).toLocaleString();
+                document.getElementById('userLevel').textContent = userData.level || 'A1';
+                document.getElementById('currentLevel').textContent = userData.level || 'A1';
+                document.getElementById('userTime').textContent = formatTime(userData.tempoTotal);
+
+                // XP bar precisa
+                const userLevel = userData.level || 'A1';
+                const levelIdx = LEVEL_ORDER.indexOf(userLevel);
+                const currentLevelMinXp = LEVEL_XP[userLevel] || 0;
+                const nextLevel = LEVEL_ORDER[levelIdx + 1];
+                const nextLevelMinXp = nextLevel ? LEVEL_XP[nextLevel] : currentLevelMinXp + 3000;
+                const xpInLevel = (userData.xp || 0) - currentLevelMinXp;
+                const xpNeeded = nextLevelMinXp - currentLevelMinXp;
+                const xpPercent = Math.min(Math.max((xpInLevel / xpNeeded) * 100, 0), 100);
+
+                document.getElementById('currentXp').textContent = xpInLevel.toLocaleString();
+                document.getElementById('nextLevelXp').textContent = xpNeeded.toLocaleString();
+                document.getElementById('xpBar').style.width = xpPercent + '%';
+
+                // Crown
                 if (adminBtn) {
                     if (userData.role === 'admin') {
                         adminBtn.classList.remove('hidden');
-                        adminBtn.style.display = 'flex'; // Force display
-                        console.log("👑 Crown shown for admin");
+                        adminBtn.style.display = 'flex';
                     } else {
                         adminBtn.classList.add('hidden');
                         adminBtn.style.display = 'none';
-                        console.log("👑 Crown hidden for non-admin");
                     }
                 }
-                
-                // Show logged view
-                if (guestView) guestView.classList.add('hidden');
-                if (loggedInView) loggedInView.classList.remove('hidden');
-                
+
+                guestView.classList.add('hidden');
+                loggedInView.classList.remove('hidden');
+
+                // Renderizar conteúdo dinâmico
+                renderLevelTrack(userLevel);
+                renderSpecialCourses();
+                renderTodayLessons(userLevel);
+
+                // Botão continuar estudos
+                const btn = document.getElementById('continueStudyBtn');
+                btn.href = userLevel.toLowerCase() + '.html';
+
             } else {
-                // Show guest view
-                if (authButtons) authButtons.classList.remove('hidden');
-                if (userInfo) userInfo.classList.add('hidden');
-                if (guestView) guestView.classList.remove('hidden');
-                if (loggedInView) loggedInView.classList.add('hidden');
-                if (adminBtn) {
-                    adminBtn.classList.add('hidden');
-                    adminBtn.style.display = 'none';
+                authButtons.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                guestView.classList.remove('hidden');
+                loggedInView.classList.add('hidden');
+                if (adminBtn) { adminBtn.classList.add('hidden'); adminBtn.style.display = 'none'; }
+            }
+        }
+
+        // ===== RENDER LEVEL TRACK =====
+        function renderLevelTrack(userLevel) {
+            const container = document.getElementById('levelTrackContainer');
+            const icons = { A1: 'fa-seedling', A2: 'fa-leaf', B1: 'fa-water', B2: 'fa-fire', C1: 'fa-bolt', C2: 'fa-crown' };
+            const labels = { A1: 'Beginner', A2: 'Elementary', B1: 'Intermediate', B2: 'Upper-Int', C1: 'Advanced', C2: 'Mastery' };
+            const currentIdx = LEVEL_ORDER.indexOf(userLevel);
+
+            let html = '';
+            LEVEL_ORDER.forEach((lvl, i) => {
+                let state = 'locked';
+                if (i < currentIdx) state = 'completed';
+                else if (i === currentIdx) state = 'active';
+
+                const href = i <= currentIdx ? lvl.toLowerCase() + '.html' : '#';
+                html += `<a href="${href}" class="level-node ${state}">`;
+                html += `<div class="level-icon level-${lvl}"><i class="fa-solid ${icons[lvl]}"></i></div>`;
+                html += `<span class="font-bold text-sm">${lvl}</span>`;
+                html += `<span class="text-xs c-text-muted">${labels[lvl]}</span>`;
+                if (state === 'completed') html += `<span class="text-xs c-primary"><i class="fa-solid fa-check-circle"></i></span>`;
+                if (state === 'locked') html += `<span class="text-xs"><i class="fa-solid fa-lock"></i></span>`;
+                html += `</a>`;
+                if (i < LEVEL_ORDER.length - 1) {
+                    const lineColor = i < currentIdx ? 'var(--primary)' : 'var(--border)';
+                    html += `<div class="w-8 h-1 hidden md:block" style="background:${lineColor};border-radius:4px;"></div>`;
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        // ===== RENDER SPECIAL COURSES (WHATSAPP) =====
+        function renderSpecialCourses() {
+            const container = document.getElementById('specialCoursesGrid');
+            container.innerHTML = SPECIAL_COURSES.map(c => `
+                <div class="course-card" onclick="openSpecialCourse('${c.msg}')">
+                    <div class="course-icon ${c.cssClass}"><i class="fa-solid ${c.icon}"></i></div>
+                    <h4 class="font-bold text-sm mb-1">${c.name}</h4>
+                    <p class="text-xs c-text-muted mb-3">${c.desc}</p>
+                    <div class="btn btn-whatsapp btn-sm w-full text-xs">
+                        <i class="fa-brands fa-whatsapp"></i> Desbloquear
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openSpecialCourse(msg) {
+            const phone = '5541999653041';
+            const text = encodeURIComponent(msg);
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+        }
+
+        // ===== RENDER TODAY'S LESSONS (DINÂMICO) =====
+        function renderTodayLessons(userLevel) {
+            const container = document.getElementById('todayLessonsContainer');
+            const countEl = document.getElementById('lessonsCount');
+            const progresso = userData.progresso || {};
+            const lessons = LESSONS_DATA[userLevel] || LESSONS_DATA.A1;
+
+            let html = '';
+            let available = 0;
+
+            lessons.forEach((lesson, idx) => {
+                const lessonKey = `${userLevel}_${lesson.id}`;
+                const isCompleted = progresso[lessonKey] === true;
+                const isCurrent = idx === lessons.filter((l, i) => progresso[`${userLevel}_${l.id}`] !== true).indexOf(lessons.filter((l, i) => progresso[`${userLevel}_${l.id}`] !== true)[0]);
+                const isFirstIncomplete = idx === lessons.findIndex(l => progresso[`${userLevel}_${l.id}`] !== true);
+                const isLocked = !isFirstIncomplete && !isCompleted && idx > lessons.findIndex(l => progresso[`${userLevel}_${l.id}`] !== true);
+
+                let cardClass = 'lesson-card';
+                if (isCompleted) cardClass += ' completed-lesson';
+                else if (isFirstIncomplete) cardClass += ' current-lesson';
+                else if (isLocked) cardClass += ' locked-lesson';
+                else available++;
+
+                if (!isLocked) available++;
+
+                const colorMap = { primary: 'c-primary-bg', secondary: 'c-secondary-bg', accent: 'c-accent-bg' };
+                const bgColor = colorMap[lesson.color] || 'c-primary-bg';
+
+                html += `<a href="${isLocked ? '#' : lesson.href}" class="${cardClass}">`;
+                html += `<div class="flex items-center gap-4">`;
+                html += `<div class="w-12 h-12 rounded-xl ${bgColor} flex items-center justify-center text-xl text-white flex-shrink-0">`;
+                html += `<i class="fa-solid ${lesson.icon}"></i></div>`;
+                html += `<div class="flex-1"><h4 class="font-bold mb-1">${lesson.title}</h4>`;
+                html += `<p class="text-sm c-text-muted">${lesson.desc}</p></div>`;
+                if (isCompleted) {
+                    html += `<div class="c-primary text-lg"><i class="fa-solid fa-circle-check"></i></div>`;
+                    html += `<div class="text-xs c-text-muted">+${lesson.xp} XP</div>`;
+                } else if (isLocked) {
+                    html += `<div class="bg-gray-600 text-gray-400 px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-lock"></i></div>`;
+                } else {
+                    html += `<div class="${bgColor} text-white px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-bolt"></i> +${lesson.xp} XP</div>`;
+                }
+                html += `</div></a>`;
+            });
+
+            // Se completou tudo do nível
+            if (lessons.every(l => progresso[`${userLevel}_${l.id}`]])) {
+                const nextIdx = LEVEL_ORDER.indexOf(userLevel) + 1;
+                if (nextIdx < LEVEL_ORDER.length) {
+                    const nextLvl = LEVEL_ORDER[nextIdx];
+                    html += `<div class="lesson-card current-lesson text-center py-6" onclick="window.location.href='${nextLvl.toLowerCase()}.html'" style="cursor:pointer;">`;
+                    html += `<div class="text-3xl mb-2">🎉</div>`;
+                    html += `<h4 class="font-bold">Parabéns! Nível ${userLevel} completo!</h4>`;
+                    html += `<p class="text-sm c-text-muted">Avance para o nível ${nextLvl}</p>`;
+                    html += `</div>`;
+                } else {
+                    html += `<div class="lesson-card current-lesson text-center py-6">`;
+                    html += `<div class="text-3xl mb-2">🏆</div>`;
+                    html += `<h4 class="font-bold">Máster Completo!</h4>`;
+                    html += `<p class="text-sm c-text-muted">Você concluiu todos os níveis!</p></div>`;
                 }
             }
+
+            container.innerHTML = html;
+            countEl.textContent = `${available} disponível(is)`;
         }
 
         // ===== MODAL FUNCTIONS =====
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                if (modalId === 'adminModal') loadDashboardData();
-            }
+            if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; if (modalId === 'adminModal') loadDashboardData(); }
         }
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+            if (modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
         }
-        function switchModal(from, to) {
-            closeModal(from);
-            setTimeout(() => openModal(to), 200);
-        }
+        function switchModal(from, to) { closeModal(from); setTimeout(() => openModal(to), 200); }
 
-        // ===== THEME TOGGLE =====
+        // ===== THEME =====
         function toggleTheme() {
             const html = document.documentElement;
             html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
             localStorage.setItem('ep_theme', html.dataset.theme);
         }
-        // Load saved theme
-        (function(){
-            const saved = localStorage.getItem('ep_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
-        })();
+        (function(){ const saved = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.setAttribute('data-theme', saved); })();
 
-        // ===== TOAST NOTIFICATIONS =====
+        // ===== TOAST =====
         function showToast(title, message, type = 'success') {
             const toast = document.getElementById('toast');
             const icons = { success: 'fa-circle-check c-primary', error: 'fa-circle-exclamation c-danger', warning: 'fa-triangle-exclamation c-accent' };
-            
             document.getElementById('toastTitle').textContent = title;
             document.getElementById('toastMessage').textContent = message;
             document.getElementById('toastIcon').className = `fa-solid ${icons[type]} text-2xl`;
-            
             toast.className = `toast ${type} show`;
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
@@ -1219,35 +1190,26 @@
         async function handleRegister(e) {
             e.preventDefault();
             const btn = document.getElementById('registerBtn');
-            const nome = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
+            const nome = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
             const senha = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirmPassword').value;
-            
             if (senha !== confirm) { showToast('Erro', 'As senhas não coincidem', 'error'); return; }
             if (senha.length < 6) { showToast('Erro', 'Senha deve ter pelo menos 6 caracteres', 'error'); return; }
-            
             btn.classList.add('loading'); btn.disabled = true;
-            
             try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-                
-                // Save user data to Firestore
-                await setDoc(doc(db, "usuarios", userCredential.user.uid), {
-                    nome, email,
-                    role: 'student',
-                    status: 'pending', // Requires admin approval
+                const cred = await createUserWithEmailAndPassword(auth, email, senha);
+                await setDoc(doc(db, "usuarios", cred.user.uid), {
+                    nome, email, role: 'student', status: 'pending',
                     createdAt: new Date().toISOString(),
                     xp: 0, level: 'A1', streak: 0, gems: 0,
-                    tempoTotal: 0, ultimoLogin: null,
-                    progresso: {},
-                    cursosEspeciais: {}
+                    tempoTotal: 0, ultimoLogin: new Date().toISOString(),
+                    progresso: {}, cursosEspeciais: {},
+                    licoesCompletadas: 0, acertosTotal: 0, errosTotal: 0,
+                    historicoSessoes: []
                 });
-                
                 closeModal('registerModal');
-                showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação do admin.', 'success');
-                
-                // Auto-open login after 2s
+                showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação.', 'success');
                 setTimeout(() => {
                     document.getElementById('regName').value = '';
                     document.getElementById('regEmail').value = '';
@@ -1255,39 +1217,27 @@
                     document.getElementById('regConfirmPassword').value = '';
                     openModal('loginModal');
                 }, 2000);
-                
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            } finally {
-                btn.classList.remove('loading'); btn.disabled = false;
-            }
+            } catch (error) { showToast('Erro', error.message, 'error'); }
+            finally { btn.classList.remove('loading'); btn.disabled = false; }
         }
 
         // ===== AUTH: LOGIN =====
         async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            const email = document.getElementById('loginEmail').value;
-            const senha = document.getElementById('loginPassword').value;
-            
             btn.classList.add('loading'); btn.disabled = true;
-            
             try {
-                await signInWithEmailAndPassword(auth, email, senha);
+                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value.trim(), document.getElementById('loginPassword').value);
                 closeModal('loginModal');
-                // onAuthStateChanged will handle UI update
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            } finally {
-                btn.classList.remove('loading'); btn.disabled = false;
-            }
+            } catch (error) { showToast('Erro', error.message, 'error'); }
+            finally { btn.classList.remove('loading'); btn.disabled = false; }
         }
 
         // ===== AUTH: LOGOUT =====
         async function logout() {
+            stopSessionTimer();
             await signOut(auth);
-            closeModal('adminModal');
-            closeModal('studentModal');
+            closeModal('adminModal'); closeModal('studentModal');
             showToast('Logout', 'Você saiu do sistema', 'success');
         }
 
@@ -1295,410 +1245,503 @@
         async function showForgotPassword() {
             const email = prompt('Digite seu email para recuperar a senha:');
             if (!email) return;
-            
-            try {
-                await sendPasswordResetEmail(auth, email);
-                showToast('Enviado', 'Verifique seu email para recuperar a senha', 'success');
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
+            try { await sendPasswordResetEmail(auth, email); showToast('Enviado', 'Verifique seu email', 'success'); }
+            catch (error) { showToast('Erro', error.message, 'error'); }
         }
 
-        // ===== ADMIN: LOAD DASHBOARD DATA =====
+        // ===== ADMIN: LOAD DASHBOARD =====
         async function loadDashboardData() {
             try {
-                const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
-                const snapshot = await getDocs(q);
-                allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                
-                updateStats();
+                const snapshot = await getDocs(collection(db, "usuarios"));
+                allStudents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                updateAdminStats();
                 renderCharts();
                 renderStudentsList();
                 populateReportSelect();
                 updateCourseStats();
-                
+                renderRanking();
             } catch (error) {
                 console.error('Erro ao carregar dashboard:', error);
                 showToast('Erro', 'Falha ao carregar dados', 'error');
             }
         }
 
-        function updateStats() {
+        function updateAdminStats() {
+            const approved = allStudents.filter(u => u.status === 'approved');
+            const now = Date.now();
+
             document.getElementById('statTotal').textContent = allStudents.length;
-            document.getElementById('statActive').textContent = allStudents.filter(u => 
-                u.status === 'approved' && 
-                u.ultimoLogin && 
-                new Date(u.ultimoLogin) > new Date(Date.now() - 86400000)
-            ).length;
+            // Online = último login nos últimos 15 minutos
+            document.getElementById('statActive').textContent = approved.filter(u => u.ultimoLogin && (now - new Date(u.ultimoLogin).getTime()) < 900000).length;
             document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
-            
-            const avgTime = allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1);
-            document.getElementById('statAvgTime').textContent = (avgTime / 3600000).toFixed(1) + 'h';
+
+            // Tempo médio por dia (dos aprovados)
+            const totalTime = approved.reduce((a, u) => a + (u.tempoTotal || 0), 0);
+            const daysActive = Math.max(approved.length > 0 ? approved.reduce((a, u) => {
+                if (!u.createdAt) return a + 1;
+                return a + Math.max(1, Math.ceil((now - new Date(u.createdAt).getTime()) / 86400000));
+            }, 0) / approved.length : 1, 1);
+            document.getElementById('statAvgTime').textContent = (totalTime / approved.length / 3600000 / daysActive * 24).toFixed(1) + 'h';
+
+            // Novos stats
+            document.getElementById('statTotalXp').textContent = approved.reduce((a, u) => a + (u.xp || 0), 0).toLocaleString();
+            document.getElementById('statActiveWeek').textContent = approved.filter(u => u.ultimoLogin && (now - new Date(u.ultimoLogin).getTime()) < 604800000).length;
+            document.getElementById('statTotalGems').textContent = approved.reduce((a, u) => a + (u.gems || 0), 0).toLocaleString();
+            document.getElementById('statAvgStreak').textContent = approved.length > 0 ? (approved.reduce((a, u) => a + (u.streak || 0), 0) / approved.length).toFixed(1) : '0';
         }
 
         function renderCharts() {
-            // Chart 1: Levels Distribution
+            const approved = allStudents.filter(u => u.status === 'approved');
+
+            // Níveis
             const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
-            allStudents.filter(u => u.status === 'approved').forEach(u => {
-                if (levels[u.level] !== undefined) levels[u.level]++;
-            });
-            
-            const ctxLevels = document.getElementById('chartLevels').getContext('2d');
+            approved.forEach(u => { if (levels[u.level] !== undefined) levels[u.level]++; });
+            const ctxL = document.getElementById('chartLevels').getContext('2d');
             if (charts.levels) charts.levels.destroy();
-            charts.levels = new Chart(ctxLevels, {
-                type: 'bar',
-                data: {
-                    labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
-                    datasets: [{
-                        label: 'Alunos',
-                        data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2],
-                        backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626']
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
+            charts.levels = new Chart(ctxL, {
+                type: 'bar', data: { labels: Object.keys(levels), datasets: [{ label: 'Alunos', data: Object.values(levels), backgroundColor: ['#22c55e','#10b981','#06b6d4','#f59e0b','#f97316','#dc2626'], borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+            });
+
+            // Atividade semanal (simulada com dados reais de logins)
+            const days = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+            const now = new Date();
+            const weekData = [0,0,0,0,0,0,0];
+            approved.forEach(u => {
+                if (u.ultimoLogin) {
+                    const d = new Date(u.ultimoLogin);
+                    const diff = Math.floor((now - d) / 86400000);
+                    if (diff < 7) { weekData[6 - diff]++; }
                 }
             });
-            
-            // Chart 2: Weekly Activity (mock data for demo)
-            const ctxActivity = document.getElementById('chartActivity').getContext('2d');
+            const ctxA = document.getElementById('chartActivity').getContext('2d');
             if (charts.activity) charts.activity.destroy();
-            charts.activity = new Chart(ctxActivity, {
-                type: 'line',
-                data: {
-                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                    datasets: [{
-                        label: 'Atividade',
-                        data: [12, 19, 15, 22, 18, 10, 8],
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
+            charts.activity = new Chart(ctxA, {
+                type: 'line', data: { labels: days, datasets: [{ label: 'Logins', data: weekData, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.4, pointBackgroundColor: '#3b82f6', pointRadius: 5 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
             });
-            
-            // Chart 3: Special Courses
-            const ctxCourses = document.getElementById('chartCourses').getContext('2d');
+
+            // Cursos especiais
+            const courseCounts = { Business: 0, Bíblico: 0, Kids: 0, Airport: 0, Travel: 0 };
+            approved.forEach(u => {
+                const ce = u.cursosEspeciais || {};
+                if (ce.business) courseCounts.Business++;
+                if (ce.biblico) courseCounts.Bíblico++;
+                if (ce.kids) courseCounts.Kids++;
+                if (ce.airport) courseCounts.Airport++;
+                if (ce.travel) courseCounts.Travel++;
+            });
+            const ctxC = document.getElementById('chartCourses').getContext('2d');
             if (charts.courses) charts.courses.destroy();
-            charts.courses = new Chart(ctxCourses, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'],
-                    datasets: [{
-                        data: [45, 30, 60, 25, 35],
-                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e']
-                    }]
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } }
-                }
+            charts.courses = new Chart(ctxC, {
+                type: 'doughnut', data: { labels: Object.keys(courseCounts), datasets: [{ data: Object.values(courseCounts), backgroundColor: ['#3b82f6','#8b5cf6','#ec4899','#06b6d4','#22c55e'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { padding: 15 } } } }
+            });
+
+            // Tempo por nível
+            const timeByLevel = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+            approved.forEach(u => { if (timeByLevel[u.level] !== undefined) timeByLevel[u.level] += (u.tempoTotal || 0); });
+            const ctxT = document.getElementById('chartTimeByLevel').getContext('2d');
+            if (charts.timeLevel) charts.timeLevel.destroy();
+            charts.timeLevel = new Chart(ctxT, {
+                type: 'bar', data: { labels: Object.keys(timeByLevel), datasets: [{ label: 'Horas', data: Object.values(timeByLevel).map(v => +(v/3600000).toFixed(1)), backgroundColor: 'rgba(6,182,212,0.7)', borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
             });
         }
 
         function updateCourseStats() {
-            // Mock data - replace with real Firestore queries
-            document.getElementById('courseBusiness').textContent = '45';
-            document.getElementById('courseBiblico').textContent = '30';
-            document.getElementById('courseKids').textContent = '60';
-            document.getElementById('courseAirport').textContent = '25';
-            document.getElementById('courseTravel').textContent = '35';
+            const approved = allStudents.filter(u => u.status === 'approved');
+            let counts = { business: 0, biblico: 0, kids: 0, airport: 0, travel: 0 };
+            approved.forEach(u => {
+                const ce = u.cursosEspeciais || {};
+                Object.keys(counts).forEach(k => { if (ce[k]) counts[k]++; });
+            });
+            document.getElementById('courseBusiness').textContent = counts.business;
+            document.getElementById('courseBiblico').textContent = counts.biblico;
+            document.getElementById('courseKids').textContent = counts.kids;
+            document.getElementById('courseAirport').textContent = counts.airport;
+            document.getElementById('courseTravel').textContent = counts.travel;
         }
 
+        // ===== RANKING =====
+        function setRankingType(type) {
+            currentRankingType = type;
+            ['Xp','Streak','Gems','Time'].forEach(t => {
+                const btn = document.getElementById('rank' + t + 'Btn');
+                btn.className = 'btn btn-sm ' + (t.toLowerCase() === type ? 'btn-primary' : 'btn-outline');
+            });
+            renderRanking();
+        }
+
+        function renderRanking() {
+            const approved = allStudents.filter(u => u.status === 'approved');
+            const sortMap = {
+                xp: (a, b) => (b.xp || 0) - (a.xp || 0),
+                streak: (a, b) => (b.streak || 0) - (a.streak || 0),
+                gems: (a, b) => (b.gems || 0) - (a.gems || 0),
+                time: (a, b) => (b.tempoTotal || 0) - (a.tempoTotal || 0),
+            };
+            const labelMap = { xp: 'XP', streak: 'dias', gems: 'gemas', time: '' };
+            const sorted = [...approved].sort(sortMap[currentRankingType]);
+
+            // Podio
+            if (sorted.length >= 1) {
+                document.getElementById('podium1avatar').textContent = sorted[0].nome.charAt(0).toUpperCase();
+                document.getElementById('podium1name').textContent = sorted[0].nome;
+                document.getElementById('podium1score').textContent = currentRankingType === 'time' ? formatTime(sorted[0].tempoTotal) : (sorted[0][currentRankingType] || 0).toLocaleString() + ' ' + labelMap[currentRankingType];
+            }
+            if (sorted.length >= 2) {
+                document.getElementById('podium2avatar').textContent = sorted[1].nome.charAt(0).toUpperCase();
+                document.getElementById('podium2name').textContent = sorted[1].nome;
+                document.getElementById('podium2score').textContent = currentRankingType === 'time' ? formatTime(sorted[1].tempoTotal) : (sorted[1][currentRankingType] || 0).toLocaleString() + ' ' + labelMap[currentRankingType];
+            }
+            if (sorted.length >= 3) {
+                document.getElementById('podium3avatar').textContent = sorted[2].nome.charAt(0).toUpperCase();
+                document.getElementById('podium3name').textContent = sorted[2].nome;
+                document.getElementById('podium3score').textContent = currentRankingType === 'time' ? formatTime(sorted[2].tempoTotal) : (sorted[2][currentRankingType] || 0).toLocaleString() + ' ' + labelMap[currentRankingType];
+            }
+
+            // Lista
+            const container = document.getElementById('rankingList');
+            container.innerHTML = sorted.map((u, i) => {
+                const value = currentRankingType === 'time' ? formatTime(u.tempoTotal) : (u[currentRankingType] || 0).toLocaleString() + ' ' + labelMap[currentRankingType];
+                const medalClass = i === 0 ? 'medal-gold' : i === 1 ? 'medal-silver' : i === 2 ? 'medal-bronze' : 'medal-default';
+                const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+                const isOnline = u.ultimoLogin && (Date.now() - new Date(u.ultimoLogin).getTime()) < 900000;
+                return `
+                    <div class="rank-item ${rankClass}" onclick="openStudentDetails('${u.id}')">
+                        <div class="rank-medal ${medalClass}">${i + 1}</div>
+                        <div class="w-9 h-9 rounded-full c-primary-bg flex items-center justify-center text-white font-bold text-sm">${u.nome.charAt(0).toUpperCase()}</div>
+                        <div class="flex-1">
+                            <div class="font-bold text-sm">${u.nome} <span class="${isOnline ? 'online-dot' : 'offline-dot'}" title="${isOnline ? 'Online' : 'Offline'}"></span></div>
+                            <div class="text-xs c-text-muted">${u.level || 'A1'} • ${u.streak || 0} dias seguidos</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-sm c-primary">${value}</div>
+                            <div class="text-xs c-text-muted">${u.xp ? u.xp.toLocaleString() + ' XP' : '0 XP'}</div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        // ===== STUDENTS LIST =====
         function renderStudentsList() {
             const container = document.getElementById('studentsList');
-            if (!allStudents.length) {
-                container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>';
-                return;
-            }
-            
-            container.innerHTML = allStudents.map(u => `
+            if (!allStudents.length) { container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>'; return; }
+            container.innerHTML = allStudents.map(u => {
+                const isOnline = u.ultimoLogin && (Date.now() - new Date(u.ultimoLogin).getTime()) < 900000;
+                const statusLabel = u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado';
+                return `
                 <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
-                                ${u.nome.charAt(0).toUpperCase()}
+                            <div class="relative">
+                                <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">${u.nome.charAt(0).toUpperCase()}</div>
+                                <span class="${isOnline ? 'online-dot' : 'offline-dot'} absolute -bottom-0.5 -right-0.5" style="border: 2px solid var(--card);"></span>
                             </div>
                             <div>
-                                <div class="font-bold">${u.nome}</div>
+                                <div class="font-bold">${u.nome} ${u.role === 'admin' ? '<i class="fa-solid fa-crown text-amber-400 text-xs"></i>' : ''}</div>
                                 <div class="text-sm c-text-muted">${u.email}</div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">
-                                ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
-                            </span>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="status-badge status-${u.status}">${statusLabel}</span>
+                            <span class="text-xs c-text-muted hidden md:inline">${u.level || 'A1'}</span>
+                            <span class="text-xs font-bold c-primary hidden md:inline">${(u.xp || 0).toLocaleString()} XP</span>
                             ${u.status === 'pending' ? `
-                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary">
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            ` : `
-                                <div class="text-right text-xs hidden md:block">
-                                    <div class="c-text-muted">${u.level || 'A1'}</div>
-                                    <div class="font-bold c-primary">${(u.xp || 0).toLocaleString()} XP</div>
-                                </div>
-                            `}
+                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary"><i class="fa-solid fa-check"></i></button>
+                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i></button>
+                            ` : ''}
                         </div>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
+        }
+
+        function filterStudents() {
+            const search = document.getElementById('searchStudent').value.toLowerCase();
+            const level = document.getElementById('filterLevel').value;
+            const status = document.getElementById('filterStatus').value;
+            const filtered = allStudents.filter(u => {
+                return (u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search))
+                    && (level === 'all' || u.level === level)
+                    && (status === 'all' || u.status === status);
+            });
+            const container = document.getElementById('studentsList');
+            container.innerHTML = filtered.map(u => {
+                const isOnline = u.ultimoLogin && (Date.now() - new Date(u.ultimoLogin).getTime()) < 900000;
+                return `
+                <div class="user-row" onclick="openStudentDetails('${u.id}')">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">${u.nome.charAt(0).toUpperCase()}</div>
+                                <span class="${isOnline ? 'online-dot' : 'offline-dot'} absolute -bottom-0.5 -right-0.5" style="border: 2px solid var(--card);"></span>
+                            </div>
+                            <div><div class="font-bold">${u.nome}</div><div class="text-sm c-text-muted">${u.email}</div></div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="status-badge status-${u.status}">${u.status}</span>
+                            <span class="text-xs c-text-muted">${u.level || 'A1'}</span>
+                            <span class="text-xs font-bold c-primary">${(u.xp || 0).toLocaleString()} XP</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
         }
 
         function populateReportSelect() {
             const select = document.getElementById('reportStudentSelect');
-            select.innerHTML = '<option value="">-- Selecione --</option>' + 
-                allStudents.filter(u => u.status === 'approved').map(u => 
-                    `<option value="${u.id}">${u.nome} (${u.email})</option>`
+            select.innerHTML = '<option value="">-- Selecione --</option>' +
+                allStudents.filter(u => u.status === 'approved').map(u =>
+                    `<option value="${u.id}">${u.nome} (${u.level || 'A1'} - ${(u.xp||0).toLocaleString()} XP)</option>`
                 ).join('');
         }
 
-        // ===== ADMIN: APPROVE/REJECT USERS =====
+        // ===== APPROVE/REJECT =====
         async function approveUser(userId) {
             try {
                 await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
                 showToast('Sucesso', 'Aluno aprovado!', 'success');
                 loadDashboardData();
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
+            } catch (error) { showToast('Erro', error.message, 'error'); }
         }
-
         async function rejectUser(userId) {
-            if (!confirm('Rejeitar este aluno? Esta ação não pode ser desfeita.')) return;
+            if (!confirm('Rejeitar este aluno?')) return;
             try {
                 await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
                 showToast('Rejeitado', 'Cadastro rejeitado', 'error');
                 loadDashboardData();
-            } catch (error) {
-                showToast('Erro', error.message, 'error');
-            }
+            } catch (error) { showToast('Erro', error.message, 'error'); }
         }
 
-        // ===== ADMIN: FILTER STUDENTS =====
-        function filterStudents() {
-            const search = document.getElementById('searchStudent').value.toLowerCase();
-            const level = document.getElementById('filterLevel').value;
-            const status = document.getElementById('filterStatus').value;
-            
-            let filtered = allStudents.filter(u => {
-                const matchSearch = u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
-                const matchLevel = level === 'all' || u.level === level;
-                const matchStatus = status === 'all' || u.status === status;
-                return matchSearch && matchLevel && matchStatus;
-            });
-            
-            const container = document.getElementById('studentsList');
-            container.innerHTML = filtered.map(u => `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
-                                ${u.nome.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                                <div class="font-bold">${u.nome}</div>
-                                <div class="text-sm c-text-muted">${u.email}</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="status-badge status-${u.status}">${u.status}</span>
-                            <div class="text-right text-xs hidden md:block">
-                                <div class="c-text-muted">${u.level || 'A1'}</div>
-                                <div class="font-bold c-primary">${(u.xp || 0).toLocaleString()} XP</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ===== ADMIN: OPEN STUDENT DETAILS =====
+        // ===== STUDENT DETAILS =====
         function openStudentDetails(userId) {
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
+            const s = allStudents.find(u => u.id === userId);
+            if (!s) return;
+            const isOnline = s.ultimoLogin && (Date.now() - new Date(s.ultimoLogin).getTime()) < 900000;
+            const progresso = s.progresso || {};
+            const totalLessons = Object.keys(progresso).length;
+            const approved = allStudents.filter(u => u.status === 'approved');
+            const rank = [...approved].sort((a,b) => (b.xp||0) - (a.xp||0)).findIndex(u => u.id === userId) + 1;
+            const accuracy = s.acertosTotal && s.errosTotal ? Math.round((s.acertosTotal / (s.acertosTotal + s.errosTotal)) * 100) : 0;
+            const daysSinceCreation = s.createdAt ? Math.ceil((Date.now() - new Date(s.createdAt).getTime()) / 86400000) : 0;
+            const avgDaily = daysSinceCreation > 0 ? ((s.tempoTotal || 0) / daysSinceCreation / 60000).toFixed(0) : 0;
+
             const content = document.getElementById('studentDetailsContent');
             content.innerHTML = `
                 <div class="space-y-4">
-                    <!-- Header -->
                     <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white font-bold">
-                            ${student.nome.charAt(0).toUpperCase()}
+                        <div class="relative">
+                            <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white font-bold">${s.nome.charAt(0).toUpperCase()}</div>
+                            <span class="${isOnline ? 'online-dot' : 'offline-dot'} absolute -bottom-1 -right-1" style="border: 3px solid var(--card); width:14px; height:14px;"></span>
                         </div>
                         <div>
-                            <h3 class="font-bold text-xl">${student.nome}</h3>
-                            <p class="c-text-muted">${student.email}</p>
-                            <span class="status-badge status-${student.status}">${student.status}</span>
+                            <h3 class="font-bold text-xl">${s.nome} ${s.role === 'admin' ? '<i class="fa-solid fa-crown text-amber-400"></i>' : ''}</h3>
+                            <p class="c-text-muted">${s.email}</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="status-badge status-${s.status}">${s.status === 'pending' ? 'Pendente' : s.status === 'approved' ? 'Aprovado' : 'Rejeitado'}</span>
+                                <span class="text-xs c-text-muted">${isOnline ? '<span class="online-dot mr-1"></span>Online agora' : 'Offline'}</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Stats Grid -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-xp">${(student.xp || 0).toLocaleString()}</div>
-                            <div class="text-xs c-text-muted">XP Total</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-streak">${student.streak || 0}</div>
-                            <div class="text-xs c-text-muted">Dias Seguidos</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-gem">${student.gems || 0}</div>
-                            <div class="text-xs c-text-muted">Gemas</div>
-                        </div>
-                        <div class="stat-card text-center">
-                            <div class="text-2xl font-bold c-primary">${student.level || 'A1'}</div>
-                            <div class="text-xs c-text-muted">Nível</div>
-                        </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="stat-card text-center"><div class="text-2xl font-bold c-xp">${(s.xp||0).toLocaleString()}</div><div class="text-xs c-text-muted">XP Total</div></div>
+                        <div class="stat-card text-center"><div class="text-2xl font-bold c-streak">${s.streak||0}</div><div class="text-xs c-text-muted">Streak</div></div>
+                        <div class="stat-card text-center"><div class="text-2xl font-bold c-gem">${(s.gems||0).toLocaleString()}</div><div class="text-xs c-text-muted">Gemas</div></div>
+                        <div class="stat-card text-center"><div class="text-2xl font-bold c-primary">${s.level||'A1'}</div><div class="text-xs c-text-muted">Nível</div></div>
                     </div>
-                    
-                    <!-- Study Time -->
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="stat-card text-center"><div class="text-xl font-bold c-secondary"><i class="fa-solid fa-trophy mr-1"></i>#${rank || '—'}</div><div class="text-xs c-text-muted">Ranking</div></div>
+                        <div class="stat-card text-center"><div class="text-xl font-bold c-primary"><i class="fa-solid fa-book-open mr-1"></i>${totalLessons}</div><div class="text-xs c-text-muted">Lições Feitas</div></div>
+                        <div class="stat-card text-center"><div class="text-xl font-bold c-accent"><i class="fa-solid fa-bullseye mr-1"></i>${accuracy}%</div><div class="text-xs c-text-muted">Acurácia</div></div>
+                        <div class="stat-card text-center"><div class="text-xl font-bold c-secondary"><i class="fa-solid fa-clock mr-1"></i>${formatTime(s.tempoTotal)}</div><div class="text-xs c-text-muted">Tempo Total</div></div>
+                    </div>
+
                     <div class="stat-card">
-                        <h4 class="font-bold mb-3">⏱️ Tempo de Estudo</h4>
-                        <p class="c-text-muted">Total: <span class="font-bold">${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas</span></p>
-                        <p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</span></p>
+                        <h4 class="font-bold mb-3">⏱️ Tempo e Sessão</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div><span class="c-text-muted">Último login:</span><br><span class="font-bold">${s.ultimoLogin ? new Date(s.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</span></div>
+                            <div><span class="c-text-muted">Média diária:</span><br><span class="font-bold">${avgDaily} min/dia</span></div>
+                            <div><span class="c-text-muted">Membro desde:</span><br><span class="font-bold">${s.createdAt ? new Date(s.createdAt).toLocaleDateString('pt-BR') : '—'}</span></div>
+                            <div><span class="c-text-muted">Dias como membro:</span><br><span class="font-bold">${daysSinceCreation} dias</span></div>
+                        </div>
                     </div>
-                    
-                    <!-- Skills Progress -->
+
                     <div class="stat-card">
-                        <h4 class="font-bold mb-3">📊 Progresso por Habilidade</h4>
-                        <div class="space-y-3">
-                            ${['reading', 'listening', 'speaking', 'writing'].map(skill => {
-                                const progress = Math.floor(Math.random() * 100); // Mock data
-                                return `
-                                    <div>
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span class="capitalize">${skill}</span>
-                                            <span class="c-text-muted">${progress}%</span>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill" style="width: ${progress}%"></div>
-                                        </div>
-                                    </div>
-                                `;
+                        <h4 class="font-bold mb-3">📊 Precisão de Pontuação</h4>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div><div class="text-2xl font-bold c-primary">${s.acertosTotal||0}</div><div class="text-xs c-text-muted">Acertos</div></div>
+                            <div><div class="text-2xl font-bold c-danger">${s.errosTotal||0}</div><div class="text-xs c-text-muted">Erros</div></div>
+                            <div><div class="text-2xl font-bold c-accent">${(s.acertosTotal||0) + (s.errosTotal||0)}</div><div class="text-xs c-text-muted">Total Questões</div></div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="flex justify-between text-sm mb-1"><span>Acurácia Geral</span><span class="font-bold">${accuracy}%</span></div>
+                            <div class="progress-bar"><div class="progress-fill ${accuracy >= 80 ? 'progress-fill-gold' : accuracy >= 50 ? 'progress-fill-blue' : ''}" style="width:${accuracy}%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <h4 class="font-bold mb-3">📚 Lições Completadas por Nível</h4>
+                        <div class="space-y-2">
+                            ${LEVEL_ORDER.map(lvl => {
+                                const lvlLessons = LESSONS_DATA[lvl] || [];
+                                const completed = lvlLessons.filter(l => progresso[`${lvl}_${l.id}`]).length;
+                                const pct = lvlLessons.length > 0 ? Math.round(completed / lvlLessons.length * 100) : 0;
+                                return `<div>
+                                    <div class="flex justify-between text-sm mb-1"><span>${lvl} (${lvlLessons.length} lições)</span><span class="c-text-muted">${completed}/${lvlLessons.length} (${pct}%)</span></div>
+                                    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                                </div>`;
                             }).join('')}
                         </div>
                     </div>
-                    
-                    <!-- Actions -->
+
                     <div class="flex gap-2 pt-4">
-                        ${student.status === 'pending' ? `
-                            <button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1">
-                                <i class="fa-solid fa-check"></i> Aprovar
-                            </button>
-                            <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1">
-                                <i class="fa-solid fa-xmark"></i> Rejeitar
-                            </button>
+                        ${s.status === 'pending' ? `
+                            <button onclick="approveUser('${s.id}'); closeModal('studentModal');" class="btn btn-primary flex-1"><i class="fa-solid fa-check"></i> Aprovar</button>
+                            <button onclick="rejectUser('${s.id}'); closeModal('studentModal');" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
                         ` : `
-                            <button class="btn btn-secondary flex-1">
-                                <i class="fa-solid fa-key"></i> Resetar Senha
-                            </button>
-                            <button class="btn btn-outline flex-1">
-                                <i class="fa-solid fa-pen"></i> Editar
-                            </button>
+                            <button class="btn btn-secondary flex-1" onclick="showToast('Info','Funcionalidade de editar em breve','warning')"><i class="fa-solid fa-pen"></i> Editar Nível</button>
+                            <button class="btn btn-outline flex-1" onclick="showToast('Info','Funcionalidade de reset em breve','warning')"><i class="fa-solid fa-rotate-left"></i> Resetar Progresso</button>
                         `}
                     </div>
-                </div>
-            `;
+                </div>`;
             openModal('studentModal');
         }
 
-        // ===== ADMIN: LOAD STUDENT REPORT =====
-        async function loadStudentReport(userId) {
+        // ===== STUDENT REPORT (TAB) =====
+        function loadStudentReport(userId) {
             if (!userId) {
                 document.getElementById('studentReport').classList.add('hidden-section');
+                document.getElementById('reportPreview').innerHTML = '<h4 class="font-bold mb-3">Selecione um aluno para ver o relatório</h4><div class="c-text-muted text-sm">O relatório mostrará pontuação exata, tempo, último login, lições completadas e mais.</div>';
                 return;
             }
-            
-            const student = allStudents.find(u => u.id === userId);
-            if (!student) return;
-            
+            const s = allStudents.find(u => u.id === userId);
+            if (!s) return;
+
+            const progresso = s.progresso || {};
+            const totalLessons = Object.keys(progresso).length;
+            const accuracy = s.acertosTotal && s.errosTotal ? Math.round((s.acertosTotal / (s.acertosTotal + s.errosTotal)) * 100) : 0;
+            const approved = allStudents.filter(u => u.status === 'approved');
+            const rank = [...approved].sort((a,b) => (b.xp||0) - (a.xp||0)).findIndex(u => u.id === userId) + 1;
+            const isOnline = s.ultimoLogin && (Date.now() - new Date(s.ultimoLogin).getTime()) < 900000;
+            const daysSince = s.createdAt ? Math.ceil((Date.now() - new Date(s.createdAt).getTime()) / 86400000) : 0;
+            const avgDaily = daysSince > 0 ? ((s.tempoTotal||0) / daysSince / 60000).toFixed(0) : 0;
+
+            document.getElementById('reportPreview').innerHTML = `
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full c-primary-bg flex items-center justify-center text-xl text-white font-bold">${s.nome.charAt(0).toUpperCase()}</div>
+                        <div>
+                            <h4 class="font-bold">${s.nome}</h4>
+                            <span class="text-xs c-text-muted">${s.level} • ${isOnline ? '<span class="online-dot mr-1"></span>Online' : 'Offline'} • Ranking #${rank}</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">XP Total</span><span class="font-bold c-xp text-lg">${(s.xp||0).toLocaleString()}</span></div>
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">Streak</span><span class="font-bold c-streak text-lg">${s.streak||0}</span></div>
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">Gemas</span><span class="font-bold c-gem text-lg">${(s.gems||0).toLocaleString()}</span></div>
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">Tempo Total</span><span class="font-bold c-secondary text-lg">${formatTime(s.tempoTotal)}</span></div>
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">Lições Feitas</span><span class="font-bold c-primary text-lg">${totalLessons}</span></div>
+                        <div class="p-2 rounded-lg" style="background:var(--bg);"><span class="c-text-muted block text-xs">Acurácia</span><span class="font-bold c-accent text-lg">${accuracy}%</span></div>
+                    </div>
+                    <div class="text-sm space-y-1 c-text-muted">
+                        <div><i class="fa-solid fa-right-to-bracket mr-1"></i> Último login: <span class="font-bold c-text">${s.ultimoLogin ? new Date(s.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</span></div>
+                        <div><i class="fa-solid fa-calendar mr-1"></i> Membro desde: <span class="font-bold c-text">${s.createdAt ? new Date(s.createdAt).toLocaleDateString('pt-BR') : '—'}</span> (${daysSince} dias)</div>
+                        <div><i class="fa-solid fa-chart-simple mr-1"></i> Média diária: <span class="font-bold c-text">${avgDaily} min</span></div>
+                        <div><i class="fa-solid fa-bullseye mr-1"></i> Acertos: <span class="font-bold c-primary">${s.acertosTotal||0}</span> | Erros: <span class="font-bold c-danger">${s.errosTotal||0}</span></div>
+                    </div>
+                </div>`;
+
+            // Relatório detalhado expandido
             const container = document.getElementById('studentReport');
             container.classList.remove('hidden-section');
             container.innerHTML = `
-                <div class="stat-card mb-4">
-                    <h4 class="font-bold mb-3">${student.nome} - Relatório Detalhado</h4>
-                    <div class="space-y-3">
-                        <div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div>
-                        <div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="stat-card">
+                        <h5 class="font-bold mb-3">📊 Progresso por Nível</h5>
+                        <div class="space-y-2">
+                            ${LEVEL_ORDER.map(lvl => {
+                                const lessons = LESSONS_DATA[lvl] || [];
+                                const done = lessons.filter(l => progresso[`${lvl}_${l.id}`]).length;
+                                const pct = lessons.length > 0 ? Math.round(done/lessons.length*100) : 0;
+                                return `<div><div class="flex justify-between text-xs mb-1"><span>${lvl}</span><span>${done}/${lessons.length}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+                            }).join('')}
+                        </div>
                     </div>
-                </div>
-                <div class="stat-card">
-                    <h5 class="font-bold mb-3">📈 Histórico Recente</h5>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Hoje: A1.1 - Greetings</span><span class="c-primary">+50 XP</span></div>
-                        <div class="flex justify-between"><span>Ontem: A1.2 - Numbers</span><span class="c-primary">+50 XP</span></div>
-                        <div class="flex justify-between"><span>2 dias: Revisão</span><span class="c-primary">+25 XP</span></div>
+                    <div class="stat-card">
+                        <h5 class="font-bold mb-3">📈 Distribuição de Pontos</h5>
+                        <div class="chart-container" style="height:200px;"><canvas id="reportChart"></canvas></div>
                     </div>
-                </div>
-            `;
-        }
+                </div>`;
 
-        function generateReport() {
-            showToast('Gerando...', 'Relatório sendo preparado', 'success');
+            // Mini chart no relatório
             setTimeout(() => {
-                showToast('Pronto!', 'Relatório exportado com sucesso', 'success');
-            }, 1500);
+                const ctx = document.getElementById('reportChart');
+                if (ctx) {
+                    new Chart(ctx.getContext('2d'), {
+                        type: 'radar',
+                        data: {
+                            labels: ['XP', 'Streak', 'Gemas', 'Tempo', 'Lições', 'Acurácia'],
+                            datasets: [{
+                                label: s.nome,
+                                data: [
+                                    Math.min((s.xp||0)/100, 100),
+                                    Math.min((s.streak||0)*5, 100),
+                                    Math.min((s.gems||0)/2, 100),
+                                    Math.min((s.tempoTotal||0)/3600000*5, 100),
+                                    Math.min(totalLessons*5, 100),
+                                    accuracy
+                                ],
+                                backgroundColor: 'rgba(34,197,94,0.2)',
+                                borderColor: '#22c55e',
+                                pointBackgroundColor: '#22c55e'
+                            }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, ticks: { display: false } } }, plugins: { legend: { display: false } } }
+                    });
+                }
+            }, 100);
         }
 
-        // ===== ADMIN: TABS =====
+        // ===== ADMIN TABS =====
         function showAdminTab(tab) {
             document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${tab}`).classList.add('active');
+            if (tab === 'ranking') renderRanking();
         }
 
-        // ===== ADMIN: EXPORT DATA =====
+        // ===== EXPORT =====
         function exportData(format) {
-            const data = JSON.stringify(allStudents, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
+            const exportStudents = allStudents.map(u => ({
+                nome: u.nome, email: u.email, nivel: u.level, xp: u.xp, streak: u.streak,
+                gems: u.gems, tempoTotal_ms: u.tempoTotal, status: u.status,
+                ultimoLogin: u.ultimoLogin, criadoEm: u.createdAt,
+                licoesCompletadas: u.licoesCompletadas, acertos: u.acertosTotal, erros: u.errosTotal
+            }));
+            const data = format === 'csv'
+                ? [Object.keys(exportStudents[0] || {}).join(','), ...exportStudents.map(r => Object.values(r).join(','))].join('\n')
+                : JSON.stringify(exportStudents, null, 2);
+            const mime = format === 'csv' ? 'text/csv' : 'application/json';
+            const blob = new Blob([data], { type: mime });
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `englishpath-backup-${new Date().toISOString().split('T')[0]}.${format}`;
+            a.href = URL.createObjectURL(blob);
+            a.download = `englishpath-relatorio-${new Date().toISOString().split('T')[0]}.${format}`;
             a.click();
             showToast('Sucesso', `Dados exportados em ${format.toUpperCase()}!`, 'success');
         }
 
-        function showAddCourseModal() {
-            showToast('Em desenvolvimento', 'Funcionalidade em breve!', 'warning');
-        }
-
         // ===== INIT =====
         window.addEventListener('DOMContentLoaded', () => {
-            // Close modals on outside click
             document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('active');
-                        document.body.style.overflow = '';
-                    }
-                });
+                modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
             });
-            
-            // ESC to close modals
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal.active').forEach(m => {
-                        m.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
-                }
+                if (e.key === 'Escape') document.querySelectorAll('.modal.active').forEach(m => { m.classList.remove('active'); document.body.style.overflow = ''; });
             });
         });
     </script>
