@@ -269,6 +269,14 @@
             font-family: monospace; font-weight: 600;
         }
         
+        /* SECTION COMPLETE SCREEN */
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
+        
         @media (max-width: 768px) {
             .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
             .progress-section { margin: 0; width: 100%; }
@@ -509,7 +517,7 @@
                     q: "Which number do you hear?", tts: "five", options: ["5", "15", "50", "55"], answer: 0, speed: 0.85 }
             ],
             
-            // SPEAKING: 10 activities with SKIP button
+            // SPEAKING: 10 activities with IMPROVED RECOGNITION
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "One"', model: "one", expected: "one" },
@@ -544,7 +552,7 @@
                     prompt: 'Count from 1 to 10 in English.', minWords: 10, expectedPattern: "one two three four five six seven eight nine ten" }
             ],
             
-            // WRITING: 10 intelligent tasks
+            // WRITING: 10 intelligent tasks with BETTER FEEDBACK
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "I am _____ years old." (25)', answer: 'twenty-five', example: 'I am twenty-five years old.' },
@@ -799,7 +807,7 @@
         if (currentTab === 'video') { renderVideo(); return; }
         const section = lessonData.tabs[currentTab];
         const index = questionIndex[currentTab];
-        if (index >= section.length) { renderSectionComplete(section[0]?.title || currentTab); return; }
+        if (index >= section.length) { renderSectionComplete(currentTab); return; }
         
         switch(currentTab) {
             case 'reading': renderReading(section[index]); break;
@@ -838,18 +846,33 @@
         switchTab('reading');
     };
 
-    function renderSectionComplete(title) {
+    function renderSectionComplete(tabName) {
+        const tabNames = {
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            grammar: 'Grammar'
+        };
+        
         mainContent.innerHTML = `
-            <div class="completion-screen">
+            <div class="section-complete">
                 <i class="fa-solid fa-check-circle"></i>
-                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">${title} Complete! ✓</h2>
-                <p style="color:#64748b;margin-bottom:2rem;">Great progress! Move to the next section.</p>
+                <h2>${tabNames[tabName]} Complete! ✓</h2>
+                <p>Great progress! Move to the next section.</p>
                 <div class="actions" style="justify-content:center;">
-                    <button class="btn btn-primary" onclick="nextSection()">Next Section <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn btn-primary" onclick="nextSection()">Next Section ➡️</button>
+                    <button class="btn btn-retry" onclick="retrySection('${tabName}')">Refazer Atividade 🔄</button>
                 </div>
             </div>
         `;
     }
+
+    window.retrySection = (tabName) => {
+        questionIndex[tabName] = 0;
+        saveProgress();
+        renderCurrentTab();
+    };
 
     // ===== RENDERERS =====
     function renderReading(q) {
@@ -916,7 +939,7 @@
 
     function renderSpeaking(q) {
         mainContent.innerHTML = `
-            <h1 class="section-title">💬 Speaking</h1>
+            <h1 class="section-title"> Speaking</h1>
             <p class="section-subtitle">Practice pronunciation</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
@@ -1035,7 +1058,7 @@
     
     function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
 
-    // ===== ANSWER CHECKING =====
+    // ===== ANSWER CHECKING WITH BETTER FEEDBACK =====
     window.checkAnswer = () => {
         if(isAnswered||selectedOption===null) return; isAnswered=true;
         const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
@@ -1050,8 +1073,18 @@
         const input=document.getElementById('writingInput'); if(!input) return;
         const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
         const valid=input.value.trim().length>=(q.minLength||0);
-        if(valid){ input.style.borderColor='#22c55e'; feedback.className='feedback correct show'; feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; addXP(q.xp); document.getElementById('checkBtn').innerHTML='<i class="fa-solid fa-check"></i> Submitted! Press Enter'; }
-        else{ input.style.borderColor='#ef4444'; feedback.className='feedback wrong show'; feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.`; }
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
+            document.getElementById('checkBtn').innerHTML='<i class="fa-solid fa-check"></i> Submitted! Press Enter'; 
+        }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+        }
         document.getElementById('checkBtn').disabled=true; saveProgress();
     };
 
