@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U04: Days & Time | EnglishPath A1</title>
+    <title>U04: Family Members | EnglishPath A1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,8 +20,6 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
-        
-        /* HEADER */
         .header {
             background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem;
             display: flex; align-items: center; justify-content: space-between;
@@ -33,22 +31,17 @@
             padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
             background: #dbeafe; color: #1e40af;
         }
-        
         .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
         .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
-        
         .stats { display: flex; gap: 1rem; align-items: center; }
         .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
         .stat-fire { background: #fff7ed; color: #f59e0b; }
         .stat-bolt { background: #eff6ff; color: #3b82f6; }
         .stat-xp { background: #f0fdf4; color: #22c55e; }
-        
         .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
         .menu-btn:hover { background: #f1f5f9; }
-        
-        /* TABS - CENTRALIZED */
         .tabs-container {
             background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
             display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
@@ -65,8 +58,6 @@
         .tab-btn.active { background: #22c55e; color: white; }
         .tab-btn.completed { color: #16a34a; }
         .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
-        
-        /* DIFFICULTY */
         .difficulty {
             display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
             border-radius: 6px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
@@ -74,8 +65,6 @@
         .difficulty.easy { background: #dcfce7; color: #166534; }
         .difficulty.medium { background: #fef3c7; color: #92400e; }
         .difficulty.hard { background: #fed7aa; color: #c2410c; }
-        
-        /* MAIN */
         .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 220px); }
         .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
         .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
@@ -83,14 +72,10 @@
             background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px;
             margin-bottom: 2rem; font-size: 0.9rem;
         }
-        
-        /* CARDS */
         .card {
             background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
             margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        
-        /* VOCABULARY CARD STYLE */
         .vocab-card {
             display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
             padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
@@ -108,8 +93,6 @@
         }
         .vocab-audio-btn:hover { background: #3b82f6; color: white; }
         .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
-        
-        /* TTS */
         .tts-controls {
             display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
         }
@@ -129,8 +112,6 @@
             font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
         }
         .transcript.show { display: block; }
-        
-        /* READING */
         .reading-text { font-size: 1.1rem; line-height: 2; color: #334155; margin-bottom: 1rem; }
         .highlight {
             background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
@@ -138,15 +119,11 @@
             padding: 0 0.25rem; font-weight: 700; cursor: pointer;
         }
         .highlight:hover { background-size: 100% 100%; }
-        
-        /* VIDEO */
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
             border-radius: 12px; margin: 1rem 0; background: #000;
         }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        
-        /* OPTIONS */
         .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
         .option {
             padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
@@ -157,8 +134,6 @@
         .option.correct { border-color: #22c55e; background: #f0fdf4; }
         .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
-        
-        /* SPEAKING */
         .record-btn {
             width: 120px; height: 120px; border-radius: 50%;
             background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
@@ -169,20 +144,15 @@
         .record-btn:active { transform: translateY(8px); box-shadow: none; }
         .record-btn.recording { animation: recording-pulse 1s infinite; }
         @keyframes recording-pulse { 50% { transform: scale(1.05); } }
-        
         .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
         .score-display.good { color: #22c55e; }
         .score-display.bad { color: #ef4444; }
-        
-        /* WRITING */
         .writing-area {
             width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
             border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
         }
         .writing-area:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
         .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
-        
-        /* GRAMMAR EXPLANATION */
         .grammar-explanation {
             background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 12px;
             padding: 1.5rem; margin: 1.5rem 0;
@@ -199,10 +169,7 @@
             background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem;
             margin: 0.75rem 0; font-size: 0.9rem;
         }
-        
-        /* ACTIONS - IMPROVED BUTTONS */
         .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
-        
         .btn {
             padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
             font-size: 1rem; cursor: pointer; transition: all 0.2s;
@@ -233,23 +200,17 @@
             font-size: 1.1rem;
             padding: 1.2rem 2rem;
         }
-        
-        /* FEEDBACK */
         .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
         .feedback.show { display: block; animation: slideUp 0.3s ease; }
         .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
         .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* HINTS */
         .hint-box {
             background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;
             padding: 1rem; margin: 1rem 0; display: none;
         }
         .hint-box.show { display: block; }
         .hint-cost { font-size: 0.8rem; color: #92400e; margin-left: 0.5rem; }
-        
-        /* NOTES */
         .notes-area {
             background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
             padding: 1rem; margin: 1rem 0;
@@ -258,8 +219,6 @@
             width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
             border-radius: 8px; font-family: inherit; resize: vertical;
         }
-        
-        /* SETTINGS */
         .settings-menu {
             position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
             border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
@@ -271,23 +230,17 @@
             align-items: center; gap: 0.75rem; font-size: 0.9rem;
         }
         .settings-item:hover { background: #f8fafc; }
-        
-        /* COMPLETION */
         .completion-screen {
             text-align: center; padding: 3rem 1rem;
         }
         .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
         .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
-        
-        /* SECTION COMPLETE SCREEN */
         .section-complete {
             text-align: center; padding: 3rem 1rem;
         }
         .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
         .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
         .section-complete p { color: #64748b; margin-bottom: 2rem; }
-        
-        /* ENTER KEY HINT */
         .enter-hint {
             text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
         }
@@ -295,7 +248,6 @@
             background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
             font-family: monospace; font-weight: 600;
         }
-        
         @media (max-width: 768px) {
             .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
             .progress-section { margin: 0; width: 100%; }
@@ -378,408 +330,419 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // ===== LESSON DATA (U04: DAYS & TIME) =====
+    // ===== LESSON DATA (U04: FAMILY MEMBERS) =====
     const lessonData = {
         unitInfo: {
             level: 'A1',
-            theme: 'Days of the Week & Time',
-            videoId: 'FPC_LBp8ifM', // NOVO LINK DO YOUTUBE
+            theme: 'Family Members',
+            videoId: 'dQw4w9WgXcQ', // Substitua pelo ID real do vídeo sobre família
             objectives: [
-                'Name the days of the week in English',
-                'Ask and tell time using "What time is it?"',
-                'Use prepositions of time: in, on, at',
-                'Talk about daily routines and schedules'
+                'Identify family members in English',
+                'Use possessive adjectives (my, your, his, her, our, their)',
+                'Describe your family',
+                'Ask about family relationships'
             ]
         },
         
         tabs: {
             video: {
                 type: 'embed',
-                videoId: 'FPC_LBp8ifM',
-                instructions: 'Watch the video carefully. Listen for days of the week and time expressions.'
+                videoId: 'dQw4w9WgXcQ', // Substitua pelo ID real
+                instructions: 'Watch the video about family members. Pay attention to the vocabulary.'
             },
             
             // READING: 10 questions
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: "Today is Monday. Tomorrow is Tuesday. The weekend is on Saturday and Sunday.",
-                    q: "What day is today?",
-                    options: ["Sunday", "Monday", "Tuesday", "Friday"],
-                    answer: 1,
-                    tts: "Today is Monday. Tomorrow is Tuesday. The weekend is on Saturday and Sunday.",
-                    explanation: "The text says 'Today is Monday'.",
-                    cefr: "Can understand simple statements about days."
+                    text: "This is my family. I have a mother, a father, and one sister. My mother's name is Maria. My father's name is João.",
+                    q: "How many sisters does the person have?",
+                    options: ["One", "Two", "Three", "None"],
+                    answer: 0,
+                    tts: "This is my family. I have a mother, a father, and one sister. My mother's name is Maria. My father's name is João.",
+                    explanation: "The text says 'I have... one sister'.",
+                    cefr: "Can understand simple family descriptions."
                 },
                 {
                     id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
-                    text: "I wake up at 7:00 AM. I have breakfast at 7:30. I go to work at 8:00.",
-                    q: "What time does the person wake up?",
-                    options: ["6:00", "7:00", "7:30", "8:00"],
-                    answer: 1,
-                    tts: "I wake up at 7:00 AM. I have breakfast at 7:30. I go to work at 8:00.",
-                    explanation: "The text states 'I wake up at 7:00 AM'.",
-                    cefr: "Can locate specific time information."
+                    text: "My brother is 25 years old. My sister is 22. I am 20 years old.",
+                    q: "How old is the brother?",
+                    options: ["20", "22", "25", "30"],
+                    answer: 2,
+                    tts: "My brother is 25 years old. My sister is 22. I am 20 years old.",
+                    explanation: "The text states 'My brother is 25 years old'.",
+                    cefr: "Can locate specific age information."
                 },
                 {
                     id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
-                    text: "Wednesday is the middle of the week. Thursday comes after Wednesday.",
-                    q: "What day comes after Wednesday?",
-                    options: ["Tuesday", "Wednesday", "Thursday", "Friday"],
-                    answer: 2,
-                    tts: "Wednesday is the middle of the week. Thursday comes after Wednesday.",
-                    explanation: "The text says 'Thursday comes after Wednesday'.",
-                    cefr: "Can understand sequence of days."
+                    text: "My grandmother lives with us. She is 70 years old. My grandfather lives in another city.",
+                    q: "Who lives with the family?",
+                    options: ["Grandfather", "Grandmother", "Both", "Neither"],
+                    answer: 1,
+                    tts: "My grandmother lives with us. She is 70 years old. My grandfather lives in another city.",
+                    explanation: "The text says 'My grandmother lives with us'.",
+                    cefr: "Can understand family living arrangements."
                 },
                 {
                     id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: "I work from Monday to Friday. I don't work on the weekend.",
-                    q: "When does the person NOT work?",
-                    options: ["Monday", "Wednesday", "Friday", "Saturday and Sunday"],
-                    answer: 3,
-                    tts: "I work from Monday to Friday. I don't work on the weekend.",
-                    explanation: "The weekend is Saturday and Sunday, when the person doesn't work.",
-                    cefr: "Can infer work schedule from text."
+                    text: "I have two cousins. They are my uncle's children. My uncle is my father's brother.",
+                    q: "Who are the cousins' father?",
+                    options: ["My father", "My uncle", "My grandfather", "My brother"],
+                    answer: 1,
+                    tts: "I have two cousins. They are my uncle's children. My uncle is my father's brother.",
+                    explanation: "The text says 'They are my uncle's children'.",
+                    cefr: "Can understand family relationships."
                 },
                 {
                     id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: "The meeting is at 3:00 PM on Tuesday afternoon.",
-                    q: "When is the meeting?",
-                    options: ["Monday morning", "Tuesday afternoon", "Wednesday evening", "Friday night"],
+                    text: "My parents are married for 30 years. They have three children: me, my brother, and my sister.",
+                    q: "How many children do the parents have?",
+                    options: ["Two", "Three", "Four", "Five"],
                     answer: 1,
-                    tts: "The meeting is at 3:00 PM on Tuesday afternoon.",
-                    explanation: "The text specifies 'Tuesday afternoon' at '3:00 PM'.",
-                    cefr: "Can understand time and day combinations."
+                    tts: "My parents are married for 30 years. They have three children: me, my brother, and my sister.",
+                    explanation: "The text says 'They have three children'.",
+                    cefr: "Can understand family size."
                 },
                 {
                     id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
-                    text: "Morning is from 6 AM to 12 PM. Afternoon is from 12 PM to 6 PM. Evening is from 6 PM to 10 PM.",
-                    q: "What time is afternoon?",
-                    options: ["6 AM to 12 PM", "12 PM to 6 PM", "6 PM to 10 PM", "10 PM to 6 AM"],
+                    text: "My aunt is my mother's sister. She has one daughter. My cousin is 15 years old.",
+                    q: "How is the aunt related to the mother?",
+                    options: ["Mother's brother", "Mother's sister", "Father's sister", "Sister's daughter"],
                     answer: 1,
-                    tts: "Morning is from 6 AM to 12 PM. Afternoon is from 12 PM to 6 PM. Evening is from 6 PM to 10 PM.",
-                    explanation: "The text defines afternoon as '12 PM to 6 PM'.",
-                    cefr: "Can understand time period definitions."
+                    tts: "My aunt is my mother's sister. She has one daughter. My cousin is 15 years old.",
+                    explanation: "The text says 'My aunt is my mother's sister'.",
+                    cefr: "Can understand aunt relationship."
                 },
                 {
                     id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
-                    text: "We have class on Mondays, Wednesdays, and Fridays at 10:00 AM.",
-                    q: "How many days per week is the class?",
-                    options: ["Two", "Three", "Four", "Five"],
+                    text: "My nephew is my sister's son. He is 5 years old. My niece is my sister's daughter. She is 3 years old.",
+                    q: "What is the nephew's relationship to the speaker?",
+                    options: ["Brother's son", "Sister's son", "Father's son", "Uncle's son"],
                     answer: 1,
-                    tts: "We have class on Mondays, Wednesdays, and Fridays at 10:00 AM.",
-                    explanation: "Monday, Wednesday, and Friday = three days.",
-                    cefr: "Can count days from a schedule."
+                    tts: "My nephew is my sister's son. He is 5 years old. My niece is my sister's daughter. She is 3 years old.",
+                    explanation: "The text says 'My nephew is my sister's son'.",
+                    cefr: "Can understand nephew relationship."
                 },
                 {
                     id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: "The store opens at 9:00 AM and closes at 9:00 PM every day except Sunday.",
-                    q: "When is the store CLOSED?",
-                    options: ["Monday", "Saturday", "Sunday", "Every day"],
+                    text: "I live with my parents and my younger brother. My older sister lives in another city with her husband.",
+                    q: "Who does NOT live with the speaker?",
+                    options: ["Parents", "Younger brother", "Older sister", "All live together"],
                     answer: 2,
-                    tts: "The store opens at 9:00 AM and closes at 9:00 PM every day except Sunday.",
-                    explanation: "'Except Sunday' means closed on Sunday.",
-                    cefr: "Can understand exceptions in schedules."
+                    tts: "I live with my parents and my younger brother. My older sister lives in another city with her husband.",
+                    explanation: "The text says 'My older sister lives in another city'.",
+                    cefr: "Can understand who lives where."
                 },
                 {
                     id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
-                    text: "The train leaves at 2:15 PM, 4:30 PM, and 6:45 PM on weekdays.",
-                    q: "What is the LAST train time?",
-                    options: ["2:15 PM", "4:30 PM", "6:45 PM", "8:00 PM"],
-                    answer: 2,
-                    tts: "The train leaves at 2:15 PM, 4:30 PM, and 6:45 PM on weekdays.",
-                    explanation: "6:45 PM is the last time listed.",
-                    cefr: "Can identify the latest time in a list."
+                    text: "My family has 8 people: my grandparents, my parents, my two brothers, my sister, and me.",
+                    q: "How many brothers does the speaker have?",
+                    options: ["One", "Two", "Three", "Four"],
+                    answer: 1,
+                    tts: "My family has 8 people: my grandparents, my parents, my two brothers, my sister, and me.",
+                    explanation: "The text says 'my two brothers'.",
+                    cefr: "Can count family members."
                 },
                 {
                     id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
-                    text: "I study English on Tuesday and Thursday evenings. I practice on Saturday morning.",
-                    q: "When does the person practice English?",
-                    options: ["Tuesday evening", "Thursday evening", "Saturday morning", "Sunday afternoon"],
-                    answer: 2,
-                    tts: "I study English on Tuesday and Thursday evenings. I practice on Saturday morning.",
-                    explanation: "The text says 'I practice on Saturday morning'.",
-                    cefr: "Can distinguish between 'study' and 'practice' times."
+                    text: "My wife and I have two children. My son is 10 and my daughter is 7. My parents are their grandparents.",
+                    q: "Who is the speaker's son's grandfather?",
+                    options: ["The speaker's father", "The speaker's brother", "The speaker's uncle", "The speaker's son"],
+                    answer: 0,
+                    tts: "My wife and I have two children. My son is 10 and my daughter is 7. My parents are their grandparents.",
+                    explanation: "The text says 'My parents are their grandparents'.",
+                    cefr: "Can understand grandparent relationship."
                 }
             ],
             
             // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "Which day do you hear?", tts: "Monday", options: ["Monday", "Tuesday", "Wednesday", "Sunday"], answer: 0, speed: 0.85 },
+                    q: "Which family member do you hear?", tts: "Mother", options: ["Mother", "Father", "Sister", "Brother"], answer: 0, speed: 0.85 },
                 { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "What time is spoken?", tts: "Three o'clock", options: ["2:00", "3:00", "4:00", "5:00"], answer: 1, speed: 0.85 },
+                    q: "Listen and choose:", tts: "Brother", options: ["Sister", "Brother", "Cousin", "Uncle"], answer: 1, speed: 0.85 },
                 { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "Listen and choose:", tts: "Friday", options: ["Thursday", "Friday", "Saturday", "Sunday"], answer: 1, speed: 0.85 },
+                    q: "Which word do you hear?", tts: "Grandmother", options: ["Grandmother", "Grandfather", "Mother", "Father"], answer: 0, speed: 0.85 },
                 { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "What time in the morning?", tts: "Seven thirty AM", options: ["6:30 AM", "7:30 AM", "8:30 AM", "9:30 AM"], answer: 1, speed: 0.85 },
+                    q: "Listen carefully:", tts: "My sister is twenty years old", options: ["15 years old", "20 years old", "25 years old", "30 years old"], answer: 1, speed: 0.85 },
                 { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "Which day for the meeting?", tts: "The meeting is on Wednesday", options: ["Monday", "Tuesday", "Wednesday", "Thursday"], answer: 2, speed: 0.85 },
+                    q: "How old is the brother?", tts: "My brother is fifteen", options: ["12", "15", "18", "20"], answer: 1, speed: 0.85 },
                 { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "Listen carefully:", tts: "Quarter past four", options: ["3:45", "4:15", "4:30", "4:45"], answer: 1, speed: 0.85 },
+                    q: "Listen to the relationship:", tts: "My uncle", options: ["Aunt", "Uncle", "Cousin", "Nephew"], answer: 1, speed: 0.85 },
                 { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
-                    q: "Which time expression?", tts: "Half past six", options: ["6:00", "6:15", "6:30", "6:45"], answer: 2, speed: 0.85 },
+                    q: "Which family member?", tts: "My parents", options: ["My parent", "My parents", "My parent's", "My parents'"], answer: 1, speed: 0.85 },
                 { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'Sunday'", tts: "Sunday", options: ["True", "False"], answer: 0, speed: 0.85 },
+                    q: "True or False: The speaker says 'sister'", tts: "Sister", options: ["True", "False"], answer: 0, speed: 0.85 },
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says '10:00 PM'", tts: "10:00 AM", options: ["True", "False"], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'grandfather'", tts: "Grandmother", options: ["True", "False"], answer: 1, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: "What time is lunch?", tts: "Lunch is at twelve thirty", options: ["11:30", "12:00", "12:30", "1:00"], answer: 2, speed: 0.85 }
+                    q: "How many children?", tts: "I have two children", options: ["One child", "Two children", "Three children", "Four children"], answer: 1, speed: 0.85 }
             ],
             
             // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "Monday"', model: "monday", expected: "monday" },
+                    prompt: 'Repeat: "Mother"', model: "mother", expected: "mother" },
                 { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "What time is it?"', model: "what time is it", expected: "what time is it" },
+                    prompt: 'Repeat: "Father"', model: "father", expected: "father" },
                 { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "Seven o\'clock"', model: "seven o'clock", expected: "seven o'clock" },
+                    prompt: 'Repeat: "My family"', model: "my family", expected: "my family" },
                 { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Asking the time',
-                    prompt: 'Say: "What time is it, please?"',
-                    model: "What time is it, please?",
-                    expected: "what time is it please" },
+                    scenario: 'Introducing family',
+                    prompt: 'Say: "This is my mother."',
+                    model: "This is my mother.",
+                    expected: "this is my mother" },
                 { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Telling the time',
-                    prompt: 'Say: "It\'s three thirty."',
-                    model: "It's three thirty.",
-                    expected: "it's three thirty" },
+                    scenario: 'Describing family',
+                    prompt: 'Say: "I have one brother."',
+                    model: "I have one brother.",
+                    expected: "i have one brother" },
                 { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Talking about schedule',
-                    prompt: 'Say: "I work on Monday and Tuesday."',
-                    model: "I work on Monday and Tuesday.",
-                    expected: "i work on monday and tuesday" },
+                    scenario: 'Talking about age',
+                    prompt: 'Say: "My sister is twenty years old."',
+                    model: "My sister is twenty years old.",
+                    expected: "my sister is twenty years old" },
                 { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of a clock showing 9:00]. Say the time.',
-                    expected: "nine o'clock", minWords: 2 },
+                    prompt: 'Describe this: [Image of family photo]. Say who is in your family.',
+                    expected: "family", minWords: 3 },
                 { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of a calendar with Friday circled]. Say the day.',
-                    expected: "friday", minWords: 1 },
+                    prompt: 'Describe this: [Image of parents]. Say: "These are my parents."',
+                    expected: "parents", minWords: 3 },
                 { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'What day is today? Say the date.', minWords: 4, expectedPattern: "today is" },
+                    prompt: 'Tell me about your family. How many people?', minWords: 5, expectedPattern: "family" },
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'What time do you wake up? Say your morning routine.', minWords: 6, expectedPattern: "wake up at" }
+                    prompt: 'Describe your brother or sister. How old?', minWords: 6, expectedPattern: "years old" }
             ],
             
             // WRITING: 10 intelligent tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "Today is _____." (Monday)', answer: 'Monday', example: 'Today is Monday.' },
+                    prompt: 'Complete: "This is my _____." (mother)', answer: 'mother', example: 'This is my mother.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "The meeting is at _____." (3:00 PM)', answer: '3:00 PM', example: 'The meeting is at 3:00 PM.' },
+                    prompt: 'Complete: "I have one _____." (brother)', answer: 'brother', example: 'I have one brother.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Write the day after Tuesday:', answer: 'Wednesday', example: 'Wednesday' },
+                    prompt: 'Write the plural: "parent"', answer: 'parents', example: 'parents' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Rewrite: "I wake up 7 AM" -> Add preposition', answer: 'I wake up at 7 AM', example: 'I wake up at 7 AM' },
+                    prompt: 'Rewrite using possessive: "The mother of John" ->', answer: "John's mother", example: "John's mother" },
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Change to question: "It is 5:00"', answer: 'What time is it?', example: 'What time is it?' },
+                    prompt: 'Change to plural: "This is my brother" ->', answer: 'These are my brothers', example: 'These are my brothers' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Write the plural: "day"', answer: 'days', example: 'days' },
+                    prompt: 'Use possessive adjective: "_____ name is Maria" (She)', answer: 'Her', example: 'Her name is Maria' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write your class schedule (day + time).', example: 'I have class on Monday at 10 AM.', minLength: 15, maxLength: 40 },
+                    prompt: 'Write about your family. How many people?', example: 'I have a family of four people.', minLength: 15, maxLength: 40 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write what you do on Saturday morning.', example: 'On Saturday morning, I sleep late.', minLength: 15, maxLength: 40 },
+                    prompt: 'Describe your parents. What are their names?', example: 'My parents are João and Maria.', minLength: 15, maxLength: 40 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Write your daily routine with at least 3 times.', minLength: 30, maxLength: 80 },
+                    prompt: 'Write about your siblings (brothers/sisters). How many? How old?', minLength: 30, maxLength: 80 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Write about your favorite day of the week and why.', minLength: 40, maxLength: 100 }
+                    prompt: 'Describe your family. Include grandparents, aunts, uncles if you have.', minLength: 40, maxLength: 100 }
             ],
 
-            // VOCABULARY: 30 Words
+            // VOCABULARY: 30 Words - Family Members
             vocabulary: [
-                { word: "Monday", pron: "/ˈmʌndeɪ/", meaning: "Segunda-feira", example: "I work on Monday." },
-                { word: "Tuesday", pron: "/ˈtuːzdeɪ/", meaning: "Terça-feira", example: "Class is on Tuesday." },
-                { word: "Wednesday", pron: "/ˈwenzdeɪ/", meaning: "Quarta-feira", example: "Wednesday is mid-week." },
-                { word: "Thursday", pron: "/ˈθɜːrzdeɪ/", meaning: "Quinta-feira", example: "We meet on Thursday." },
-                { word: "Friday", pron: "/ˈfraɪdeɪ/", meaning: "Sexta-feira", example: "Friday is fun!" },
-                { word: "Saturday", pron: "/ˈsætərdeɪ/", meaning: "Sábado", example: "I relax on Saturday." },
-                { word: "Sunday", pron: "/ˈsʌndeɪ/", meaning: "Domingo", example: "Sunday is a rest day." },
-                { word: "Weekend", pron: "/ˈwiːkend/", meaning: "Fim de semana", example: "The weekend is Saturday and Sunday." },
-                { word: "Weekday", pron: "/ˈwiːkdeɪ/", meaning: "Dia útil", example: "I work on weekdays." },
-                { word: "Morning", pron: "/ˈmɔːrnɪŋ/", meaning: "Manhã", example: "Good morning!" },
-                { word: "Afternoon", pron: "/ˌæftərˈnuːn/", meaning: "Tarde", example: "See you this afternoon." },
-                { word: "Evening", pron: "/ˈiːvnɪŋ/", meaning: "Noite (início)", example: "Good evening, everyone." },
-                { word: "Night", pron: "/naɪt/", meaning: "Noite (tarde)", example: "Good night, sleep well." },
-                { word: "Time", pron: "/taɪm/", meaning: "Hora/Tempo", example: "What time is it?" },
-                { word: "O\'clock", pron: "/əˈklɑːk/", meaning: "Em ponto", example: "It's three o'clock." },
-                { word: "AM", pron: "/ˌeɪˈem/", meaning: "Manhã (00:00-11:59)", example: "The meeting is at 9 AM." },
-                { word: "PM", pron: "/ˌpiːˈem/", meaning: "Tarde/Noite (12:00-23:59)", example: "Dinner is at 7 PM." },
-                { word: "Half past", pron: "/hæf pæst/", meaning: "Meia hora depois", example: "It's half past two." },
-                { word: "Quarter past", pron: "/ˈkwɔːrtər pæst/", meaning: "Quinze minutos depois", example: "Quarter past six." },
-                { word: "Quarter to", pron: "/ˈkwɔːrtər tu/", meaning: "Quinze minutos para", example: "Quarter to nine." },
-                { word: "Midnight", pron: "/ˈmɪdnaɪt/", meaning: "Meia-noite", example: "Midnight is 12 AM." },
-                { word: "Noon", pron: "/nuːn/", meaning: "Meio-dia", example: "Lunch is at noon." },
-                { word: "Schedule", pron: "/ˈskedʒuːl/", meaning: "Horário/Cronograma", example: "Check your schedule." },
-                { word: "Appointment", pron: "/əˈpɔɪntmənt/", meaning: "Compromisso", example: "I have an appointment at 3 PM." },
-                { word: "Late", pron: "/leɪt/", meaning: "Atrasado", example: "Don't be late!" },
-                { word: "Early", pron: "/ˈɜːrli/", meaning: "Cedo", example: "I wake up early." },
-                { word: "On", pron: "/ɑːn/", meaning: "Em (dias)", example: "On Monday, on Friday." },
-                { word: "At", pron: "/æt/", meaning: "Em (horas)", example: "At 3 PM, at noon." },
-                { word: "In", pron: "/ɪn/", meaning: "Em (períodos)", example: "In the morning, in July." },
-                { word: "Every", pron: "/ˈevri/", meaning: "Todo(a)/Todos(as)", example: "Every day, every week." }
+                { word: "Mother", pron: "/ˈmʌðər/", meaning: "Mãe", example: "My mother is a teacher." },
+                { word: "Father", pron: "/ˈfɑːðər/", meaning: "Pai", example: "My father works in an office." },
+                { word: "Parents", pron: "/ˈperənts/", meaning: "Pais", example: "My parents are married." },
+                { word: "Sister", pron: "/ˈsɪstər/", meaning: "Irmã", example: "I have one sister." },
+                { word: "Brother", pron: "/ˈbrʌðər/", meaning: "Irmão", example: "My brother is 20 years old." },
+                { word: "Siblings", pron: "/ˈsɪblɪŋz/", meaning: "Irmãos", example: "I have two siblings." },
+                { word: "Grandmother", pron: "/ˈɡrænˌmʌðər/", meaning: "Avó", example: "My grandmother is 70." },
+                { word: "Grandfather", pron: "/ˈɡrænˌfɑːðər/", meaning: "Avô", example: "My grandfather lives nearby." },
+                { word: "Grandparents", pron: "/ˈɡrænˌperənts/", meaning: "Avós", example: "My grandparents visit us." },
+                { word: "Daughter", pron: "/ˈdɔːtər/", meaning: "Filha", example: "She has one daughter." },
+                { word: "Son", pron: "/sʌn/", meaning: "Filho", example: "My son is 10 years old." },
+                { word: "Children", pron: "/ˈtʃɪldrən/", meaning: "Filhos/Crianças", example: "They have three children." },
+                { word: "Wife", pron: "/waɪf/", meaning: "Esposa", example: "My wife is a doctor." },
+                { word: "Husband", pron: "/ˈhʌzbənd/", meaning: "Marido", example: "Her husband is kind." },
+                { word: "Aunt", pron: "/ænt/", meaning: "Tia", example: "My aunt lives in São Paulo." },
+                { word: "Uncle", pron: "/ˈʌŋkəl/", meaning: "Tio", example: "My uncle is funny." },
+                { word: "Cousin", pron: "/ˈkʌzən/", meaning: "Primo/Prima", example: "My cousin is my age." },
+                { word: "Niece", pron: "/niːs/", meaning: "Sobrinha", example: "My niece is 5 years old." },
+                { word: "Nephew", pron: "/ˈnefjuː/", meaning: "Sobrinho", example: "My nephew loves games." },
+                { word: "Family", pron: "/ˈfæməli/", meaning: "Família", example: "I love my family." },
+                { word: "Baby", pron: "/ˈbeɪbi/", meaning: "Bebê", example: "The baby is sleeping." },
+                { word: "Twins", pron: "/twɪnz/", meaning: "Gêmeos", example: "They are twins." },
+                { word: "Older", pron: "/ˈoʊldər/", meaning: "Mais velho", example: "My older brother is 25." },
+                { word: "Younger", pron: "/ˈjʌŋɡər/", meaning: "Mais novo", example: "My younger sister is 15." },
+                { word: "Only child", pron: "/ˈoʊnli tʃaɪld/", meaning: "Filho único", example: "I'm an only child." },
+                { word: "Stepmother", pron: "/ˈstepˌmʌðər/", meaning: "Madrasta", example: "My stepmother is nice." },
+                { word: "Stepfather", pron: "/ˈstepˌfɑːðər/", meaning: "Padrasto", example: "My stepfather works hard." },
+                { word: "In-laws", pron: "/ˈɪn lɔːz/", meaning: "Sogros", example: "My in-laws visit often." },
+                { word: "Relative", pron: "/ˈrelətɪv/", meaning: "Parente", example: "She is a distant relative." },
+                { word: "My", pron: "/maɪ/", meaning: "Meu/Minha", example: "This is my family." }
             ],
 
-            // GRAMMAR: Only explanations and models
+            // GRAMMAR: Possessive Adjectives
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Days of the Week',
+                    title: 'Possessive Adjectives (my, your, his, her, our, their)',
                     explanation: {
-                        theory: 'The seven days of the week in English, always capitalized.',
-                        formula: 'Monday → Tuesday → Wednesday → Thursday → Friday → Saturday → Sunday',
+                        theory: 'Possessive adjectives show ownership or relationship. They come before nouns.',
+                        formula: 'my / your / his / her / its / our / their + noun',
                         examples: [
-                            'Today is Monday.',
-                            'Tomorrow is Tuesday.',
-                            'The weekend is Saturday and Sunday.'
+                            'This is my mother.',
+                            'That is your brother.',
+                            'His name is João.',
+                            'Her sister is nice.',
+                            'Our family is big.',
+                            'Their children are smart.'
                         ],
-                        exceptions: 'Always capitalize day names in English.',
-                        tip: 'Think: "Mon-Tues-Wed-Thurs-Fri-Sat-Sun" (short forms for notes).',
-                        usage: 'Essential for scheduling and daily conversation.'
+                        exceptions: 'None. Always use before the noun.',
+                        tip: 'Remember: "my" = meu/minha, "your" = seu/sua, "his" = dele, "her" = dela',
+                        usage: 'Essential for talking about family and possessions.'
                     }
                 },
                 {
                     id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Asking the Time',
+                    title: "Possessive 's (John's mother)",
                     explanation: {
-                        theory: 'The standard question to ask about the current time.',
-                        formula: 'What time is it?',
+                        theory: "Use 's to show possession with people's names or singular nouns.",
+                        formula: "Name + 's + noun",
                         examples: [
-                            'What time is it?',
-                            'Do you have the time?',
-                            'Could you tell me the time, please?'
+                            "John's mother = the mother of John",
+                            "My sister's husband = the husband of my sister",
+                            "Maria's brother = the brother of Maria"
                         ],
-                        exceptions: 'None.',
-                        tip: 'Add "please" for politeness: "What time is it, please?"',
-                        usage: 'Use anytime you need to know the current time.'
+                        exceptions: "For plural nouns ending in s, use only apostrophe: my parents' house",
+                        tip: "Think: John + 's + mother = John's mother",
+                        usage: 'Very common when talking about family relationships.'
                     }
                 },
                 {
-                    id: 'g3', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Telling Time (Hour)',
+                    id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Talking About Family Size',
                     explanation: {
-                        theory: 'For exact hours, use "o\'clock". For other times, state hour + minutes.',
-                        formula: '[Hour] + o\'clock / [Hour]:[Minutes]',
+                        theory: 'Use "have/has" to talk about family members you possess.',
+                        formula: 'I/You/We/They have + [number] + [family member]\nHe/She has + [number] + [family member]',
                         examples: [
-                            'It\'s three o\'clock. (3:00)',
-                            'It\'s four thirty. (4:30)',
-                            'It\'s seven fifteen. (7:15)'
+                            'I have two brothers.',
+                            'She has one sister.',
+                            'We have a big family.',
+                            'He has three children.'
                         ],
-                        exceptions: 'Don\'t use "o\'clock" with minutes: NOT "three fifteen o\'clock".',
-                        tip: 'Use "AM" for morning (00:00-11:59), "PM" for afternoon/evening (12:00-23:59).',
-                        usage: 'Essential for daily schedules and appointments.'
+                        exceptions: 'Use "have got" in British English: I have got two brothers.',
+                        tip: 'Remember: I/You/We/They = have | He/She/It = has',
+                        usage: 'Essential for describing your family.'
                     }
                 },
                 {
                     id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Prepositions of Time: IN / ON / AT',
+                    title: 'Asking About Family',
                     explanation: {
-                        theory: 'Different prepositions for different time references.',
-                        formula: 'IN (months/years/periods) | ON (days/dates) | AT (specific times)',
+                        theory: 'Use question words to ask about family members.',
+                        formula: 'How many + [plural noun] + do/does + subject + have?\nWho is/are + [person]?',
                         examples: [
-                            'IN the morning, IN July, IN 2024',
-                            'ON Monday, ON July 4th, ON weekends',
-                            'AT 3 PM, AT noon, AT night'
+                            'How many brothers do you have?',
+                            'How many sisters does she have?',
+                            'Who is that? - That is my uncle.',
+                            'Who are they? - They are my parents.'
                         ],
-                        exceptions: '"At night" (not "in the night" for general reference).',
-                        tip: 'Remember: IN = big periods, ON = specific days, AT = exact times.',
-                        usage: 'Critical for grammatically correct time expressions.'
+                        exceptions: 'None.',
+                        tip: 'Use "do" with I/you/we/they, "does" with he/she/it',
+                        usage: 'Important for conversations about family.'
                     }
                 },
                 {
                     id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Time Expressions: Half Past / Quarter Past / Quarter To',
+                    title: 'Describing Age',
                     explanation: {
-                        theory: 'Traditional ways to express time relative to the hour.',
-                        formula: 'Half past [hour] = [hour]:30 | Quarter past [hour] = [hour]:15 | Quarter to [hour] = [hour]:45',
+                        theory: 'Use "be" verb + number + "years old" to describe age.',
+                        formula: 'Subject + am/is/are + [number] + years old',
                         examples: [
-                            'Half past two = 2:30',
-                            'Quarter past six = 6:15',
-                            'Quarter to nine = 8:45'
+                            'I am 20 years old.',
+                            'My brother is 25 years old.',
+                            'My parents are 50 years old.',
+                            'She is 15 years old.'
                         ],
-                        exceptions: 'Less common in digital age, but still used in speech.',
-                        tip: '"To" means minutes BEFORE the next hour.',
-                        usage: 'Common in British English and formal contexts.'
+                        exceptions: 'You can say "I am 20" (without "years old") in informal speech.',
+                        tip: 'Always use "years old" after the number.',
+                        usage: 'Essential for describing family members.'
                     }
                 },
                 {
                     id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'AM vs PM',
+                    title: 'There is / There are (Family)',
                     explanation: {
-                        theory: '12-hour clock system: AM for morning, PM for afternoon/evening.',
-                        formula: 'AM = Ante Meridiem (before noon) | PM = Post Meridiem (after noon)',
+                        theory: 'Use "there is/are" to say what exists in your family.',
+                        formula: 'There is + singular noun\nThere are + plural noun',
                         examples: [
-                            '9 AM = morning meeting',
-                            '12 PM = noon/lunch',
-                            '7 PM = evening dinner'
+                            'There is one sister in my family.',
+                            'There are three brothers.',
+                            'There is a baby.',
+                            'There are many cousins.'
                         ],
-                        exceptions: '12 AM = midnight, 12 PM = noon (can be confusing!).',
-                        tip: 'When in doubt, use 24-hour format or add "in the morning/afternoon".',
-                        usage: 'Standard in US/UK for daily schedules.'
+                        exceptions: 'Use "there is" with uncountable nouns too.',
+                        tip: 'There is = existe (singular) | There are = existem (plural)',
+                        usage: 'Useful for describing family composition.'
                     }
                 },
                 {
-                    id: 'g7', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Talking About Schedules',
+                    id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Comparing Family Members',
                     explanation: {
-                        theory: 'Using simple present for routines and future for appointments.',
-                        formula: 'I [verb] on [day] at [time] (routine) | I have [event] on [day] at [time] (appointment)',
+                        theory: 'Use comparative adjectives to compare family members.',
+                        formula: 'Subject + be + adjective-er + than + noun\nSubject + be + more + adjective + than + noun',
                         examples: [
-                            'I work on Monday at 9 AM. (routine)',
-                            'I have a meeting on Tuesday at 3 PM. (appointment)',
-                            'Class is on Wednesday at 10 AM.'
+                            'My brother is older than me.',
+                            'My sister is younger than my brother.',
+                            'My mother is taller than my father.',
+                            'My cousin is more intelligent than me.'
                         ],
-                        exceptions: 'Use present continuous for fixed future plans: "I\'m meeting John on Friday."',
-                        tip: '"On" for days, "at" for times - always pair them correctly.',
-                        usage: 'Essential for work, school, and social planning.'
+                        exceptions: 'Use "than" after the comparative.',
+                        tip: 'Short adjectives: add -er (old → older)\nLong adjectives: use "more" (intelligent → more intelligent)',
+                        usage: 'Useful for comparing ages and characteristics.'
                     }
                 },
                 {
                     id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Time Adverbs: Early / Late / On Time',
+                    title: 'This is / These are (Introducing)',
                     explanation: {
-                        theory: 'Adverbs to describe punctuality and timing.',
-                        formula: 'Early = before expected | Late = after expected | On time = exactly at expected time',
+                        theory: 'Use "this is" for singular and "these are" for plural when introducing people.',
+                        formula: 'This is + singular noun\nThese are + plural noun',
                         examples: [
-                            'I arrived early for the meeting.',
-                            'The train was late.',
-                            'Please be on time for class.'
+                            'This is my mother.',
+                            'This is my brother.',
+                            'These are my parents.',
+                            'These are my siblings.'
                         ],
-                        exceptions: '"In time" = early enough (not late), different from "on time".',
-                        tip: '"On time" = punctual; "In time" = before a deadline.',
-                        usage: 'Important for professional and social contexts.'
+                        exceptions: 'Use "that is" for people far away.',
+                        tip: 'This = perto (singular) | These = perto (plural)',
+                        usage: 'Essential for introducing family members.'
                     }
                 },
                 {
                     id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Frequency Adverbs with Time',
+                    title: 'Family Relationship Terms',
                     explanation: {
-                        theory: 'Adverbs that show how often something happens, placed before main verb.',
-                        formula: 'Always / Usually / Often / Sometimes / Rarely / Never + [verb]',
+                        theory: 'Understand different family relationship terms.',
+                        formula: 'Mother/Father → Parents\nBrother/Sister → Siblings\nSon/Daughter → Children',
                         examples: [
-                            'I always wake up at 7 AM.',
-                            'She usually has lunch at noon.',
-                            'They never work on Sunday.'
+                            'My mother and father = my parents',
+                            'My brother and sister = my siblings',
+                            'My son and daughter = my children',
+                            'My grandmother and grandfather = my grandparents'
                         ],
-                        exceptions: 'With "to be", adverb goes after: "He is always late."',
-                        tip: 'Order of frequency: Always (100%) → Never (0%).',
-                        usage: 'Adds detail to routines and habits.'
+                        exceptions: 'Some families have different structures (step-parents, in-laws, etc.)',
+                        tip: 'Learn the collective terms: parents, siblings, children, grandparents',
+                        usage: 'Important for talking about family groups.'
                     }
                 },
                 {
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Time Phrases: Next / Last / This',
+                    title: 'Living Arrangements',
                     explanation: {
-                        theory: 'Using demonstratives with days/weeks to indicate relative time.',
-                        formula: 'This [day/week] = current | Next [day/week] = upcoming | Last [day/week] = previous',
+                        theory: 'Use "live with" to talk about who you live with.',
+                        formula: 'Subject + live/lives with + [person/people]',
                         examples: [
-                            'This Monday = the Monday of this week',
-                            'Next Friday = the Friday of next week',
-                            'Last Sunday = the Sunday of last week'
+                            'I live with my parents.',
+                            'She lives with her brother.',
+                            'They live with their grandparents.',
+                            'He lives alone.'
                         ],
-                        exceptions: '"This weekend" can mean upcoming or current, context-dependent.',
-                        tip: 'When today is Friday, "this weekend" usually means Saturday-Sunday.',
-                        usage: 'Essential for planning and referencing recent/future events.'
+                        exceptions: 'Use "live" with I/you/we/they, "lives" with he/she/it',
+                        tip: 'Live with = morar com',
+                        usage: 'Useful for describing your living situation.'
                     }
                 }
             ]
@@ -882,7 +845,7 @@
         const video = lessonData.tabs.video;
         mainContent.innerHTML = `
             <h1 class="section-title">📺 Video Lesson</h1>
-            <p class="section-subtitle">Watch and learn about Days & Time</p>
+            <p class="section-subtitle">Watch and learn about Family Members</p>
             <div class="objective-box">
                 <strong>🎯 Learning Objectives:</strong><br>
                 ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
@@ -1058,7 +1021,7 @@
         const vocabList = lessonData.tabs.vocabulary;
         let html = `
             <h1 class="section-title">📚 Vocabulary Study</h1>
-            <p class="section-subtitle">30 Essential Words for Days & Time</p>
+            <p class="section-subtitle">30 Essential Words for Family Members</p>
             <div class="card">
                 <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
                 <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
@@ -1416,7 +1379,7 @@
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Think about the number words you\'ve learned.','Remember: hyphens for 21-99!','Listen for the stress pattern.'];
+        const hints=['Think about the family words you\'ve learned.','Remember: "my" = meu/minha, "your" = seu/sua','Look for possessive relationships in the text.'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
