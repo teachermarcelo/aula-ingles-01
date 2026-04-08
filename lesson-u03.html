@@ -146,19 +146,6 @@
         }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
-        /* AUDIO BUTTON (Listening) */
-        .audio-btn {
-            width: 100px; height: 100px; border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;
-            display: flex; align-items: center; justify-content: center; font-size: 2rem;
-            margin: 1rem auto; cursor: pointer; border: none;
-            box-shadow: 0 6px 0 #1d4ed8, 0 10px 20px rgba(37,99,235,0.3);
-            transition: all 0.2s;
-        }
-        .audio-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #1d4ed8, 0 14px 28px rgba(37,99,235,0.35); }
-        .audio-btn:active { transform: translateY(6px); box-shadow: 0 0 0 #1d4ed8; }
-        .audio-btn.playing { animation: pulse 1s infinite; background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 6px 0 #b91c1c, 0 10px 20px rgba(239,68,68,0.3); }
-        
         /* OPTIONS */
         .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
         .option {
@@ -178,9 +165,7 @@
             display: flex; align-items: center; justify-content: center; font-size: 3rem;
             margin: 2rem auto; cursor: pointer; border: none;
             box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
-            transition: all 0.2s;
         }
-        .record-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 0 #b91c1c, 0 16px 32px rgba(239,68,68,0.35); }
         .record-btn:active { transform: translateY(8px); box-shadow: none; }
         .record-btn.recording { animation: recording-pulse 1s infinite; }
         @keyframes recording-pulse { 50% { transform: scale(1.05); } }
@@ -215,7 +200,7 @@
             margin: 0.75rem 0; font-size: 0.9rem;
         }
         
-        /* ACTIONS */
+        /* ACTIONS - IMPROVED BUTTONS */
         .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
         
         .btn {
@@ -235,15 +220,19 @@
         .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
         .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
         .btn-next-section { 
-            background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a;
-            font-size: 1.1rem; padding: 1.2rem 2rem;
+            background: #22c55e; 
+            color: white; 
+            box-shadow: 0 4px 0 #16a34a;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
         }
-        .btn-next-section:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
         .btn-refazer { 
-            background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706;
-            font-size: 1.1rem; padding: 1.2rem 2rem;
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
         }
-        .btn-refazer:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
         
         /* FEEDBACK */
         .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
@@ -269,7 +258,6 @@
             width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
             border-radius: 8px; font-family: inherit; resize: vertical;
         }
-        .notes-area textarea:focus { outline: none; border-color: #3b82f6; }
         
         /* SETTINGS */
         .settings-menu {
@@ -277,38 +265,27 @@
             border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             z-index: 200; display: none; min-width: 220px;
         }
-        .settings-menu.show { display: block; animation: slideUp 0.2s ease; }
+        .settings-menu.show { display: block; }
         .settings-item {
             padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex;
-            align-items: center; gap: 0.75rem; font-size: 0.9rem; color: #334155;
+            align-items: center; gap: 0.75rem; font-size: 0.9rem;
         }
         .settings-item:hover { background: #f8fafc; }
         
         /* COMPLETION */
-        .completion-screen { text-align: center; padding: 3rem 1rem; }
+        .completion-screen {
+            text-align: center; padding: 3rem 1rem;
+        }
         .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
         .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
         
-        /* SECTION COMPLETE */
-        .section-complete { text-align: center; padding: 3rem 1rem; }
+        /* SECTION COMPLETE SCREEN */
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
+        }
         .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
         .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
         .section-complete p { color: #64748b; margin-bottom: 2rem; }
-        
-        /* REPORT CARD */
-        .report-card {
-            background: white; border: 1px solid #e2e8f0; border-radius: 16px;
-            padding: 2rem; margin: 2rem auto; max-width: 600px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: left;
-        }
-        .report-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
-        }
-        .report-item {
-            text-align: center; padding: 1.25rem; background: #f8fafc; border-radius: 12px;
-        }
-        .report-value { font-size: 2rem; font-weight: 800; color: #22c55e; }
-        .report-label { font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; }
         
         /* ENTER KEY HINT */
         .enter-hint {
@@ -316,18 +293,8 @@
         }
         .enter-hint kbd {
             background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
-            font-family: monospace; font-weight: 600; border: 1px solid #e2e8f0;
+            font-family: monospace; font-weight: 600;
         }
-        
-        /* VIDEO TAB ENHANCED */
-        .video-info-bar {
-            display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap;
-        }
-        .video-info-chip {
-            display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.85rem;
-            background: #f1f5f9; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: #475569;
-        }
-        .video-info-chip i { font-size: 0.75rem; }
         
         @media (max-width: 768px) {
             .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -337,9 +304,6 @@
             .actions { flex-direction: column; }
             .tabs-container { padding: 0.5rem 1rem; }
             .btn { min-width: 100px; padding: 0.75rem 1rem; }
-            .report-grid { grid-template-columns: 1fr; }
-            .stats { gap: 0.5rem; }
-            .stat { padding: 0.3rem 0.5rem; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -378,7 +342,7 @@
         <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
     </div>
 
-    <!-- TABS -->
+    <!-- TABS - CENTRALIZED -->
     <div class="tabs-container">
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
@@ -419,7 +383,7 @@
         unitInfo: {
             level: 'A1',
             theme: 'Colors',
-            videoId: 'FPC_LBp8ifM',
+            videoId: 'tqugtII6fpI', // NOVO LINK DO YOUTUBE
             objectives: [
                 'Identify and name basic colors in English',
                 'Describe objects using color adjectives',
@@ -431,10 +395,11 @@
         tabs: {
             video: {
                 type: 'embed',
-                videoId: 'FPC_LBp8ifM',
+                videoId: 'tqugtII6fpI',
                 instructions: 'Watch the video carefully. Pay attention to the names of the colors.'
             },
             
+            // READING: 10 questions
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
@@ -538,6 +503,7 @@
                 }
             ],
             
+            // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
                     q: "Which color do you hear?", tts: "Red", options: ["Red", "Bed", "Read", "Head"], answer: 0, speed: 0.85 },
@@ -561,6 +527,7 @@
                     q: "What color is the sky?", tts: "The sky is blue", options: ["Green", "Blue", "Grey", "White"], answer: 1, speed: 0.85 }
             ],
             
+            // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "Red"', model: "red", expected: "red" },
@@ -595,6 +562,7 @@
                     prompt: 'Name three things that are red.', minWords: 6, expectedPattern: "apple blood rose" }
             ],
             
+            // WRITING: 10 intelligent tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "The sky is _____." (blue)', answer: 'blue', example: 'The sky is blue.' },
@@ -618,6 +586,7 @@
                     prompt: 'Write about your favorite color and why you like it.', minLength: 40, maxLength: 100 }
             ],
 
+            // VOCABULARY: 30 Words
             vocabulary: [
                 { word: "Red", pron: "/rɛd/", meaning: "Vermelho", example: "The apple is red." },
                 { word: "Blue", pron: "/bluː/", meaning: "Azul", example: "The sky is blue." },
@@ -647,10 +616,11 @@
                 { word: "Shade", pron: "/ʃeɪd/", meaning: "Tom/Matiz", example: "This is a dark shade." },
                 { word: "Natural", pron: "/ˈnætʃrəl/", meaning: "Natural", example: "Natural colors are best." },
                 { word: "Favorite", pron: "/ˈfeɪvərɪt/", meaning: "Favorito", example: "Red is my favorite." },
-                { word: "Match", pron: "/mætʃ/", meaning: "Combinar", example: "Your shoes match your bag." },
+                { word: "Match", pron: "/mæt/", meaning: "Combinar", example: "Your shoes match your bag." },
                 { word: "Different", pron: "/ˈdfrənt/", meaning: "Diferente", example: "They have different colors." }
             ],
 
+            // GRAMMAR: Only explanations and models
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
@@ -658,7 +628,11 @@
                     explanation: {
                         theory: 'In English, color words are adjectives. They usually come BEFORE the noun they describe.',
                         formula: 'Color Adjective + Noun (e.g., Red car, Blue sky)',
-                        examples: ['A red apple.', 'The blue ocean.', 'Green grass.'],
+                        examples: [
+                            'A red apple.',
+                            'The blue ocean.',
+                            'Green grass.'
+                        ],
                         exceptions: 'When using the verb "to be", the adjective comes AFTER: "The apple is red."',
                         tip: 'Remember: Adjective BEFORE Noun (Red car), but AFTER "to be" (Car is red).',
                         usage: 'Use to describe objects, people, animals, and places.'
@@ -670,7 +644,11 @@
                     explanation: {
                         theory: 'To ask about color, we use the question phrase "What color...?"',
                         formula: 'What color + is/are + subject?',
-                        examples: ['What color is the car?', 'What color are your eyes?', 'What color is it?'],
+                        examples: [
+                            'What color is the car?',
+                            'What color are your eyes?',
+                            'What color is it?'
+                        ],
                         exceptions: 'None.',
                         tip: 'Always use "is" for singular and "are" for plural.',
                         usage: 'Use when you want to know the color of something.'
@@ -682,8 +660,12 @@
                     explanation: {
                         theory: 'We answer using "It is" (singular) or "They are" (plural) followed by the color.',
                         formula: 'It is + Color / They are + Color',
-                        examples: ['It is red.', 'They are blue.', "It's green."],
-                        exceptions: "Contractions are common: It's, They're.",
+                        examples: [
+                            'It is red.',
+                            'They are blue.',
+                            'It\'s green.'
+                        ],
+                        exceptions: 'Contractions are common: It\'s, They\'re.',
                         tip: 'Short answer: Just say the color ("Red.") is also okay in casual speech.',
                         usage: 'Standard response to "What color...?" questions.'
                     }
@@ -693,8 +675,12 @@
                     title: 'Plural of Colors',
                     explanation: {
                         theory: 'When talking about multiple colors generally, we add "s".',
-                        formula: 'Color → Colors',
-                        examples: ['I like many colors.', 'Primary colors are red, blue, yellow.', 'Different colors look good.'],
+                        formula: 'Color -> Colors',
+                        examples: [
+                            'I like many colors.',
+                            'Primary colors are red, blue, yellow.',
+                            'Different colors look good.'
+                        ],
                         exceptions: 'When used as an adjective before a noun, colors do NOT take "s": "Red cars" (NOT Reds cars).',
                         tip: 'Adjective form = No "s". Noun form = Add "s".',
                         usage: 'Use plural when discussing colors as a concept or group.'
@@ -706,7 +692,11 @@
                     explanation: {
                         theory: 'We use "light" and "dark" before the color to describe the shade.',
                         formula: 'Light/Dark + Color',
-                        examples: ['Light blue', 'Dark green', 'Light brown'],
+                        examples: [
+                            'Light blue',
+                            'Dark green',
+                            'Light brown'
+                        ],
                         exceptions: 'Some colors have specific names for shades (e.g., Navy = Dark Blue, Pink = Light Red).',
                         tip: 'Think: Light = more white added. Dark = more black added.',
                         usage: 'Essential for precise descriptions.'
@@ -718,7 +708,11 @@
                     explanation: {
                         theory: 'If you have multiple adjectives, size/shape comes BEFORE color.',
                         formula: 'Size/Shape + Color + Noun',
-                        examples: ['A big red ball.', 'A small blue car.', 'A long white dress.'],
+                        examples: [
+                            'A big red ball.',
+                            'A small blue car.',
+                            'A long white dress.'
+                        ],
                         exceptions: 'Color usually comes right before the noun.',
                         tip: 'OSASCOMP: Opinion, Size, Age, Shape, Color, Origin, Material, Purpose.',
                         usage: 'Use when describing an object with multiple features.'
@@ -730,7 +724,11 @@
                     explanation: {
                         theory: 'Colors follow the verb "to be" (am, is, are).',
                         formula: 'Subject + am/is/are + Color',
-                        examples: ['The sky is blue.', 'The leaves are green.', 'I am wearing black.'],
+                        examples: [
+                            'The sky is blue.',
+                            'The leaves are green.',
+                            'I am wearing black.'
+                        ],
                         exceptions: 'Do not say "It is a red" (wrong). Say "It is red".',
                         tip: 'Color acts as an adjective here, so no article "a/an" is needed.',
                         usage: 'Most common way to state the color of something.'
@@ -742,7 +740,11 @@
                     explanation: {
                         theory: 'Some colors are combinations of two words.',
                         formula: 'Color1-Color2 (e.g., Blue-green)',
-                        examples: ['Blue-green', 'Red-orange', 'Yellow-green'],
+                        examples: [
+                            'Blue-green',
+                            'Red-orange',
+                            'Yellow-green'
+                        ],
                         exceptions: 'Often hyphenated when used as an adjective.',
                         tip: 'These describe intermediate shades.',
                         usage: 'Used for specific shades between primary colors.'
@@ -754,7 +756,11 @@
                     explanation: {
                         theory: 'We express preference using verbs like "like", "love", "hate" followed by the color (as a noun).',
                         formula: 'Subject + Verb + Color',
-                        examples: ['I like blue.', 'She loves pink.', 'He hates black.'],
+                        examples: [
+                            'I like blue.',
+                            'She loves pink.',
+                            'He hates black.'
+                        ],
                         exceptions: 'None.',
                         tip: 'Here the color acts as a noun representing the concept of that color.',
                         usage: 'Expressing personal taste.'
@@ -764,9 +770,13 @@
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
                     title: 'Idioms with Colors',
                     explanation: {
-                        theory: "English has many idioms using colors that don't mean the literal color.",
+                        theory: 'English has many idioms using colors that don\'t mean the literal color.',
                         formula: 'Idiom = Figurative Meaning',
-                        examples: ['Feeling blue = Sad', 'Green with envy = Jealous', 'White lie = Small harmless lie'],
+                        examples: [
+                            'Feeling blue = Sad',
+                            'Green with envy = Jealous',
+                            'White lie = Small harmless lie'
+                        ],
                         exceptions: 'Meanings must be memorized.',
                         tip: 'Context is key to understanding these.',
                         usage: 'Advanced communication, native-like fluency.'
@@ -783,8 +793,10 @@
     let isAnswered = false, selectedOption = null, hintsUsed = 0;
     let recognition = null, ttsPlaying = false, currentTTS = null;
     let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
-    let vocabQuizSet = [], currentVocabQuizIndex = 0;
-    let correctAnswers = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0 };
+    
+    // State specifically for Vocabulary Quiz
+    let vocabQuizSet = [];
+    let currentVocabQuizIndex = 0;
 
     // ===== DOM =====
     const mainContent = document.getElementById('mainContent');
@@ -831,9 +843,6 @@
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         event.target.closest('.tab-btn').classList.add('active');
-        isAnswered = false;
-        selectedOption = null;
-        hintsUsed = 0;
         renderCurrentTab();
     };
 
@@ -842,11 +851,17 @@
         const section = lessonData.tabs[currentTab];
         const index = questionIndex[currentTab];
         
+        // Special handling for Vocabulary (Study Mode vs Quiz Mode)
         if (currentTab === 'vocabulary') {
+            // If index is less than total vocab words, show study list
             if (index < lessonData.tabs.vocabulary.length) {
                 renderVocabularyList();
             } else {
-                if (vocabQuizSet.length === 0) initVocabQuiz();
+                // If index equals or exceeds vocab length, we are in Quiz Mode
+                // Check if we need to initialize the quiz set
+                if (vocabQuizSet.length === 0) {
+                    initVocabQuiz();
+                }
                 renderVocabularyQuiz();
             }
             return;
@@ -864,61 +879,23 @@
         updateProgress();
     }
 
-    // ===== VIDEO TAB (ENHANCED) =====
     function renderVideo() {
         const video = lessonData.tabs.video;
         mainContent.innerHTML = `
             <h1 class="section-title">📺 Video Lesson</h1>
             <p class="section-subtitle">Watch and learn about Colors</p>
-            
-            <div class="video-info-bar">
-                <div class="video-info-chip"><i class="fa-solid fa-signal"></i> Level: A1</div>
-                <div class="video-info-chip"><i class="fa-solid fa-palette"></i> Theme: Colors</div>
-                <div class="video-info-chip"><i class="fa-solid fa-clock"></i> ~10 min</div>
-                <div class="video-info-chip"><i class="fa-solid fa-bolt"></i> +0 XP (watch first)</div>
-            </div>
-            
             <div class="objective-box">
-                <strong><i class="fa-solid fa-bullseye"></i> Learning Objectives:</strong><br>
+                <strong> Learning Objectives:</strong><br>
                 ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
             </div>
-            
-            <div class="card" style="padding: 0; overflow: hidden; border: 2px solid #e2e8f0;">
-                <div class="video-container" style="margin: 0; border-radius: 0;">
-                    <iframe 
-                        src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1&playsinline=1" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
                 </div>
-                <div style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #e2e8f0;">
-                    <div>
-                        <p style="font-weight: 700; color: #1e293b; font-size: 0.95rem;">Colors - English Lesson</p>
-                        <p style="color: #64748b; font-size: 0.8rem; margin-top: 0.15rem;">${video.instructions}</p>
-                    </div>
-                    <a href="https://youtu.be/${video.videoId}" target="_blank" rel="noopener" 
-                       style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.85rem; background: #f1f5f9; border-radius: 8px; color: #475569; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: all 0.2s;"
-                       onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
-                        <i class="fa-brands fa-youtube" style="color: #ef4444;"></i> YouTube
-                    </a>
-                </div>
+                <p style="text-align:center;color:#64748b;">${video.instructions}</p>
             </div>
-            
-            <div class="card" style="background: #f0fdf4; border-color: #bbf7d0;">
-                <div style="display: flex; align-items: flex-start; gap: 1rem;">
-                    <div style="width: 48px; height: 48px; border-radius: 12px; background: #22c55e; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <div>
-                        <p style="font-weight: 700; color: #166534; margin-bottom: 0.35rem;">Tip before you start</p>
-                        <p style="color: #15803d; font-size: 0.9rem; line-height: 1.6;">Watch the video at least once without pausing. Then watch again and try to repeat the color names out loud. This will help you in the Speaking section!</p>
-                    </div>
-                </div>
-            </div>
-            
             <div class="actions">
-                <button class="btn btn-primary" onclick="startActivities()" style="font-size: 1.1rem; padding: 1.2rem 2.5rem;">
+                <button class="btn btn-primary" onclick="startActivities()">
                     Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
@@ -926,35 +903,28 @@
     }
 
     window.startActivities = () => {
-        const tabs = document.querySelectorAll('.tab-btn');
-        tabs.forEach(t => t.classList.remove('active'));
-        tabs[1].classList.add('active');
-        currentTab = 'reading';
-        renderCurrentTab();
+        switchTab('reading');
     };
 
     function renderSectionComplete(tabName) {
         const tabNames = {
-            reading: 'Reading', listening: 'Listening', speaking: 'Speaking',
-            writing: 'Writing', vocabulary: 'Vocabulary', grammar: 'Grammar'
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            vocabulary: 'Vocabulary',
+            grammar: 'Grammar'
         };
-        const tabIcons = {
-            reading: 'fa-book-open', listening: 'fa-headphones', speaking: 'fa-microphone',
-            writing: 'fa-pen', vocabulary: 'fa-spell-check', grammar: 'fa-book'
-        };
-        const sections = ['reading','listening','speaking','writing','vocabulary','grammar'];
-        const isLast = sections.indexOf(tabName) === sections.length - 1;
         
         mainContent.innerHTML = `
             <div class="section-complete">
-                <i class="fa-solid fa-circle-check"></i>
+                <i class="fa-solid fa-check-circle"></i>
                 <h2>${tabNames[tabName]} Complete! ✓</h2>
-                <p>Great progress! ${correctAnswers[tabName] ? `You got ${correctAnswers[tabName]} correct answers.` : ''}</p>
+                <p>Great progress! Move to the next section.</p>
                 <div class="actions" style="justify-content:center; gap: 1rem;">
-                    ${isLast 
-                        ? `<button class="btn btn-next-section" onclick="showCompletion()">Ver Resultado Final 🏆</button>`
-                        : `<button class="btn btn-next-section" onclick="nextSection()">Next Section ➡️</button>`
-                    }
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
                     <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
                         Refazer Atividade 🔄
                     </button>
@@ -965,94 +935,63 @@
 
     window.retrySection = (tabName) => {
         questionIndex[tabName] = 0;
-        correctAnswers[tabName] = 0;
-        if (tabName === 'vocabulary') vocabQuizSet = [];
+        if (tabName === 'vocabulary') vocabQuizSet = []; // Reset quiz state
         saveProgress();
         renderCurrentTab();
     };
 
-    // ===== READING =====
+    // ===== RENDERERS =====
     function renderReading(q) {
-        const highlightedText = q.text.replace(
-            /(\b(red|blue|green|yellow|orange|purple|pink|black|white|grey|brown|dark|light|bright|pale|gold|silver|navy|beige)\b)/gi,
-            '<span class="highlight">$1</span>'
-        );
-        
         mainContent.innerHTML = `
             <h1 class="section-title">📖 Reading</h1>
             <p class="section-subtitle">Comprehension practice</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
-                <div class="reading-text">${highlightedText}</div>
+                <div class="reading-text">${q.text}</div>
                 <div class="tts-controls">
                     <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
                         <i class="fa-solid fa-volume-high"></i> Listen
                     </button>
                     <select class="speed-select" onchange="changeSpeed(this.value)">
-                        <option value="0.75">0.75x</option>
-                        <option value="0.85" selected>0.85x</option>
-                        <option value="1">1x</option>
+                        <option value="0.75">0.75x</option><option value="0.85" selected>0.85x</option><option value="1">1x</option>
                     </select>
                 </div>
             </div>
             <div class="card">
                 <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
-                <div class="options">${q.options.map((opt,i) => `
-                    <div class="option" onclick="selectOption(${i})">
-                        <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">${String.fromCharCode(65+i)}</span>
-                        <span>${opt}</span>
-                    </div>`).join('')}
-                </div>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
                 <div class="feedback" id="feedback"></div>
                 <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
             </div>
-            <div class="notes-area">
-                <strong>📝 My Notes:</strong>
-                <textarea id="notesInput" placeholder="Write your notes here..." onblur="saveNote('${q.id}')">${userNotes[q.id]||''}</textarea>
-            </div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes...">${userNotes[q.id]||''}</textarea></div>
             <div class="actions">
                 <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
-                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ️</button>
             </div>
             <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
         `;
     }
 
-    // ===== LISTENING =====
     function renderListening(q) {
         mainContent.innerHTML = `
-            <h1 class="section-title">🎧 Listening</h1>
+            <h1 class="section-title"> Listening</h1>
             <p class="section-subtitle">Train your ear</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
-                <p style="color:#64748b;margin-bottom:1.5rem;font-size:0.95rem;">Click the button to hear the audio. Listen carefully!</p>
-                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts.replace(/'/g, "\\'")}')">
-                    <i class="fa-solid fa-volume-high"></i>
-                </button>
-                <p style="color:#94a3b8;margin-top:0.75rem;font-size:0.8rem;">▶ Click to play</p>
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
                 <div class="tts-controls" style="justify-content:center;">
                     <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
-                        <option value="0.6">0.6x</option>
-                        <option value="0.75">0.75x</option>
-                        <option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option>
-                        <option value="1">1x</option>
+                        <option value="0.75">0.75x</option><option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option><option value="1">1x</option>
                     </select>
                 </div>
                 <div class="transcript" id="transcript"><strong>Transcript:</strong> ${q.tts}</div>
-                <button class="btn btn-secondary" style="margin-top:0.75rem;" onclick="toggleTranscript()">
-                    <i class="fa-solid fa-align-left"></i> Show Transcript
-                </button>
+                <button class="btn btn-secondary" style="margin-top:0.5rem;" onclick="toggleTranscript()"><i class="fa-solid fa-align-left"></i> Show Transcript</button>
             </div>
             <div class="card">
                 <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
-                <div class="options">${q.options.map((opt,i) => `
-                    <div class="option" onclick="selectOption(${i})">
-                        <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">${String.fromCharCode(65+i)}</span>
-                        <span>${opt}</span>
-                    </div>`).join('')}
-                </div>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
                 <div class="feedback" id="feedback"></div>
             </div>
             <div class="actions">
@@ -1064,36 +1003,16 @@
         `;
     }
 
-    // ===== SPEAKING =====
     function renderSpeaking(q) {
-        const isSRSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-        
         mainContent.innerHTML = `
             <h1 class="section-title">💬 Speaking</h1>
             <p class="section-subtitle">Practice pronunciation</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
-                ${q.scenario ? `<p style="font-size:0.8rem;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:0.05em;margin-bottom:0.5rem;">${q.scenario}</p>` : ''}
-                <p style="font-size:1.3rem;font-weight:700;margin-bottom:1.25rem;color:#1e293b;">${q.prompt}</p>
-                ${q.model ? `
-                    <div style="margin-bottom:1.5rem;">
-                        <button class="tts-btn" onclick="playAudio('${q.model.replace(/'/g, "\\'")}')">
-                            <i class="fa-solid fa-volume-high"></i> Hear Example
-                        </button>
-                    </div>
-                ` : ''}
-                ${isSRSupported ? `
-                    <button class="record-btn" id="recordBtn" onclick="toggleRecording('${(q.expected||'').replace(/'/g, "\\'")}')">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click the mic and speak. Auto-stops when you pause.</p>
-                ` : `
-                    <div style="padding:2rem;background:#fef2f2;border-radius:16px;border:2px dashed #fca5a5;margin-bottom:1rem;">
-                        <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem;color:#ef4444;margin-bottom:0.5rem;display:block;"></i>
-                        <p style="color:#991b1b;font-weight:600;">Speech Recognition not supported</p>
-                        <p style="color:#b91c1c;font-size:0.85rem;">Please use Chrome or Edge browser.</p>
-                    </div>
-                `}
+                <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
+                ${q.model ? `<button class="tts-btn" onclick="playAudio('${q.model}')"><i class="fa-solid fa-volume-high"></i> Hear Example</button>` : ''}
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${q.expected||''}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click mic & speak. Auto-stops when you pause.</p>
                 <div id="scoreDisplay" class="score-display" style="display:none;"></div>
                 ${q.minWords ? `<p style="font-size:0.85rem;color:#64748b;margin-top:1rem;">Minimum ${q.minWords} words</p>` : ''}
             </div>
@@ -1106,7 +1025,6 @@
         `;
     }
 
-    // ===== WRITING =====
     function renderWriting(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">✍️ Writing</h1>
@@ -1114,18 +1032,11 @@
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
                 <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
-                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;padding:0.75rem;background:#f8fafc;border-radius:8px;border-left:3px solid #3b82f6;">Example: <strong>${q.example}</strong></p>` : ''}
-                ${q.minLength ? `<p style="font-size:0.8rem;color:#94a3b8;margin-bottom:0.75rem;">Minimum ${q.minLength} characters${q.maxLength ? ` • Maximum ${q.maxLength} characters` : ''}</p>` : ''}
-                <textarea class="writing-area" id="writingInput" placeholder="Write your answer here..." 
-                    oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
+                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;">Example: ${q.example}</p>` : ''}
+                <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
                 <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
-                <div class="tts-controls">
-                    <button class="tts-btn" onclick="readAloud('writingInput')">
-                        <i class="fa-solid fa-volume-high"></i> Read My Answer
-                    </button>
-                </div>
+                <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
             </div>
-            <div class="feedback" id="feedback"></div>
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
                 <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
@@ -1135,8 +1046,10 @@
         `;
     }
 
-    // ===== VOCABULARY =====
+    // ===== NEW: VOCABULARY RENDERERS (FIXED) =====
+    
     function initVocabQuiz() {
+        // Shuffle all vocabulary words and pick 5
         const allVocab = [...lessonData.tabs.vocabulary];
         vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
         currentVocabQuizIndex = 0;
@@ -1144,13 +1057,13 @@
 
     function renderVocabularyList() {
         const vocabList = lessonData.tabs.vocabulary;
-        mainContent.innerHTML = `
-            <h1 class="section-title">📚 Vocabulary Study</h1>
+        let html = `
+            <h1 class="section-title"> Vocabulary Study</h1>
             <p class="section-subtitle">30 Essential Words for Colors</p>
             <div class="card">
-                <p style="margin-bottom:1rem;color:#475569;">Review these words carefully. Click <i class="fa-solid fa-volume-high" style="color:#3b82f6;"></i> to hear pronunciation.</p>
-                <div style="max-height:520px;overflow-y:auto;padding-right:0.5rem;">
-                    ${vocabList.map((item) => `
+                <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
+                <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
+                    ${vocabList.map((item, idx) => `
                         <div class="vocab-card">
                             <div>
                                 <div class="vocab-word">${item.word} <span class="vocab-pron">${item.pron}</span></div>
@@ -1165,56 +1078,53 @@
                 </div>
             </div>
             <div class="actions">
-                <button class="btn btn-primary" onclick="startVocabQuiz()" style="font-size:1.05rem;padding:1.1rem 2rem;">
-                    Start Quiz (5 questions) ➡️
-                </button>
+                <button class="btn btn-primary" onclick="startVocabQuiz()">Start Quiz ➡️</button>
             </div>
         `;
+        mainContent.innerHTML = html;
     }
 
     window.startVocabQuiz = () => {
+        // Mark study phase as done by moving index past the list length
         questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
-        initVocabQuiz();
+        initVocabQuiz(); // Generate new random set
         renderVocabularyQuiz();
     };
 
     function renderVocabularyQuiz() {
         if (currentVocabQuizIndex >= vocabQuizSet.length) {
-            questionIndex.vocabulary++;
+            // Quiz finished
+            questionIndex.vocabulary++; // Move past quiz completely
             saveProgress();
             renderSectionComplete('vocabulary');
             return;
         }
 
         const item = vocabQuizSet[currentVocabQuizIndex];
+        
+        // Generate options (1 correct + 3 wrong)
         const correctMeaning = item.meaning;
         const wrongOptions = lessonData.tabs.vocabulary
             .filter(w => w.word !== item.word)
             .map(w => w.meaning);
+        
+        // Shuffle wrong options and take 3
         const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
         const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
         
         mainContent.innerHTML = `
-            <h1 class="section-title">🧠 Vocabulary Quiz</h1>
+            <h1 class="section-title"> Vocabulary Quiz</h1>
             <p class="section-subtitle">Question ${currentVocabQuizIndex + 1} of 5</p>
-            <div style="text-align:center;margin-bottom:1.5rem;">
-                <div style="display:flex;gap:0.35rem;justify-content:center;">
-                    ${[0,1,2,3,4].map(i => `<div style="width:12px;height:12px;border-radius:50%;background:${i < currentVocabQuizIndex ? '#22c55e' : i === currentVocabQuizIndex ? '#3b82f6' : '#e2e8f0'};"></div>`).join('')}
-                </div>
-            </div>
-            <div class="card" style="text-align:center;">
-                <h3 style="font-size:1.75rem;font-weight:800;margin-bottom:0.5rem;color:#1e293b;">${item.word}</h3>
-                <p style="color:#64748b;margin-bottom:1.5rem;font-size:1rem;">${item.pron}</p>
-                <button class="tts-btn" style="margin:0 auto;display:inline-flex;" onclick="playAudio('${item.word}')">
+            <div class="card">
+                <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
+                <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
+                <button class="tts-btn" style="margin:0 auto;display:flex;" onclick="playAudio('${item.word}')">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
-            </div>
-            <div class="card">
-                <p style="font-weight:700;margin-bottom:1rem;color:#475569;">What does this word mean?</p>
-                <div class="options">
+                <div class="options" style="margin-top:2rem;">
                     ${allOptions.map((opt, i) => `
-                        <div class="option" onclick="selectVocabOption(${i})">
-                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">${String.fromCharCode(65+i)}</span>
+                        <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
+                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
                             <span>${opt}</span>
                         </div>
                     `).join('')}
@@ -1229,7 +1139,7 @@
         window.correctVocabAnswer = correctMeaning;
     }
 
-    window.selectVocabOption = (idx) => {
+    window.selectVocabOption = (idx, val, correct) => {
         window.selectedVocabOption = idx;
         document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
         document.querySelectorAll('.option')[idx].classList.add('selected');
@@ -1245,28 +1155,27 @@
         if (isCorrect) {
             opts[window.selectedVocabOption].classList.add('correct');
             feedback.className = 'feedback correct show';
-            feedback.innerHTML = '<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong>';
+            feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
             addXP(10);
-            correctAnswers.vocabulary++;
             
             setTimeout(() => {
                 currentVocabQuizIndex++;
                 renderVocabularyQuiz();
-            }, 1200);
+            }, 1500);
         } else {
             opts[window.selectedVocabOption].classList.add('wrong');
+            // Find and highlight correct one
             Array.from(opts).forEach(opt => {
                 if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
                     opt.classList.add('correct');
                 }
             });
             feedback.className = 'feedback wrong show';
-            feedback.innerHTML = `<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Incorrect.</strong> The correct meaning is: <strong>${window.correctVocabAnswer}</strong>`;
+            feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
             
-            const btn = document.getElementById('checkBtn');
-            btn.disabled = true;
-            btn.innerHTML = 'Next Question ➡️';
-            btn.onclick = () => {
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').innerHTML = 'Next Question ️';
+            document.getElementById('checkBtn').onclick = () => {
                 currentVocabQuizIndex++;
                 renderVocabularyQuiz();
             };
@@ -1274,30 +1183,23 @@
         saveProgress();
     };
 
-    // ===== GRAMMAR =====
     function renderGrammar(q) {
         const exp = q.explanation;
         mainContent.innerHTML = `
-            <h1 class="section-title">📖 Grammar</h1>
-            <p class="section-subtitle">Learn & understand</p>
+            <h1 class="section-title"> Grammar</h1>
+            <p class="section-subtitle">Learn & practice</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
             <div class="card">
-                <h3 style="font-size:1.35rem;font-weight:800;margin-bottom:0.25rem;">${q.title}</h3>
-                <p style="font-size:0.8rem;color:#94a3b8;">Topic ${lessonData.tabs.grammar.indexOf(q) + 1} of ${lessonData.tabs.grammar.length}</p>
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
             </div>
             <div class="grammar-explanation">
-                <h4><i class="fa-solid fa-book-open"></i> Complete Explanation</h4>
+                <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
                 <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
-                <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
-                <div style="margin-top:1rem;">
-                    <strong>💡 Examples:</strong>
-                    <ul style="margin-left:1.5rem;color:#475569;margin-top:0.5rem;">
-                        ${exp.examples.map(e => `<li style="margin-bottom:0.35rem;">${e}</li>`).join('')}
-                    </ul>
-                </div>
-                ${exp.exceptions !== 'None.' ? `<div style="margin-top:1rem;padding:0.75rem;background:#fef2f2;border-radius:8px;border-left:3px solid #ef4444;"><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="formula"><strong> Formula:</strong> ${exp.formula}</div>
+                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
                 <div class="tip"><strong>🧠 Memory Tip:</strong> ${exp.tip}</div>
-                <div style="margin-top:1rem;"><strong>🎯 When to Use:</strong> ${exp.usage}</div>
+                <div><strong>🎯 When to Use:</strong> ${exp.usage}</div>
             </div>
             <div class="actions">
                 <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
@@ -1307,495 +1209,242 @@
     }
 
     // ===== INTERACTIONS =====
-    window.selectOption = (i) => {
-        if (isAnswered) return;
-        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-        document.querySelectorAll('.option')[i].classList.add('selected');
-        selectedOption = i;
-        document.getElementById('checkBtn').disabled = false;
-    };
-
-    window.updateCharCount = (min, max) => {
-        const input = document.getElementById('writingInput');
-        const count = document.getElementById('charCount');
-        if (input && count) {
-            count.textContent = input.value.length;
-            const minNum = parseInt(min) || 0;
-            const btn = document.getElementById('checkBtn');
-            if (btn) btn.disabled = input.value.length < minNum;
-            
-            // Color feedback
-            if (input.value.length >= minNum) {
-                count.style.color = '#22c55e';
-            } else {
-                count.style.color = '#64748b';
-            }
-        }
-    };
-
+    window.selectOption = (i) => { if(isAnswered) return; document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected')); document.querySelectorAll('.option')[i].classList.add('selected'); selectedOption=i; document.getElementById('checkBtn').disabled=false; };
+    window.enableCheck = () => { const input=document.getElementById('fillInput'); if(input) document.getElementById('checkBtn').disabled=!input.value.trim(); };
+    window.updateCharCount = (min,max) => { const input=document.getElementById('writingInput'), count=document.getElementById('charCount'); if(input&&count){count.textContent=input.value.length; document.getElementById('checkBtn').disabled=input.value.length<(min||0);} };
+    
     window.toggleTTS = (text) => {
-        const btn = document.getElementById('ttsBtn');
-        if (!btn) return;
-        if (ttsPlaying) {
-            if (currentTTS) currentTTS.cancel();
-            ttsPlaying = false;
-            btn.classList.remove('playing');
-            btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
-        } else {
-            currentTTS = speakText(text);
-            if (currentTTS) {
-                ttsPlaying = true;
-                btn.classList.add('playing');
-                btn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop';
-                currentTTS.addEventListener('end', () => {
-                    ttsPlaying = false;
-                    btn.classList.remove('playing');
-                    btn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Listen';
-                });
-            }
-        }
+        const btn=document.getElementById('ttsBtn'); if(!btn) return;
+        if(ttsPlaying){ if(currentTTS) currentTTS.cancel(); ttsPlaying=false; btn.classList.remove('playing'); btn.innerHTML='<i class="fa-solid fa-volume-high"></i> Listen'; }
+        else { currentTTS=speakText(text); if(currentTTS){ ttsPlaying=true; btn.classList.add('playing'); btn.innerHTML='<i class="fa-solid fa-stop"></i> Stop'; } }
     };
-
-    window.playAudio = (text) => {
-        const btn = document.getElementById('audioBtn');
-        if (btn) {
-            btn.classList.add('playing');
-            setTimeout(() => btn.classList.remove('playing'), 1200);
-        }
-        speakText(text);
-    };
-
-    window.readAloud = (id) => {
-        const el = document.getElementById(id);
-        if (el && el.value) speakText(el.value);
-    };
-
-    window.toggleTranscript = () => {
-        const el = document.getElementById('transcript');
-        if (el) el.classList.toggle('show');
-    };
-
+    
+    window.playAudio = (text) => { const btn=document.getElementById('audioBtn'); if(btn){ btn.classList.add('playing'); setTimeout(()=>btn.classList.remove('playing'),1000); } speakText(text); };
+    window.readAloud = (id) => { const el=document.getElementById(id); if(el?.value) speakText(el.value); };
+    window.toggleTranscript = () => { const el=document.getElementById('transcript'); if(el) el.classList.toggle('show'); };
+    
     function speakText(text) {
-        if (!('speechSynthesis' in window)) { alert('Text-to-speech not supported in this browser.'); return null; }
+        if(!('speechSynthesis' in window)){ alert('TTS not supported'); return null; }
         window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''));
-        u.lang = voice;
-        u.rate = ttsRate;
-        const voices = window.speechSynthesis.getVoices();
-        const v = voices.find(x => x.lang === voice) || voices.find(x => x.lang.startsWith('en'));
-        if (v) u.voice = v;
+        const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
+        u.lang=voice; u.rate=ttsRate;
+        const voices=window.speechSynthesis.getVoices(), v=voices.find(x=>x.lang===voice);
+        if(v) u.voice=v;
         window.speechSynthesis.speak(u);
         return window.speechSynthesis;
     }
-
-    window.changeSpeed = (rate) => { ttsRate = parseFloat(rate); };
+    
+    window.changeSpeed = (rate) => { ttsRate=parseFloat(rate); };
 
     window.toggleRecording = (expected) => {
-        const btn = document.getElementById('recordBtn');
-        const status = document.getElementById('recordStatus');
-        const scoreDiv = document.getElementById('scoreDisplay');
-        const continueBtn = document.getElementById('continueBtn');
-        if (!btn) return;
-
-        if (!btn.classList.contains('recording')) {
-            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SR) return;
-            recognition = new SR();
-            recognition.lang = voice;
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.onspeechend = () => recognition.stop();
-            
-            btn.classList.add('recording');
-            status.textContent = '🎤 Listening... Speak now!';
-            status.style.color = '#ef4444';
-            if (scoreDiv) scoreDiv.style.display = 'none';
-            if (continueBtn) continueBtn.disabled = true;
-
-            recognition.onresult = (e) => {
-                const transcript = e.results[0][0].transcript.trim().toLowerCase();
-                const conf = e.results[0][0].confidence;
-                const clean = normalizeText(transcript);
-                const exp = normalizeText(expected || '');
-                const match = clean.includes(exp) || exp.includes(clean) || clean.replace(/[-\s]/g, '') === exp.replace(/[-\s]/g, '');
-                const acc = match ? Math.round(conf * 100) : 0;
-                
-                if (scoreDiv) {
-                    scoreDiv.textContent = `${acc}% Accuracy`;
-                    scoreDiv.className = `score-display ${acc >= 60 ? 'good' : 'bad'}`;
-                    scoreDiv.style.display = 'block';
-                }
-                status.textContent = acc >= 60 ? '✅ Great pronunciation!' : '🔄 Try again for better accuracy';
-                status.style.color = acc >= 60 ? '#22c55e' : '#f59e0b';
-                btn.classList.remove('recording');
-                
-                if (acc >= 50) {
-                    addXP(10);
-                    correctAnswers.speaking++;
-                    if (continueBtn) continueBtn.disabled = false;
-                }
+        const btn=document.getElementById('recordBtn'), status=document.getElementById('recordStatus'), scoreDiv=document.getElementById('scoreDisplay'), continueBtn=document.getElementById('continueBtn');
+        if(!btn) return;
+        if(!btn.classList.contains('recording')){
+            const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+            if(!SR){ alert('Use Chrome/Edge'); return; }
+            recognition=new SR(); recognition.lang=voice; recognition.continuous=false;
+            recognition.onspeechend=()=>recognition.stop();
+            btn.classList.add('recording'); status.textContent='🎤 Listening...'; if(scoreDiv) scoreDiv.style.display='none'; if(continueBtn) continueBtn.disabled=true;
+            recognition.onresult=(e)=>{
+                const transcript=e.results[0][0].transcript.trim().toLowerCase(), conf=e.results[0][0].confidence;
+                const clean=normalizeText(transcript), exp=normalizeText(expected||'');
+                const match=clean.includes(exp)||exp.includes(clean)||clean.replace(/[-\s]/g,'')===exp.replace(/[-\s]/g,'');
+                const acc=match?Math.round(conf*100):0;
+                if(scoreDiv){ scoreDiv.textContent=`${acc}% Accuracy`; scoreDiv.className=`score-display ${acc>=60?'good':'bad'}`; scoreDiv.style.display='block'; }
+                status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
+                if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
             };
-
-            recognition.onerror = (e) => {
-                btn.classList.remove('recording');
-                if (e.error === 'no-speech') {
-                    status.textContent = '⚠️ No speech detected. Try again.';
-                    status.style.color = '#f59e0b';
-                } else if (e.error === 'not-allowed') {
-                    status.textContent = '❌ Microphone access denied. Allow in browser settings.';
-                    status.style.color = '#ef4444';
-                } else {
-                    status.textContent = '❌ Error. Try again.';
-                    status.style.color = '#ef4444';
-                }
-            };
-
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
             recognition.start();
         }
     };
+    
+    function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
 
-    function normalizeText(t) {
-        const map = {
-            '1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven',
-            '8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve'
-        };
-        let clean = t.toLowerCase().replace(/[^a-z0-9\s-]/g, '');
-        Object.keys(map).forEach(k => clean = clean.replace(new RegExp(`\\b${k}\\b`, 'g'), map[k]));
-        return clean;
-    }
-
-    // ===== ANSWER CHECKING =====
+    // ===== ANSWER CHECKING WITH AUTO-ADVANCE =====
     window.checkAnswer = () => {
-        if (isAnswered || selectedOption === null) return;
-        isAnswered = true;
-        const section = lessonData.tabs[currentTab];
-        const q = section[questionIndex[currentTab]];
-        const options = document.querySelectorAll('.option');
-        const feedback = document.getElementById('feedback');
-        const correct = selectedOption === q.answer;
-
-        if (correct) {
-            options[selectedOption].classList.add('correct');
-            feedback.className = 'feedback correct show';
-            feedback.innerHTML = `<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation || 'Well done!'}`;
-            addXP(q.xp);
-            correctAnswers[currentTab]++;
+        if(isAnswered||selectedOption===null) return; isAnswered=true;
+        const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
+        const correct=selectedOption===q.answer;
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
             
-            setTimeout(() => nextQuestion(), 1500);
-        } else {
-            options[selectedOption].classList.add('wrong');
-            options[q.answer].classList.add('correct');
-            feedback.className = 'feedback wrong show';
-            feedback.innerHTML = `<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation || `Correct answer: <strong>${q.options[q.answer]}</strong>`}`;
-            streak = 0;
-            streakDisplay.textContent = '0';
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
         }
-
-        const btn = document.getElementById('checkBtn');
-        btn.disabled = true;
-        if (correct) {
-            btn.innerHTML = '<i class="fa-solid fa-check"></i> Correct!';
-        } else {
-            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Try Again';
-            btn.disabled = false;
-            btn.onclick = () => retryQuestion();
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+            // Stay on question, allow retry
         }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
         saveProgress();
     };
 
     window.checkWriting = () => {
-        const input = document.getElementById('writingInput');
-        if (!input) return;
-        const q = lessonData.tabs.writing[questionIndex.writing];
-        const feedback = document.getElementById('feedback');
-        const val = input.value.trim();
-        const valid = val.length >= (q.minLength || 0);
-
-        if (valid) {
-            input.style.borderColor = '#22c55e';
-            feedback.className = 'feedback correct show';
-            feedback.innerHTML = `<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort! Your answer: "${val}"`;
-            addXP(q.xp);
-            correctAnswers.writing++;
+        const input=document.getElementById('writingInput'); if(!input) return;
+        const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
+        const valid=input.value.trim().length>=(q.minLength||0);
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
             
-            setTimeout(() => nextQuestion(), 1500);
-        } else {
-            input.style.borderColor = '#ef4444';
-            feedback.className = 'feedback wrong show';
-            feedback.innerHTML = `<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Write at least ${q.minLength} characters.<br><strong>Suggestion:</strong> ${q.example || q.answer}`;
-            
-            const btn = document.getElementById('checkBtn');
-            btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Try Again';
-            btn.disabled = false;
-            btn.onclick = () => {
-                input.style.borderColor = '#e2e8f0';
-                feedback.className = 'feedback';
-                btn.innerHTML = 'Submit Answer';
-                btn.onclick = () => checkWriting();
-            };
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
         }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
         saveProgress();
     };
 
     // ===== NAVIGATION =====
-    window.retryQuestion = () => {
-        isAnswered = false;
-        selectedOption = null;
-        renderCurrentTab();
-    };
+    window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
+    window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.nextSection = () => { const sections=['reading','listening','speaking','writing','vocabulary','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
 
-    window.nextQuestion = () => {
-        questionIndex[currentTab]++;
-        isAnswered = false;
-        selectedOption = null;
-        hintsUsed = 0;
-        saveProgress();
-        renderCurrentTab();
-    };
-
-    window.skipQuestion = () => {
-        questionIndex[currentTab]++;
-        isAnswered = false;
-        selectedOption = null;
-        hintsUsed = 0;
-        saveProgress();
-        renderCurrentTab();
-    };
-
-    window.nextSection = () => {
-        const sections = ['reading', 'listening', 'speaking', 'writing', 'vocabulary', 'grammar'];
-        const i = sections.indexOf(currentTab);
-        if (i < sections.length - 1) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            tabs.forEach(t => t.classList.remove('active'));
-            tabs[i + 2].classList.add('active'); // +2 because tabs[0] is video
-            currentTab = sections[i + 1];
-            isAnswered = false;
-            selectedOption = null;
-            renderCurrentTab();
-        } else {
-            showCompletion();
-        }
-    };
-
-    // ===== COMPLETION =====
     function showCompletion() {
-        const totalCorrect = Object.values(correctAnswers).reduce((a, b) => a + b, 0);
-        const bonus = totalXP >= 600 ? 200 : 0;
-        const final = totalXP + 600 + bonus;
-        
+        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
         mainContent.innerHTML = `
             <div class="completion-screen">
                 <i class="fa-solid fa-trophy"></i>
-                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">Lesson Complete! 🎉</h2>
-                <p style="color:#64748b;margin-bottom:1rem;font-size:1.1rem;">${lessonData.unitInfo.theme} — ${lessonData.unitInfo.level}</p>
-                <div class="xp-reward">+${600 + bonus} XP</div>
-                ${bonus > 0 ? `<p style="color:#f59e0b;font-weight:700;font-size:1.1rem;">🔥 +${bonus} XP Perfect Score Bonus!</p>` : ''}
+                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;"> Lesson Complete!</h2>
+                <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
+                <div class="xp-reward">+600 XP</div>
+                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
                 
                 <div class="report-card">
-                    <h3 style="font-size:1.25rem;font-weight:800;margin-bottom:1.25rem;text-align:center;">📊 Performance Report</h3>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
                     <div class="report-grid">
                         <div class="report-item">
                             <div class="report-value">${final}</div>
-                            <div class="report-label">Total XP</div>
+                            <div class="report-label">Total XP Earned</div>
                         </div>
                         <div class="report-item">
                             <div class="report-value">${streak}</div>
                             <div class="report-label">Day Streak</div>
                         </div>
                         <div class="report-item">
-                            <div class="report-value">${totalCorrect}</div>
-                            <div class="report-label">Correct Answers</div>
+                            <div class="report-value">65</div>
+                            <div class="report-label">Questions Completed</div>
                         </div>
                         <div class="report-item">
-                            <div class="report-value">${Math.min(100, Math.round((totalCorrect / 35) * 100))}%</div>
-                            <div class="report-label">Accuracy</div>
+                            <div class="report-value">${Math.round((final/800)*100)}%</div>
+                            <div class="report-label">Success Rate</div>
                         </div>
                     </div>
-                    <div style="margin-top:1.5rem;">
-                        <h4 style="font-weight:700;margin-bottom:1rem;text-align:center;">Skills Breakdown</h4>
-                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;">
-                            <div style="text-align:center;padding:1rem;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0;">
-                                <i class="fa-solid fa-book-open" style="color:#22c55e;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#166534;font-size:0.8rem;">Reading</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#22c55e;">${correctAnswers.reading}/10</div>
+                    <div style="margin-top:2rem;">
+                        <h4 style="font-weight:700;margin-bottom:1rem;">Skills Breakdown:</h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#22c55e;">Reading</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
                             </div>
-                            <div style="text-align:center;padding:1rem;background:#eff6ff;border-radius:10px;border:1px solid #bfdbfe;">
-                                <i class="fa-solid fa-headphones" style="color:#3b82f6;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#1e40af;font-size:0.8rem;">Listening</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#3b82f6;">${correctAnswers.listening}/10</div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#3b82f6;">Listening</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
                             </div>
-                            <div style="text-align:center;padding:1rem;background:#fff7ed;border-radius:10px;border:1px solid #fed7aa;">
-                                <i class="fa-solid fa-microphone" style="color:#f59e0b;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#92400e;font-size:0.8rem;">Speaking</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#f59e0b;">${correctAnswers.speaking}/10</div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#f59e0b;">Speaking</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
                             </div>
-                            <div style="text-align:center;padding:1rem;background:#fef2f2;border-radius:10px;border:1px solid #fecaca;">
-                                <i class="fa-solid fa-pen" style="color:#ef4444;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#991b1b;font-size:0.8rem;">Writing</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#ef4444;">${correctAnswers.writing}/10</div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#ef4444;">Writing</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
                             </div>
-                            <div style="text-align:center;padding:1rem;background:#faf5ff;border-radius:10px;border:1px solid #e9d5ff;">
-                                <i class="fa-solid fa-spell-check" style="color:#8b5cf6;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#6b21a8;font-size:0.8rem;">Vocabulary</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#8b5cf6;">${correctAnswers.vocabulary}/5</div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#8b5cf6;">Vocabulary</div>
+                                <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
                             </div>
-                            <div style="text-align:center;padding:1rem;background:#f0f9ff;border-radius:10px;border:1px solid #bae6fd;">
-                                <i class="fa-solid fa-book" style="color:#0ea5e9;margin-bottom:0.35rem;display:block;"></i>
-                                <div style="font-weight:700;color:#075985;font-size:0.8rem;">Grammar</div>
-                                <div style="font-size:1.25rem;font-weight:800;color:#0ea5e9;">10/10</div>
+                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#6366f1;">Grammar</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <p style="color:#64748b;margin:1.5rem 0;font-size:0.9rem;">✅ Progress saved automatically!</p>
+                <p style="color:#64748b;margin:2rem 0;">Progress saved automatically!</p>
                 <div class="actions" style="justify-content:center;">
-                    <button class="btn btn-primary" onclick="goHome()" style="font-size:1.1rem;padding:1.2rem 2.5rem;">
-                        <i class="fa-solid fa-house"></i> Back to Home
-                    </button>
+                    <button class="btn btn-primary" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
                 </div>
             </div>
         `;
-
-        if (currentUser) {
-            updateDoc(doc(db, "usuarios", currentUser.uid), {
-                'progresso.u03_completed': true,
-                'progresso.u03_date': new Date().toISOString(),
-                'progresso.u03_score': final
-            }).catch(console.error);
-        }
+        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u03_completed`]:true,[`progresso.u03_date`]:new Date().toISOString(),[`progresso.u03_score`]:final}).catch(console.error);
     }
 
     // ===== XP & PROGRESS =====
-    function addXP(amount) {
-        totalXP += amount;
-        score += amount;
-        streak++;
-        xpDisplay.textContent = String(totalXP);
-        streakDisplay.textContent = String(streak);
+    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function unlockBadge(id){ console.log(`Badge: ${id}`); }
+    
+    function updateProgress(){
+        const total=65; let done=0; Object.values(questionIndex).forEach(v=>done+=v);
+        const pct=Math.round((done/total)*100);
+        progressBar.style.width=`${pct}%`; currentQEl.textContent=String(done); totalQEl.textContent=String(total); progressPercentEl.textContent=`${pct}%`;
+        document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ const sections=['video','reading','listening','speaking','writing','vocabulary','grammar'], sec=sections[i]; if(sec!=='video'&&questionIndex[sec]>=lessonData.tabs[sec].length) btn.classList.add('completed'); });
     }
 
-    function updateProgress() {
-        const total = 65;
-        let done = 0;
-        Object.values(questionIndex).forEach(v => done += v);
-        const pct = Math.round((done / total) * 100);
-        progressBar.style.width = `${pct}%`;
-        currentQEl.textContent = String(done);
-        totalQEl.textContent = String(total);
-        progressPercentEl.textContent = `${pct}%`;
-        
-        const sections = ['video', 'reading', 'listening', 'speaking', 'writing', 'vocabulary', 'grammar'];
-        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-            const sec = sections[i];
-            if (sec !== 'video' && questionIndex[sec] >= lessonData.tabs[sec].length) {
-                btn.classList.add('completed');
-            }
-        });
+    function saveProgress(){
+        if(!currentUser) return;
+        const data={}; const prefix='u03_';
+        Object.keys(questionIndex).forEach(sec=>{ data[`progresso.${prefix}${sec}`]=questionIndex[sec]; });
+        updateDoc(doc(db,"usuarios",currentUser.uid),{ xp:score, streak:streak, totalXP:totalXP, ...data, 'progresso.lastUpdate':new Date().toISOString(), 'notes':{ u03:userNotes } }).catch(console.error);
     }
-
-    function saveProgress() {
-        if (!currentUser) return;
-        const data = {};
-        const prefix = 'u03_';
-        Object.keys(questionIndex).forEach(sec => {
-            data[`progresso.${prefix}${sec}`] = questionIndex[sec];
-        });
-        updateDoc(doc(db, "usuarios", currentUser.uid), {
-            xp: score, streak: streak, totalXP: totalXP,
-            ...data,
-            'progresso.lastUpdate': new Date().toISOString(),
-            'notes': { u03: userNotes }
-        }).catch(console.error);
-    }
-
-    window.saveNote = (qId) => {
-        const input = document.getElementById('notesInput');
-        if (input) {
-            userNotes[qId] = input.value;
-            saveProgress();
-        }
-    };
 
     // ===== HINTS =====
     window.showHint = () => {
-        if (hintsUsed >= 3) { alert('Maximum hints reached for this question.'); return; }
-        const cost = hintsUsed === 0 ? 5 : hintsUsed === 1 ? 10 : 20;
-        if (totalXP < cost) { alert(`You need at least ${cost} XP to use a hint.`); return; }
-        totalXP -= cost;
-        hintsUsed++;
-        xpDisplay.textContent = String(totalXP);
-        
-        const hints = [
-            'Read the text again carefully. The answer is directly stated.',
-            'Look for keywords in the question that match words in the text.',
-            'Think about context. What makes logical sense?'
-        ];
-        document.getElementById('hintText').textContent = hints[hintsUsed - 1];
+        if(hintsUsed>=3){ alert('Max hints reached'); return; }
+        const cost=hintsUsed===0?5:hintsUsed===1?10:20;
+        if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
+        totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
+        const hints=['Think about the number words you\'ve learned.','Remember: hyphens for 21-99!','Listen for the stress pattern.'];
+        document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
     };
 
     // ===== UTILS =====
-    window.goHome = () => { saveProgress(); window.location.href = 'index.html'; };
+    window.goHome = () => { saveProgress(); window.location.href='index.html'; };
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
-    window.toggleVoice = () => {
-        voice = voice === 'en-US' ? 'en-GB' : 'en-US';
-        document.getElementById('voiceLabel').textContent = voice === 'en-US' ? 'US' : 'UK';
-    };
-    window.showNotes = () => {
-        const allNotes = Object.entries(userNotes).filter(([k, v]) => v && v.trim());
-        if (allNotes.length === 0) {
-            alert('No notes saved yet. Add notes in each question!');
-        } else {
-            const msg = allNotes.map(([k, v]) => `[${k}] ${v}`).join('\n\n');
-            alert(`Your Notes:\n\n${msg}`);
-        }
-    };
-    window.resetProgress = () => {
-        if (confirm('⚠️ Restart this lesson? All progress will be lost.')) {
-            Object.keys(questionIndex).forEach(k => questionIndex[k] = 0);
-            correctAnswers = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0 };
-            score = 0; streak = 0; vocabQuizSet = [];
-            saveProgress();
-            renderCurrentTab();
-        }
-    };
+    window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
+    window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
 
-    // Close settings on outside click
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.menu-btn') && !e.target.closest('.settings-menu')) {
-            document.getElementById('settingsMenu').classList.remove('show');
-        }
-    });
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
 
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.repeat && currentTab !== 'video') {
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
             e.preventDefault();
-            const checkBtn = document.getElementById('checkBtn');
-            const continueBtn = document.getElementById('continueBtn');
-            
-            if (checkBtn && !checkBtn.disabled && !isAnswered) {
-                checkAnswer();
-            } else if (continueBtn && !continueBtn.disabled) {
-                nextQuestion();
+            const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
+            if(checkBtn&&!checkBtn.disabled&&!isAnswered) checkAnswer();
+            else if((checkBtn&&checkBtn.textContent.includes('Correct'))||(continueBtn&&!continueBtn.disabled)){
+                if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
+                else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
             }
         }
-        
-        // Number keys for options
-        if (['1','2','3','4'].includes(e.key) && !isAnswered && currentTab !== 'video' && currentTab !== 'grammar') {
-            const idx = parseInt(e.key) - 1;
-            const options = document.querySelectorAll('.option');
-            if (options[idx]) selectOption(idx);
-        }
     });
 
-    // Load voices
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.onvoiceschanged = () => {};
-    }
+    if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
 </script>
 </body>
 </html>
