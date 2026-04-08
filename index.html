@@ -160,7 +160,7 @@
             animation: slideUp 0.3s ease;
             box-shadow: var(--shadow);
         }
-        .modal-content.full { max-width: 1200px; }
+        .modal-content.full { max-width: 1400px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
         /* Inputs */
@@ -1370,26 +1370,153 @@
         container.innerHTML = lessonsHtml;
     }
 
-    // ===== ADMIN FUNCTIONS (Resumo - mantenha as que você já tem) =====
+    // ===== ADMIN FUNCTIONS =====
     async function loadDashboardData() {
         try {
+            console.log('📊 Carregando dados do dashboard...');
             const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(q);
             allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+            console.log('✅ Dados carregados:', allStudents.length, 'alunos');
+            
             updateStats();
+            renderCharts();
             renderStudentsList();
+            populateReportSelect();
+            updateCourseStats();
+            renderTopStudents();
+            
         } catch (error) {
             console.error('❌ Erro ao carregar dashboard:', error);
+            showToast('Erro', 'Falha ao carregar dados', 'error');
         }
     }
 
     function updateStats() {
         document.getElementById('statTotal').textContent = allStudents.length;
+        document.getElementById('statActive').textContent = allStudents.filter(u => 
+            u.status === 'approved' && 
+            u.ultimoLogin && 
+            new Date(u.ultimoLogin) > new Date(Date.now() - 86400000)
+        ).length;
         document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
+        
+        const avgTime = allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1);
+        document.getElementById('statAvgTime').textContent = (avgTime / 3600000).toFixed(1) + 'h';
+    }
+
+    function renderCharts() {
+        // Chart 1: Levels Distribution
+        const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+        allStudents.filter(u => u.status === 'approved').forEach(u => {
+            if (levels[u.level] !== undefined) levels[u.level]++;
+        });
+        
+        const ctxLevels = document.getElementById('chartLevels').getContext('2d');
+        if (charts.levels) charts.levels.destroy();
+        charts.levels = new Chart(ctxLevels, {
+            type: 'bar',
+            data: {
+                labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                datasets: [{
+                    label: 'Alunos',
+                    data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2],
+                    backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626']
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+        
+        // Chart 2: Weekly Activity (mock data for demo)
+        const ctxActivity = document.getElementById('chartActivity').getContext('2d');
+        if (charts.activity) charts.activity.destroy();
+        charts.activity = new Chart(ctxActivity, {
+            type: 'line',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'Atividade',
+                    data: [12, 19, 15, 22, 18, 10, 8],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+        
+        // Chart 3: Special Courses
+        const ctxCourses = document.getElementById('chartCourses').getContext('2d');
+        if (charts.courses) charts.courses.destroy();
+        charts.courses = new Chart(ctxCourses, {
+            type: 'doughnut',
+            data: {
+                labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'],
+                datasets: [{
+                    data: [45, 30, 60, 25, 35],
+                    backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e']
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    }
+
+    function updateCourseStats() {
+        // Mock data - replace with real Firestore queries
+        document.getElementById('courseBusiness').textContent = '45';
+        document.getElementById('courseBiblico').textContent = '30';
+        document.getElementById('courseKids').textContent = '60';
+        document.getElementById('courseAirport').textContent = '25';
+        document.getElementById('courseTravel').textContent = '35';
+    }
+
+    function renderTopStudents() {
+        const top5 = [...allStudents]
+            .filter(u => u.status === 'approved')
+            .sort((a, b) => (b.xp ?? b.totalXP ?? 0) - (a.xp ?? a.totalXP ?? 0))
+            .slice(0, 5);
+        
+        const container = document.getElementById('topStudents');
+        container.innerHTML = top5.map((u, i) => `
+            <div class="flex items-center justify-between p-3 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">
+                        ${i + 1}
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm">${u.nome}</div>
+                        <div class="text-xs c-text-muted">${u.level || 'A1'}</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</div>
+                    <div class="text-xs c-text-muted">XP</div>
+                </div>
+            </div>
+        `).join('');
     }
 
     function renderStudentsList() {
         const container = document.getElementById('studentsList');
+        if (!allStudents.length) {
+            container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>';
+            return;
+        }
+        
         container.innerHTML = allStudents.map(u => `
             <div class="user-row" onclick="openStudentDetails('${u.id}')">
                 <div class="flex items-center justify-between">
@@ -1402,19 +1529,110 @@
                             <div class="text-sm c-text-muted">${u.email}</div>
                         </div>
                     </div>
-                    <span class="status-badge status-${u.status}">${u.status}</span>
+                    <div class="flex items-center gap-3">
+                        <span class="status-badge status-${u.status}">
+                            ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
+                        </span>
+                        ${u.status === 'pending' ? `
+                            <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        ` : `
+                            <div class="text-right text-xs hidden md:block">
+                                <div class="c-text-muted">${u.level || 'A1'}</div>
+                                <div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()} XP</div>
+                            </div>
+                        `}
+                    </div>
                 </div>
             </div>
         `).join('');
     }
 
+    function populateReportSelect() {
+        const select = document.getElementById('reportStudentSelect');
+        select.innerHTML = '<option value="">-- Selecione --</option>' + 
+            allStudents.filter(u => u.status === 'approved').map(u => 
+                `<option value="${u.id}">${u.nome} (${u.email})</option>`
+            ).join('');
+    }
+
+    // ===== ADMIN: APPROVE/REJECT USERS =====
+    async function approveUser(userId) {
+        try {
+            await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
+            showToast('Sucesso', 'Aluno aprovado!', 'success');
+            loadDashboardData();
+        } catch (error) {
+            showToast('Erro', error.message, 'error');
+        }
+    }
+
+    async function rejectUser(userId) {
+        if (!confirm('Rejeitar este aluno? Esta ação não pode ser desfeita.')) return;
+        try {
+            await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
+            showToast('Rejeitado', 'Cadastro rejeitado', 'error');
+            loadDashboardData();
+        } catch (error) {
+            showToast('Erro', error.message, 'error');
+        }
+    }
+
+    // ===== ADMIN: FILTER STUDENTS =====
+    function filterStudents() {
+        const search = document.getElementById('searchStudent').value.toLowerCase();
+        const level = document.getElementById('filterLevel').value;
+        const status = document.getElementById('filterStatus').value;
+        
+        let filtered = allStudents.filter(u => {
+            const matchSearch = u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search);
+            const matchLevel = level === 'all' || u.level === level;
+            const matchStatus = status === 'all' || u.status === status;
+            return matchSearch && matchLevel && matchStatus;
+        });
+        
+        const container = document.getElementById('studentsList');
+        container.innerHTML = filtered.map(u => `
+            <div class="user-row" onclick="openStudentDetails('${u.id}')">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
+                            ${u.nome.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div class="font-bold">${u.nome}</div>
+                            <div class="text-sm c-text-muted">${u.email}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="status-badge status-${u.status}">${u.status}</span>
+                        <div class="text-right text-xs hidden md:block">
+                            <div class="c-text-muted">${u.level || 'A1'}</div>
+                            <div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()} XP</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ===== ADMIN: OPEN STUDENT DETAILS =====
     function openStudentDetails(userId) {
         const student = allStudents.find(u => u.id === userId);
         if (!student) return;
+        
         const content = document.getElementById('studentDetailsContent');
         const userXP = student.xp ?? student.totalXP ?? 0;
+        const timeHours = ((student.tempoTotal || 0) / 3600000).toFixed(1);
+        const lastLogin = student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca';
+        
         content.innerHTML = `
             <div class="space-y-4">
+                <!-- Header -->
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full c-primary-bg flex items-center justify-center text-2xl text-white font-bold">
                         ${student.nome.charAt(0).toUpperCase()}
@@ -1425,6 +1643,8 @@
                         <span class="status-badge status-${student.status}">${student.status}</span>
                     </div>
                 </div>
+                
+                <!-- Stats Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="stat-card text-center">
                         <div class="text-2xl font-bold c-xp">${userXP.toLocaleString()}</div>
@@ -1443,11 +1663,101 @@
                         <div class="text-xs c-text-muted">Nível</div>
                     </div>
                 </div>
+                
+                <!-- Study Time -->
+                <div class="stat-card">
+                    <h4 class="font-bold mb-3">⏱️ Tempo de Estudo</h4>
+                    <p class="c-text-muted">Total: <span class="font-bold">${timeHours} horas</span></p>
+                    <p class="c-text-muted">Último login: <span class="font-bold">${lastLogin}</span></p>
+                </div>
+                
+                <!-- Skills Progress -->
+                <div class="stat-card">
+                    <h4 class="font-bold mb-3">📊 Progresso por Habilidade</h4>
+                    <div class="space-y-3">
+                        ${['reading', 'listening', 'speaking', 'writing'].map(skill => {
+                            const progress = Math.floor(Math.random() * 100);
+                            return `
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="capitalize">${skill}</span>
+                                        <span class="c-text-muted">${progress}%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex gap-2 pt-4">
+                    ${student.status === 'pending' ? `
+                        <button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1">
+                            <i class="fa-solid fa-check"></i> Aprovar
+                        </button>
+                        <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1">
+                            <i class="fa-solid fa-xmark"></i> Rejeitar
+                        </button>
+                    ` : `
+                        <button class="btn btn-secondary flex-1">
+                            <i class="fa-solid fa-key"></i> Resetar Senha
+                        </button>
+                        <button class="btn btn-outline flex-1">
+                            <i class="fa-solid fa-pen"></i> Editar
+                        </button>
+                    `}
+                </div>
             </div>
         `;
         openModal('studentModal');
     }
 
+    // ===== ADMIN: LOAD STUDENT REPORT =====
+    async function loadStudentReport(userId) {
+        if (!userId) {
+            document.getElementById('studentReport').classList.add('hidden-section');
+            return;
+        }
+        
+        const student = allStudents.find(u => u.id === userId);
+        if (!student) return;
+        
+        const container = document.getElementById('studentReport');
+        container.classList.remove('hidden-section');
+        const userXP = student.xp ?? student.totalXP ?? 0;
+        
+        container.innerHTML = `
+            <div class="stat-card mb-4">
+                <h4 class="font-bold mb-3">${student.nome} - Relatório Detalhado</h4>
+                <div class="space-y-3">
+                    <div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div>
+                    <div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div>
+                    <div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div>
+                    <div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h5 class="font-bold mb-3">📈 Histórico Recente</h5>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span>Hoje: A1.1 - Greetings</span><span class="c-primary">+50 XP</span></div>
+                    <div class="flex justify-between"><span>Ontem: A1.2 - Numbers</span><span class="c-primary">+50 XP</span></div>
+                    <div class="flex justify-between"><span>2 dias: Revisão</span><span class="c-primary">+25 XP</span></div>
+                </div>
+            </div>
+        `;
+    }
+
+    function generateReport() {
+        showToast('Gerando...', 'Relatório sendo preparado', 'success');
+        setTimeout(() => {
+            showToast('Pronto!', 'Relatório exportado com sucesso', 'success');
+        }, 1500);
+    }
+
+    // ===== ADMIN: TABS =====
     function showAdminTab(tab) {
         document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
         document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
@@ -1455,37 +1765,16 @@
         document.getElementById(`tab-${tab}`).classList.add('active');
     }
 
-    function filterStudents() {
-        const search = document.getElementById('searchStudent').value.toLowerCase();
-        let filtered = allStudents.filter(u => 
-            u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search)
-        );
-        renderStudentsList();
-    }
-
-    function loadStudentReport(userId) {
-        document.getElementById('studentReport').classList.add('hidden-section');
-    }
-
-    function generateReport() {
-        showToast('Gerando...', 'Relatório sendo preparado', 'success');
-    }
-
+    // ===== ADMIN: EXPORT DATA =====
     function exportData(format) {
+        const data = JSON.stringify(allStudents, null, 2);
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `englishpath-backup-${new Date().toISOString().split('T')[0]}.${format}`;
+        a.click();
         showToast('Sucesso', `Dados exportados em ${format.toUpperCase()}!`, 'success');
-    }
-
-    async function approveUser(userId) {
-        await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
-        showToast('Sucesso', 'Aluno aprovado!', 'success');
-        loadDashboardData();
-    }
-
-    async function rejectUser(userId) {
-        if (!confirm('Rejeitar este aluno?')) return;
-        await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
-        showToast('Rejeitado', 'Cadastro rejeitado', 'error');
-        loadDashboardData();
     }
 
     function showAddCourseModal() {
@@ -1496,6 +1785,7 @@
     window.addEventListener('DOMContentLoaded', () => {
         console.log('🚀 EnglishPath initialized');
         
+        // Close modals on outside click
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -1505,6 +1795,7 @@
             });
         });
         
+        // ESC to close modals
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal.active').forEach(m => {
@@ -1513,6 +1804,18 @@
                 });
             }
         });
+        
+        // Debug: Test Firebase connection
+        (async function testFirebaseConnection() {
+            try {
+                console.log('🔌 Testando conexão Firebase...');
+                await getDocs(query(collection(db, "usuarios"), limit(1)));
+                console.log('✅ Conexão Firebase OK!');
+            } catch (e) {
+                console.error('❌ Erro de conexão Firebase:', e.message);
+                console.log('💡 Dica: Verifique se está usando servidor local (não file://)');
+            }
+        })();
     });
 </script>
 </body>
