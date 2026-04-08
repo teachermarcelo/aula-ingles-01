@@ -1273,44 +1273,51 @@
         }
 
         // ===== AUTH: LOGIN =====
-        async function handleLogin(e) {
-            e.preventDefault();
-            const btn = document.getElementById('loginBtn');
-            const email = document.getElementById('loginEmail').value.trim();
-            const senha = document.getElementById('loginPassword').value;
-            
-            console.log('🔐 Tentando login:', { email });
-            
-            btn.classList.add('loading'); btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Entrando...';
-            
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-                console.log('✅ Login sucesso:', userCredential.user.uid);
-                
-                // Aguarda o onAuthStateChanged atualizar a UI
-                closeModal('loginModal');
-                showToast('Bem-vindo!', 'Login realizado com sucesso!', 'success');
-                
-                // Limpa campos
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-                
-            } catch (error) {
-                console.error('❌ Erro no login:', error.code, error.message);
-                
-                let msg = 'Erro ao fazer login. Tente novamente.';
-                if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
-                else if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
-                else if (error.code === 'auth/invalid-email') msg = 'Email inválido.';
-                else if (error.code === 'auth/user-disabled') msg = 'Conta desativada.';
-                
-                showToast('Erro', msg, 'error');
-            } finally {
-                btn.classList.remove('loading'); btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Entrar';
-            }
-        }
+        // ===== AUTH: LOGIN =====
+async function handleLogin(e) {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginPassword').value;
+    
+    console.log('🔐 Tentando login:', { email });
+    
+    btn.classList.add('loading'); 
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Entrando...';
+    
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+        console.log('✅ Login sucesso:', userCredential.user.uid);
+        
+        // NÃO feche o modal aqui! Deixe o onAuthStateChanged fazer isso
+        showToast('Bem-vindo!', 'Login realizado com sucesso!', 'success');
+        
+        // Limpa campos
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        
+        // Aguarda 500ms para o onAuthStateChanged atualizar a UI
+        setTimeout(() => {
+            closeModal('loginModal');
+        }, 500);
+        
+    } catch (error) {
+        console.error('❌ Erro no login:', error.code, error.message);
+        
+        let msg = 'Erro ao fazer login. Tente novamente.';
+        if (error.code === 'auth/user-not-found') msg = 'Usuário não encontrado.';
+        else if (error.code === 'auth/wrong-password') msg = 'Senha incorreta.';
+        else if (error.code === 'auth/invalid-email') msg = 'Email inválido.';
+        else if (error.code === 'auth/user-disabled') msg = 'Conta desativada.';
+        
+        showToast('Erro', msg, 'error');
+    } finally {
+        btn.classList.remove('loading'); 
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Entrar';
+    }
+}
 
         // ===== AUTH: LOGOUT =====
         async function logout() {
