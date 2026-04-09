@@ -91,13 +91,14 @@
         .c-danger { color: var(--danger); }
         .c-danger-bg { background: var(--danger); }
         
+        /* 🔧 FIX COROA: Removido !important para permitir display: none */
         /* 👑 Crown Button - GOLD */
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
             transition: all 0.3s ease;
-            display: flex !important;
+            display: flex; /* Sem !important aqui */
             align-items: center;
             justify-content: center;
         }
@@ -107,6 +108,9 @@
             filter: brightness(1.1);
         }
         .crown-btn i { color: #78350f !important; }
+
+        /* 🔧 FIX: Classe de Força para Esconder (Prioridade Máxima) */
+        .force-hidden { display: none !important; }
         
         /* Buttons */
         .btn {
@@ -172,10 +176,7 @@
         }
         .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
         
-        /* Animations */
-        .fade-in { animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
+        /* Loading */
         .loading { opacity: 0.7; pointer-events: none; position: relative; }
         .loading::after {
             content: ''; position: absolute; inset: 0;
@@ -192,8 +193,7 @@
         /* Stats Cards */
         .stat-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem;
-            transition: all 0.3s;
+            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
         }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
         
@@ -206,14 +206,10 @@
             flex-wrap: wrap; gap: 1rem;
         }
         .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
-        .user-row.active { border-color: var(--primary); background: rgba(34,197,94,0.05); }
-        
         .user-info { display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0; }
-        
         .user-meta { display: flex; gap: 2rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; }
         @media (max-width: 768px) { .user-meta { display: none; } }
-        
         .user-actions { display: flex; gap: 0.5rem; align-items: center; }
         
         /* Status Badges */
@@ -230,41 +226,29 @@
         .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
         
-        /* Admin Tabs */
+        /* Tabs */
         .tab-btn {
             padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
             font-weight: 600; transition: all 0.3s; border: none;
             background: transparent; color: var(--text-muted); cursor: pointer;
             position: relative;
         }
-        .tab-btn.active {
-            background: var(--card); color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
+        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); }
         .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
-        
         .hidden-section { display: none !important; }
         
         /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
         
         /* Level Track */
-        .level-track {
-            display: flex; align-items: center; justify-content: center;
-            gap: 1rem; padding: 1.5rem; flex-wrap: wrap;
-        }
+        .level-track { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; flex-wrap: wrap; }
         .level-node {
             display: flex; flex-direction: column; align-items: center;
             gap: 0.5rem; padding: 1rem; border-radius: 16px;
-            transition: all 0.3s; cursor: pointer;
-            min-width: 80px;
+            transition: all 0.3s; cursor: pointer; min-width: 80px;
         }
         .level-node:hover { transform: translateY(-4px); }
-        .level-node.active {
-            background: rgba(34,197,94,0.15);
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow-primary);
-        }
+        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: var(--glow-primary); }
         .level-node.completed { opacity: 0.8; }
         .level-node.locked { opacity: 0.5; cursor: not-allowed; }
         .level-icon {
@@ -272,29 +256,20 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1.5rem; color: white; font-weight: bold;
         }
-        .level-A1 { background: #22c55e; }
-        .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; }
-        .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; }
-        .level-C2 { background: #dc2626; }
+        .level-A1 { background: #22c55e; } .level-A2 { background: #10b981; }
+        .level-B1 { background: #06b6d4; } .level-B2 { background: #f59e0b; }
+        .level-C1 { background: #f97316; } .level-C2 { background: #dc2626; }
         
-        /* Special Courses Grid */
+        /* Courses */
         .course-card {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 20px; padding: 1.5rem;
-            transition: all 0.3s; cursor: pointer;
-            text-align: center;
+            transition: all 0.3s; cursor: pointer; text-align: center;
         }
-        .course-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent);
-            box-shadow: var(--glow-accent);
-        }
+        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow-accent); }
         .course-icon {
             width: 70px; height: 70px; border-radius: 20px;
-            margin: 0 auto 1rem;
-            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
             font-size: 1.75rem; color: white;
         }
         .course-business { background: linear-gradient(135deg, #1e40af, #3b82f6); }
@@ -316,27 +291,6 @@
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
-        
-        /* Ranking Table */
-        .ranking-table { width: 100%; border-collapse: collapse; }
-        .ranking-table th { text-align: left; padding: 0.75rem; color: var(--text-muted); font-size: 0.85rem; border-bottom: 1px solid var(--border); }
-        .ranking-table td { padding: 0.75rem; border-bottom: 1px solid var(--border); }
-        .ranking-table tr:last-child td { border-bottom: none; }
-        .rank-pos { font-weight: bold; width: 40px; }
-        .rank-1 { color: #fbbf24; } .rank-2 { color: #94a3b8; } .rank-3 { color: #b45309; }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .modal-content { padding: 1rem; max-width: 95%; }
-            .stat-card { padding: 1rem; }
-            .level-track { gap: 0.5rem; }
-            .level-node { min-width: 60px; padding: 0.75rem; }
-            .level-icon { width: 44px; height: 44px; font-size: 1.25rem; }
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-        }
     </style>
 </head>
 <body>
@@ -346,9 +300,7 @@
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Bem-vindo de volta! 👋</h2>
-                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="space-y-4">
@@ -358,7 +310,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required>
+                        <input type="password" id="loginPassword" class="input-field" placeholder="•••••••••" required>
                     </div>
                     <div class="flex justify-between text-sm">
                         <label class="flex items-center gap-2 cursor-pointer">
@@ -736,8 +688,8 @@
                             <span id="displayUserName">Usuário</span>
                         </span>
                         
-                        <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) -->
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
+                        <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) - Added force-hidden class -->
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
                         </button>
                         
@@ -765,8 +717,12 @@
                     Cursos especiais para Business, Bíblico, Kids, Viagens e muito mais!
                 </p>
                 <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4"><i class="fa-solid fa-rocket"></i> Começar Agora</button>
-                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4"><i class="fa-solid fa-right-to-bracket"></i> Já tenho conta</button>
+                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
+                        <i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!
+                    </button>
+                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4">
+                        <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta
+                    </button>
                 </div>
             </div>
             
@@ -1079,8 +1035,6 @@
         const adminBtn = document.getElementById('adminBtn');
         
         // 🔒 STRICT SECURITY: ONLY SUPER ADMIN EMAIL GETS THE CROWN
-        // We IGNORE the DB 'role' field here for display permission, 
-        // relying on the sanitization that happened in Auth State.
         const isSuperAdmin = userData && userData.email && userData.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL;
         const canAccessAdmin = isSuperAdmin;
 
@@ -1105,9 +1059,11 @@
             if (adminBtn) {
                 if (canAccessAdmin) {
                     adminBtn.classList.remove('hidden');
+                    adminBtn.classList.remove('force-hidden'); // 🔧 FIX: Remover force-hidden
                     adminBtn.style.display = 'flex';
                 } else {
                     adminBtn.classList.add('hidden');
+                    adminBtn.classList.add('force-hidden'); // 🔧 FIX: Adicionar force-hidden
                     adminBtn.style.display = 'none';
                 }
             }
@@ -1122,6 +1078,7 @@
             loggedInView.classList.add('hidden');
             if (adminBtn) {
                 adminBtn.classList.add('hidden');
+                adminBtn.classList.add('force-hidden');
                 adminBtn.style.display = 'none';
             }
         }
