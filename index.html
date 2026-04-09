@@ -197,29 +197,19 @@
         }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
         
-        /* User Rows - Melhorados para parecer Tabela */
+        /* User Rows */
         .user-row {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
             transition: all 0.3s; cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 1rem;
         }
         .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
         .user-row.active { border-color: var(--primary); background: rgba(34,197,94,0.05); }
         
-        .user-info { display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0; }
-        
-        .user-meta { display: flex; gap: 2rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; }
-        @media (max-width: 768px) { .user-meta { display: none; } }
-        
-        .user-actions { display: flex; gap: 0.5rem; align-items: center; }
-        
         /* Status Badges */
         .status-badge {
             padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            font-size: 0.75rem; font-weight: 700;
         }
         .status-pending { background: #fbbf24; color: #78350f; }
         .status-approved { background: #22c55e; color: white; }
@@ -247,7 +237,7 @@
         /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
         
-        /* Level Track */
+        /* Level Track - A1 to C2 */
         .level-track {
             display: flex; align-items: center; justify-content: center;
             gap: 1rem; padding: 1.5rem; flex-wrap: wrap;
@@ -475,14 +465,9 @@
                         <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
                         <div class="text-sm c-text-muted">Total Alunos</div>
                     </div>
-                    <div class="stat-card text-center relative group">
+                    <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
                         <div class="text-sm c-text-muted">Ativos Hoje</div>
-                        <!-- Tooltip com nomes -->
-                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-gray-800 text-white text-xs rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg text-left">
-                            <div class="font-bold border-b border-gray-600 mb-1">Quem está online:</div>
-                            <div id="activeUsersList" class="max-h-20 overflow-y-auto"></div>
-                        </div>
                     </div>
                     <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div>
@@ -513,8 +498,8 @@
                         <div class="chart-container"><canvas id="chartCourses"></canvas></div>
                     </div>
                     <div class="stat-card">
-                        <h4 class="font-bold mb-4">⭐ Top 10 Alunos (XP)</h4>
-                        <div id="topStudents" class="space-y-2"></div>
+                        <h4 class="font-bold mb-4">⭐ Top 5 Alunos (XP)</h4>
+                        <div id="topStudents" class="space-y-3"></div>
                     </div>
                 </div>
             </div>
@@ -539,17 +524,13 @@
                     </div>
                 </div>
                 
-                <!-- Students List Header (Desktop) -->
-                <div class="hidden md:grid md:grid-cols-12 gap-4 text-sm font-bold c-text-muted px-4 mb-2">
-                    <div class="col-span-4">Aluno</div>
-                    <div class="col-span-2">Nível</div>
-                    <div class="col-span-2">XP</div>
-                    <div class="col-span-2">Status</div>
-                    <div class="col-span-2 text-right">Ações</div>
+                <!-- Students Table Header -->
+                <div class="c-card rounded-xl p-3 mb-3 hidden md:grid md:grid-cols-6 text-sm font-bold c-text-muted">
+                    <div>Aluno</div><div>Email</div><div>Nível</div><div>XP</div><div>Status</div><div>Ações</div>
                 </div>
                 
-                <!-- Students List Container -->
-                <div id="studentsList" class="space-y-2 max-h-[600px] overflow-y-auto pr-2">
+                <!-- Students List -->
+                <div id="studentsList" class="space-y-2 max-h-96 overflow-y-auto">
                     <div class="text-center c-text-muted py-8">
                         <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
                         <p>Carregando alunos...</p>
@@ -732,9 +713,9 @@
 
     <!-- ===== MODAL: Student Details ===== -->
     <div id="studentModal" class="modal">
-        <div class="modal-content max-w-2xl">
+        <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">👤 Detalhes do Aluno</h2>
+                <h2 class="font-display font-bold text-2xl">👤 Relatório do Aluno</h2>
                 <button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -783,7 +764,7 @@
                             <span id="displayUserName">Usuário</span>
                         </span>
                         
-                        <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) -->
+                        <!-- 👑 GOLDEN CROWN BUTTON (Admin Only) - COM .trim() PARA COMPATIBILIDADE -->
                         <button onclick="openModal('adminModal')" id="adminBtn" class="hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
                         </button>
@@ -1049,7 +1030,7 @@
     let allStudents = [];
     let charts = {};
 
-    // ===== EXPOSE ALL FUNCTIONS TO WINDOW =====
+    // ===== ️ EXPOSE ALL FUNCTIONS TO WINDOW (CRITICAL FIX) =====
     window.openModal = openModal;
     window.closeModal = closeModal;
     window.switchModal = switchModal;
@@ -1064,12 +1045,11 @@
     window.approveUser = approveUser;
     window.rejectUser = rejectUser;
     window.showForgotPassword = showForgotPassword;
-    window.openCourseWhatsapp = openCourseWhatsapp;
+    window.openCourseWhatsapp = openCourseWhatsapp; // ✅ FIX: Now exposed!
     window.loadDynamicLessons = loadDynamicLessons;
     window.openStudentDetails = openStudentDetails;
     window.generateReport = generateReport;
     window.showAddCourseModal = showAddCourseModal;
-    window.updateUserRole = updateUserRole; // New function exposed
 
     // ===== AUTH STATE LISTENER =====
     onAuthStateChanged(auth, async (user) => {
@@ -1126,13 +1106,7 @@
         const loggedInView = document.getElementById('loggedInView');
         const adminBtn = document.getElementById('adminBtn');
         
-        // 🔒 FIX: ADMIN CHECK STRICT
-        // Apenas o email oficial ou quem tem role 'admin' no DB
-        const isSuperAdmin = userData && userData.email && userData.email.toLowerCase().trim() === 'marcellospropaganda@gmail.com';
-        const isDbAdmin = userData && userData.role === 'admin';
-        const canAccessAdmin = isSuperAdmin || isDbAdmin;
-        
-        console.log('🔒 Admin Check:', { email: userData?.email, isSuperAdmin, isDbAdmin, canAccessAdmin });
+        console.log('🔄 Atualizando UI:', { userData: userData?.role });
         
         if (userData) {
             authButtons.classList.add('hidden');
@@ -1157,9 +1131,10 @@
             const xpBar = document.getElementById('xpBar');
             if (xpBar) xpBar.style.width = xpPercent + '%';
             
-            // 👑 CROWN BUTTON LOGIC
+            // 👑 CROWN BUTTON - COM .trim() PARA COMPATIBILIDADE
             if (adminBtn) {
-                if (canAccessAdmin) {
+                const role = userData.role?.trim();
+                if (role === 'admin') {
                     adminBtn.classList.remove('hidden');
                     adminBtn.style.display = 'flex';
                     console.log('👑 Crown shown for admin');
@@ -1249,10 +1224,9 @@
             const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
             const uid = userCredential.user.uid;
             
-            // 🔒 FIX: Force role 'student' on register
             await setDoc(doc(db, "usuarios", uid), {
                 nome, email,
-                role: 'student', // Default role
+                role: 'student',
                 status: 'pending',
                 createdAt: new Date().toISOString(),
                 xp: 0, level: 'A1', streak: 0, gems: 0,
@@ -1306,6 +1280,7 @@
             document.getElementById('loginEmail').value = '';
             document.getElementById('loginPassword').value = '';
             
+            // ✅ FIX: Aguarda onAuthStateChanged atualizar UI antes de fechar modal
             setTimeout(() => {
                 closeModal('loginModal');
             }, 800);
@@ -1344,7 +1319,7 @@
         }
     }
 
-    // ===== WHATSAPP COURSES =====
+    // ===== WHATSAPP COURSES - ✅ FIX: FUNCTION NOW DEFINED =====
     function openCourseWhatsapp(courseName) {
         const phone = "5541999653041";
         const msg = `Olá! Gostaria de desbloquear o curso especial: *${courseName}*. Como faço?`;
@@ -1420,26 +1395,11 @@
 
     function updateStats() {
         document.getElementById('statTotal').textContent = allStudents.length;
-        
-        // ✅ FIX: Calculate Active Users and Get Names
-        const activeUsers = allStudents.filter(u => 
+        document.getElementById('statActive').textContent = allStudents.filter(u => 
             u.status === 'approved' && 
             u.ultimoLogin && 
             new Date(u.ultimoLogin) > new Date(Date.now() - 86400000)
-        );
-        
-        document.getElementById('statActive').textContent = activeUsers.length;
-        
-        // Populate tooltip list
-        const activeListEl = document.getElementById('activeUsersList');
-        if (activeListEl) {
-            if (activeUsers.length === 0) {
-                activeListEl.innerHTML = '<span class="italic opacity-70">Nenhum usuário ativo nas últimas 24h.</span>';
-            } else {
-                activeListEl.innerHTML = activeUsers.map(u => `<div>• ${u.nome}</div>`).join('');
-            }
-        }
-        
+        ).length;
         document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
         
         const avgTime = allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1);
@@ -1472,7 +1432,7 @@
             }
         });
         
-        // Chart 2: Weekly Activity (mock data)
+        // Chart 2: Weekly Activity (mock data for demo)
         const ctxActivity = document.getElementById('chartActivity').getContext('2d');
         if (charts.activity) charts.activity.destroy();
         charts.activity = new Chart(ctxActivity, {
@@ -1516,6 +1476,7 @@
     }
 
     function updateCourseStats() {
+        // Mock data - replace with real Firestore queries
         document.getElementById('courseBusiness').textContent = '45';
         document.getElementById('courseBiblico').textContent = '30';
         document.getElementById('courseKids').textContent = '60';
@@ -1523,22 +1484,21 @@
         document.getElementById('courseTravel').textContent = '35';
     }
 
-    // ✅ FIX: TOP 10 INSTEAD OF 5
     function renderTopStudents() {
-        const top10 = [...allStudents]
+        const top5 = [...allStudents]
             .filter(u => u.status === 'approved')
             .sort((a, b) => (b.xp ?? b.totalXP ?? 0) - (a.xp ?? a.totalXP ?? 0))
-            .slice(0, 10); // Changed from 5 to 10
+            .slice(0, 5);
         
         const container = document.getElementById('topStudents');
-        container.innerHTML = top10.map((u, i) => `
-            <div class="flex items-center justify-between p-2 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
+        container.innerHTML = top5.map((u, i) => `
+            <div class="flex items-center justify-between p-3 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">
                         ${i + 1}
                     </div>
                     <div>
-                        <div class="font-bold text-sm truncate max-w-[120px]">${u.nome}</div>
+                        <div class="font-bold text-sm">${u.nome}</div>
                         <div class="text-xs c-text-muted">${u.level || 'A1'}</div>
                     </div>
                 </div>
@@ -1550,7 +1510,6 @@
         `).join('');
     }
 
-    // ✅ FIX: IMPROVED STUDENT LIST UI
     function renderStudentsList() {
         const container = document.getElementById('studentsList');
         if (!allStudents.length) {
@@ -1560,43 +1519,32 @@
         
         container.innerHTML = allStudents.map(u => `
             <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                <div class="user-info">
-                    <div class="user-avatar c-primary-bg">
-                        ${u.nome.charAt(0).toUpperCase()}
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
+                            ${u.nome.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div class="font-bold">${u.nome}</div>
+                            <div class="text-sm c-text-muted">${u.email}</div>
+                        </div>
                     </div>
-                    <div class="hidden sm:block">
-                        <div class="font-bold text-sm">${u.nome}</div>
-                        <div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div>
-                    </div>
-                </div>
-                
-                <div class="user-meta">
-                    <div class="flex flex-col">
-                        <span class="text-xs text-gray-500">Nível</span>
-                        <span class="font-bold">${u.level || 'A1'}</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-xs text-gray-500">XP</span>
-                        <span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <span class="status-badge status-${u.status} shrink-0">
-                        ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
-                    </span>
-                    <div class="user-actions">
+                    <div class="flex items-center gap-3">
+                        <span class="status-badge status-${u.status}">
+                            ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
+                        </span>
                         ${u.status === 'pending' ? `
-                            <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Aprovar">
+                            <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="btn btn-sm btn-primary">
                                 <i class="fa-solid fa-check"></i>
                             </button>
-                            <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Rejeitar">
+                            <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="btn btn-sm btn-danger">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         ` : `
-                             <button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
+                            <div class="text-right text-xs hidden md:block">
+                                <div class="c-text-muted">${u.level || 'A1'}</div>
+                                <div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()} XP</div>
+                            </div>
                         `}
                     </div>
                 </div>
@@ -1650,53 +1598,26 @@
         const container = document.getElementById('studentsList');
         container.innerHTML = filtered.map(u => `
             <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                <div class="user-info">
-                    <div class="user-avatar c-primary-bg">
-                        ${u.nome.charAt(0).toUpperCase()}
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full c-primary-bg flex items-center justify-center text-white font-bold">
+                            ${u.nome.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div class="font-bold">${u.nome}</div>
+                            <div class="text-sm c-text-muted">${u.email}</div>
+                        </div>
                     </div>
-                    <div class="hidden sm:block">
-                        <div class="font-bold text-sm">${u.nome}</div>
-                        <div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div>
-                    </div>
-                </div>
-                
-                <div class="user-meta">
-                    <div class="flex flex-col">
-                        <span class="text-xs text-gray-500">Nível</span>
-                        <span class="font-bold">${u.level || 'A1'}</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-xs text-gray-500">XP</span>
-                        <span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <span class="status-badge status-${u.status} shrink-0">
-                        ${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Rejeitado'}
-                    </span>
-                    <div class="user-actions">
-                         <button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
+                    <div class="flex items-center gap-3">
+                        <span class="status-badge status-${u.status}">${u.status}</span>
+                        <div class="text-right text-xs hidden md:block">
+                            <div class="c-text-muted">${u.level || 'A1'}</div>
+                            <div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()} XP</div>
+                        </div>
                     </div>
                 </div>
             </div>
         `).join('');
-    }
-
-    // ===== ADMIN: UPDATE USER ROLE (NEW) =====
-    async function updateUserRole(userId, newRole) {
-        try {
-            await updateDoc(doc(db, "usuarios", userId), { role: newRole });
-            showToast('Sucesso', `Cargo atualizado para ${newRole}`, 'success');
-            // Reload modal content to reflect changes
-            openStudentDetails(userId);
-            // Reload dashboard to update stats if needed
-            loadDashboardData();
-        } catch (error) {
-            showToast('Erro', error.message, 'error');
-        }
     }
 
     // ===== ADMIN: OPEN STUDENT DETAILS =====
@@ -1709,24 +1630,6 @@
         const timeHours = ((student.tempoTotal || 0) / 3600000).toFixed(1);
         const lastLogin = student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca';
         
-        // ✅ NEW: Role Management Logic
-        const isSuperAdmin = userData.email === 'marcellospropaganda@gmail.com';
-        const roleSelectHtml = isSuperAdmin ? `
-            <div class="mt-4 p-4 bg-gray-800 rounded-xl border border-gray-700">
-                <label class="block text-sm font-bold mb-2 text-yellow-400"><i class="fa-solid fa-crown mr-1"></i> Gerenciar Cargo (Admin)</label>
-                <div class="flex gap-2 items-center">
-                    <select id="editRoleSelect" class="input-field flex-1">
-                        <option value="student" ${student.role === 'student' ? 'selected' : ''}>Student (Aluno)</option>
-                        <option value="admin" ${student.role === 'admin' ? 'selected' : ''}>Admin (Administrador)</option>
-                    </select>
-                    <button onclick="updateUserRole('${student.id}', document.getElementById('editRoleSelect').value)" class="btn btn-primary btn-sm">
-                        Salvar
-                    </button>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">Apenas o Super Admin pode alterar esta configuração.</p>
-            </div>
-        ` : '';
-
         content.innerHTML = `
             <div class="space-y-4">
                 <!-- Header -->
@@ -1737,10 +1640,7 @@
                     <div>
                         <h3 class="font-bold text-xl">${student.nome}</h3>
                         <p class="c-text-muted">${student.email}</p>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="status-badge status-${student.status}">${student.status}</span>
-                            <span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300">Role: ${student.role}</span>
-                        </div>
+                        <span class="status-badge status-${student.status}">${student.status}</span>
                     </div>
                 </div>
                 
@@ -1792,9 +1692,6 @@
                     </div>
                 </div>
                 
-                <!-- ✅ NEW: Role Changer Section -->
-                ${roleSelectHtml}
-
                 <!-- Actions -->
                 <div class="flex gap-2 pt-4">
                     ${student.status === 'pending' ? `
@@ -1807,6 +1704,9 @@
                     ` : `
                         <button class="btn btn-secondary flex-1">
                             <i class="fa-solid fa-key"></i> Resetar Senha
+                        </button>
+                        <button class="btn btn-outline flex-1">
+                            <i class="fa-solid fa-pen"></i> Editar
                         </button>
                     `}
                 </div>
