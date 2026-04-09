@@ -112,14 +112,8 @@
             font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
         }
         .transcript.show { display: block; }
-        .reading-text { font-size: 1.1rem; line-height: 2; color: #334155; margin-bottom: 1rem; }
-        .highlight {
-            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
-            background-repeat: no-repeat; background-size: 100% 40%; background-position: 0 88%;
-            padding: 0 0.25rem; font-weight: 700; cursor: pointer;
-        }
-        .highlight:hover { background-size: 100% 100%; }
-
+        
+        /* ENHANCED READING STYLES */
         .reading-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
             border: 1px solid #dbeafe;
@@ -148,7 +142,10 @@
         .reading-keyword {
             display: inline-block; padding: 0 0.35rem; border-radius: 0.5rem; font-weight: 800;
             box-decoration-break: clone; -webkit-box-decoration-break: clone;
+            transition: transform 0.2s;
+            cursor: default;
         }
+        .reading-keyword:hover { transform: scale(1.05); }
         .keyword-blue { background: #dbeafe; color: #1d4ed8; }
         .keyword-purple { background: #ede9fe; color: #6d28d9; }
         .keyword-pink { background: #fce7f3; color: #be185d; }
@@ -162,6 +159,7 @@
         .keyword-gray { background: #f1f5f9; color: #475569; }
         .keyword-brown { background: #efdbcf; color: #7c2d12; }
         .keyword-gold { background: #fef08a; color: #854d0e; }
+        /* END ENHANCED READING STYLES */
 
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
@@ -338,7 +336,7 @@
         <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
     </div>
 
-    <!-- TABS - CENTRALIZED -->
+    <!-- TABS -->
     <div class="tabs-container">
         <div class="tabs">
             <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
@@ -374,7 +372,6 @@
     const db = getFirestore(app);
     let currentUser = null;
 
-    // =
     // ===== LESSON DATA (U08: CLOTHES) =====
     const lessonData = {
         unitInfo: {
@@ -396,8 +393,7 @@
                 instructions: 'Watch the video about clothes. Pay attention to clothing names, colors, and simple descriptions.'
             },
 
-
-            // READING: 10 questions
+            // READING: 10 questions - ENHANCED WITH HIGHLIGHTING
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
@@ -511,7 +507,6 @@
                 }
             ],
 
-
             // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
@@ -535,7 +530,6 @@
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
                     q: 'What is the person wearing?', tts: 'I am wearing blue jeans', options: ['Blue jeans', 'Black jeans', 'A blue shirt', 'A skirt'], answer: 0, speed: 0.85 }
             ],
-
 
             // SPEAKING: 10 activities
             speaking: [
@@ -572,8 +566,7 @@
                     prompt: 'What clothes do you wear when it is cold?', minWords: 6, expectedPattern: 'coat' }
             ],
 
-
-            // WRITING: 10 tasks
+            // WRITING: 10 tasks - INCREASED WRITING SCOPE
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "I wear a _____." (shirt)', answer: 'shirt', example: 'I wear a shirt.' },
@@ -588,49 +581,47 @@
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
                     prompt: 'Use color: "I have a _____ shirt" (blue)', answer: 'blue', example: 'I have a blue shirt.' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about your clothes today.', example: 'Today I am wearing jeans and a white T-shirt.', minLength: 15, maxLength: 60 },
+                    prompt: 'Write about your clothes today. Describe the color and the item.', example: 'Today I am wearing blue jeans and a white T-shirt.', minLength: 15, maxLength: 60 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about clothes for cold weather.', example: 'In cold weather, I wear a coat, boots, and a scarf.', minLength: 15, maxLength: 60 },
+                    prompt: 'Write about clothes for cold weather. Name 3 items.', example: 'In cold weather, I wear a coat, boots, and a scarf.', minLength: 15, maxLength: 60 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your favorite outfit. Include colors.', minLength: 30, maxLength: 90 },
+                    prompt: 'Describe your favorite outfit. Include the colors and why you like it.', minLength: 30, maxLength: 90 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe what a student can wear to school.', minLength: 40, maxLength: 100 }
+                    prompt: 'Describe what a student can wear to school. Use at least 4 clothing words.', minLength: 40, maxLength: 100 }
             ],
 
-            // VOCABULARY: 30 Words - Clothes
+            // VOCABULARY: 30 Words - CLOTHES
             vocabulary: [
-                { word: 'Apple', pron: '/ˈæpəl/', meaning: 'Maçã', example: 'I eat an apple every day.' },
-                { word: 'Banana', pron: '/bəˈnænə/', meaning: 'Banana', example: 'The banana is yellow.' },
-                { word: 'Orange', pron: '/ˈɔːrɪndʒ/', meaning: 'Laranja', example: 'I like orange juice.' },
-                { word: 'Bread', pron: '/bred/', meaning: 'Pão', example: 'Bread is on the table.' },
-                { word: 'Cheese', pron: '/tʃiːz/', meaning: 'Queijo', example: 'I like cheese in my sandwich.' },
-                { word: 'Milk', pron: '/mɪlk/', meaning: 'Leite', example: 'Milk is good for breakfast.' },
-                { word: 'Water', pron: '/ˈwɔːtər/', meaning: 'Água', example: 'Please give me water.' },
-                { word: 'Juice', pron: '/dʒuːs/', meaning: 'Suco', example: 'The juice is cold.' },
-                { word: 'Coffee', pron: '/ˈkɔːfi/', meaning: 'Café', example: 'My father drinks coffee.' },
-                { word: 'Tea', pron: '/tiː/', meaning: 'Chá', example: 'I want a cup of tea.' },
-                { word: 'Rice', pron: '/raɪs/', meaning: 'Arroz', example: 'We eat rice for lunch.' },
-                { word: 'Beans', pron: '/biːnz/', meaning: 'Feijão', example: 'Beans and rice are common here.' },
-                { word: 'Chicken', pron: '/ˈtʃɪkɪn/', meaning: 'Frango', example: 'The chicken is hot.' },
-                { word: 'Fish', pron: '/fɪʃ/', meaning: 'Peixe', example: 'Fish is on the menu.' },
-                { word: 'Meat', pron: '/miːt/', meaning: 'Carne', example: 'I do not eat meat today.' },
-                { word: 'Egg', pron: '/eɡ/', meaning: 'Ovo', example: 'There is one egg on the plate.' },
-                { word: 'Salad', pron: '/ˈsæləd/', meaning: 'Salada', example: 'The salad is fresh.' },
-                { word: 'Soup', pron: '/suːp/', meaning: 'Sopa', example: 'The soup is very hot.' },
-                { word: 'Sandwich', pron: '/ˈsænwɪtʃ/', meaning: 'Sanduíche', example: 'I want a cheese sandwich.' },
-                { word: 'Pizza', pron: '/ˈpiːtsə/', meaning: 'Pizza', example: 'We eat pizza on Friday.' },
-                { word: 'Pasta', pron: '/ˈpæstə/', meaning: 'Macarrão', example: 'Pasta is my favorite food.' },
-                { word: 'Cake', pron: '/keɪk/', meaning: 'Bolo', example: 'The cake is sweet.' },
-                { word: 'Ice cream', pron: '/ˈaɪs kriːm/', meaning: 'Sorvete', example: 'I like chocolate ice cream.' },
-                { word: 'Breakfast', pron: '/ˈbrekfəst/', meaning: 'Café da manhã', example: 'Breakfast is at seven o clock.' },
-                { word: 'Lunch', pron: '/lʌntʃ/', meaning: 'Almoço', example: 'Lunch is ready.' },
-                { word: 'Dinner', pron: '/ˈdɪnər/', meaning: 'Jantar', example: 'We have dinner at home.' },
-                { word: 'Hungry', pron: '/ˈhʌŋɡri/', meaning: 'Com fome', example: 'I am hungry now.' },
-                { word: 'Thirsty', pron: '/ˈθɜːrsti/', meaning: 'Com sede', example: 'She is thirsty.' },
-                { word: 'Hot', pron: '/hɑːt/', meaning: 'Quente', example: 'The coffee is hot.' },
-                { word: 'Cold', pron: '/koʊld/', meaning: 'Gelado/Frio', example: 'The lemonade is cold.' }
+                { word: 'Shirt', pron: '/ʃɜːrt/', meaning: 'Camisa', example: 'He wears a blue shirt.' },
+                { word: 'T-shirt', pron: '/ˈtiː ʃɜːrt/', meaning: 'Camiseta', example: 'My T-shirt is white.' },
+                { word: 'Pants', pron: '/pænts/', meaning: 'Calça', example: 'These pants are black.' },
+                { word: 'Jeans', pron: '/dʒiːnz/', meaning: 'Jeans', example: 'I like blue jeans.' },
+                { word: 'Dress', pron: '/dres/', meaning: 'Vestido', example: 'She buys a red dress.' },
+                { word: 'Skirt', pron: '/skɜːrt/', meaning: 'Saia', example: 'The skirt is long.' },
+                { word: 'Jacket', pron: '/ˈdʒækɪt/', meaning: 'Jaqueta', example: 'Put on your jacket.' },
+                { word: 'Coat', pron: '/koʊt/', meaning: 'Casaco', example: 'The coat is warm.' },
+                { word: 'Sweater', pron: '/ˈswetər/', meaning: 'Suéter', example: 'She wears a wool sweater.' },
+                { word: 'Shoes', pron: '/ʃuːz/', meaning: 'Sapatos', example: 'My shoes are dirty.' },
+                { word: 'Sneakers', pron: '/ˈsniːkərz/', meaning: 'Tênis', example: 'I run in my sneakers.' },
+                { word: 'Boots', pron: '/buːts/', meaning: 'Botas', example: 'Rain boots are yellow.' },
+                { word: 'Sandals', pron: '/ˈsændəlz/', meaning: 'Sandálias', example: 'She wears sandals in summer.' },
+                { word: 'Hat', pron: '/hæt/', meaning: 'Chapéu', example: 'He has a black hat.' },
+                { word: 'Cap', pron: '/kæp/', meaning: 'Boné', example: 'The cap is blue.' },
+                { word: 'Scarf', pron: '/skɑːrf/', meaning: 'Cachecol', example: 'A red scarf keeps you warm.' },
+                { word: 'Gloves', pron: '/ɡlʌvz/', meaning: 'Luvas', example: 'Winter gloves are thick.' },
+                { word: 'Socks', pron: '/sɑːks/', meaning: 'Meias', example: 'I need new socks.' },
+                { word: 'Belt', pron: '/belt/', meaning: 'Cinto', example: 'He wears a leather belt.' },
+                { word: 'Tie', pron: '/taɪ/', meaning: 'Gravata', example: 'Dad wears a tie to work.' },
+                { word: 'Suit', pron: '/suːt/', meaning: 'Terno', example: 'His suit is gray.' },
+                { word: 'Uniform', pron: '/ˈjuːnɪfɔːrm/', meaning: 'Uniforme', example: 'Students wear a uniform.' },
+                { word: 'Raincoat', pron: '/ˈreɪnkoʊt/', meaning: 'Impermeável', example: 'Use a raincoat in the rain.' },
+                { word: 'Shorts', pron: '/ʃɔːrts/', meaning: 'Shorts/Bermuda', example: 'Shorts are great for hot days.' },
+                { word: 'Blouse', pron: '/blaʊs/', meaning: 'Blusa', example: 'She wears a silk blouse.' },
+                { word: 'Bag', pron: '/bæɡ/', meaning: 'Bolsa', example: 'Her bag is big.' },
+                { word: 'Purse', pron: '/pɜːrs/', meaning: 'Bolsa pequena', example: 'The purse is made of leather.' },
+                { word: 'Sunglasses', pron: '/ˈsʌnɡlæsɪz/', meaning: 'Óculos de sol', example: 'Wear sunglasses on sunny days.' },
+                { word: 'Watch', pron: '/wɑːtʃ/', meaning: 'Relógio', example: 'He looks at his watch.' }
             ],
-
 
             // GRAMMAR: Clothes
             grammar: [
@@ -656,8 +647,7 @@
                     title: 'A / An with Clothes',
                     explanation: {
                         theory: 'Use a before consonant sounds and an before vowel sounds.',
-                        formula: 'a + consonant sound noun
-an + vowel sound noun',
+                        formula: 'a + consonant sound noun\nan + vowel sound noun',
                         examples: [
                             'a shirt',
                             'a jacket',
@@ -691,8 +681,7 @@ an + vowel sound noun',
                     title: 'Singular and Plural Clothes',
                     explanation: {
                         theory: 'Some clothing words are singular and some are usually plural.',
-                        formula: 'singular: a shirt, a dress
-plural: shoes, pants, jeans, socks',
+                        formula: 'singular: a shirt, a dress\nplural: shoes, pants, jeans, socks',
                         examples: [
                             'This is a jacket.',
                             'These are my shoes.',
@@ -709,8 +698,7 @@ plural: shoes, pants, jeans, socks',
                     title: 'Put on / Take off',
                     explanation: {
                         theory: 'Use put on when dressing and take off when removing clothes.',
-                        formula: 'put on + clothing item
-take off + clothing item',
+                        formula: 'put on + clothing item\ntake off + clothing item',
                         examples: [
                             'Put on your shoes.',
                             'She puts on her coat.',
@@ -744,8 +732,7 @@ take off + clothing item',
                     title: 'This is / These are (Clothes)',
                     explanation: {
                         theory: 'Use this is for singular clothing items and these are for plural clothing items.',
-                        formula: 'This is + singular noun
-These are + plural noun',
+                        formula: 'This is + singular noun\nThese are + plural noun',
                         examples: [
                             'This is my coat.',
                             'This is a new belt.',
@@ -762,9 +749,7 @@ These are + plural noun',
                     title: 'Questions about Clothes',
                     explanation: {
                         theory: 'Use simple questions to ask about clothes and colors.',
-                        formula: 'What are you wearing?
-What color is it?
-Whose + noun + is this?',
+                        formula: 'What are you wearing?\nWhat color is it?\nWhose + noun + is this?',
                         examples: [
                             'What are you wearing today?',
                             'What color is your shirt?',
@@ -811,7 +796,6 @@ Whose + noun + is this?',
                     }
                 }
             ]
-
         }
     };
 
@@ -882,17 +866,11 @@ Whose + noun + is this?',
         const section = lessonData.tabs[currentTab];
         const index = questionIndex[currentTab];
         
-        // Special handling for Vocabulary (Study Mode vs Quiz Mode)
         if (currentTab === 'vocabulary') {
-            // If index is less than total vocab words, show study list
             if (index < lessonData.tabs.vocabulary.length) {
                 renderVocabularyList();
             } else {
-                // If index equals or exceeds vocab length, we are in Quiz Mode
-                // Check if we need to initialize the quiz set
-                if (vocabQuizSet.length === 0) {
-                    initVocabQuiz();
-                }
+                if (vocabQuizSet.length === 0) initVocabQuiz();
                 renderVocabularyQuiz();
             }
             return;
@@ -968,13 +946,14 @@ Whose + noun + is this?',
 
     window.retrySection = (tabName) => {
         questionIndex[tabName] = 0;
-        if (tabName === 'vocabulary') vocabQuizSet = []; // Reset quiz state
+        if (tabName === 'vocabulary') vocabQuizSet = [];
         saveProgress();
         renderCurrentTab();
     };
 
     // ===== RENDERERS =====
     function renderReading(q) {
+        // Using the enhanced HTML structure for Reading
         mainContent.innerHTML = `
             <h1 class="section-title">📖 Reading</h1>
             <p class="section-subtitle">Read, notice the colors, and find the key clothing words</p>
@@ -987,7 +966,7 @@ Whose + noun + is this?',
                 ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
                 <div class="reading-text rich">${q.text}</div>
                 <div class="tts-controls">
-                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\'")}')">
+                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
                         <i class="fa-solid fa-volume-high"></i> Listen
                     </button>
                     <select class="speed-select" onchange="changeSpeed(this.value)">
@@ -1084,11 +1063,8 @@ Whose + noun + is this?',
             <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
         `;
     }
-
-    // ===== NEW: VOCABULARY RENDERERS (FIXED) =====
     
     function initVocabQuiz() {
-        // Shuffle all vocabulary words and pick 5
         const allVocab = [...lessonData.tabs.vocabulary];
         vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
         currentVocabQuizIndex = 0;
@@ -1124,9 +1100,8 @@ Whose + noun + is this?',
     }
 
     window.startVocabQuiz = () => {
-        // Mark study phase as done by moving index past the list length
         questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
-        initVocabQuiz(); // Generate new random set
+        initVocabQuiz();
         saveProgress();
         renderVocabularyQuiz();
         updateProgress();
@@ -1134,22 +1109,17 @@ Whose + noun + is this?',
 
     function renderVocabularyQuiz() {
         if (currentVocabQuizIndex >= vocabQuizSet.length) {
-            // Quiz finished
-            questionIndex.vocabulary++; // Move past quiz completely
+            questionIndex.vocabulary++;
             saveProgress();
             renderSectionComplete('vocabulary');
             return;
         }
 
         const item = vocabQuizSet[currentVocabQuizIndex];
-        
-        // Generate options (1 correct + 3 wrong)
         const correctMeaning = item.meaning;
         const wrongOptions = lessonData.tabs.vocabulary
             .filter(w => w.word !== item.word)
             .map(w => w.meaning);
-        
-        // Shuffle wrong options and take 3
         const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
         const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
         
@@ -1198,14 +1168,12 @@ Whose + noun + is this?',
             feedback.className = 'feedback correct show';
             feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
             addXP(10);
-            
             setTimeout(() => {
                 currentVocabQuizIndex++;
                 renderVocabularyQuiz();
             }, 1500);
         } else {
             opts[window.selectedVocabOption].classList.add('wrong');
-            // Find and highlight correct one
             Array.from(opts).forEach(opt => {
                 if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
                     opt.classList.add('correct');
@@ -1213,7 +1181,6 @@ Whose + noun + is this?',
             });
             feedback.className = 'feedback wrong show';
             feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
-            
             document.getElementById('checkBtn').disabled = true;
             document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
             document.getElementById('checkBtn').onclick = () => {
@@ -1302,7 +1269,6 @@ Whose + noun + is this?',
     
     function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
 
-    // ===== ANSWER CHECKING WITH AUTO-ADVANCE =====
     window.checkAnswer = () => {
         if(isAnswered||selectedOption===null) return; isAnswered=true;
         const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
@@ -1312,11 +1278,7 @@ Whose + noun + is this?',
             feedback.className='feedback correct show'; 
             feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
             addXP(q.xp); 
-            
-            // Auto-advance after 1.5 seconds
-            setTimeout(() => {
-                nextQuestion();
-            }, 1500);
+            setTimeout(() => { nextQuestion(); }, 1500);
         }
         else{ 
             options[selectedOption].classList.add('wrong'); 
@@ -1324,7 +1286,6 @@ Whose + noun + is this?',
             feedback.className='feedback wrong show'; 
             feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
             streak=0; streakDisplay.textContent='0'; 
-            // Stay on question, allow retry
         }
         document.getElementById('checkBtn').disabled=true; 
         document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
@@ -1340,24 +1301,18 @@ Whose + noun + is this?',
             feedback.className='feedback correct show'; 
             feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
             addXP(q.xp); 
-            
-            // Auto-advance after 1.5 seconds
-            setTimeout(() => {
-                nextQuestion();
-            }, 1500);
+            setTimeout(() => { nextQuestion(); }, 1500);
         }
         else{ 
             input.style.borderColor='#ef4444'; 
             feedback.className='feedback wrong show'; 
             feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
-            // Stay on question, allow retry
         }
         document.getElementById('checkBtn').disabled=true; 
         document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
         saveProgress();
     };
 
-    // ===== NAVIGATION =====
     window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
     window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
     window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
@@ -1433,7 +1388,6 @@ Whose + noun + is this?',
         if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u08_completed`]:true,[`progresso.u08_date`]:new Date().toISOString(),[`progresso.u08_score`]:final}).catch(console.error);
     }
 
-    // ===== XP & PROGRESS =====
     function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
     function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
     function unlockBadge(id){ console.log(`Badge: ${id}`); }
@@ -1495,19 +1449,17 @@ Whose + noun + is this?',
         userNotes[questionId] = value;
     };
 
-    // ===== HINTS =====
     window.showHint = () => {
         if(hintsUsed>=3){ alert('Max hints reached'); return; }
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Think about the body words you\'ve learned.','Remember the singular and plural forms: eye/eyes, foot/feet.','Look for body parts and descriptive words in the text.'];
+        const hints=['Look at the colors in the text.','Check the singular and plural forms: hat/hats, shoe/shoes.','Pay attention to the verbs: is wearing vs. are wearing.'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
     };
 
-    // ===== UTILS =====
     window.goHome = () => { saveProgress(); window.location.href='index.html'; };
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
     window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
