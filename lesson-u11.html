@@ -137,7 +137,8 @@
         .reading-text.rich {
             background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
             border: 1px solid #e2e8f0; border-left: 6px solid #3b82f6; border-radius: 14px;
-            padding: 1.25rem 1.35rem; line-height: 2.05; font-size: 1.08rem;
+            padding: 1.5rem 1.5rem; line-height: 2.1; font-size: 1.1rem;
+            text-align: justify;
         }
         .reading-keyword {
             display: inline-block; padding: 0 0.35rem; border-radius: 0.5rem; font-weight: 800;
@@ -146,19 +147,10 @@
             cursor: default;
         }
         .reading-keyword:hover { transform: scale(1.05); }
-        .keyword-blue { background: #dbeafe; color: #1d4ed8; }
-        .keyword-purple { background: #ede9fe; color: #6d28d9; }
-        .keyword-pink { background: #fce7f3; color: #be185d; }
-        .keyword-yellow { background: #fef3c7; color: #b45309; }
-        .keyword-green { background: #dcfce7; color: #15803d; }
-        .keyword-red { background: #fee2e2; color: #b91c1c; }
-        .keyword-orange { background: #ffedd5; color: #c2410c; }
-        .keyword-teal { background: #ccfbf1; color: #0f766e; }
-        .keyword-black { background: #e2e8f0; color: #0f172a; }
-        .keyword-white { background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; }
-        .keyword-gray { background: #f1f5f9; color: #475569; }
-        .keyword-brown { background: #efdbcf; color: #7c2d12; }
-        .keyword-gold { background: #fef08a; color: #854d0e; }
+        .keyword-blue { background: #dbeafe; color: #1d4ed8; } /* Stationery (Pen, Pencil) */
+        .keyword-purple { background: #ede9fe; color: #6d28d9; } /* Furniture (Desk, Chair) */
+        .keyword-orange { background: #ffedd5; color: #c2410c; } /* Tech (Computer, Screen) */
+        .keyword-green { background: #dcfce7; color: #15803d; } /* Prepositions/Place (Under, On) */
         /* END ENHANCED READING STYLES */
 
         .video-container {
@@ -379,10 +371,10 @@
             theme: 'Classroom Objects',
             videoId: '2ZrY25gl8Kw',
             objectives: [
-                'Identify common classroom objects (pen, pencil, desk, board)',
-                'Understand and use classroom imperatives (open, close, listen)',
-                'Describe the location of objects using prepositions',
-                'Ask for and lend school supplies'
+                'Identify common school supplies (pen, pencil, book, etc.)',
+                'Name furniture in a classroom (desk, chair, board)',
+                'Use prepositions of place (in, on, under, next to)',
+                'Use "There is" and "There are" correctly'
             ]
         },
 
@@ -390,410 +382,409 @@
             video: {
                 type: 'embed',
                 videoId: '2ZrY25gl8Kw',
-                instructions: 'Watch the video about classroom objects. Pay attention to the names of school supplies and furniture.'
+                instructions: 'Watch the video about classroom objects. Pay attention to the spelling and pronunciation of school items.'
             },
 
-            // READING: 10 questions - EXPANDED TEXTS WITH MORE WORDS
+            // READING: 10 questions - EXPANDED TEXT & COLORFUL
             reading: [
                 {
-                    id: 'r1', type: 'scanning', difficulty: 'easy', xp: 10,
-                    text: `The large <span class="reading-keyword keyword-blue">wooden desk</span> is very messy. On top of it, there is a heavy <span class="reading-keyword keyword-purple">textbook</span>, a <span class="reading-keyword keyword-red">red notebook</span>, and a blue <span class="reading-keyword keyword-green">pencil case</span>. The student needs to organize it before the class starts.`,
-                    q: 'What is on top of the desk?',
-                    options: ['A backpack', 'A computer', 'A textbook and notebook', 'A chair'],
+                    id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `Welcome to our English class! Look around the room. You can see many things. There is a big <span class="reading-keyword keyword-purple">whiteboard</span> on the wall. The teacher writes on it with a <span class="reading-keyword keyword-blue">marker</span>. Under the whiteboard, there is a <span class="reading-keyword keyword-purple">desk</span> for the teacher. It is very tidy.`,
+                    q: 'What is on the wall?',
+                    options: ['A desk', 'A marker', 'A whiteboard', 'A chair'],
                     answer: 2,
-                    tts: 'The large wooden desk is very messy. On top of it, there is a heavy textbook, a red notebook, and a blue pencil case. The student needs to organize it before the class starts.',
-                    explanation: 'The text mentions a textbook, a notebook, and a pencil case on the desk.',
-                    cefr: 'Can locate multiple objects in a list.',
-                    focusWords: ['desk', 'textbook', 'notebook']
+                    tts: 'Welcome to our English class! Look around the room. You can see many things. There is a big whiteboard on the wall.',
+                    explanation: 'The text says "There is a big whiteboard on the wall."',
+                    cefr: 'Can identify furniture in a room.',
+                    focusWords: ['whiteboard', 'marker', 'desk']
                 },
                 {
-                    id: 'r2', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: `Please look at the front of the classroom. The <span class="reading-keyword keyword-black">whiteboard</span> is white and clean. The teacher is writing important <span class="reading-keyword keyword-orange">math equations</span> with a bright <span class="reading-keyword keyword-pink">pink marker</span>. We must copy these notes into our books.`,
-                    q: 'What is the teacher using?',
-                    options: ['A chalk', 'A pink marker', 'A pencil', 'An eraser'],
+                    id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
+                    text: `Every student has a <span class="reading-keyword keyword-purple">chair</span> to sit <span class="reading-keyword keyword-green">on</span>. My chair is blue and comfortable. I put my <span class="reading-keyword keyword-blue">backpack</span> <span class="reading-keyword keyword-green">under</span> my chair so it does not block the way. It is important to keep the classroom clean.`,
+                    q: 'Where is the backpack?',
+                    options: ['On the chair', 'Under the chair', 'On the desk', 'Next to the door'],
                     answer: 1,
-                    tts: 'Please look at the front of the classroom. The whiteboard is white and clean. The teacher is writing important math equations with a bright pink marker. We must copy these notes into our books.',
-                    explanation: 'The text says the teacher is writing with a bright pink marker.',
-                    cefr: 'Can identify the tool used for an action.',
-                    focusWords: ['whiteboard', 'math equations', 'marker']
+                    tts: 'Every student has a chair to sit on. My chair is blue and comfortable. I put my backpack under my chair.',
+                    explanation: 'The text says "I put my backpack under my chair".',
+                    cefr: 'Can understand prepositions of place.',
+                    focusWords: ['chair', 'on', 'backpack', 'under']
                 },
                 {
                     id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
-                    text: `Sarah is carrying a heavy <span class="reading-keyword keyword-teal">backpack</span> on her back. She puts it down carefully on the floor next to her <span class="reading-keyword keyword-blue">chair</span>. Then, she takes out a sharp <span class="reading-keyword keyword-purple">pencil</span> and a ruler to start her work.`,
-                    q: 'Where does Sarah put the backpack?',
-                    options: ['On the desk', 'On the floor', 'On the chair', 'Under the table'],
-                    answer: 1,
-                    tts: 'Sarah is carrying a heavy backpack on her back. She puts it down carefully on the floor next to her chair. Then, she takes out a sharp pencil and a ruler to start her work.',
-                    explanation: 'The text says she puts the backpack on the floor.',
-                    cefr: 'Can identify the location of an object.',
-                    focusWords: ['backpack', 'chair', 'pencil']
+                    text: `Please open your <span class="reading-keyword keyword-blue">notebook</span> to page five. Take your <span class="reading-keyword keyword-blue">pen</span> or <span class="reading-keyword keyword-blue">pencil</span>. Write your name at the top of the page. Do not use a <span class="reading-keyword keyword-blue">marker</span> because it is permanent ink.`,
+                    q: 'What should you NOT use to write your name?',
+                    options: ['A pen', 'A pencil', 'A marker', 'A notebook'],
+                    answer: 2,
+                    tts: 'Please open your notebook to page five. Take your pen or pencil. Write your name at the top of the page. Do not use a marker.',
+                    explanation: 'The text says "Do not use a marker".',
+                    cefr: 'Can follow simple classroom instructions.',
+                    focusWords: ['notebook', 'pen', 'pencil', 'marker']
                 },
                 {
                     id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `The classroom is noisy and chaotic. John\'s <span class="reading-keyword keyword-yellow">schoolbag</span> is under his <span class="reading-keyword keyword-blue">desk</span> because he kicked it there. His <span class="reading-keyword keyword-red">gym shoes</span> are behind the door, and his <span class="reading-keyword keyword-green">lunchbox</span> is on the high shelf.`,
-                    q: 'Why is the schoolbag under the desk?',
-                    options: ['It is clean there', 'He kicked it there', 'He lost it', 'It is too heavy'],
-                    answer: 1,
-                    tts: 'The classroom is noisy and chaotic. John\'s schoolbag is under his desk because he kicked it there.',
-                    explanation: 'The text says "because he kicked it there".',
-                    cefr: 'Can understand cause and effect in a short text.',
-                    focusWords: ['schoolbag', 'desk', 'gym shoes']
-                },
-                {
-                    id: 'r5', type: 'scanning', difficulty: 'medium', xp: 20,
-                    text: `In my <span class="reading-keyword keyword-purple">pencil case</span>, I have many useful things. I have two <span class="reading-keyword keyword-blue">pens</span>, one <span class="reading-keyword keyword-red">red eraser</span>, a small <span class="reading-keyword keyword-orange">sharpener</span>, and a <span class="reading-keyword keyword-green">glue stick</span>. I use the glue stick for art class.`,
-                    q: 'What does the student use the glue stick for?',
-                    options: ['Math class', 'Art class', 'English class', 'Gym class'],
-                    answer: 1,
-                    tts: 'In my pencil case, I have many useful things. I have two pens, one red eraser, a small sharpener, and a glue stick. I use the glue stick for art class.',
-                    explanation: 'The text says "I use the glue stick for art class."',
-                    cefr: 'Can connect an object to its purpose.',
-                    focusWords: ['pencil case', 'pens', 'eraser']
-                },
-                {
-                    id: 'r6', type: 'vocab', difficulty: 'medium', xp: 20,
-                    text: `The teacher asks the class to be quiet. She points to the <span class="reading-keyword keyword-black">clock</span> on the wall. "It is time for the test," she says. She puts the <span class="reading-keyword keyword-yellow">test papers</span> on every desk face down.`,
-                    q: 'What does the teacher put on the desks?',
-                    options: ['Books', 'Test papers', 'Computers', 'Maps'],
-                    answer: 1,
-                    tts: 'The teacher asks the class to be quiet. She points to the clock on the wall. It is time for the test, she says. She puts the test papers on every desk face down.',
-                    explanation: 'The text says "She puts the test papers on every desk".',
-                    cefr: 'Can follow a sequence of events in the classroom.',
-                    focusWords: ['clock', 'test papers', 'quiet']
-                },
-                {
-                    id: 'r7', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `Look at the map on the wall. It is a big <span class="reading-keyword keyword-blue">world map</span>. Next to the map, there is a colorful <span class="reading-keyword keyword-purple">calendar</span>. The calendar shows today\'s date and the picture of a <span class="reading-keyword keyword-orange">sun</span> because it is sunny outside.`,
-                    q: 'What is next to the map?',
-                    options: ['A clock', 'A whiteboard', 'A calendar', 'A door'],
+                    text: `Sarah needs to erase a mistake in her book. She looks in her <span class="reading-keyword keyword-blue">pencil case</span>. She finds a <span class="reading-keyword keyword-blue">rubber</span> (eraser) and a <span class="reading-keyword keyword-blue">sharpener</span>. She uses the rubber to clean the paper. Now her work is perfect again.`,
+                    q: 'What did Sarah use to fix the mistake?',
+                    options: ['A sharpener', 'A pencil case', 'A rubber', 'A pen'],
                     answer: 2,
-                    tts: 'Look at the map on the wall. It is a big world map. Next to the map, there is a colorful calendar.',
-                    explanation: 'The text says "Next to the map, there is a colorful calendar."',
-                    cefr: 'Can understand position and visual description.',
-                    focusWords: ['map', 'calendar', 'sun']
+                    tts: 'Sarah needs to erase a mistake in her book. She looks in her pencil case. She finds a rubber and a sharpener. She uses the rubber.',
+                    explanation: 'The text says "She uses the rubber to clean the paper."',
+                    cefr: 'Can infer the function of objects.',
+                    focusWords: ['pencil case', 'rubber', 'sharpener']
                 },
                 {
-                    id: 'r8', type: 'scanning', difficulty: 'hard', xp: 30,
-                    text: `Technology is important in our modern classroom. Each student has a <span class="reading-keyword keyword-gray">tablet</span> on their desk. There is also a big <span class="reading-keyword keyword-teal">computer</span> on the teacher\'s desk connected to a <span class="reading-keyword keyword-black">projector</span>.`,
-                    q: 'What is on the teacher\'s desk?',
-                    options: ['A tablet', 'A calculator', 'A computer', 'A phone'],
+                    id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `In the modern classroom, there is a <span class="reading-keyword keyword-orange">computer</span> and a <span class="reading-keyword keyword-orange">projector</span>. The teacher shows videos on the <span class="reading-keyword keyword-orange">screen</span>. It is very interactive. We also use a <span class="reading-keyword keyword-orange">tablet</span> to read digital books.`,
+                    q: 'What shows the videos?',
+                    options: ['The screen', 'The computer', 'The tablet', 'The whiteboard'],
+                    answer: 0,
+                    tts: 'In the modern classroom, there is a computer and a projector. The teacher shows videos on the screen.',
+                    explanation: 'The text says "The teacher shows videos on the screen."',
+                    cefr: 'Can identify technology items.',
+                    focusWords: ['computer', 'projector', 'screen', 'tablet']
+                },
+                {
+                    id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
+                    text: `There is a <span class="reading-keyword keyword-purple">bookshelf</span> <span class="reading-keyword keyword-green">next to</span> the window. It is full of <span class="reading-keyword keyword-blue">books</span> and <span class="reading-keyword keyword-blue">dictionaries</span>. There is also a <span class="reading-keyword keyword-blue">globe</span> on top of the shelf. The globe shows all the countries of the world.`,
+                    q: 'What is on top of the shelf?',
+                    options: ['Books', 'A dictionary', 'A globe', 'A window'],
                     answer: 2,
-                    tts: 'Technology is important in our modern classroom. Each student has a tablet on their desk. There is also a big computer on the teacher\'s desk connected to a projector.',
-                    explanation: 'The text says "There is also a big computer on the teacher\'s desk".',
-                    cefr: 'Can distinguish between objects owned by students vs teacher.',
-                    focusWords: ['tablet', 'computer', 'projector']
+                    tts: 'There is a bookshelf next to the window. It is full of books and dictionaries. There is also a globe on top of the shelf.',
+                    explanation: 'The text says "There is also a globe on top of the shelf."',
+                    cefr: 'Can locate specific objects in a description.',
+                    focusWords: ['bookshelf', 'next to', 'globe']
                 },
                 {
-                    id: 'r9', type: 'inference', difficulty: 'hard', xp: 30,
-                    text: `Lucy cannot find her <span class="reading-keyword keyword-red">scissors</span>. She looks <span class="reading-keyword keyword-blue">inside</span> her desk, but they are not there. She looks <span class="reading-keyword keyword-green">under</span> her notebook, but they are not there. Finally, she finds them <span class="reading-keyword keyword-orange">behind</span> the books on the shelf.`,
-                    q: 'Where were the scissors?',
-                    options: ['Inside the desk', 'Under the notebook', 'Behind the books', 'On the chair'],
-                    answer: 2,
-                    tts: 'Lucy cannot find her scissors. She looks inside her desk, but they are not there. She looks under her notebook, but they are not there. Finally, she finds them behind the books on the shelf.',
-                    explanation: 'The text says "she finds them behind the books on the shelf."',
-                    cefr: 'Can follow a search process using prepositions.',
-                    focusWords: ['scissors', 'inside', 'under', 'behind']
-                },
-                {
-                    id: 'r10', type: 'vocab', difficulty: 'hard', xp: 30,
-                    text: `Please clean up your area. Put the waste paper in the <span class="reading-keyword keyword-gray">trash can</span>. Put your <span class="reading-keyword keyword-blue">books</span> on the <span class="reading-keyword keyword-purple">shelf</span>. Push your <span class="reading-keyword keyword-red">chair</span> under the <span class="reading-keyword keyword-yellow">table</span> before you leave.`,
-                    q: 'What should you do with the waste paper?',
-                    options: ['Keep it', 'Put it in the trash can', 'Put it on the shelf', 'Give it to the teacher'],
+                    id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
+                    text: `The art class is fun. We need <span class="reading-keyword keyword-blue">scissors</span> to cut paper. We use <span class="reading-keyword keyword-blue">glue</span> to stick things together. Be careful with the scissors! They are sharp. We also use <span class="reading-keyword keyword-blue">colored pencils</span> to draw.`,
+                    q: 'What do we use to cut paper?',
+                    options: ['Glue', 'Scissors', 'Colored pencils', 'A pen'],
                     answer: 1,
-                    tts: 'Please clean up your area. Put the waste paper in the trash can. Put your books on the shelf.',
-                    explanation: 'The text says "Put the waste paper in the trash can."',
-                    cefr: 'Can understand multiple imperative instructions.',
-                    focusWords: ['trash can', 'books', 'shelf', 'chair']
+                    tts: 'The art class is fun. We need scissors to cut paper. We use glue to stick things together.',
+                    explanation: 'The text says "We need scissors to cut paper."',
+                    cefr: 'Can match tools to actions.',
+                    focusWords: ['scissors', 'glue', 'colored pencils']
+                },
+                {
+                    id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: `John wants to calculate his math homework. He opens his <span class="reading-keyword keyword-blue">bag</span>. He looks for his <span class="reading-keyword keyword-blue">calculator</span>. He cannot find it. Maybe it is at home. He has to use his brain and a <span class="reading-keyword keyword-blue">ruler</span> instead.`,
+                    q: 'What is John looking for?',
+                    options: ['A ruler', 'A calculator', 'His bag', 'His brain'],
+                    answer: 1,
+                    tts: 'John wants to calculate his math homework. He opens his bag. He looks for his calculator. He cannot find it.',
+                    explanation: 'The text says "He looks for his calculator."',
+                    cefr: 'Can understand problem solving context.',
+                    focusWords: ['bag', 'calculator', 'ruler']
+                },
+                {
+                    id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
+                    text: `The clock <span class="reading-keyword keyword-green">above</span> the door shows it is 10 o\'clock. The <span class="reading-keyword keyword-purple">map</span> <span class="reading-keyword keyword-green">behind</span> the teacher is very old. The <span class="reading-keyword keyword-purple">trash can</span> is in the corner. The <span class="reading-keyword keyword-blue">calendar</span> on the wall says it is Monday.`,
+                    q: 'Where is the map?',
+                    options: ['Above the door', 'Behind the teacher', 'In the corner', 'On the wall'],
+                    answer: 1,
+                    tts: 'The clock above the door shows it is 10 o\'clock. The map behind the teacher is very old.',
+                    explanation: 'The text says "The map behind the teacher is very old."',
+                    cefr: 'Can distinguish between multiple prepositions.',
+                    focusWords: ['above', 'behind', 'trash can', 'map']
+                },
+                {
+                    id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
+                    text: `Students sit <span class="reading-keyword keyword-green">at</span> their desks. The teacher stands <span class="reading-keyword keyword-green">in front of</span> the class. There are many <span class="reading-keyword keyword-blue">folders</span> on the teacher\'s desk. She has a <span class="reading-keyword keyword-blue">stapler</span> to organize the papers for the students.`,
+                    q: 'Who stands in front of the class?',
+                    options: ['A student', 'The teacher', 'The principal', 'John'],
+                    answer: 1,
+                    tts: 'Students sit at their desks. The teacher stands in front of the class.',
+                    explanation: 'The text says "The teacher stands in front of the class."',
+                    cefr: 'Can identify subjects in a classroom setting.',
+                    focusWords: ['at', 'in front of', 'folders', 'stapler']
                 }
             ],
 
             // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Which object do you hear?', tts: 'Pencil', options: ['Pencil', 'Pen', 'Paper', 'Eraser'], answer: 0, speed: 0.85 },
+                    q: 'Which object do you hear?', tts: 'Pen', options: ['Pen', 'Pan', 'Pin', 'Pain'], answer: 0, speed: 0.85 },
                 { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Listen and choose:', tts: 'Desk', options: ['Chair', 'Desk', 'Door', 'Board'], answer: 1, speed: 0.85 },
+                    q: 'Listen and choose:', tts: 'Book', options: ['Back', 'Book', 'Bike', 'Boot'], answer: 1, speed: 0.85 },
                 { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Which word do you hear?', tts: 'Book', options: 'Back', 'Book', 'Bag', 'Boot', answer: 1, speed: 0.85 },
+                    q: 'Which word do you hear?', tts: 'Table', options: ['Table', 'Label', 'Cable', 'Able'], answer: 0, speed: 0.85 },
                 { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen carefully:', tts: 'Open your book to page ten', options: ['Open your book to page ten', 'Close your book to page ten', 'Open your bag to page ten', 'Open your book to page two'], answer: 0, speed: 0.85 },
+                    q: 'Listen carefully:', tts: 'Open your notebook', options: ['Open your note', 'Open your notebook', 'Close your notebook', 'Open your book'], answer: 1, speed: 0.85 },
                 { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Which object is mentioned?', tts: 'The pen is on the desk', options: ['Pen', 'Pencil', 'Ruler', 'Eraser'], answer: 0, speed: 0.85 },
+                    q: 'Where is the pen?', tts: 'The pen is on the desk', options: ['The pen is under the desk', 'The pen is on the desk', 'The pen is in the desk', 'The pen is on the chair'], answer: 1, speed: 0.85 },
                 { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen to the sentence:', tts: 'Can I borrow your ruler?', options: ['Can I borrow your ruler?', 'Can I borrow your rubber?', 'Can I borrow your reader?', 'Can I buy your ruler?'], answer: 0, speed: 0.85 },
+                    q: 'Listen to the sentence:', tts: 'I need a pencil', options: ['I need a pen', 'I need a pencil', 'I need a paper', 'I need a panel'], answer: 1, speed: 0.85 },
                 { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
-                    q: 'Which phrase do you hear?', tts: 'Put your hand up', options: ['Put your hand up', 'Put your head up', 'Put your hand down', 'Stand up please'], answer: 0, speed: 0.85 },
+                    q: 'Which phrase do you hear?', tts: 'Close the door', options: ['Close the door', 'Open the door', 'Close the drawer', 'Open the drawer'], answer: 0, speed: 0.85 },
                 { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'Whiteboard'", tts: 'Whiteboard', options: ['True', 'False'], answer: 0, speed: 0.85 },
+                    q: "True or False: The speaker says 'Chair'", tts: 'Teacher', options: ['True', 'False'], answer: 1, speed: 0.85 },
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'Backpack'", tts: 'Blackboard', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'Eraser'", tts: 'Eraser', options: ['True', 'False'], answer: 0, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: 'What should the student do?', tts: 'Look at the board', options: ['Look at the book', 'Look at the board', 'Look at the door', 'Look at the boy'], answer: 1, speed: 0.85 }
+                    q: 'What is on the board?', tts: 'There is a map on the board', options: ['There is a bag on the board', 'There is a map on the board', 'There is a cap on the board', 'There is a nap on the board'], answer: 1, speed: 0.85 }
             ],
 
             // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "Pencil"', model: 'pencil', expected: 'pencil' },
+                    prompt: 'Repeat: "Pencil"', model: 'Pencil', expected: 'pencil' },
                 { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "Notebook"', model: 'notebook', expected: 'notebook' },
+                    prompt: 'Repeat: "Notebook"', model: 'Notebook', expected: 'notebook' },
                 { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "Backpack"', model: 'backpack', expected: 'backpack' },
+                    prompt: 'Repeat: "Scissors"', model: 'Scissors', expected: 'scissors' },
                 { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Borrowing items',
-                    prompt: 'Say: "Can I borrow your pen?"',
-                    model: 'Can I borrow your pen?',
-                    expected: 'can i borrow your pen' },
+                    scenario: 'Identifying objects',
+                    prompt: 'Say: "This is a pen."',
+                    model: 'This is a pen.',
+                    expected: 'this is a pen' },
                 { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Locating items',
-                    prompt: 'Say: "The eraser is in the pencil case."',
-                    model: 'The eraser is in the pencil case.',
-                    expected: 'the eraser is in the pencil case' },
+                    scenario: 'Asking for objects',
+                    prompt: 'Say: "Can I have a ruler, please?"',
+                    model: 'Can I have a ruler, please?',
+                    expected: 'can i have a ruler please' },
                 { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Classroom instructions',
-                    prompt: 'Say: "Please open your book."',
-                    model: 'Please open your book.',
-                    expected: 'please open your book' },
+                    scenario: 'Describing location',
+                    prompt: 'Say: "The book is on the desk."',
+                    model: 'The book is on the desk.',
+                    expected: 'the book is on the desk' },
                 { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of school supplies]. Say what you see.',
-                    expected: 'supplies', minWords: 3 },
+                    prompt: 'Describe this: [Image of Classroom]. Say what you see.',
+                    expected: 'classroom', minWords: 3 },
                 { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of classroom]. Say: "This is a classroom. There is a board."',
-                    expected: 'classroom', minWords: 4 },
+                    prompt: 'Describe this: [Image of School Bag]. Say: "My bag is blue and big."',
+                    expected: 'bag', minWords: 4 },
                 { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'What things do you have in your pencil case?', minWords: 5, expectedPattern: 'pencil' },
+                    prompt: 'What is your favorite object in the classroom and why?', minWords: 5, expectedPattern: 'classroom' },
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your classroom. Is it big or small?', minWords: 6, expectedPattern: 'classroom' }
+                    prompt: 'List three things you have in your pencil case.', minWords: 6, expectedPattern: 'pencil case' }
             ],
 
-            // WRITING: 10 tasks - INCREASED WRITING SCOPE
+            // WRITING: 10 tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Complete: "I write with a ____." (pen)', answer: 'pen', example: 'I write with a pen.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "The teacher writes on the ____." (board)', answer: 'board', example: 'The teacher writes on the board.' },
+                    prompt: 'Complete: "I sit on a ____." (chair)', answer: 'chair', example: 'I sit on a chair.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "I keep my books in my ____." (bag)', answer: 'bag', example: 'I keep my books in my bag.' },
+                    prompt: 'Write the object: "You use it to erase mistakes."', answer: 'eraser', example: 'Eraser.' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Rewrite as negative: "Open the window" ->', answer: 'Do not open the window', example: 'Do not open the window.' },
+                    prompt: 'Change to plural: "This is a book" ->', answer: 'These are books', example: 'These are books.' },
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Change to question: "This is a ruler" ->', answer: 'Is this a ruler?', example: 'Is this a ruler?' },
+                    prompt: 'Make negative: "There is a pen" ->', answer: 'There is not a pen', example: 'There is not a pen.' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Use preposition: "The pen is ____ the desk." (on)', answer: 'on', example: 'The pen is on the desk.' },
+                    prompt: 'Use preposition: "The bag is ____ the desk." (under)', answer: 'under', example: 'The bag is under the desk.' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write 3 things you have in your backpack.', example: 'I have books, a notebook, and a pencil case in my backpack.', minLength: 15, maxLength: 60 },
+                    prompt: 'Describe your classroom. How many desks are there?', example: 'My classroom is big. There are twenty desks.', minLength: 10, maxLength: 60 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about your desk. What is on it?', example: 'On my desk, there is a computer, a lamp, and some papers.', minLength: 15, maxLength: 60 },
+                    prompt: 'What is in your school bag? List 3 items.', example: 'In my bag I have books, a pencil case, and a notebook.', minLength: 10, maxLength: 60 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe a classroom rule using imperatives.', minLength: 30, maxLength: 90 },
+                    prompt: 'Describe the perfect classroom. What furniture and objects does it have?', minLength: 25, maxLength: 80 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your favorite school object. What is it? What color is it? What do you use it for?', minLength: 40, maxLength: 100 }
+                    prompt: 'Write instructions for a new student: "Open your..." and "Take your...".', minLength: 20, maxLength: 70 }
             ],
 
             // VOCABULARY: 30 Words - CLASSROOM OBJECTS
             vocabulary: [
-                { word: 'Desk', pron: '/desk/', meaning: 'Carteira/Mesa', example: 'I sit at my desk.' },
-                { word: 'Chair', pron: '/tʃer/', meaning: 'Cadeira', example: 'The chair is comfortable.' },
+                { word: 'Pen', pron: '/pen/', meaning: 'Caneta', example: 'I write with a blue pen.' },
+                { word: 'Pencil', pron: '/ˈpensl/', meaning: 'Lápis', example: 'Use a pencil for the math test.' },
+                { word: 'Notebook', pron: '/ˈnoʊtbʊk/', meaning: 'Caderno', example: 'Write the homework in your notebook.' },
+                { word: 'Book', pron: '/bʊk/', meaning: 'Livro', example: 'The book is on the table.' },
+                { word: 'Eraser', pron: '/ɪˈreɪsər/', meaning: 'Borracha', example: 'I need an eraser to fix this.' },
+                { word: 'Ruler', pron: '/ˈruːlər/', meaning: 'Régua', example: 'Draw a straight line with the ruler.' },
+                { word: 'Desk', pron: '/desk/', meaning: 'Carteira/Mesa', example: 'My desk is made of wood.' },
+                { word: 'Chair', pron: '/tʃeər/', meaning: 'Cadeira', example: 'Please sit on your chair.' },
                 { word: 'Board', pron: '/bɔːrd/', meaning: 'Quadro', example: 'Look at the board.' },
-                { word: 'Whiteboard', pron: '/ˈwaɪtbɔːrd/', meaning: 'Quadro branco', example: 'The teacher writes on the whiteboard.' },
-                { word: 'Marker', pron: '/ˈmɑːrkər/', meaning: 'Marcador', example: 'Use a blue marker.' },
-                { word: 'Chalk', pron: '/tʃɔːk/', meaning: 'Giz', example: 'He writes with chalk.' },
-                { word: 'Eraser', pron: '/ɪˈreɪsər/', meaning: 'Borracha', example: 'I need an eraser.' },
-                { word: 'Pen', pron: '/pen/', meaning: 'Caneta', example: 'Write with a black pen.' },
-                { word: 'Pencil', pron: '/ˈpensəl/', meaning: 'Lápis', example: 'Sharpen your pencil.' },
-                { word: 'Ruler', pron: '/ˈruːlər/', meaning: 'Régua', example: 'Measure with a ruler.' },
-                { word: 'Book', pron: '/bʊk/', meaning: 'Livro', example: 'Open your book.' },
-                { word: 'Notebook', pron: '/ˈnoʊtbʊk/', meaning: 'Caderno', example: 'Write in your notebook.' },
-                { word: 'Dictionary', pron: '/ˈdɪkʃəneri/', meaning: 'Dicionário', example: 'Check the word in the dictionary.' },
-                { word: 'Glue', pron: '/ɡluː/', meaning: 'Cola', example: 'Use glue for paper.' },
-                { word: 'Scissors', pron: '/ˈsɪzərz/', meaning: 'Tesoura', example: 'Cut the paper with scissors.' },
+                { word: 'Whiteboard', pron: '/ˈwaɪtbɔːrd/', meaning: 'Quadro branco', example: 'The teacher uses a whiteboard marker.' },
+                { word: 'Blackboard', pron: '/ˈblækbɔːrd/', meaning: 'Quadro negro', example: 'We use chalk on the blackboard.' },
+                { word: 'Marker', pron: '/ˈmɑːrkər/', meaning: 'Marcador', example: 'Do not write with a permanent marker.' },
                 { word: 'Backpack', pron: '/ˈbækpæk/', meaning: 'Mochila', example: 'My backpack is heavy.' },
-                { word: 'Schoolbag', pron: '/ˈskuːlbæɡ/', meaning: 'Mochila escolar', example: 'Put your books in your schoolbag.' },
-                { word: 'Calculator', pron: '/ˈkælkjəleɪtər/', meaning: 'Calculadora', example: 'Use a calculator for math.' },
-                { word: 'Map', pron: '/mæp/', meaning: 'Mapa', example: 'Look at the map of the world.' },
-                { word: 'Globe', pron: '/ɡloʊb/', meaning: 'Globo', example: 'Spin the globe.' },
-                { word: 'Clock', pron: '/klɑːk/', meaning: 'Relógio', example: 'The clock is on the wall.' },
-                { word: 'Calendar', pron: '/ˈkæləndər/', meaning: 'Calendário', example: 'Check the date on the calendar.' },
-                { word: 'Computer', pron: '/kəmˈpjuːtər/', meaning: 'Computador', example: 'We use a computer in class.' },
-                { word: 'Tablet', pron: '/ˈtæblət/', meaning: 'Tablet', example: 'Read on the tablet.' },
-                { word: 'Paper', pron: '/ˈpeɪpər/', meaning: 'Papel', example: 'Do you have a piece of paper?' },
-                { word: 'Sharpener', pron: '/ˈʃɑːrpənər/', meaning: 'Apontador', example: 'My pencil is sharp.' },
-                { word: 'Pencil Case', pron: '/ˈpensəl keɪs/', meaning: 'Estojo', example: 'My pens are in the pencil case.' },
-                { word: 'Highlighter', pron: '/ˈhaɪlaɪtər/', meaning: 'Marcador texto', example: 'Highlight the important words.' },
-                { word: 'Stapler', pron: '/ˈsteɪplər/', meaning: 'Grampeador', example: 'Staple the papers together.' },
-                { word: 'Trash Can', pron: '/træʃ kæn/', meaning: 'Lixeira', example: 'Throw the trash in the can.' }
+                { word: 'Bag', pron: '/bæɡ/', meaning: 'Bolsa', example: 'Put your books in the bag.' },
+                { word: 'Pencil case', pron: '/ˈpensl keɪs/', meaning: 'Estojo', example: 'My pens are in the pencil case.' },
+                { word: 'Scissors', pron: '/ˈsɪzərz/', meaning: 'Tesoura', example: 'Cut the paper with scissors.' },
+                { word: 'Glue', pron: '/ɡluː/', meaning: 'Cola', example: 'Use glue to stick the photo.' },
+                { word: 'Sharpener', pron: '/ˈʃɑːrpənər/', meaning: 'Apontador', example: 'My pencil is broken, I need a sharpener.' },
+                { word: 'Calculator', pron: '/ˈkælkjəleɪtər/', meaning: 'Calculadora', example: 'We use a calculator in math class.' },
+                { word: 'Dictionary', pron: '/ˈdɪkʃəneri/', meaning: 'Dicionário', example: 'Check the word in the dictionary.' },
+                { word: 'Map', pron: '/mæp/', meaning: 'Mapa', example: 'There is a map of Brazil on the wall.' },
+                { word: 'Globe', pron: '/ɡloʊb/', meaning: 'Globo terrestre', example: 'Spin the globe to find Europe.' },
+                { word: 'Computer', pron: '/kəmˈpjuːtər/', meaning: 'Computador', example: 'The computer lab is downstairs.' },
+                { word: 'Projector', pron: '/prəˈdʒektər/', meaning: 'Projetor', example: 'Turn on the projector, please.' },
+                { word: 'Screen', pron: '/skriːn/', meaning: 'Tela', example: 'The image is on the screen.' },
+                { word: 'Calendar', pron: '/ˈkæləndər/', meaning: 'Calendário', example: 'Check the calendar for the exam date.' },
+                { word: 'Clock', pron: '/klɑːk/', meaning: 'Relógio', example: 'The clock says it is 9 AM.' },
+                { word: 'Door', pron: '/dɔːr/', meaning: 'Porta', example: 'Close the door, please.' },
+                { word: 'Window', pron: '/ˈwɪndoʊ/', meaning: 'Janela', example: 'Open the window, it is hot.' }
             ],
 
             // GRAMMAR: Classroom Objects
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Articles: A / An',
+                    explanation: {
+                        theory: 'Use A before consonant sounds. Use AN before vowel sounds.',
+                        formula: 'a + consonant\nan + vowel',
+                        examples: [
+                            'A book',
+                            'A pen',
+                            'An eraser',
+                            'An apple'
+                        ],
+                        exceptions: 'An hour (sound is vowel), A university (sound is consonant).',
+                        tip: 'Listen to the sound, not just the spelling.',
+                        usage: 'Essential for singular nouns.'
+                    }
+                },
+                {
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Plurals: -s / -es',
+                    explanation: {
+                        theory: 'Most plurals add -s. If the word ends in s, x, z, ch, sh, add -es.',
+                        formula: 'Noun + s\nNoun + es',
+                        examples: [
+                            'Pen -> Pens',
+                            'Book -> Books',
+                            'Bus -> Buses',
+                            'Box -> Boxes'
+                        ],
+                        exceptions: 'Words ending in Y change to IES (Baby -> Babies).',
+                        tip: '-ch and -sh sounds need -es to say it easily.',
+                        usage: 'Talking about more than one object.'
+                    }
+                },
+                {
+                    id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'This / That / These / Those',
+                    explanation: {
+                        theory: 'THIS and THESE are near (here). THAT and THOSE are far (there).',
+                        formula: 'This + Singular\nThat + Singular\nThese + Plural\nThose + Plural',
+                        examples: [
+                            'This is my pen. (Near)',
+                            'That is your bag. (Far)',
+                            'These are my books. (Near)',
+                            'Those are chairs. (Far)'
+                        ],
+                        exceptions: 'None, just memorize the distance.',
+                        tip: 'Near = This/These. Far = That/Those.',
+                        usage: 'Pointing out specific objects.'
+                    }
+                },
+                {
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'There is / There are',
+                    explanation: {
+                        theory: 'Use THERE IS for singular items. Use THERE ARE for plural items.',
+                        formula: 'There is + Singular Noun\nThere are + Plural Noun',
+                        examples: [
+                            'There is a ruler on the desk.',
+                            'There are two students in the room.',
+                            'Is there a pencil?',
+                            'Are there any windows?'
+                        ],
+                        exceptions: 'Contracted form: There\'s.',
+                        tip: 'Is = Singular. Are = Plural.',
+                        usage: 'Describing what exists in a place.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Prepositions: IN / ON',
+                    explanation: {
+                        theory: 'Use IN for inside things. Use ON for surfaces.',
+                        formula: 'in + container/box\non + table/surface',
+                        examples: [
+                            'The pen is in the bag.',
+                            'The book is on the desk.',
+                            'The pencil is in the pencil case.',
+                            'The map is on the wall.'
+                        ],
+                        exceptions: 'On the bus (not in the bus).',
+                        tip: 'IN = Inside. ON = Top.',
+                        usage: 'Locating objects precisely.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Prepositions: UNDER / NEXT TO',
+                    explanation: {
+                        theory: 'UNDER means below. NEXT TO means beside.',
+                        formula: 'under + object\nnext to + object',
+                        examples: [
+                            'The bag is under the chair.',
+                            'Sit next to your friend.',
+                            'The cat is under the table.',
+                            'The school is next to the park.'
+                        ],
+                        exceptions: 'None.',
+                        tip: 'Under = Down. Next to = Side.',
+                        usage: 'Relative position.'
+                    }
+                },
+                {
+                    id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Questions with WHAT',
+                    explanation: {
+                        theory: 'Use WHAT to ask about objects or things.',
+                        formula: 'What + is + this/that?',
+                        examples: [
+                            'What is this? It\'s a pen.',
+                            'What is that? It\'s a board.',
+                            'What are these? They\'s scissors.',
+                            'What do you have in your bag?'
+                        ],
+                        exceptions: 'Answer with "It is" or "They are".',
+                        tip: 'What asks for the name of a thing.',
+                        usage: 'Identifying unknown objects.'
+                    }
+                },
+                {
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
                     title: 'Imperatives (Classroom Commands)',
                     explanation: {
                         theory: 'Use the base form of the verb to give instructions or orders.',
-                        formula: '(Please) + verb + object',
+                        formula: 'Verb + Object',
                         examples: [
                             'Open your book.',
                             'Close the door.',
                             'Listen to the teacher.',
                             'Sit down, please.'
                         ],
-                        exceptions: 'Use "Do not" or "Don\'t" for negative commands.',
-                        tip: 'Imperatives are direct and short.',
-                        usage: 'Very common for teachers and students.'
-                    }
-                },
-                {
-                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'There is / There are (Objects)',
-                    explanation: {
-                        theory: 'Use there is for singular items and there are for plural items.',
-                        formula: 'There is + singular object\nThere are + plural object',
-                        examples: [
-                            'There is a pen on the desk.',
-                            'There is a board in the class.',
-                            'There are two chairs.',
-                            'There are many students.'
-                        ],
-                        exceptions: 'Use "is" for uncountable things like water or chalk.',
-                        tip: 'One thing = is. Many things = are.',
-                        usage: 'Describing what exists in a place.'
-                    }
-                },
-                {
-                    id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Prepositions of Place (Classroom)',
-                    explanation: {
-                        theory: 'Use in, on, under, next to, behind to say where things are.',
-                        formula: 'be + preposition + place',
-                        examples: [
-                            'The pen is on the desk.',
-                            'The bag is under the chair.',
-                            'The eraser is in the pencil case.',
-                            'She sits next to me.'
-                        ],
-                        exceptions: 'Be careful: IN the desk (inside drawer), ON the desk (top surface).',
-                        tip: 'On = Superfície. In = Dentro. Under = Embaixo.',
-                        usage: 'Essential for finding lost objects.'
-                    }
-                },
-                {
-                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Demonstratives: This / That / These / Those',
-                    explanation: {
-                        theory: 'Use this/these for close things and that/those for far things.',
-                        formula: 'This/That + singular\nThese/Those + plural',
-                        examples: [
-                            'This is my pen. (Close)',
-                            'That is the board. (Far)',
-                            'These are my books. (Close)',
-                            'Those are your chairs. (Far)'
-                        ],
-                        exceptions: 'Match the demonstrative with the noun (singular/plural).',
-                        tip: 'This = Here. That = There.',
-                        usage: 'Pointing at specific objects in the classroom.'
-                    }
-                },
-                {
-                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Questions with WHAT',
-                    explanation: {
-                        theory: 'Use What to ask about objects.',
-                        formula: 'What + be + this/that/it?',
-                        examples: [
-                            'What is this? It is a ruler.',
-                            'What is that? It is a map.',
-                            'What is in your bag?',
-                            'What do you need?'
-                        ],
-                        exceptions: 'Short answer: "It\'s a..."',
-                        tip: 'What asks for the name of a thing.',
-                        usage: 'Identifying classroom objects.'
-                    }
-                },
-                {
-                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Plurals (School Supplies)',
-                    explanation: {
-                        theory: 'Most objects add -s or -es to become plural.',
-                        formula: 'singular + s/es',
-                        examples: [
-                            'pen -> pens',
-                            'book -> books',
-                            'box -> boxes',
-                            'dictionary -> dictionaries'
-                        ],
-                        exceptions: 'Watch -> Watches, Knife -> Knives.',
-                        tip: 'Check if the word ends in ch, sh, x, s, z -> add -es.',
-                        usage: 'Talking about more than one object.'
-                    }
-                },
-                {
-                    id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Possessives with Objects',
-                    explanation: {
-                        theory: 'Use my, your, his, her to say who owns the object.',
-                        formula: 'Possessive + object',
-                        examples: [
-                            'This is my pen.',
-                            'Is that your bag?',
-                            'Her book is on the desk.',
-                            'His pencil case is blue.'
-                        ],
-                        exceptions: 'Don\'t confuse "its" (possession) with "it\'s" (it is).',
-                        tip: 'My pen, Your notebook, His ruler.',
-                        usage: 'Clarifying ownership in class.'
-                    }
-                },
-                {
-                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Can / Could (Requests)',
-                    explanation: {
-                        theory: 'Use Can or Could to politely ask for things or permission.',
-                        formula: 'Can/Could + I + verb + object?',
-                        examples: [
-                            'Can I borrow your pen?',
-                            'Could I have a piece of paper?',
-                            'Can you help me?',
-                            'Could you open the window?'
-                        ],
-                        exceptions: 'Could is slightly more polite than Can.',
-                        tip: 'Can I... = Você pode me emprestar...',
-                        usage: 'Social interactions in the classroom.'
+                        exceptions: 'Add "please" to be polite.',
+                        tip: 'Imperative = Command.',
+                        usage: 'Teacher talking to students.'
                     }
                 },
                 {
                     id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Articles (A / An / The)',
+                    title: 'Possessive Adjectives',
                     explanation: {
-                        theory: 'Use A/An for one general thing. Use THE for a specific thing.',
-                        formula: 'a/an + noun\nthe + noun',
+                        theory: 'Use MY, YOUR, HIS, HER to say who owns the object.',
+                        formula: 'Possessive + Noun',
                         examples: [
-                            'I have a pen. (One of many)',
-                            'I have an eraser. (Starts with vowel)',
-                            'Close the door. (Specific door)',
-                            'Look at the board. (Specific board)'
+                            'This is MY pen.',
+                            'Is this YOUR bag?',
+                            'That is HER book.',
+                            'This is HIS desk.'
                         ],
-                        exceptions: 'Use THE when there is only one in the room (The teacher, The board).',
-                        tip: 'A pen vs The pen.',
-                        usage: 'Essential for correct grammar reference.'
+                        exceptions: 'Its (for things/animals).',
+                        tip: 'Don\'t confuse with IT\'S (it is).',
+                        usage: 'Claiming ownership.'
                     }
                 },
                 {
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Describing Position Fully',
+                    title: 'Quantifiers: SOME / ANY',
                     explanation: {
-                        theory: 'Combine prepositions and objects for clear descriptions.',
-                        formula: 'Subject + be + preposition + the + object',
+                        theory: 'Use SOME in positive sentences. Use ANY in questions and negatives.',
+                        formula: 'There are + some + plural noun\nAre there + any + plural noun?',
                         examples: [
-                            'The book is on the desk.',
-                            'The backpack is under the chair.',
-                            'The map is next to the whiteboard.',
-                            'The pencil case is in the bag.'
+                            'There are some pens on the desk.',
+                            'There aren\'t any erasers.',
+                            'Do you have any pencils?',
+                            'I have some books.'
                         ],
-                        exceptions: 'Keep the order of words correct.',
-                        tip: 'Thing + Position + Place.',
-                        usage: 'Clear communication of location.'
+                        exceptions: 'Use SOME in questions if you offer something (Would you like some tea?).',
+                        tip: 'Positive = Some. Negative/Question = Any.',
+                        usage: 'Talking about quantity without numbers.'
                     }
                 }
             ]
@@ -954,15 +945,15 @@
 
     // ===== RENDERERS =====
     function renderReading(q) {
-        // Using the enhanced HTML structure for Reading
+        // Using the enhanced HTML structure for Reading with expanded text
         mainContent.innerHTML = `
             <h1 class="section-title">📖 Reading</h1>
-            <p class="section-subtitle">Read the detailed descriptions and find the key objects</p>
+            <p class="section-subtitle">Read the text about the classroom and find the objects</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card reading-card">
                 <div class="reading-header">
                     <div class="reading-label"><i class="fa-solid fa-school"></i> Classroom Context</div>
-                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Objects + Details</div>
+                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Objects + Prepositions</div>
                 </div>
                 ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
                 <div class="reading-text rich">${q.text}</div>
@@ -995,7 +986,7 @@
     function renderListening(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">🎧 Listening</h1>
-            <p class="section-subtitle">Train your ear</p>
+            <p class="section-subtitle">Train your ear for school words</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
                 <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
@@ -1024,7 +1015,7 @@
     function renderSpeaking(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">💬 Speaking</h1>
-            <p class="section-subtitle">Practice pronunciation</p>
+            <p class="section-subtitle">Practice pronunciation of classroom objects</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
                 <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
@@ -1046,7 +1037,7 @@
     function renderWriting(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">✍️ Writing</h1>
-            <p class="section-subtitle">Practice writing</p>
+            <p class="section-subtitle">Practice writing about the classroom</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
                 <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
@@ -1075,7 +1066,7 @@
         const vocabList = lessonData.tabs.vocabulary;
         let html = `
             <h1 class="section-title">📚 Vocabulary Study</h1>
-            <p class="section-subtitle">30 Essential Words for Classroom Objects</p>
+            <p class="section-subtitle">30 Essential Classroom Objects</p>
             <div class="card">
                 <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
                 <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
@@ -1455,7 +1446,7 @@
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Look for the specific object names (desk, chair, board).','Pay attention to the prepositions: in, on, under, next to.','Check the adjectives (color, size) describing the objects.'];
+        const hints=['Check the Capital Letters for objects.','Look for prepositions like ON or UNDER.','Remember singular (pen) vs plural (pens).'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
