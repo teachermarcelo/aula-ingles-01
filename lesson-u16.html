@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U16: Simple Present | EnglishPath A1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#22c55e', secondary: '#3b82f6', accent: '#f59e0b', danger: '#ef4444' }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+        .header {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #22c55e; cursor: pointer; }
+        .logo:hover { color: #16a34a; }
+        .cefr-badge {
+            padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+            background: #dbeafe; color: #1e40af;
+        }
+        .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
+        .stats { display: flex; gap: 1rem; align-items: center; }
+        .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
+        .stat-fire { background: #fff7ed; color: #f59e0b; }
+        .stat-bolt { background: #eff6ff; color: #3b82f6; }
+        .stat-xp { background: #f0fdf4; color: #22c55e; }
+        .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
+        .menu-btn:hover { background: #f1f5f9; }
+        .tabs-container {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
+            display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
+        }
+        .tabs {
+            display: flex; gap: 0.25rem; overflow-x: auto; max-width: 900px;
+        }
+        .tab-btn {
+            padding: 0.75rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.85rem;
+            color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #1e293b; }
+        .tab-btn.active { background: #22c55e; color: white; }
+        .tab-btn.completed { color: #16a34a; }
+        .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
+        .difficulty {
+            display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
+        }
+        .difficulty.easy { background: #dcfce7; color: #166534; }
+        .difficulty.medium { background: #fef3c7; color: #92400e; }
+        .difficulty.hard { background: #fed7aa; color: #c2410c; }
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 220px); }
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+        .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
+        .objective-box {
+            background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px;
+            margin-bottom: 2rem; font-size: 0.9rem;
+        }
+        .card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
+            margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .vocab-card {
+            display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+            padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
+            background: white; transition: all 0.2s;
+        }
+        .vocab-card:hover { border-color: #3b82f6; transform: translateX(4px); }
+        .vocab-word { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+        .vocab-pron { font-size: 0.9rem; color: #64748b; font-style: italic; }
+        .vocab-meaning { font-size: 1rem; color: #3b82f6; font-weight: 600; margin-top: 0.25rem; }
+        .vocab-example { font-size: 0.9rem; color: #475569; margin-top: 0.5rem; font-style: italic; }
+        .vocab-audio-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: #eff6ff; color: #3b82f6;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
+        }
+        .vocab-audio-btn:hover { background: #3b82f6; color: white; }
+        .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
+        .tts-controls {
+            display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
+        }
+        .tts-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: #3b82f6; color: white; border: none; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        .speed-select {
+            padding: 0.4rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px;
+            background: white; font-size: 0.85rem; cursor: pointer;
+        }
+        .transcript {
+            background: #f8fafc; padding: 1rem; border-radius: 8px; margin-top: 0.75rem;
+            font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
+        }
+        .transcript.show { display: block; }
+        
+        /* ENHANCED READING STYLES */
+        .reading-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+            border: 1px solid #dbeafe;
+            box-shadow: 0 8px 24px rgba(59,130,246,0.08);
+        }
+        .reading-header {
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+            flex-wrap: wrap; margin-bottom: 1rem;
+        }
+        .reading-label {
+            display: inline-flex; align-items: center; gap: 0.5rem; background: #eff6ff; color: #1d4ed8;
+            padding: 0.5rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;
+        }
+        .reading-focus {
+            display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 1.25rem;
+        }
+        .focus-chip {
+            padding: 0.4rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+            background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0;
+        }
+        .reading-text.rich {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0; border-left: 6px solid #3b82f6; border-radius: 14px;
+            padding: 1.5rem 1.5rem; line-height: 2.1; font-size: 1.1rem;
+            text-align: justify;
+        }
+        .reading-keyword {
+            display: inline-block; padding: 0 0.35rem; border-radius: 0.5rem; font-weight: 800;
+            box-decoration-break: clone; -webkit-box-decoration-break: clone;
+            transition: transform 0.2s;
+            cursor: default;
+        }
+        .reading-keyword:hover { transform: scale(1.05); }
+        .keyword-blue { background: #dbeafe; color: #1d4ed8; } /* Pronouns (I, You, He, She...) */
+        .keyword-purple { background: #ede9fe; color: #6d28d9; } /* Verbs (do, does, plays, watches) */
+        .keyword-orange { background: #ffedd5; color: #c2410c; } /* Frequency/Time (every day, always) */
+        .keyword-green { background: #dcfce7; color: #15803d; } /* Actions/Context (routines) */
+        /* END ENHANCED READING STYLES */
+
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; margin: 1rem 0; background: #000;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .option {
+            padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
+        }
+        .option:hover { border-color: #3b82f6; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .option.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .record-btn {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            margin: 2rem auto; cursor: pointer; border: none;
+            box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
+        }
+        .record-btn:active { transform: translateY(8px); box-shadow: none; }
+        .record-btn.recording { animation: recording-pulse 1s infinite; }
+        @keyframes recording-pulse { 50% { transform: scale(1.05); } }
+        .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
+        .score-display.good { color: #22c55e; }
+        .score-display.bad { color: #ef4444; }
+        .writing-area {
+            width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
+        }
+        .writing-area:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
+        .grammar-explanation {
+            background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 12px;
+            padding: 1.5rem; margin: 1.5rem 0;
+        }
+        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center; gap: 0.5rem; }
+        .grammar-explanation .rule { background: white; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; }
+        .grammar-explanation .formula {
+            background: #dbeafe; padding: 0.75rem; border-radius: 8px; font-family: monospace;
+            font-weight: 600; margin: 0.75rem 0; text-align: center;
+        }
+        .grammar-explanation ul { margin-left: 1.5rem; color: #475569; }
+        .grammar-explanation li { margin-bottom: 0.5rem; }
+        .grammar-explanation .tip {
+            background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem;
+            margin: 0.75rem 0; font-size: 0.9rem;
+        }
+        .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-width: 120px;
+        }
+        .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
+        .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+        .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
+        .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
+        .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .btn-next-section { 
+            background: #22c55e; 
+            color: white; 
+            box-shadow: 0 4px 0 #16a34a;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .btn-refazer { 
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
+        .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hint-box {
+            background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0; display: none;
+        }
+        .hint-box.show { display: block; }
+        .hint-cost { font-size: 0.8rem; color: #92400e; margin-left: 0.5rem; }
+        .notes-area {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0;
+        }
+        .notes-area textarea {
+            width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
+            border-radius: 8px; font-family: inherit; resize: vertical;
+        }
+        .settings-menu {
+            position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 200; display: none; min-width: 220px;
+        }
+        .settings-menu.show { display: block; }
+        .settings-item {
+            padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex;
+            align-items: center; gap: 0.75rem; font-size: 0.9rem;
+        }
+        .settings-item:hover { background: #f8fafc; }
+        .completion-screen {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
+        .enter-hint {
+            text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
+        }
+        .enter-hint kbd {
+            background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: monospace; font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .progress-section { margin: 0; width: 100%; }
+            .main { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .actions { flex-direction: column; }
+            .tabs-container { padding: 0.5rem 1rem; }
+            .btn { min-width: 100px; padding: 0.75rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo" onclick="goHome()">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>EnglishPath</span>
+            <span class="cefr-badge" id="cefrBadge">A1</span>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+                <span><span id="currentQ">0</span>/<span id="totalQ">65</span> questões</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat stat-fire"><i class="fa-solid fa-fire"></i><span id="streakDisplay">0</span></div>
+            <div class="stat stat-bolt"><i class="fa-solid fa-bolt"></i><span id="xpDisplay">0</span></div>
+            <button class="menu-btn" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div class="settings-menu" id="settingsMenu">
+        <div class="settings-item" onclick="goHome()"><i class="fa-solid fa-house"></i> Voltar para Home</div>
+        <div class="settings-item" onclick="resetProgress()"><i class="fa-solid fa-rotate-right"></i> Reiniciar Lição</div>
+        <div class="settings-item" onclick="toggleVoice()"><i class="fa-solid fa-volume-high"></i> Voz: <span id="voiceLabel">US</span></div>
+        <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main" id="mainContent"></div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // ===== FIREBASE =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+        authDomain: "englishpath-2d558.firebaseapp.com",
+        projectId: "englishpath-2d558",
+        storageBucket: "englishpath-2d558.firebasestorage.app",
+        messagingSenderId: "384301599670",
+        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+
+    // ===== LESSON DATA (U16: SIMPLE PRESENT) =====
+    const lessonData = {
+        unitInfo: {
+            level: 'A1',
+            theme: 'Simple Present',
+            videoId: 'nvVdIJ0las0',
+            objectives: [
+                'Talk about daily routines and habits',
+                'Use the Simple Present tense for facts and general truths',
+                'Add "-s" or "-es" to verbs for He/She/It',
+                'Use frequency adverbs (always, usually, sometimes, never)'
+            ]
+        },
+
+        tabs: {
+            video: {
+                type: 'embed',
+                videoId: 'nvVdIJ0las0',
+                instructions: 'Watch the video about the Simple Present. Learn how to talk about what you do every day.'
+            },
+
+            // READING: 10 questions - EXPANDED TEXT & COLORFUL
+            reading: [
+                {
+                    id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">wake up</span> at 7:00 <span class="reading-keyword keyword-orange">every day</span>. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">brush</span> my teeth and <span class="reading-keyword keyword-purple">eat</span> breakfast. My sister <span class="reading-keyword keyword-purple">wakes</span> up late. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">eats</span> an apple. <span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">go</span> to school together.`,
+                    q: 'What does the sister eat?',
+                    options: ['Bread', 'An apple', 'Eggs', 'Cereal'],
+                    answer: 1,
+                    tts: 'I wake up at 7:00 every day. My sister wakes up late. She eats an apple.',
+                    explanation: 'The text says "She eats an apple."',
+                    cefr: 'Can identify actions in the 3rd person singular.',
+                    focusWords: ['I', 'wake up', 'She', 'eats', 'We', 'go']
+                },
+                {
+                    id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
+                    text: `John <span class="reading-keyword keyword-purple">works</span> in a bank. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">starts</span> work <span class="reading-keyword keyword-orange">at 9 AM</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">likes</span> his job. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">finishes</span> at 5 PM. Then <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">goes</span> home.`,
+                    q: 'When does John finish work?',
+                    options: ['At 9 AM', 'At 5 PM', 'At 6 PM', 'At 7 PM'],
+                    answer: 1,
+                    tts: 'He starts work at 9 AM. He likes his job. He finishes at 5 PM.',
+                    explanation: 'The text says "He finishes at 5 PM."',
+                    cefr: 'Can locate time in a schedule.',
+                    focusWords: ['works', 'He', 'starts', 'finishes', 'goes']
+                },
+                {
+                    id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
+                    text: `My cat <span class="reading-keyword keyword-purple">sleeps</span> a lot. <span class="reading-keyword keyword-blue">It</span> <span class="reading-keyword keyword-purple">sleeps</span> on the sofa. It <span class="reading-keyword keyword-purple">does not</span> sleep on the floor. The dog <span class="reading-keyword keyword-purple">plays</span> with the cat. The dog <span class="reading-keyword keyword-purple">barks</span> <span class="reading-keyword keyword-orange">sometimes</span>.`,
+                    q: 'Where does the cat sleep?',
+                    options: ['On the floor', 'On the sofa', 'In the garden', 'On the bed'],
+                    answer: 1,
+                    tts: 'My cat sleeps a lot. It sleeps on the sofa.',
+                    explanation: 'The text says "It sleeps on the sofa."',
+                    cefr: 'Can locate position in text.',
+                    focusWords: ['sleeps', 'It', 'does not', 'plays', 'barks']
+                },
+                {
+                    id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">study</span> English <span class="reading-keyword keyword-orange">every morning</span>. <span class="reading-keyword keyword-purple">They</span> <span class="reading-keyword keyword-purple">study</span> Math. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">read</span> the book. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">watches</span> TV. <span class="reading-keyword keyword-orange">Always</span> focus!`,
+                    q: 'Who watches TV?',
+                    options: ['We', 'They', 'I', 'She'],
+                    answer: 3,
+                    tts: 'She watches TV.',
+                    explanation: 'The text says "She watches TV."',
+                    cefr: 'Can identify specific actions per subject.',
+                    focusWords: ['We', 'study', 'They', 'read', 'watches', 'Always']
+                },
+                {
+                    id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `He <span class="reading-keyword keyword-purple">teaches</span> <span class="reading-keyword keyword-orange">Math</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">explains</span> the lesson well. The students <span class="reading-keyword keyword-purple">listen</span> <span class="reading-keyword keyword-orange">carefully</span>. <span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">write</span> notes.`,
+                    q: 'What subject does he teach?',
+                    options: ['English', 'Math', 'Science', 'History'],
+                    answer: 1,
+                    tts: 'He teaches Math. He explains the lesson well.',
+                    explanation: 'The text says "He teaches Math."',
+                    cefr: 'Can identify school subjects.',
+                    focusWords: ['teaches', 'He', 'explains', 'listen', 'write']
+                },
+                {
+                    id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
+                    text: `Tom <span class="reading-keyword keyword-purple">lives</span> in London. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">doesn't</span> <span class="reading-keyword keyword-purple">like</span> rain. <span class="reading-keyword keyword-orange">Usually</span>, <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">walks</span> to work. But today <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">takes</span> the bus.`,
+                    q: 'How does he usually go to work?',
+                    options: ['By car', 'Walks', 'By bus', 'By train'],
+                    answer: 1,
+                    tts: 'Usually, he walks to work.',
+                    explanation: 'The text says "Usually, he walks to work."',
+                    cefr: 'Can identify habits vs specific events.',
+                    focusWords: ['lives', 'doesn't', 'like', 'Usually', 'walks', 'takes']
+                },
+                {
+                    id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">have</span> <span class="reading-keyword keyword-orange">breakfast</span> at 8. <span class="reading-keyword keyword-blue">You</span> <span class="reading-keyword keyword-purple">have</span> lunch at 1. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">has</span> dinner at 7. <span class="reading-keyword keyword-orange">Sometimes</span> we eat pizza.`,
+                    q: 'Who has dinner at 7?',
+                    options: ['I', 'You', 'She', 'We'],
+                    answer: 2,
+                    tts: 'She has dinner at 7.',
+                    explanation: 'The text says "She has dinner at 7."',
+                    cefr: 'Can identify routines of different people.',
+                    focusWords: ['have', 'breakfast', 'has', 'dinner']
+                },
+                {
+                    id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-blue">My father</span> <span class="reading-keyword keyword-purple">drives</span> a car. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">drives</span> <span class="reading-keyword keyword-orange">fast</span>. <span class="reading-keyword keyword-blue">My mother</span> <span class="reading-keyword keyword-purple">drives</span> a bus. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">drives</span> <span class="reading-keyword keyword-orange">slowly</span>. <span class="reading-keyword keyword-blue">They</span> <span class="reading-keyword keyword-purple">go</span> to work.`,
+                    q: 'Who drives slowly?',
+                    options: ['My father', 'My mother', 'They', 'I'],
+                    answer: 1,
+                    tts: 'My mother drives a bus. She drives slowly.',
+                    explanation: 'The text says "She drives slowly."',
+                    cefr: 'Can compare descriptions.',
+                    focusWords: ['drives', 'fast', 'slowly', 'go']
+                },
+                {
+                    id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
+                    text: `<span class="reading-keyword keyword-orange">Every weekend</span>, <span class="reading-keyword keyword-blue">we</span> <span class="reading-keyword keyword-purple">visit</span> the park. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">play</span> tennis. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">plays</span> football. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">reads</span> a book. <span class="reading-keyword keyword-blue">It</span> <span class="reading-keyword keyword-purple">is</span> fun.`,
+                    q: 'What does she play?',
+                    options: ['Tennis', 'Football', 'Basketball', 'Baseball'],
+                    answer: 1,
+                    tts: 'She plays football.',
+                    explanation: 'The text says "She plays football."',
+                    cefr: 'Can scan for specific activities.',
+                    focusWords: ['visit', 'play', 'plays', 'reads']
+                },
+                {
+                    id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
+                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">watch</span> the news <span class="reading-keyword keyword-orange">every night</span>. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">watches</span> movies <span class="reading-keyword keyword-orange">often</span>. <span class="reading-keyword keyword-blue">They</span> <span class="reading-keyword keyword-purple">watch</span> cartoons <span class="reading-keyword keyword-orange">on Sundays</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">watches</span> sports <span class="reading-keyword keyword-orange">never</span>.`,
+                    q: 'Who watches sports?',
+                    options: ['I', 'She', 'They', 'He'],
+                    answer: 3,
+                    tts: 'He watches sports never.',
+                    explanation: 'The text says "He watches sports never."',
+                    cefr: 'Can identify frequency and subject.',
+                    focusWords: ['watch', 'watches', 'never', 'often']
+                }
+            ],
+
+            // LISTENING: 10 questions
+            listening: [
+                { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'Which verb do you hear?', tts: 'He runs', options: ['He run', 'He runs', 'He runing', 'He running'], answer: 1, speed: 0.85 },
+                { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'Listen and choose:', tts: 'She studies', options: ['She study', 'She studies', 'She studys', 'She studing'], answer: 1, speed: 0.85 },
+                { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'Which word do you hear?', tts: 'Works', options: ['Work', 'Works', 'Workes', 'Working'], answer: 1, speed: 0.85 },
+                { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'Listen carefully:', tts: 'He goes to school', options: ['He go to school', 'He goes to school', 'He going to school', 'He gos to school'], answer: 1, speed: 0.85 },
+                { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'Does she like music?', tts: 'Yes, she likes', options: ['Yes, she like', 'Yes, she likes', 'No, she likes', 'Yes, she liked'], answer: 1, speed: 0.85 },
+                { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'Listen to the sentence:', tts: 'We play football', options: ['We plays football', 'We play football', 'We playing football', 'We played football'], answer: 1, speed: 0.85 },
+                { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
+                    q: 'Which phrase do you hear?', tts: 'He doesn't work here', options: ['He doesn't work here', 'He don't work here', 'He isnt work here', 'He does not work here'], answer: 0, speed: 0.85 },
+                { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'I walk'", tts: 'He walks', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'They run'", tts: 'They run', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
+                    q: 'What is the question?', tts: 'Do you like coffee?', options: ['Does you like coffee?', 'Do you like coffee?', 'Are you like coffee?', 'Did you like coffee?'], answer: 1, speed: 0.85 }
+            ],
+
+            // SPEAKING: 10 activities
+            speaking: [
+                { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "She plays tennis."', model: 'She plays tennis.', expected: 'she plays tennis' },
+                { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "He works in a bank."', model: 'He works in a bank.', expected: 'he works in a bank' },
+                { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "They study English."', model: 'They study English.', expected: 'they study english' },
+                { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Daily Routine',
+                    prompt: 'Say: "I wake up at 7."',
+                    model: 'I wake up at 7.',
+                    expected: 'i wake up at 7' },
+                { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Habit',
+                    prompt: 'Say: "She eats breakfast."',
+                    model: 'She eats breakfast.',
+                    expected: 'she eats breakfast' },
+                { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Frequency',
+                    prompt: 'Say: "He always arrives late."',
+                    model: 'He always arrives late.',
+                    expected: 'he always arrives late' },
+                { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of Person Reading]. Say: "He reads books."',
+                    expected: 'he reads books', minWords: 3 },
+                { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of Person Working]. Say: "She works in an office."',
+                    expected: 'she works in an office', minWords: 4 },
+                { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'What do you do on weekends? Use simple present verbs.', minWords: 5, expectedPattern: 'i' },
+                { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Describe your friend\'s job. Use "He/She works..."', minWords: 6, expectedPattern: 'he she works' }
+            ],
+
+            // WRITING: 10 tasks
+            writing: [
+                { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "She ____ (play) tennis." (plays)', answer: 'plays', example: 'She plays tennis.' },
+                { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "He ____ (work) here." (works)', answer: 'works', example: 'He works here.' },
+                { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "They ____ (go) to school." (go)', answer: 'go', example: 'They go to school.' },
+                { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Change to 3rd person singular: "I wake up early." ->', answer: 'He wakes up early', example: 'He wakes up early.' },
+                { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Make negative: "She likes pizza." ->', answer: 'She does not like pizza', example: 'She does not like pizza.' },
+                { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Make a question: "You live here." ->', answer: 'Do you live here', example: 'Do you live here?' },
+                { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write about your morning routine.', example: 'I wake up at 7. I brush my teeth. I eat breakfast.', minLength: 10, maxLength: 60 },
+                { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write about what your friend does in the evening.', example: 'He watches TV. He eats dinner at 8.', minLength: 10, maxLength: 60 },
+                { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Describe your family members and their jobs.', minLength: 25, maxLength: 80 },
+                { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Write about your hobbies and how often you do them.', minLength: 20, maxLength: 70 }
+            ],
+
+            // VOCABULARY: 30 Words - SIMPLE PRESENT
+            vocabulary: [
+                { word: 'Wake up', pron: '/weɪk ʌp/', meaning: 'Acordar', example: 'I wake up at 7.' },
+                { word: 'Get up', pron: '/ɡet ʌp/', meaning: 'Levantar', example: 'He gets up late.' },
+                { word: 'Work', pron: '/wɜːrk/', meaning: 'Trabalhar', example: 'She works hard.' },
+                { word: 'Study', pron: '/ˈstʌdi/', meaning: 'Estudar', example: 'We study English.' },
+                { word: 'Play', pron: '/pleɪ/', meaning: 'Brincar/Jogar', example: 'They play soccer.' },
+                { word: 'Eat', pron: '/iːt/', meaning: 'Comer', example: 'I eat an apple.' },
+                { word: 'Drink', pron: '/drɪŋk/', meaning: 'Beber', example: 'He drinks water.' },
+                { word: 'Go', pron: '/ɡoʊ/', meaning: 'Ir', example: 'We go to school.' },
+                { word: 'Come', pron: '/kʌm/', meaning: 'Vir', example: 'She comes home.' },
+                { word: 'Watch', pron: '/wɑːtʃ/', meaning: 'Assistir/Olhar', example: 'He watches TV.' },
+                { word: 'Listen', pron: '/ˈlɪsn/', meaning: 'Ouvir', example: 'They listen to music.' },
+                { word: 'Read', pron: '/riːd/', meaning: 'Ler', example: 'I read books.' },
+                { word: 'Write', pron: '/raɪt/', meaning: 'Escrever', example: 'She writes letters.' },
+                { word: 'Speak', pron: '/spiːk/', meaning: 'Falar', example: 'He speaks English.' },
+                { word: 'Sleep', pron: '/sliːp/', meaning: 'Dormir', example: 'The baby sleeps.' },
+                { word: 'Cook', pron: '/kʊk/', meaning: 'Cozinhar', example: 'She cooks dinner.' },
+                word: 'Clean', pron: '/kliːn/', meaning: 'Limpar', example: 'He cleans the room.' },
+                { word: 'Drive', pron: '/draɪv/', meaning: 'Dirigir', example: 'She drives a car.' },
+                { word: 'Run', pron: '/rʌn/', meaning: 'Correr', example: 'He runs fast.' },
+                { word: 'Walk', pron: '/wɔːk/', meaning: 'Caminhar', example: 'We walk to school.' },
+                { word: 'Swim', pron: '/swɪm/', meaning: 'Nadar', example: 'Fish swim in the sea.' },
+                { word: 'Fly', pron: '/flaɪ/', meaning: 'Voar', example: 'Birds fly in the sky.' },
+                { word: 'Start', pron: '/stɑːrt/', meaning: 'Começar', example: 'School starts at 8.' },
+                { word: 'Finish', pron: '/ˈfɪnɪʃ/', meaning: 'Terminar', example: 'The movie finishes at 10.' },
+                { word: 'Live', pron: '/lɪv/', meaning: 'Viver', example: 'We live in Brazil.' },
+                { word: 'Like', pron: '/laɪk/', meaning: 'Gostar', example: 'She likes pizza.' },
+                { word: 'Love', pron: '/lʌv/', meaning: 'Amar', example: 'I love my family.' },
+                { word: 'Have', pron: '/hæv/', meaning: 'Ter', example: 'He has a car.' },
+                { word: 'Understand', pron: '/ˌndərˈstænd/', meaning: 'Entender', example: 'I understand the lesson.' },
+                { word: 'Know', pron: '/noʊ/', meaning: 'Saber', example: 'She knows the answer.' },
+                { word: 'Need', pron: '/niːd/', meaning: 'Precisar', example: 'We need water.' },
+                { word: 'Want', pron: '/wɑːnt/', meaning: 'Querer', example: 'He wants coffee.' },
+                { word: 'Always', pron: '/ˈɔːlweɪz/', meaning: 'Sempre', example: 'I always drink coffee.' },
+                { word: 'Usually', pron: '/ˈjuːʒuəli/', meaning: 'Geralmente', example: 'He usually takes the bus.' },
+                { word: 'Often', pron: '/ˈɔːfən/', meaning: 'Frequentemente', example: 'We often eat out.' },
+                { word: 'Sometimes', pron: '/ˈsʌmtaɪmz/', meaning: 'Às vezes', example: 'She sometimes forgets.' },
+                { word: 'Never', pron: '/ˈnevər/', meaning: 'Nunca', example: 'I am never late.' }
+            ],
+
+            // GRAMMAR: Simple Present
+            grammar: [
+                {
+                    id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Affirmative: I/You/We/They + Verb',
+                    explanation: {
+                        theory: 'Use the base form of the verb for I, You, We, and They.',
+                        formula: 'Subject + Verb',
+                        examples: [
+                            'I play tennis.',
+                            'You run fast.',
+                            'We study English.',
+                            'They like pizza.'
+                        ],
+                        exceptions: 'None.',
+                        tip: 'No S at the end of the verb.',
+                        usage: 'Talking about habits for plural subjects and I/You.'
+                    }
+                },
+                {
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Affirmative: He/She/It + Verb + S/ES',
+                    explanation: {
+                        theory: 'Add -S or -ES to the verb for He, She, and It.',
+                        formula: 'Subject + Verb-s/es',
+                        examples: [
+                            'He plays football.',
+                            'She teaches Math.',
+                            'It rains a lot.',
+                            'The bus stops here.'
+                        ],
+                        exceptions: 'Verbs ending in Y change Y to IES (Fly -> Flies).',
+                        tip: 'He/She/It likes the letter S.',
+                        usage: 'Talking about habits for singular subjects (3rd person).'
+                    }
+                },
+                {
+                    id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Negative: Don\'t / Doesn\'t',
+                    explanation: {
+                        theory: 'Use DO NOT (don\'t) for I/You/We/They. Use DOES NOT (doesn\'t) for He/She/It. The verb stays in base form.',
+                        formula: 'I/You/We/They + do not + Verb\nHe/She/It + does not + Verb',
+                        examples: [
+                            'I do not like coffee.',
+                            'She does not work here.',
+                            'We do not know him.',
+                            'It does not rain.'
+                        ],
+                        exceptions: 'Don\'t is informal. Does not is formal.',
+                        tip: 'Does not helps the verb stay short.',
+                        usage: 'Saying what does NOT happen.'
+                    }
+                },
+                {
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Questions: Do / Does',
+                    explanation: {
+                        theory: 'Use DO for I/You/We/They. Use DOES for He/She/It. Move the verb to the beginning.',
+                        formula: 'Do/Does + Subject + Verb?',
+                        examples: [
+                            'Do you like pizza?',
+                            'Does she play tennis?',
+                            'Do they live here?',
+                            'Does it work?'
+                        ],
+                        exceptions: 'Don\'t forget the question mark (?).',
+                        tip: 'Does replaces the S/ES on the verb.',
+                        usage: 'Asking for information.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Spelling Rules: -ES',
+                    explanation: {
+                        theory: 'Add -ES if the verb ends in -CH, -SH, -S, -X, or -Z.',
+                        formula: 'Verb + es',
+                        examples: [
+                            'Watch -> Watches',
+                            'Go -> Goes',
+                            'Finish -> Finishes',
+                            'Miss -> Misses'
+                        ],
+                        exceptions: 'If the verb ends in consonant + Y, change Y to IES.',
+                        tip: 'Verbs ending in -ch, -sh, -s, -x, -z love -es.',
+                        usage: 'Correct spelling in 3rd person.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Spelling Rules: -IES',
+                    explanation: {
+                        theory: 'If the verb ends in Consonant + Y, change Y to IES.',
+                        formula: 'Consonant + y -> ies',
+                        examples: [
+                            'Study -> Studies',
+                            'Fly -> Flies',
+                            'Cry -> Cries',
+                            'Try -> Tries'
+                        ],
+                        exceptions: 'If the verb ends in Vowel + Y, just add -S (Play -> Plays).',
+                        tip: 'Vowel + Y = Just S. Consonant + Y = IES.',
+                        usage: 'Spelling verbs in 3rd person singular.'
+                    }
+                },
+                {
+                    id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Short Answers',
+                    explanation: {
+                        theory: 'Answer Yes/No questions with "Yes, I do" or "No, he doesn\'t".',
+                        formula: 'Yes/No, + Subject + do/does/don\'t/doesn\'t',
+                        examples: [
+                            'Do you play? Yes, I do.',
+                            'Does she work? No, she doesn\'t.',
+                            'Do they like it? Yes, they do.',
+                            'Does it rain? No, it doesn\'t.'
+                        ],
+                        exceptions: 'Do not repeat the verb "like" or "work" in short answers.',
+                        tip: 'Use the helping verb do/does.',
+                        usage: 'Quick responses to questions.'
+                    }
+                },
+                {
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Question Words (Wh- Questions)',
+                    explanation: {
+                        theory: 'Use What, When, Where, Who, How with Do/Does + Subject + Verb.',
+                        formula: 'Wh-Word + Do/Does + Subject + Verb?',
+                        examples: [
+                            'What do you play?',
+                            'Where does he live?',
+                            'When do they start?',
+                            'How does she go?'
+                        ],
+                        exceptions: 'None.',
+                        tip: 'Order: Word -> Do/Does -> Subject -> Verb (base form).',
+                        usage: 'Asking for details about routines.'
+                    }
+                },
+                {
+                    id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Frequency Adverbs',
+                    explanation: {
+                        theory: 'Adverbs like always, usually, often, sometimes, never show how often something happens. They go before the verb.',
+                        formula: 'Subject + Adverb + Verb',
+                        examples: [
+                            'I always wake up early.',
+                            'She usually walks to work.',
+                            'We never skip class.',
+                            'They sometimes eat fast food.'
+                        ],
+                        exceptions: 'Be careful with the position: Before the main verb, after "to be".',
+                        tip: 'Frequency comes first.',
+                        usage: 'Describing habits clearly.'
+                    }
+                },
+                {
+                    id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Do vs Does',
+                    explanation: {
+                        theory: 'Use DO for I, You, We, They. Use DOES for He, She, It.',
+                        formula: 'DO (Plural/I/You)\nDOES (Singular/He/She/It)',
+                        examples: [
+                            'Do you play? / Does he play?',
+                            'Do they work? / Does she work?',
+                            'I do like / He does like.'
+                        ],
+                        exceptions: 'Does is the 3rd person singular form of Do.',
+                        tip: 'DOES has an ES, just like verbs.',
+                        usage: 'Forming questions and negatives correctly.'
+                    }
+                }
+            ]
+        }
+    };
+
+    // ===== STATE =====
+    let currentTab = 'video';
+    let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0, grammar: 0 };
+    let score = 0, streak = 0, totalXP = 0;
+    let isAnswered = false, selectedOption = null, hintsUsed = 0;
+    let recognition = null, ttsPlaying = false, currentTTS = null;
+    let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
+    
+    // State specifically for Vocabulary Quiz
+    let vocabQuizSet = [];
+    let currentVocabQuizIndex = 0;
+
+    // ===== DOM =====
+    const mainContent = document.getElementById('mainContent');
+    const progressBar = document.getElementById('progressBar');
+    const currentQEl = document.getElementById('currentQ');
+    const totalQEl = document.getElementById('totalQ');
+    const progressPercentEl = document.getElementById('progressPercent');
+    const xpDisplay = document.getElementById('xpDisplay');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const cefrBadge = document.getElementById('cefrBadge');
+
+    // ===== INIT =====
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user || null;
+        if (user) {
+            try {
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    score = Number(data.xp) || 0;
+                    streak = Number(data.streak) || 0;
+                    totalXP = Number(data.totalXP) || 0;
+                    xpDisplay.textContent = String(totalXP);
+                    streakDisplay.textContent = String(streak);
+                    cefrBadge.textContent = lessonData.unitInfo.level;
+                    
+                    if (data.progresso) {
+                        const prefix = 'u16_';
+                        Object.keys(questionIndex).forEach(sec => {
+                            const key = `${prefix}${sec}`;
+                            if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
+                        });
+                    }
+                    userNotes = data.notes?.u16 || {};
+                }
+            } catch (error) { console.error("Load error:", error); }
+        } else { cefrBadge.textContent = lessonData.unitInfo.level; }
+        renderCurrentTab();
+        updateProgress();
+    });
+
+    // ===== NAVIGATION =====
+    window.switchTab = (tab) => {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        renderCurrentTab();
+        updateProgress();
+    };
+
+    function renderCurrentTab() {
+        if (currentTab === 'video') { renderVideo(); return; }
+        const section = lessonData.tabs[currentTab];
+        const index = questionIndex[currentTab];
+        
+        if (currentTab === 'vocabulary') {
+            if (index < lessonData.tabs.vocabulary.length) {
+                renderVocabularyList();
+            } else {
+                if (vocabQuizSet.length === 0) initVocabQuiz();
+                renderVocabularyQuiz();
+            }
+            return;
+        }
+
+        if (index >= section.length) { renderSectionComplete(currentTab); return; }
+        
+        switch(currentTab) {
+            case 'reading': renderReading(section[index]); break;
+            case 'listening': renderListening(section[index]); break;
+            case 'speaking': renderSpeaking(section[index]); break;
+            case 'writing': renderWriting(section[index]); break;
+            case 'grammar': renderGrammar(section[index]); break;
+        }
+        updateProgress();
+    }
+
+    function renderVideo() {
+        const video = lessonData.tabs.video;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📺 Video Lesson</h1>
+            <p class="section-subtitle">Watch and learn about Simple Present</p>
+            <div class="objective-box">
+                <strong>🎯 Learning Objectives:</strong><br>
+                ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
+            </div>
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <p style="text-align:center;color:#64748b;">${video.instructions}</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startActivities()">
+                    Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    window.startActivities = () => {
+        currentTab = 'reading';
+        saveProgress();
+        switchTab('reading');
+    };
+
+    function renderSectionComplete(tabName) {
+        const tabNames = {
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            vocabulary: 'Vocabulary',
+            grammar: 'Grammar'
+        };
+        
+        mainContent.innerHTML = `
+            <div class="section-complete">
+                <i class="fa-solid fa-check-circle"></i>
+                <h2>${tabNames[tabName]} Complete! ✓</h2>
+                <p>Great progress! Move to the next section.</p>
+                <div class="actions" style="justify-content:center; gap: 1rem;">
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
+                    <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
+                        Refazer Atividade 🔄
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    window.retrySection = (tabName) => {
+        questionIndex[tabName] = 0;
+        if (tabName === 'vocabulary') vocabQuizSet = [];
+        saveProgress();
+        renderCurrentTab();
+    };
+
+    // ===== RENDERERS =====
+    function renderReading(q) {
+        // Using the enhanced HTML structure for Reading with expanded text
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Reading</h1>
+            <p class="section-subtitle">Read about daily routines and habits</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card reading-card">
+                <div class="reading-header">
+                    <div class="reading-label"><i class="fa-solid fa-clock"></i> Daily Context</div>
+                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Verbs + S/ES</div>
+                </div>
+                ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
+                <div class="reading-text rich">${q.text}</div>
+                <div class="tts-controls">
+                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-volume-high"></i> Listen
+                    </button>
+                    <select class="speed-select" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="0.85" selected>0.85x</option><option value="1">1x</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+                <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
+            </div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes..." oninput="saveCurrentNote('${q.id}', this.value)">${userNotes[q.id]||''}</textarea></div>
+            <div class="actions">
+                <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderListening(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">🎧 Listening</h1>
+            <p class="section-subtitle">Train your ear for verb endings</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
+                <div class="tts-controls" style="justify-content:center;">
+                    <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option><option value="1">1x</option>
+                    </select>
+                </div>
+                <div class="transcript" id="transcript"><strong>Transcript:</strong> ${q.tts}</div>
+                <button class="btn btn-secondary" style="margin-top:0.5rem;" onclick="toggleTranscript()"><i class="fa-solid fa-align-left"></i> Show Transcript</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderSpeaking(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">💬 Speaking</h1>
+            <p class="section-subtitle">Practice the -s and -es endings</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
+                ${q.model ? `<button class="tts-btn" onclick="playAudio('${q.model}')"><i class="fa-solid fa-volume-high"></i> Hear Example</button>` : ''}
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${q.expected||''}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click mic & speak. Auto-stops when you pause.</p>
+                <div id="scoreDisplay" class="score-display" style="display:none;"></div>
+                ${q.minWords ? `<p style="font-size:0.85rem;color:#64748b;margin-top:1rem;">Minimum ${q.minWords} words</p>` : ''}
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextQuestion()" disabled>Continue</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    function renderWriting(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">✍️ Writing</h1>
+            <p class="section-subtitle">Practice writing in Simple Present</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
+                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;">Example: ${q.example}</p>` : ''}
+                <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
+                <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
+                <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
+        `;
+    }
+    
+    function initVocabQuiz() {
+        const allVocab = [...lessonData.tabs.vocabulary];
+        vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
+        currentVocabQuizIndex = 0;
+    }
+
+    function renderVocabularyList() {
+        const vocabList = lessonData.tabs.vocabulary;
+        let html = `
+            <h1 class="section-title">📚 Vocabulary Study</h1>
+            <p class="section-subtitle">30 Essential Simple Present Verbs</p>
+            <div class="card">
+                <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
+                <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
+                    ${vocabList.map((item, idx) => `
+                        <div class="vocab-card">
+                            <div>
+                                <div class="vocab-word">${item.word} <span class="vocab-pron">${item.pron}</span></div>
+                                <div class="vocab-meaning">${item.meaning}</div>
+                                <div class="vocab-example">"${item.example}"</div>
+                            </div>
+                            <button class="vocab-audio-btn" onclick="playAudio('${item.word}')">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startVocabQuiz()">Start Quiz ➡️</button>
+            </div>
+        `;
+        mainContent.innerHTML = html;
+    }
+
+    window.startVocabQuiz = () => {
+        questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
+        initVocabQuiz();
+        saveProgress();
+        renderVocabularyQuiz();
+        updateProgress();
+    };
+
+    function renderVocabularyQuiz() {
+        if (currentVocabQuizIndex >= vocabQuizSet.length) {
+            questionIndex.vocabulary++;
+            saveProgress();
+            renderSectionComplete('vocabulary');
+            return;
+        }
+
+        const item = vocabQuizSet[currentVocabQuizIndex];
+        const correctMeaning = item.meaning;
+        const wrongOptions = lessonData.tabs.vocabulary
+            .filter(w => w.word !== item.word)
+            .map(w => w.meaning);
+        const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
+        
+        mainContent.innerHTML = `
+            <h1 class="section-title">📝 Vocabulary Quiz</h1>
+            <p class="section-subtitle">Question ${currentVocabQuizIndex + 1} of 5</p>
+            <div class="card">
+                <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
+                <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
+                <button class="tts-btn" style="margin:0 auto;display:flex;" onclick="playAudio('${item.word}')">
+                    <i class="fa-solid fa-volume-high"></i> Listen
+                </button>
+                <div class="options" style="margin-top:2rem;">
+                    ${allOptions.map((opt, i) => `
+                        <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
+                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="checkBtn" onclick="checkVocabAnswer()" disabled>Check Answer</button>
+            </div>
+        `;
+        window.selectedVocabOption = null;
+        window.correctVocabAnswer = correctMeaning;
+    }
+
+    window.selectVocabOption = (idx, val, correct) => {
+        window.selectedVocabOption = idx;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.option')[idx].classList.add('selected');
+        document.getElementById('checkBtn').disabled = false;
+    };
+
+    window.checkVocabAnswer = () => {
+        const feedback = document.getElementById('feedback');
+        const opts = document.querySelectorAll('.option');
+        const selectedText = opts[window.selectedVocabOption].querySelector('span:last-child').textContent;
+        const isCorrect = selectedText === window.correctVocabAnswer;
+        
+        if (isCorrect) {
+            opts[window.selectedVocabOption].classList.add('correct');
+            feedback.className = 'feedback correct show';
+            feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
+            addXP(10);
+            setTimeout(() => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            }, 1500);
+        } else {
+            opts[window.selectedVocabOption].classList.add('wrong');
+            Array.from(opts).forEach(opt => {
+                if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
+                    opt.classList.add('correct');
+                }
+            });
+            feedback.className = 'feedback wrong show';
+            feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
+            document.getElementById('checkBtn').onclick = () => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            };
+        }
+        saveProgress();
+    };
+
+    function renderGrammar(q) {
+        const exp = q.explanation;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Grammar</h1>
+            <p class="section-subtitle">Learn & practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
+            </div>
+            <div class="grammar-explanation">
+                <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
+                <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
+                <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
+                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="tip"><strong>🧠 Memory Tip:</strong> ${exp.tip}</div>
+                <div><strong>🎯 When to Use:</strong> ${exp.usage}</div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    // ===== INTERACTIONS =====
+    window.selectOption = (i) => { if(isAnswered) return; document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected')); document.querySelectorAll('.option')[i].classList.add('selected'); selectedOption=i; document.getElementById('checkBtn').disabled=false; };
+    window.enableCheck = () => { const input=document.getElementById('fillInput'); if(input) document.getElementById('checkBtn').disabled=!input.value.trim(); };
+    window.updateCharCount = (min,max) => { const input=document.getElementById('writingInput'), count=document.getElementById('charCount'); if(input&&count){count.textContent=input.value.length; document.getElementById('checkBtn').disabled=input.value.length<(min||0);} };
+    
+    window.toggleTTS = (text) => {
+        const btn=document.getElementById('ttsBtn'); if(!btn) return;
+        if(ttsPlaying){ if(currentTTS) currentTTS.cancel(); ttsPlaying=false; btn.classList.remove('playing'); btn.innerHTML='<i class="fa-solid fa-volume-high"></i> Listen'; }
+        else { currentTTS=speakText(text); if(currentTTS){ ttsPlaying=true; btn.classList.add('playing'); btn.innerHTML='<i class="fa-solid fa-stop"></i> Stop'; } }
+    };
+    
+    window.playAudio = (text) => { const btn=document.getElementById('audioBtn'); if(btn){ btn.classList.add('playing'); setTimeout(()=>btn.classList.remove('playing'),1000); } speakText(text); };
+    window.readAloud = (id) => { const el=document.getElementById(id); if(el?.value) speakText(el.value); };
+    window.toggleTranscript = () => { const el=document.getElementById('transcript'); if(el) el.classList.toggle('show'); };
+    
+    function speakText(text) {
+        if(!('speechSynthesis' in window)){ alert('TTS not supported'); return null; }
+        window.speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
+        u.lang=voice; u.rate=ttsRate;
+        const voices=window.speechSynthesis.getVoices(), v=voices.find(x=>x.lang===voice);
+        if(v) u.voice=v;
+        window.speechSynthesis.speak(u);
+        return window.speechSynthesis;
+    }
+    
+    window.changeSpeed = (rate) => { ttsRate=parseFloat(rate); };
+
+    window.toggleRecording = (expected) => {
+        const btn=document.getElementById('recordBtn'), status=document.getElementById('recordStatus'), scoreDiv=document.getElementById('scoreDisplay'), continueBtn=document.getElementById('continueBtn');
+        if(!btn) return;
+        if(!btn.classList.contains('recording')){
+            const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+            if(!SR){ alert('Use Chrome/Edge'); return; }
+            recognition=new SR(); recognition.lang=voice; recognition.continuous=false;
+            recognition.onspeechend=()=>recognition.stop();
+            btn.classList.add('recording'); status.textContent='🎤 Listening...'; if(scoreDiv) scoreDiv.style.display='none'; if(continueBtn) continueBtn.disabled=true;
+            recognition.onresult=(e)=>{
+                const transcript=e.results[0][0].transcript.trim().toLowerCase(), conf=e.results[0][0].confidence;
+                const clean=normalizeText(transcript), exp=normalizeText(expected||'');
+                const match=clean.includes(exp)||exp.includes(clean)||clean.replace(/[-\s]/g,'')===exp.replace(/[-\s]/g,'');
+                const acc=match?Math.round(conf*100):0;
+                if(scoreDiv){ scoreDiv.textContent=`${acc}% Accuracy`; scoreDiv.className=`score-display ${acc>=60?'good':'bad'}`; scoreDiv.style.display='block'; }
+                status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
+                if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
+            };
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
+            recognition.start();
+        }
+    };
+    
+    function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
+
+    window.checkAnswer = () => {
+        if(isAnswered||selectedOption===null) return; isAnswered=true;
+        const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
+        const correct=selectedOption===q.answer;
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
+            setTimeout(() => { nextQuestion(); }, 1500);
+        }
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.checkWriting = () => {
+        const input=document.getElementById('writingInput'); if(!input) return;
+        const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
+        const valid=input.value.trim().length>=(q.minLength||0);
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
+            setTimeout(() => { nextQuestion(); }, 1500);
+        }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
+    window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.nextSection = () => { const sections=['reading','listening','speaking','writing','vocabulary','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
+
+    function showCompletion() {
+        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
+        mainContent.innerHTML = `
+            <div class="completion-screen">
+                <i class="fa-solid fa-trophy"></i>
+                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">🎉 Lesson Complete!</h2>
+                <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
+                <div class="xp-reward">+600 XP</div>
+                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
+                
+                <div class="report-card">
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
+                    <div class="report-grid">
+                        <div class="report-item">
+                            <div class="report-value">${final}</div>
+                            <div class="report-label">Total XP Earned</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${streak}</div>
+                            <div class="report-label">Day Streak</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">65</div>
+                            <div class="report-label">Questions Completed</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${Math.round((final/800)*100)}%</div>
+                            <div class="report-label">Success Rate</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:2rem;">
+                        <h4 style="font-weight:700;margin-bottom:1rem;">Skills Breakdown:</h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#22c55e;">Reading</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#3b82f6;">Listening</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#f59e0b;">Speaking</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#ef4444;">Writing</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#8b5cf6;">Vocabulary</div>
+                                <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
+                            </div>
+                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#6366f1;">Grammar</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color:#64748b;margin:2rem 0;">Progress saved automatically!</p>
+                <div class="actions" style="justify-content:center;">
+                    <button class="btn btn-primary" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
+                </div>
+            </div>
+        `;
+        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u16_completed`]:true,[`progresso.u16_date`]:new Date().toISOString(),[`progresso.u16_score`]:final}).catch(console.error);
+    }
+
+    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function unlockBadge(id){ console.log(`Badge: ${id}`); }
+    
+    function getOverallProgress(){
+        const total = 65;
+        const rawDone = Object.values(questionIndex).reduce((acc, value) => acc + Number(value || 0), 0);
+        const done = Math.max(0, Math.min(rawDone, total));
+        const pct = Math.max(0, Math.min(Math.round((done / total) * 100), 100));
+        return { total, done, pct };
+    }
+
+    function updateProgress(){
+        const { total, done, pct } = getOverallProgress();
+        progressBar.style.width = `${pct}%`;
+        currentQEl.textContent = String(done);
+        totalQEl.textContent = String(total);
+        progressPercentEl.textContent = `${pct}%`;
+
+        document.querySelectorAll('.tab-btn').forEach((btn) => {
+            btn.classList.remove('completed');
+            const sec = btn.dataset.tab;
+            if (!sec || sec === 'video') return;
+            if (sec === 'vocabulary') {
+                if (questionIndex.vocabulary > lessonData.tabs.vocabulary.length) btn.classList.add('completed');
+                return;
+            }
+            if (questionIndex[sec] >= lessonData.tabs[sec].length) btn.classList.add('completed');
+        });
+    }
+
+    function saveProgress(){
+        if(!currentUser) return;
+        const data = {};
+        const prefix = 'u16_';
+        Object.keys(questionIndex).forEach(sec => {
+            data[`progresso.${prefix}${sec}`] = Number(questionIndex[sec] || 0);
+        });
+
+        const { total, done, pct } = getOverallProgress();
+        const status = pct >= 100 ? 'Concluído' : done > 0 ? 'Em andamento' : 'Começar';
+
+        updateDoc(doc(db, "usuarios", currentUser.uid), {
+            xp: Number(score || 0),
+            streak: Number(streak || 0),
+            totalXP: Number(totalXP || 0),
+            ...data,
+            'progresso.u16_total': total,
+            'progresso.u16_done': done,
+            'progresso.u16_percent': pct,
+            'progresso.u16_status': status,
+            'progresso.u16_completed': pct >= 100,
+            'progresso.lastUpdate': new Date().toISOString(),
+            'notes.u16': userNotes
+        }).catch(console.error);
+    }
+
+    window.saveCurrentNote = (questionId, value) => {
+        userNotes[questionId] = value;
+    };
+
+    window.showHint = () => {
+        if(hintsUsed>=3){ alert('Max hints reached'); return; }
+        const cost=hintsUsed===0?5:hintsUsed===1?10:20;
+        if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
+        totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
+        const hints=['Check if the subject is He/She/It. Does it need an "s" at the end?','Is it a routine or a fact? Use Simple Present.','Use DO for I/You/We/They. Use DOES for He/She/It.'];
+        document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
+        document.getElementById('hintBox').classList.add('show');
+        saveProgress();
+    };
+
+    window.goHome = () => { saveProgress(); window.location.href='index.html'; };
+    window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
+    window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
+    window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
+
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
+
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
+            e.preventDefault();
+            const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
+
+            if(currentTab==='writing' && checkBtn && !checkBtn.disabled){
+                checkWriting();
+                return;
+            }
+
+            if(currentTab==='grammar'){
+                nextQuestion();
+                return;
+            }
+
+            if(currentTab==='speaking' && continueBtn && !continueBtn.disabled){
+                nextQuestion();
+                return;
+            }
+
+            if(checkBtn && !checkBtn.disabled && !isAnswered){
+                if(currentTab==='vocabulary' && typeof checkVocabAnswer === 'function') checkVocabAnswer();
+                else checkAnswer();
+            } else if((checkBtn && (checkBtn.textContent.includes('Correct') || checkBtn.textContent.includes('Next Question'))) || (continueBtn && !continueBtn.disabled)){
+                if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
+                else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
+            }
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        try { saveProgress(); } catch (error) { console.error(error); }
+    });
+
+    if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
+</script>
+</body>
+</html>
