@@ -297,13 +297,13 @@
     <!-- TABS - CENTRALIZED -->
     <div class="tabs-container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
-            <button class="tab-btn" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
-            <button class="tab-btn" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
-            <button class="tab-btn" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
-            <button class="tab-btn" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
-            <button class="tab-btn" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
-            <button class="tab-btn" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
         </div>
     </div>
 
@@ -343,15 +343,14 @@
                 'Ask and answer questions about the body'
             ]
         },
-        
+
         tabs: {
             video: {
                 type: 'embed',
                 videoId: 'wrjq8KsR2wk',
                 instructions: 'Watch the video about body parts. Listen and repeat the words.'
             },
-            
-            // READING: 10 questions
+
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
@@ -454,8 +453,7 @@
                     cefr: "Can understand clothing and body parts."
                 }
             ],
-            
-            // LISTENING: 10 questions
+
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
                     q: "Which body part do you hear?", tts: "Head", options: ["Head", "Hand", "Foot", "Eye"], answer: 0, speed: 0.85 },
@@ -478,8 +476,7 @@
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
                     q: "What do you chew with?", tts: "You chew with your teeth", options: ["Tongue", "Lips", "Teeth", "Mouth"], answer: 2, speed: 0.85 }
             ],
-            
-            // SPEAKING: 10 activities
+
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "Head"', model: "head", expected: "head" },
@@ -513,13 +510,12 @@
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
                     prompt: 'Describe what you do with your legs.', minWords: 6, expectedPattern: "legs" }
             ],
-            
-            // WRITING: 10 intelligent tasks
+
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "This is my _____." (head)', answer: 'head', example: 'This is my head.' },
+                    prompt: 'Complete: "This is my ____." (head)', answer: 'head', example: 'This is my head.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "I see with my _____." (eyes)', answer: 'eyes', example: 'I see with my eyes.' },
+                    prompt: 'Complete: "I see with my ____." (eyes)', answer: 'eyes', example: 'I see with my eyes.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Write the plural: "foot"', answer: 'feet', example: 'feet' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
@@ -527,7 +523,7 @@
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
                     prompt: 'Change to plural: "This is my foot" ->', answer: 'These are my feet', example: 'These are my feet' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Use possessive adjective: "_____ eyes are blue" (She)', answer: 'Her', example: 'Her eyes are blue' },
+                    prompt: 'Use possessive adjective: "____ eyes are blue" (She)', answer: 'Her', example: 'Her eyes are blue' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
                     prompt: 'Write about your hands. How many fingers?', example: 'I have ten fingers on my hands.', minLength: 15, maxLength: 40 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
@@ -538,7 +534,6 @@
                     prompt: 'Describe three body parts and what you do with them.', minLength: 40, maxLength: 100 }
             ],
 
-            // VOCABULARY: 30 Words - Body Parts
             vocabulary: [
                 { word: "Head", pron: "/hed/", meaning: "Cabeça", example: "My head is on top." },
                 { word: "Eyes", pron: "/aɪz/", meaning: "Olhos", example: "I see with my eyes." },
@@ -572,7 +567,6 @@
                 { word: "Body", pron: "/ˈbɑːdi/", meaning: "Corpo", example: "I have one body." }
             ],
 
-            // GRAMMAR: Possessive Adjectives with Body Parts
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
@@ -588,7 +582,7 @@
                         ],
                         exceptions: 'Always use before the noun, never after.',
                         tip: 'Remember: my = meu/minha, your = seu/sua, his = dele, her = dela',
-                        usage: 'Essential for talking about your body and others\' bodies.'
+                        usage: "Essential for talking about your body and others' bodies."
                     }
                 },
                 {
@@ -596,7 +590,8 @@
                     title: 'Singular and Plural Body Parts',
                     explanation: {
                         theory: 'Some body parts are singular, others are plural (we have two).',
-                        formula: 'Singular: head, nose, mouth, neck, stomach, back\nPlural: eyes, ears, arms, hands, legs, feet',
+                        formula: 'Singular: head, nose, mouth, neck, stomach, back
+Plural: eyes, ears, arms, hands, legs, feet',
                         examples: [
                             'I have one head. (singular)',
                             'I have two eyes. (plural)',
@@ -664,7 +659,9 @@
                     title: 'Asking About Body Parts',
                     explanation: {
                         theory: 'Use question words to ask about body parts.',
-                        formula: 'What do you use to [action]?\nHow many [body parts] do you have?\nWhere is your [body part]?',
+                        formula: 'What do you use to [action]?
+How many [body parts] do you have?
+Where is your [body part]?',
                         examples: [
                             'What do you use to see? - I use my eyes.',
                             'How many fingers do you have? - I have ten.',
@@ -739,7 +736,8 @@
                             'My hair is shorter than her hair.'
                         ],
                         exceptions: 'Use "than" after the comparative adjective.',
-                        tip: 'Short adjectives: add -er (long → longer)\nLong adjectives: use "more" (beautiful → more beautiful)',
+                        tip: 'Short adjectives: add -er (long → longer)
+Long adjectives: use "more" (beautiful → more beautiful)',
                         usage: 'Useful for comparing yourself with others.'
                     }
                 }
@@ -771,6 +769,7 @@
 
     // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
+        currentUser = user || null;
         if (user) {
             try {
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
@@ -789,6 +788,10 @@
                             const key = `${prefix}${sec}`;
                             if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
                         });
+                        const savedTab = data.progresso.u05_currentTab;
+                        if (savedTab && ['video','reading','listening','speaking','writing','vocabulary','grammar'].includes(savedTab)) {
+                            currentTab = savedTab;
+                        }
                     }
                     userNotes = data.notes?.u05 || {};
                 }
@@ -802,8 +805,10 @@
     window.switchTab = (tab) => {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.closest('.tab-btn').classList.add('active');
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
         renderCurrentTab();
+        updateProgress();
     };
 
     function renderCurrentTab() {
@@ -863,6 +868,8 @@
     }
 
     window.startActivities = () => {
+        currentTab = 'reading';
+        saveProgress();
         switchTab('reading');
     };
 
@@ -923,7 +930,7 @@
                 <div class="feedback" id="feedback"></div>
                 <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
             </div>
-            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes...">${userNotes[q.id]||''}</textarea></div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes..." oninput="saveCurrentNote('${q.id}', this.value)">${userNotes[q.id]||''}</textarea></div>
             <div class="actions">
                 <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
@@ -996,6 +1003,7 @@
                 <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
                 <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
                 <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+                <div class="feedback" id="feedback"></div>
             </div>
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
@@ -1048,7 +1056,9 @@
         // Mark study phase as done by moving index past the list length
         questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
         initVocabQuiz(); // Generate new random set
+        saveProgress();
         renderVocabularyQuiz();
+        updateProgress();
     };
 
     function renderVocabularyQuiz() {
@@ -1357,19 +1367,63 @@
     function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
     function unlockBadge(id){ console.log(`Badge: ${id}`); }
     
+    function getOverallProgress(){
+        const total = 65;
+        const rawDone = Object.values(questionIndex).reduce((acc, value) => acc + Number(value || 0), 0);
+        const done = Math.max(0, Math.min(rawDone, total));
+        const pct = Math.max(0, Math.min(Math.round((done / total) * 100), 100));
+        return { total, done, pct };
+    }
+
     function updateProgress(){
-        const total=65; let done=0; Object.values(questionIndex).forEach(v=>done+=v);
-        const pct=Math.round((done/total)*100);
-        progressBar.style.width=`${pct}%`; currentQEl.textContent=String(done); totalQEl.textContent=String(total); progressPercentEl.textContent=`${pct}%`;
-        document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ const sections=['video','reading','listening','speaking','writing','vocabulary','grammar'], sec=sections[i]; if(sec!=='video'&&questionIndex[sec]>=lessonData.tabs[sec].length) btn.classList.add('completed'); });
+        const { total, done, pct } = getOverallProgress();
+        progressBar.style.width = `${pct}%`;
+        currentQEl.textContent = String(done);
+        totalQEl.textContent = String(total);
+        progressPercentEl.textContent = `${pct}%`;
+
+        document.querySelectorAll('.tab-btn').forEach((btn) => {
+            btn.classList.remove('completed');
+            const sec = btn.dataset.tab;
+            if (!sec || sec === 'video') return;
+            if (sec === 'vocabulary') {
+                if (questionIndex.vocabulary > lessonData.tabs.vocabulary.length) btn.classList.add('completed');
+                return;
+            }
+            if (questionIndex[sec] >= lessonData.tabs[sec].length) btn.classList.add('completed');
+        });
     }
 
     function saveProgress(){
         if(!currentUser) return;
-        const data={}; const prefix='u05_';
-        Object.keys(questionIndex).forEach(sec=>{ data[`progresso.${prefix}${sec}`]=questionIndex[sec]; });
-        updateDoc(doc(db,"usuarios",currentUser.uid),{ xp:score, streak:streak, totalXP:totalXP, ...data, 'progresso.lastUpdate':new Date().toISOString(), 'notes':{ u05:userNotes } }).catch(console.error);
+        const data = {};
+        const prefix = 'u05_';
+        Object.keys(questionIndex).forEach(sec => {
+            data[`progresso.${prefix}${sec}`] = Number(questionIndex[sec] || 0);
+        });
+
+        const { total, done, pct } = getOverallProgress();
+        const status = pct >= 100 ? 'Concluído' : done > 0 ? 'Em andamento' : 'Começar';
+
+        updateDoc(doc(db, "usuarios", currentUser.uid), {
+            xp: Number(score || 0),
+            streak: Number(streak || 0),
+            totalXP: Number(totalXP || 0),
+            ...data,
+            'progresso.u05_total': total,
+            'progresso.u05_done': done,
+            'progresso.u05_percent': pct,
+            'progresso.u05_status': status,
+            'progresso.u05_currentTab': currentTab,
+            'progresso.u05_completed': pct >= 100,
+            'progresso.lastUpdate': new Date().toISOString(),
+            'notes.u05': userNotes
+        }).catch(console.error);
     }
+
+    window.saveCurrentNote = (questionId, value) => {
+        userNotes[questionId] = value;
+    };
 
     // ===== HINTS =====
     window.showHint = () => {
@@ -1377,7 +1431,7 @@
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Think about the body words you\'ve learned.','Remember: "my" = meu/minha, "your" = seu/sua','Look for body part functions in the text.'];
+        const hints=['Think about the family words you\'ve learned.','Remember: "my" = meu/minha, "your" = seu/sua','Look for possessive relationships in the text.'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
@@ -1388,7 +1442,7 @@
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
     window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
     window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
-    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); currentTab='video'; score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
 
     document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
 
@@ -1402,6 +1456,10 @@
                 else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
             }
         }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        try { saveProgress(); } catch (error) { console.error(error); }
     });
 
     if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
