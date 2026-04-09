@@ -297,23 +297,23 @@
     <!-- TABS - CENTRALIZED -->
     <div class="tabs-container">
         <div class="tabs">
-            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
-            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
-            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
-            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
-            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
-            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
-            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+            <button class="tab-btn active" data-tab="video" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="main" id="mainContent"></div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script>
 
     // ===== FIREBASE =====
     const firebaseConfig = {
@@ -325,9 +325,9 @@
         appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
     let currentUser = null;
 
     // ===== LESSON DATA (U05: BODY PARTS) =====
@@ -769,6 +769,7 @@ Long adjectives: use "more" (beautiful → more beautiful)',
 
     // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
+        currentUser = user || null;
         currentUser = user || null;
         if (user) {
             try {
