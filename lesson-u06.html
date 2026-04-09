@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U06: Animals | EnglishPath A1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#22c55e', secondary: '#3b82f6', accent: '#f59e0b', danger: '#ef4444' }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+        .header {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #22c55e; cursor: pointer; }
+        .logo:hover { color: #16a34a; }
+        .cefr-badge {
+            padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+            background: #dbeafe; color: #1e40af;
+        }
+        .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
+        .stats { display: flex; gap: 1rem; align-items: center; }
+        .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
+        .stat-fire { background: #fff7ed; color: #f59e0b; }
+        .stat-bolt { background: #eff6ff; color: #3b82f6; }
+        .stat-xp { background: #f0fdf4; color: #22c55e; }
+        .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
+        .menu-btn:hover { background: #f1f5f9; }
+        .tabs-container {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
+            display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
+        }
+        .tabs {
+            display: flex; gap: 0.25rem; overflow-x: auto; max-width: 900px;
+        }
+        .tab-btn {
+            padding: 0.75rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.85rem;
+            color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #1e293b; }
+        .tab-btn.active { background: #22c55e; color: white; }
+        .tab-btn.completed { color: #16a34a; }
+        .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
+        .difficulty {
+            display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
+        }
+        .difficulty.easy { background: #dcfce7; color: #166534; }
+        .difficulty.medium { background: #fef3c7; color: #92400e; }
+        .difficulty.hard { background: #fed7aa; color: #c2410c; }
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 220px); }
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+        .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
+        .objective-box {
+            background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px;
+            margin-bottom: 2rem; font-size: 0.9rem;
+        }
+        .card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
+            margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .vocab-card {
+            display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+            padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
+            background: white; transition: all 0.2s;
+        }
+        .vocab-card:hover { border-color: #3b82f6; transform: translateX(4px); }
+        .vocab-word { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+        .vocab-pron { font-size: 0.9rem; color: #64748b; font-style: italic; }
+        .vocab-meaning { font-size: 1rem; color: #3b82f6; font-weight: 600; margin-top: 0.25rem; }
+        .vocab-example { font-size: 0.9rem; color: #475569; margin-top: 0.5rem; font-style: italic; }
+        .vocab-audio-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: #eff6ff; color: #3b82f6;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
+        }
+        .vocab-audio-btn:hover { background: #3b82f6; color: white; }
+        .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
+        .tts-controls {
+            display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
+        }
+        .tts-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: #3b82f6; color: white; border: none; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        .speed-select {
+            padding: 0.4rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px;
+            background: white; font-size: 0.85rem; cursor: pointer;
+        }
+        .transcript {
+            background: #f8fafc; padding: 1rem; border-radius: 8px; margin-top: 0.75rem;
+            font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
+        }
+        .transcript.show { display: block; }
+        .reading-text { font-size: 1.1rem; line-height: 2; color: #334155; margin-bottom: 1rem; }
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat; background-size: 100% 40%; background-position: 0 88%;
+            padding: 0 0.25rem; font-weight: 700; cursor: pointer;
+        }
+        .highlight:hover { background-size: 100% 100%; }
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; margin: 1rem 0; background: #000;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .option {
+            padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
+        }
+        .option:hover { border-color: #3b82f6; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .option.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .record-btn {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            margin: 2rem auto; cursor: pointer; border: none;
+            box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
+        }
+        .record-btn:active { transform: translateY(8px); box-shadow: none; }
+        .record-btn.recording { animation: recording-pulse 1s infinite; }
+        @keyframes recording-pulse { 50% { transform: scale(1.05); } }
+        .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
+        .score-display.good { color: #22c55e; }
+        .score-display.bad { color: #ef4444; }
+        .writing-area {
+            width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
+        }
+        .writing-area:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
+        .grammar-explanation {
+            background: #f0f9ff; border: 2px solid #3b82f6; border-radius: 12px;
+            padding: 1.5rem; margin: 1.5rem 0;
+        }
+        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center; gap: 0.5rem; }
+        .grammar-explanation .rule { background: white; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; }
+        .grammar-explanation .formula {
+            background: #dbeafe; padding: 0.75rem; border-radius: 8px; font-family: monospace;
+            font-weight: 600; margin: 0.75rem 0; text-align: center;
+        }
+        .grammar-explanation ul { margin-left: 1.5rem; color: #475569; }
+        .grammar-explanation li { margin-bottom: 0.5rem; }
+        .grammar-explanation .tip {
+            background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem;
+            margin: 0.75rem 0; font-size: 0.9rem;
+        }
+        .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-width: 120px;
+        }
+        .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
+        .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+        .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
+        .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
+        .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .btn-next-section { 
+            background: #22c55e; 
+            color: white; 
+            box-shadow: 0 4px 0 #16a34a;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .btn-refazer { 
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
+        .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hint-box {
+            background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0; display: none;
+        }
+        .hint-box.show { display: block; }
+        .hint-cost { font-size: 0.8rem; color: #92400e; margin-left: 0.5rem; }
+        .notes-area {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0;
+        }
+        .notes-area textarea {
+            width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
+            border-radius: 8px; font-family: inherit; resize: vertical;
+        }
+        .settings-menu {
+            position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 200; display: none; min-width: 220px;
+        }
+        .settings-menu.show { display: block; }
+        .settings-item {
+            padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex;
+            align-items: center; gap: 0.75rem; font-size: 0.9rem;
+        }
+        .settings-item:hover { background: #f8fafc; }
+        .completion-screen {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
+        .enter-hint {
+            text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
+        }
+        .enter-hint kbd {
+            background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: monospace; font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .progress-section { margin: 0; width: 100%; }
+            .main { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .actions { flex-direction: column; }
+            .tabs-container { padding: 0.5rem 1rem; }
+            .btn { min-width: 100px; padding: 0.75rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo" onclick="goHome()">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>EnglishPath</span>
+            <span class="cefr-badge" id="cefrBadge">A1</span>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+                <span><span id="currentQ">0</span>/<span id="totalQ">65</span> questões</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat stat-fire"><i class="fa-solid fa-fire"></i><span id="streakDisplay">0</span></div>
+            <div class="stat stat-bolt"><i class="fa-solid fa-bolt"></i><span id="xpDisplay">0</span></div>
+            <button class="menu-btn" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div class="settings-menu" id="settingsMenu">
+        <div class="settings-item" onclick="goHome()"><i class="fa-solid fa-house"></i> Voltar para Home</div>
+        <div class="settings-item" onclick="resetProgress()"><i class="fa-solid fa-rotate-right"></i> Reiniciar Lição</div>
+        <div class="settings-item" onclick="toggleVoice()"><i class="fa-solid fa-volume-high"></i> Voz: <span id="voiceLabel">US</span></div>
+        <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
+    </div>
+
+    <!-- TABS - CENTRALIZED -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main" id="mainContent"></div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // ===== FIREBASE =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+        authDomain: "englishpath-2d558.firebaseapp.com",
+        projectId: "englishpath-2d558",
+        storageBucket: "englishpath-2d558.firebasestorage.app",
+        messagingSenderId: "384301599670",
+        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+
+    // =
+    // ===== LESSON DATA (U06: ANIMALS) =====
+    const lessonData = {
+        unitInfo: {
+            level: 'A1',
+            theme: 'Animals',
+            videoId: '4Mhlj_wFDUo',
+            objectives: [
+                'Identify common animals in English',
+                'Describe animals with simple adjectives',
+                'Use can/can’t to talk about animal abilities',
+                'Talk about where animals live and what they do'
+            ]
+        },
+
+        tabs: {
+            video: {
+                type: 'embed',
+                videoId: '4Mhlj_wFDUo',
+                instructions: 'Watch the video about animals. Pay attention to the names, sounds, and simple descriptions.'
+            },
+
+            // READING: 10 questions
+            reading: [
+                {
+                    id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: "This is a cat. It is small. It has four legs, two ears, and a long tail.",
+                    q: "What animal is in the text?",
+                    options: ["Dog", "Cat", "Bird", "Fish"],
+                    answer: 1,
+                    tts: "This is a cat. It is small. It has four legs, two ears, and a long tail.",
+                    explanation: "The text begins with 'This is a cat'.",
+                    cefr: "Can understand a simple description of an animal."
+                },
+                {
+                    id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
+                    text: "My dog is brown and very friendly. It likes to run in the park.",
+                    q: "What color is the dog?",
+                    options: ["Black", "Brown", "White", "Gray"],
+                    answer: 1,
+                    tts: "My dog is brown and very friendly. It likes to run in the park.",
+                    explanation: "The text says 'My dog is brown'.",
+                    cefr: "Can locate a simple color detail."
+                },
+                {
+                    id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
+                    text: "A fish lives in water. It can swim, but it cannot walk.",
+                    q: "Where does the fish live?",
+                    options: ["In a tree", "In water", "In a house", "In the sky"],
+                    answer: 1,
+                    tts: "A fish lives in water. It can swim, but it cannot walk.",
+                    explanation: "The text says 'A fish lives in water'.",
+                    cefr: "Can understand a basic habitat sentence."
+                },
+                {
+                    id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: "The bird is in the tree. It has wings and it sings every morning.",
+                    q: "What does the bird do every morning?",
+                    options: ["It sleeps", "It runs", "It sings", "It swims"],
+                    answer: 2,
+                    tts: "The bird is in the tree. It has wings and it sings every morning.",
+                    explanation: "The text says 'it sings every morning'.",
+                    cefr: "Can understand a simple repeated action."
+                },
+                {
+                    id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: "An elephant is very big. It has a long trunk and big ears.",
+                    q: "Which body part is long?",
+                    options: ["Leg", "Tail", "Trunk", "Neck"],
+                    answer: 2,
+                    tts: "An elephant is very big. It has a long trunk and big ears.",
+                    explanation: "The text says 'It has a long trunk'.",
+                    cefr: "Can understand a short physical description."
+                },
+                {
+                    id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
+                    text: "My rabbit is white. It has red eyes and long ears.",
+                    q: "What color are the rabbit's eyes?",
+                    options: ["Blue", "Brown", "Red", "Green"],
+                    answer: 2,
+                    tts: "My rabbit is white. It has red eyes and long ears.",
+                    explanation: "The text says 'It has red eyes'.",
+                    cefr: "Can find specific details in a simple animal description."
+                },
+                {
+                    id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
+                    text: "A monkey can climb trees very well. It likes bananas.",
+                    q: "What can the monkey do well?",
+                    options: ["Swim", "Fly", "Climb trees", "Sing"],
+                    answer: 2,
+                    tts: "A monkey can climb trees very well. It likes bananas.",
+                    explanation: "The text says 'A monkey can climb trees very well'.",
+                    cefr: "Can understand a simple ability statement."
+                },
+                {
+                    id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: "The turtle is slow, but it is very quiet. It lives near a lake.",
+                    q: "How is the turtle?",
+                    options: ["Fast and loud", "Slow and quiet", "Big and angry", "Small and noisy"],
+                    answer: 1,
+                    tts: "The turtle is slow, but it is very quiet. It lives near a lake.",
+                    explanation: "The text describes the turtle as slow and quiet.",
+                    cefr: "Can understand two simple descriptive adjectives."
+                },
+                {
+                    id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
+                    text: "There are three ducks in the pond. Two are yellow and one is white.",
+                    q: "How many yellow ducks are there?",
+                    options: ["One", "Two", "Three", "Four"],
+                    answer: 1,
+                    tts: "There are three ducks in the pond. Two are yellow and one is white.",
+                    explanation: "The text says 'Two are yellow'.",
+                    cefr: "Can count animals and colors in a short text."
+                },
+                {
+                    id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
+                    text: "The lion is sleeping now, but later it will walk around the zoo.",
+                    q: "What is the lion doing now?",
+                    options: ["Running", "Eating", "Sleeping", "Swimming"],
+                    answer: 2,
+                    tts: "The lion is sleeping now, but later it will walk around the zoo.",
+                    explanation: "The text says 'The lion is sleeping now'.",
+                    cefr: "Can understand present action in a short sentence."
+                }
+            ],
+
+            // LISTENING: 10 questions
+            listening: [
+                { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Which animal do you hear?", tts: "Cat", options: ["Cat", "Cow", "Duck", "Goat"], answer: 0, speed: 0.85 },
+                { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Listen and choose:", tts: "Dog", options: ["Duck", "Dog", "Frog", "Fox"], answer: 1, speed: 0.85 },
+                { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: "Which word do you hear?", tts: "Bird", options: ["Bird", "Bear", "Bee", "Horse"], answer: 0, speed: 0.85 },
+                { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "Listen carefully:", tts: "The fish can swim", options: ["The fish can jump", "The fish can swim", "The fish can fly", "The fish can run"], answer: 1, speed: 0.85 },
+                { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "Which animal is mentioned?", tts: "The rabbit is white", options: ["Rabbit", "Tiger", "Lion", "Monkey"], answer: 0, speed: 0.85 },
+                { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: "Listen to the sentence:", tts: "The elephant is big", options: ["The elephant is big", "The elephant is small", "The tiger is big", "The mouse is big"], answer: 0, speed: 0.85 },
+                { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
+                    q: "Which phrase do you hear?", tts: "A black cat", options: ["A black cat", "A brown dog", "A white rabbit", "A big lion"], answer: 0, speed: 0.85 },
+                { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'horse'", tts: "Horse", options: ["True", "False"], answer: 0, speed: 0.85 },
+                { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'duck'", tts: "Chicken", options: ["True", "False"], answer: 1, speed: 0.85 },
+                { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
+                    q: "What can it do?", tts: "A bird can fly", options: ["It can swim", "It can run", "It can fly", "It can crawl"], answer: 2, speed: 0.85 }
+            ],
+
+            // SPEAKING: 10 activities
+            speaking: [
+                { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "Cat"', model: "cat", expected: "cat" },
+                { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "Dog"', model: "dog", expected: "dog" },
+                { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "Elephant"', model: "elephant", expected: "elephant" },
+                { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Describing an animal',
+                    prompt: 'Say: "It is a small cat."',
+                    model: "It is a small cat.",
+                    expected: "it is a small cat" },
+                { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Talking about ability',
+                    prompt: 'Say: "A bird can fly."',
+                    model: "A bird can fly.",
+                    expected: "a bird can fly" },
+                { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Talking about color',
+                    prompt: 'Say: "The rabbit is white."',
+                    model: "The rabbit is white.",
+                    expected: "the rabbit is white" },
+                { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of a zoo]. Say at least three animals you can see.',
+                    expected: "animals", minWords: 3 },
+                { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe this: [Image of a farm]. Say: "These are farm animals."',
+                    expected: "these are farm animals", minWords: 4 },
+                { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Talk about your favorite animal. What color is it? What can it do?', minWords: 5, expectedPattern: "animal" },
+                { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Describe two animals. Compare their size, color, or abilities.', minWords: 6, expectedPattern: "animals" }
+            ],
+
+            // WRITING: 10 intelligent tasks
+            writing: [
+                { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "This is a _____." (dog)', answer: 'dog', example: 'This is a dog.' },
+                { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "A bird can _____." (fly)', answer: 'fly', example: 'A bird can fly.' },
+                { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Write the plural: "cat"', answer: 'cats', example: 'cats' },
+                { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Rewrite using has: "The elephant / a long trunk" ->', answer: "The elephant has a long trunk", example: "The elephant has a long trunk." },
+                { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Change to plural: "This is a duck" ->', answer: 'These are ducks', example: 'These are ducks.' },
+                { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Complete with can or cannot: "A fish _____ fly."', answer: 'cannot', example: 'A fish cannot fly.' },
+                { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write one sentence about your favorite animal.', example: 'My favorite animal is a dog.', minLength: 15, maxLength: 60 },
+                { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe an animal using color and size.', example: 'The elephant is gray and very big.', minLength: 15, maxLength: 70 },
+                { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Write about an animal and what it can do.', minLength: 30, maxLength: 90 },
+                { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Describe two animals and say where they live.', minLength: 40, maxLength: 100 }
+            ],
+
+            // VOCABULARY: 30 Words - Animals
+            vocabulary: [
+                { word: "Animal", pron: "/ˈænɪməl/", meaning: "Animal", example: "This animal is very small." },
+                { word: "Cat", pron: "/kæt/", meaning: "Gato", example: "The cat is on the chair." },
+                { word: "Dog", pron: "/dɔːɡ/", meaning: "Cachorro", example: "My dog is friendly." },
+                { word: "Bird", pron: "/bɜːrd/", meaning: "Pássaro", example: "The bird can fly." },
+                { word: "Fish", pron: "/fɪʃ/", meaning: "Peixe", example: "The fish is in the water." },
+                { word: "Rabbit", pron: "/ˈræbɪt/", meaning: "Coelho", example: "The rabbit has long ears." },
+                { word: "Horse", pron: "/hɔːrs/", meaning: "Cavalo", example: "The horse runs fast." },
+                { word: "Cow", pron: "/kaʊ/", meaning: "Vaca", example: "The cow is on the farm." },
+                { word: "Duck", pron: "/dʌk/", meaning: "Pato", example: "The duck swims in the pond." },
+                { word: "Chicken", pron: "/ˈtʃɪkɪn/", meaning: "Galinha", example: "The chicken is yellow." },
+                { word: "Monkey", pron: "/ˈmʌŋki/", meaning: "Macaco", example: "The monkey climbs trees." },
+                { word: "Lion", pron: "/ˈlaɪən/", meaning: "Leão", example: "The lion is very strong." },
+                { word: "Tiger", pron: "/ˈtaɪɡər/", meaning: "Tigre", example: "The tiger has stripes." },
+                { word: "Elephant", pron: "/ˈelɪfənt/", meaning: "Elefante", example: "The elephant is big." },
+                { word: "Bear", pron: "/ber/", meaning: "Urso", example: "The bear is brown." },
+                { word: "Fox", pron: "/fɑːks/", meaning: "Raposa", example: "The fox is clever." },
+                { word: "Frog", pron: "/frɔːɡ/", meaning: "Sapo", example: "The frog can jump." },
+                { word: "Turtle", pron: "/ˈtɜːrtl/", meaning: "Tartaruga", example: "The turtle is slow." },
+                { word: "Farm", pron: "/fɑːrm/", meaning: "Fazenda", example: "Many animals live on a farm." },
+                { word: "Zoo", pron: "/zuː/", meaning: "Zoológico", example: "We visit the zoo on Sunday." },
+                { word: "Tail", pron: "/teɪl/", meaning: "Cauda", example: "The dog has a long tail." },
+                { word: "Wings", pron: "/wɪŋz/", meaning: "Asas", example: "Birds have wings." },
+                { word: "Fur", pron: "/fɜːr/", meaning: "Pelo", example: "The cat has soft fur." },
+                { word: "Trunk", pron: "/trʌŋk/", meaning: "Tromba", example: "The elephant has a long trunk." },
+                { word: "Fly", pron: "/flaɪ/", meaning: "Voar", example: "A bird can fly." },
+                { word: "Swim", pron: "/swɪm/", meaning: "Nadar", example: "A fish can swim." },
+                { word: "Run", pron: "/rʌn/", meaning: "Correr", example: "A horse can run fast." },
+                { word: "Big", pron: "/bɪɡ/", meaning: "Grande", example: "The elephant is big." },
+                { word: "Small", pron: "/smɔːl/", meaning: "Pequeno", example: "The mouse is small." },
+                { word: "Wild", pron: "/waɪld/", meaning: "Selvagem", example: "Lions are wild animals." }
+            ],
+
+            // GRAMMAR: Animals
+            grammar: [
+                {
+                    id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'This is / These are (Animals)',
+                    explanation: {
+                        theory: 'Use this is for one animal and these are for more than one animal.',
+                        formula: 'This is + singular noun\nThese are + plural noun',
+                        examples: [
+                            'This is a cat.',
+                            'This is an elephant.',
+                            'These are ducks.',
+                            'These are farm animals.'
+                        ],
+                        exceptions: 'Use that is / those are for things farther away.',
+                        tip: 'This = one. These = more than one.',
+                        usage: 'Useful when pointing to animals in pictures.'
+                    }
+                },
+                {
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'A / An with Animals',
+                    explanation: {
+                        theory: 'Use a before consonant sounds and an before vowel sounds.',
+                        formula: 'a + consonant sound noun\nan + vowel sound noun',
+                        examples: [
+                            'a dog',
+                            'a rabbit',
+                            'an elephant',
+                            'an animal'
+                        ],
+                        exceptions: 'Choose by sound, not only by letter.',
+                        tip: 'Say the word aloud: an elephant, a tiger.',
+                        usage: 'Important for naming animals correctly.'
+                    }
+                },
+                {
+                    id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Have / Has for Animal Features',
+                    explanation: {
+                        theory: 'Use have and has to describe animal body parts and features.',
+                        formula: 'I/You/We/They have + noun\nHe/She/It has + noun',
+                        examples: [
+                            'Cats have fur.',
+                            'A bird has wings.',
+                            'Elephants have big ears.',
+                            'It has a long tail.'
+                        ],
+                        exceptions: 'Use has with it when talking about one animal.',
+                        tip: 'One animal = it has. Many animals = they have.',
+                        usage: 'Very common in animal descriptions.'
+                    }
+                },
+                {
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Can / Cannot for Animal Abilities',
+                    explanation: {
+                        theory: 'Use can and cannot to talk about what animals are able or not able to do.',
+                        formula: 'Subject + can/cannot + base verb',
+                        examples: [
+                            'A bird can fly.',
+                            'A fish can swim.',
+                            'A dog can run.',
+                            'A fish cannot fly.'
+                        ],
+                        exceptions: 'After can, use the base verb: fly, swim, run.',
+                        tip: 'Can = ability. Cannot = no ability.',
+                        usage: 'Essential for simple animal facts.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Simple Adjectives with Animals',
+                    explanation: {
+                        theory: 'Use adjectives like big, small, fast, slow, friendly, and wild to describe animals.',
+                        formula: 'be + adjective\nadjective + noun',
+                        examples: [
+                            'The lion is big.',
+                            'The turtle is slow.',
+                            'a friendly dog',
+                            'a wild animal'
+                        ],
+                        exceptions: 'Put the adjective before the noun or after be.',
+                        tip: 'Compare: a big elephant / The elephant is big.',
+                        usage: 'Useful for short descriptions.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'There is / There are',
+                    explanation: {
+                        theory: 'Use there is for one animal and there are for two or more animals.',
+                        formula: 'There is + singular noun\nThere are + plural noun',
+                        examples: [
+                            'There is a cat in the house.',
+                            'There is a bird in the tree.',
+                            'There are three ducks in the pond.',
+                            'There are many animals at the zoo.'
+                        ],
+                        exceptions: 'Use is for singular and are for plural.',
+                        tip: 'Count first, then choose is or are.',
+                        usage: 'Great for describing pictures and places.'
+                    }
+                },
+                {
+                    id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Simple Present with Animals',
+                    explanation: {
+                        theory: 'Use the simple present to talk about facts and routines of animals.',
+                        formula: 'Subject + base verb / verb-s',
+                        examples: [
+                            'Birds live in nests.',
+                            'A dog likes bones.',
+                            'Fish swim in water.',
+                            'The monkey eats bananas.'
+                        ],
+                        exceptions: 'Add -s with he, she, it: it eats, it likes.',
+                        tip: 'One animal = it + verb-s.',
+                        usage: 'Useful for animal facts and habits.'
+                    }
+                },
+                {
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Where Animals Live',
+                    explanation: {
+                        theory: 'Use simple place phrases to talk about animal habitats.',
+                        formula: 'Subject + live/lives + in/on/near + place',
+                        examples: [
+                            'Fish live in water.',
+                            'Birds live in trees.',
+                            'Rabbits live on farms.',
+                            'The turtle lives near a lake.'
+                        ],
+                        exceptions: 'Use lives with one animal, live with plural animals.',
+                        tip: 'Remember: fish live, the fish lives.',
+                        usage: 'Helpful for talking about habitats.'
+                    }
+                },
+                {
+                    id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Plural Animals',
+                    explanation: {
+                        theory: 'Most animal nouns add -s in the plural.',
+                        formula: 'singular noun + s = plural noun',
+                        examples: [
+                            'cat → cats',
+                            'dog → dogs',
+                            'duck → ducks',
+                            'rabbit → rabbits'
+                        ],
+                        exceptions: 'Some nouns stay the same in plural, like fish in many common uses.',
+                        tip: 'Start with regular plurals first: cats, dogs, birds.',
+                        usage: 'Important for counting and describing groups of animals.'
+                    }
+                },
+                {
+                    id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Simple Questions About Animals',
+                    explanation: {
+                        theory: 'Use what, where, and can to ask simple questions about animals.',
+                        formula: 'What is it?\nWhere does it live?\nCan it + verb?',
+                        examples: [
+                            'What is it? It is a tiger.',
+                            'Where does it live? It lives in the forest.',
+                            'Can it fly? Yes, it can.',
+                            'Can it swim? No, it cannot.'
+                        ],
+                        exceptions: 'Use does with it in present simple questions.',
+                        tip: 'What = name, Where = place, Can = ability.',
+                        usage: 'Important for classroom speaking and basic conversations.'
+                    }
+                }
+            ]
+        }
+    };
+// ===== STATE =====
+    let currentTab = 'video';
+    let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0, grammar: 0 };
+    let score = 0, streak = 0, totalXP = 0;
+    let isAnswered = false, selectedOption = null, hintsUsed = 0;
+    let recognition = null, ttsPlaying = false, currentTTS = null;
+    let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
+    
+    // State specifically for Vocabulary Quiz
+    let vocabQuizSet = [];
+    let currentVocabQuizIndex = 0;
+
+    // ===== DOM =====
+    const mainContent = document.getElementById('mainContent');
+    const progressBar = document.getElementById('progressBar');
+    const currentQEl = document.getElementById('currentQ');
+    const totalQEl = document.getElementById('totalQ');
+    const progressPercentEl = document.getElementById('progressPercent');
+    const xpDisplay = document.getElementById('xpDisplay');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const cefrBadge = document.getElementById('cefrBadge');
+
+    // ===== INIT =====
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user || null;
+        if (user) {
+            try {
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    score = Number(data.xp) || 0;
+                    streak = Number(data.streak) || 0;
+                    totalXP = Number(data.totalXP) || 0;
+                    xpDisplay.textContent = String(totalXP);
+                    streakDisplay.textContent = String(streak);
+                    cefrBadge.textContent = lessonData.unitInfo.level;
+                    
+                    if (data.progresso) {
+                        const prefix = 'u06_';
+                        Object.keys(questionIndex).forEach(sec => {
+                            const key = `${prefix}${sec}`;
+                            if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
+                        });
+                    }
+                    userNotes = data.notes?.u06 || {};
+                }
+            } catch (error) { console.error("Load error:", error); }
+        } else { cefrBadge.textContent = lessonData.unitInfo.level; }
+        renderCurrentTab();
+        updateProgress();
+    });
+
+    // ===== NAVIGATION =====
+    window.switchTab = (tab) => {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        renderCurrentTab();
+        updateProgress();
+    };
+
+    function renderCurrentTab() {
+        if (currentTab === 'video') { renderVideo(); return; }
+        const section = lessonData.tabs[currentTab];
+        const index = questionIndex[currentTab];
+        
+        // Special handling for Vocabulary (Study Mode vs Quiz Mode)
+        if (currentTab === 'vocabulary') {
+            // If index is less than total vocab words, show study list
+            if (index < lessonData.tabs.vocabulary.length) {
+                renderVocabularyList();
+            } else {
+                // If index equals or exceeds vocab length, we are in Quiz Mode
+                // Check if we need to initialize the quiz set
+                if (vocabQuizSet.length === 0) {
+                    initVocabQuiz();
+                }
+                renderVocabularyQuiz();
+            }
+            return;
+        }
+
+        if (index >= section.length) { renderSectionComplete(currentTab); return; }
+        
+        switch(currentTab) {
+            case 'reading': renderReading(section[index]); break;
+            case 'listening': renderListening(section[index]); break;
+            case 'speaking': renderSpeaking(section[index]); break;
+            case 'writing': renderWriting(section[index]); break;
+            case 'grammar': renderGrammar(section[index]); break;
+        }
+        updateProgress();
+    }
+
+    function renderVideo() {
+        const video = lessonData.tabs.video;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📺 Video Lesson</h1>
+            <p class="section-subtitle">Watch and learn about Body Parts</p>
+            <div class="objective-box">
+                <strong>🎯 Learning Objectives:</strong><br>
+                ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
+            </div>
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <p style="text-align:center;color:#64748b;">${video.instructions}</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startActivities()">
+                    Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    window.startActivities = () => {
+        currentTab = 'reading';
+        saveProgress();
+        switchTab('reading');
+    };
+
+    function renderSectionComplete(tabName) {
+        const tabNames = {
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            vocabulary: 'Vocabulary',
+            grammar: 'Grammar'
+        };
+        
+        mainContent.innerHTML = `
+            <div class="section-complete">
+                <i class="fa-solid fa-check-circle"></i>
+                <h2>${tabNames[tabName]} Complete! ✓</h2>
+                <p>Great progress! Move to the next section.</p>
+                <div class="actions" style="justify-content:center; gap: 1rem;">
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
+                    <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
+                        Refazer Atividade 🔄
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    window.retrySection = (tabName) => {
+        questionIndex[tabName] = 0;
+        if (tabName === 'vocabulary') vocabQuizSet = []; // Reset quiz state
+        saveProgress();
+        renderCurrentTab();
+    };
+
+    // ===== RENDERERS =====
+    function renderReading(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Reading</h1>
+            <p class="section-subtitle">Comprehension practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <div class="reading-text">${q.text}</div>
+                <div class="tts-controls">
+                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-volume-high"></i> Listen
+                    </button>
+                    <select class="speed-select" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="0.85" selected>0.85x</option><option value="1">1x</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+                <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
+            </div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes..." oninput="saveCurrentNote('${q.id}', this.value)">${userNotes[q.id]||''}</textarea></div>
+            <div class="actions">
+                <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderListening(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">🎧 Listening</h1>
+            <p class="section-subtitle">Train your ear</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
+                <div class="tts-controls" style="justify-content:center;">
+                    <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option><option value="1">1x</option>
+                    </select>
+                </div>
+                <div class="transcript" id="transcript"><strong>Transcript:</strong> ${q.tts}</div>
+                <button class="btn btn-secondary" style="margin-top:0.5rem;" onclick="toggleTranscript()"><i class="fa-solid fa-align-left"></i> Show Transcript</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderSpeaking(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">💬 Speaking</h1>
+            <p class="section-subtitle">Practice pronunciation</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
+                ${q.model ? `<button class="tts-btn" onclick="playAudio('${q.model}')"><i class="fa-solid fa-volume-high"></i> Hear Example</button>` : ''}
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${q.expected||''}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click mic & speak. Auto-stops when you pause.</p>
+                <div id="scoreDisplay" class="score-display" style="display:none;"></div>
+                ${q.minWords ? `<p style="font-size:0.85rem;color:#64748b;margin-top:1rem;">Minimum ${q.minWords} words</p>` : ''}
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextQuestion()" disabled>Continue</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    function renderWriting(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">✍️ Writing</h1>
+            <p class="section-subtitle">Practice writing</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
+                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;">Example: ${q.example}</p>` : ''}
+                <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
+                <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
+                <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
+        `;
+    }
+
+    // ===== NEW: VOCABULARY RENDERERS (FIXED) =====
+    
+    function initVocabQuiz() {
+        // Shuffle all vocabulary words and pick 5
+        const allVocab = [...lessonData.tabs.vocabulary];
+        vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
+        currentVocabQuizIndex = 0;
+    }
+
+    function renderVocabularyList() {
+        const vocabList = lessonData.tabs.vocabulary;
+        let html = `
+            <h1 class="section-title">📚 Vocabulary Study</h1>
+            <p class="section-subtitle">30 Essential Words for Body Parts</p>
+            <div class="card">
+                <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
+                <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
+                    ${vocabList.map((item, idx) => `
+                        <div class="vocab-card">
+                            <div>
+                                <div class="vocab-word">${item.word} <span class="vocab-pron">${item.pron}</span></div>
+                                <div class="vocab-meaning">${item.meaning}</div>
+                                <div class="vocab-example">"${item.example}"</div>
+                            </div>
+                            <button class="vocab-audio-btn" onclick="playAudio('${item.word}')">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startVocabQuiz()">Start Quiz ➡️</button>
+            </div>
+        `;
+        mainContent.innerHTML = html;
+    }
+
+    window.startVocabQuiz = () => {
+        // Mark study phase as done by moving index past the list length
+        questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
+        initVocabQuiz(); // Generate new random set
+        saveProgress();
+        renderVocabularyQuiz();
+        updateProgress();
+    };
+
+    function renderVocabularyQuiz() {
+        if (currentVocabQuizIndex >= vocabQuizSet.length) {
+            // Quiz finished
+            questionIndex.vocabulary++; // Move past quiz completely
+            saveProgress();
+            renderSectionComplete('vocabulary');
+            return;
+        }
+
+        const item = vocabQuizSet[currentVocabQuizIndex];
+        
+        // Generate options (1 correct + 3 wrong)
+        const correctMeaning = item.meaning;
+        const wrongOptions = lessonData.tabs.vocabulary
+            .filter(w => w.word !== item.word)
+            .map(w => w.meaning);
+        
+        // Shuffle wrong options and take 3
+        const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
+        
+        mainContent.innerHTML = `
+            <h1 class="section-title">📝 Vocabulary Quiz</h1>
+            <p class="section-subtitle">Question ${currentVocabQuizIndex + 1} of 5</p>
+            <div class="card">
+                <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
+                <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
+                <button class="tts-btn" style="margin:0 auto;display:flex;" onclick="playAudio('${item.word}')">
+                    <i class="fa-solid fa-volume-high"></i> Listen
+                </button>
+                <div class="options" style="margin-top:2rem;">
+                    ${allOptions.map((opt, i) => `
+                        <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
+                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="checkBtn" onclick="checkVocabAnswer()" disabled>Check Answer</button>
+            </div>
+        `;
+        window.selectedVocabOption = null;
+        window.correctVocabAnswer = correctMeaning;
+    }
+
+    window.selectVocabOption = (idx, val, correct) => {
+        window.selectedVocabOption = idx;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.option')[idx].classList.add('selected');
+        document.getElementById('checkBtn').disabled = false;
+    };
+
+    window.checkVocabAnswer = () => {
+        const feedback = document.getElementById('feedback');
+        const opts = document.querySelectorAll('.option');
+        const selectedText = opts[window.selectedVocabOption].querySelector('span:last-child').textContent;
+        const isCorrect = selectedText === window.correctVocabAnswer;
+        
+        if (isCorrect) {
+            opts[window.selectedVocabOption].classList.add('correct');
+            feedback.className = 'feedback correct show';
+            feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
+            addXP(10);
+            
+            setTimeout(() => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            }, 1500);
+        } else {
+            opts[window.selectedVocabOption].classList.add('wrong');
+            // Find and highlight correct one
+            Array.from(opts).forEach(opt => {
+                if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
+                    opt.classList.add('correct');
+                }
+            });
+            feedback.className = 'feedback wrong show';
+            feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
+            
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
+            document.getElementById('checkBtn').onclick = () => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            };
+        }
+        saveProgress();
+    };
+
+    function renderGrammar(q) {
+        const exp = q.explanation;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Grammar</h1>
+            <p class="section-subtitle">Learn & practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
+            </div>
+            <div class="grammar-explanation">
+                <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
+                <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
+                <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
+                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="tip"><strong>🧠 Memory Tip:</strong> ${exp.tip}</div>
+                <div><strong>🎯 When to Use:</strong> ${exp.usage}</div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    // ===== INTERACTIONS =====
+    window.selectOption = (i) => { if(isAnswered) return; document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected')); document.querySelectorAll('.option')[i].classList.add('selected'); selectedOption=i; document.getElementById('checkBtn').disabled=false; };
+    window.enableCheck = () => { const input=document.getElementById('fillInput'); if(input) document.getElementById('checkBtn').disabled=!input.value.trim(); };
+    window.updateCharCount = (min,max) => { const input=document.getElementById('writingInput'), count=document.getElementById('charCount'); if(input&&count){count.textContent=input.value.length; document.getElementById('checkBtn').disabled=input.value.length<(min||0);} };
+    
+    window.toggleTTS = (text) => {
+        const btn=document.getElementById('ttsBtn'); if(!btn) return;
+        if(ttsPlaying){ if(currentTTS) currentTTS.cancel(); ttsPlaying=false; btn.classList.remove('playing'); btn.innerHTML='<i class="fa-solid fa-volume-high"></i> Listen'; }
+        else { currentTTS=speakText(text); if(currentTTS){ ttsPlaying=true; btn.classList.add('playing'); btn.innerHTML='<i class="fa-solid fa-stop"></i> Stop'; } }
+    };
+    
+    window.playAudio = (text) => { const btn=document.getElementById('audioBtn'); if(btn){ btn.classList.add('playing'); setTimeout(()=>btn.classList.remove('playing'),1000); } speakText(text); };
+    window.readAloud = (id) => { const el=document.getElementById(id); if(el?.value) speakText(el.value); };
+    window.toggleTranscript = () => { const el=document.getElementById('transcript'); if(el) el.classList.toggle('show'); };
+    
+    function speakText(text) {
+        if(!('speechSynthesis' in window)){ alert('TTS not supported'); return null; }
+        window.speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
+        u.lang=voice; u.rate=ttsRate;
+        const voices=window.speechSynthesis.getVoices(), v=voices.find(x=>x.lang===voice);
+        if(v) u.voice=v;
+        window.speechSynthesis.speak(u);
+        return window.speechSynthesis;
+    }
+    
+    window.changeSpeed = (rate) => { ttsRate=parseFloat(rate); };
+
+    window.toggleRecording = (expected) => {
+        const btn=document.getElementById('recordBtn'), status=document.getElementById('recordStatus'), scoreDiv=document.getElementById('scoreDisplay'), continueBtn=document.getElementById('continueBtn');
+        if(!btn) return;
+        if(!btn.classList.contains('recording')){
+            const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+            if(!SR){ alert('Use Chrome/Edge'); return; }
+            recognition=new SR(); recognition.lang=voice; recognition.continuous=false;
+            recognition.onspeechend=()=>recognition.stop();
+            btn.classList.add('recording'); status.textContent='🎤 Listening...'; if(scoreDiv) scoreDiv.style.display='none'; if(continueBtn) continueBtn.disabled=true;
+            recognition.onresult=(e)=>{
+                const transcript=e.results[0][0].transcript.trim().toLowerCase(), conf=e.results[0][0].confidence;
+                const clean=normalizeText(transcript), exp=normalizeText(expected||'');
+                const match=clean.includes(exp)||exp.includes(clean)||clean.replace(/[-\s]/g,'')===exp.replace(/[-\s]/g,'');
+                const acc=match?Math.round(conf*100):0;
+                if(scoreDiv){ scoreDiv.textContent=`${acc}% Accuracy`; scoreDiv.className=`score-display ${acc>=60?'good':'bad'}`; scoreDiv.style.display='block'; }
+                status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
+                if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
+            };
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
+            recognition.start();
+        }
+    };
+    
+    function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
+
+    // ===== ANSWER CHECKING WITH AUTO-ADVANCE =====
+    window.checkAnswer = () => {
+        if(isAnswered||selectedOption===null) return; isAnswered=true;
+        const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
+        const correct=selectedOption===q.answer;
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.checkWriting = () => {
+        const input=document.getElementById('writingInput'); if(!input) return;
+        const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
+        const valid=input.value.trim().length>=(q.minLength||0);
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
+            
+            // Auto-advance after 1.5 seconds
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+            // Stay on question, allow retry
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    // ===== NAVIGATION =====
+    window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
+    window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.nextSection = () => { const sections=['reading','listening','speaking','writing','vocabulary','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
+
+    function showCompletion() {
+        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
+        mainContent.innerHTML = `
+            <div class="completion-screen">
+                <i class="fa-solid fa-trophy"></i>
+                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">🎉 Lesson Complete!</h2>
+                <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
+                <div class="xp-reward">+600 XP</div>
+                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
+                
+                <div class="report-card">
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
+                    <div class="report-grid">
+                        <div class="report-item">
+                            <div class="report-value">${final}</div>
+                            <div class="report-label">Total XP Earned</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${streak}</div>
+                            <div class="report-label">Day Streak</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">65</div>
+                            <div class="report-label">Questions Completed</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${Math.round((final/800)*100)}%</div>
+                            <div class="report-label">Success Rate</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:2rem;">
+                        <h4 style="font-weight:700;margin-bottom:1rem;">Skills Breakdown:</h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#22c55e;">Reading</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#3b82f6;">Listening</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#f59e0b;">Speaking</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#ef4444;">Writing</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#8b5cf6;">Vocabulary</div>
+                                <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
+                            </div>
+                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#6366f1;">Grammar</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color:#64748b;margin:2rem 0;">Progress saved automatically!</p>
+                <div class="actions" style="justify-content:center;">
+                    <button class="btn btn-primary" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
+                </div>
+            </div>
+        `;
+        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u06_completed`]:true,[`progresso.u06_date`]:new Date().toISOString(),[`progresso.u06_score`]:final}).catch(console.error);
+    }
+
+    // ===== XP & PROGRESS =====
+    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function unlockBadge(id){ console.log(`Badge: ${id}`); }
+    
+    function getOverallProgress(){
+        const total = 65;
+        const rawDone = Object.values(questionIndex).reduce((acc, value) => acc + Number(value || 0), 0);
+        const done = Math.max(0, Math.min(rawDone, total));
+        const pct = Math.max(0, Math.min(Math.round((done / total) * 100), 100));
+        return { total, done, pct };
+    }
+
+    function updateProgress(){
+        const { total, done, pct } = getOverallProgress();
+        progressBar.style.width = `${pct}%`;
+        currentQEl.textContent = String(done);
+        totalQEl.textContent = String(total);
+        progressPercentEl.textContent = `${pct}%`;
+
+        document.querySelectorAll('.tab-btn').forEach((btn) => {
+            btn.classList.remove('completed');
+            const sec = btn.dataset.tab;
+            if (!sec || sec === 'video') return;
+            if (sec === 'vocabulary') {
+                if (questionIndex.vocabulary > lessonData.tabs.vocabulary.length) btn.classList.add('completed');
+                return;
+            }
+            if (questionIndex[sec] >= lessonData.tabs[sec].length) btn.classList.add('completed');
+        });
+    }
+
+    function saveProgress(){
+        if(!currentUser) return;
+        const data = {};
+        const prefix = 'u06_';
+        Object.keys(questionIndex).forEach(sec => {
+            data[`progresso.${prefix}${sec}`] = Number(questionIndex[sec] || 0);
+        });
+
+        const { total, done, pct } = getOverallProgress();
+        const status = pct >= 100 ? 'Concluído' : done > 0 ? 'Em andamento' : 'Começar';
+
+        updateDoc(doc(db, "usuarios", currentUser.uid), {
+            xp: Number(score || 0),
+            streak: Number(streak || 0),
+            totalXP: Number(totalXP || 0),
+            ...data,
+            'progresso.u06_total': total,
+            'progresso.u06_done': done,
+            'progresso.u06_percent': pct,
+            'progresso.u06_status': status,
+            'progresso.u06_completed': pct >= 100,
+            'progresso.lastUpdate': new Date().toISOString(),
+            'notes.u06': userNotes
+        }).catch(console.error);
+    }
+
+    window.saveCurrentNote = (questionId, value) => {
+        userNotes[questionId] = value;
+    };
+
+    // ===== HINTS =====
+    window.showHint = () => {
+        if(hintsUsed>=3){ alert('Max hints reached'); return; }
+        const cost=hintsUsed===0?5:hintsUsed===1?10:20;
+        if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
+        totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
+        const hints=['Think about the body words you\'ve learned.','Remember the singular and plural forms: eye/eyes, foot/feet.','Look for body parts and descriptive words in the text.'];
+        document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
+        document.getElementById('hintBox').classList.add('show');
+        saveProgress();
+    };
+
+    // ===== UTILS =====
+    window.goHome = () => { saveProgress(); window.location.href='index.html'; };
+    window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
+    window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
+    window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
+
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
+
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
+            e.preventDefault();
+            const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
+
+            if(currentTab==='writing' && checkBtn && !checkBtn.disabled){
+                checkWriting();
+                return;
+            }
+
+            if(currentTab==='grammar'){
+                nextQuestion();
+                return;
+            }
+
+            if(currentTab==='speaking' && continueBtn && !continueBtn.disabled){
+                nextQuestion();
+                return;
+            }
+
+            if(checkBtn && !checkBtn.disabled && !isAnswered){
+                if(currentTab==='vocabulary' && typeof checkVocabAnswer === 'function') checkVocabAnswer();
+                else checkAnswer();
+            } else if((checkBtn && (checkBtn.textContent.includes('Correct') || checkBtn.textContent.includes('Next Question'))) || (continueBtn && !continueBtn.disabled)){
+                if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
+                else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
+            }
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        try { saveProgress(); } catch (error) { console.error(error); }
+    });
+
+    if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
+</script>
+</body>
+</html>
