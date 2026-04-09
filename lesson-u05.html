@@ -297,23 +297,23 @@
     <!-- TABS - CENTRALIZED -->
     <div class="tabs-container">
         <div class="tabs">
-            <button class="tab-btn active" data-tab="video" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
-            <button class="tab-btn" data-tab="reading" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
-            <button class="tab-btn" data-tab="listening" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
-            <button class="tab-btn" data-tab="speaking" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
-            <button class="tab-btn" data-tab="writing" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
-            <button class="tab-btn" data-tab="vocabulary" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
-            <button class="tab-btn" data-tab="grammar" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="main" id="mainContent"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     // ===== FIREBASE =====
     const firebaseConfig = {
@@ -325,11 +325,12 @@
         appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
     let currentUser = null;
 
+    // =
     // ===== LESSON DATA (U05: BODY PARTS) =====
     const lessonData = {
         unitInfo: {
@@ -337,10 +338,10 @@
             theme: 'Body Parts',
             videoId: 'wrjq8KsR2wk',
             objectives: [
-                'Identify body parts in English',
-                'Use possessive adjectives with body parts (my head, your eyes)',
-                'Describe actions using body parts',
-                'Ask and answer questions about the body'
+                'Identify basic body parts in English',
+                'Use have/has to describe the body',
+                'Describe people using simple body vocabulary',
+                'Ask and answer simple questions about body parts'
             ]
         },
 
@@ -348,404 +349,406 @@
             video: {
                 type: 'embed',
                 videoId: 'wrjq8KsR2wk',
-                instructions: 'Watch the video about body parts. Listen and repeat the words.'
+                instructions: 'Watch the video about body parts. Pay attention to the pronunciation and the vocabulary.'
             },
 
+            // READING: 10 questions
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: "Your head is on top of your body. You move your head up and down when you say yes.",
-                    q: "What do you move when you say yes?",
-                    options: ["Your hand", "Your head", "Your foot", "Your eye"],
+                    text: "This is Ben. He has two eyes, two ears, one nose, and one mouth.",
+                    q: "How many eyes does Ben have?",
+                    options: ["One", "Two", "Three", "Four"],
                     answer: 1,
-                    tts: "Your head is on top of your body. You move your head up and down when you say yes.",
-                    explanation: "The text says 'You move your head up and down when you say yes'.",
-                    cefr: "Can understand simple body descriptions."
+                    tts: "This is Ben. He has two eyes, two ears, one nose, and one mouth.",
+                    explanation: "The text says 'He has two eyes'.",
+                    cefr: "Can understand a simple body description."
                 },
                 {
                     id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
-                    text: "You look with your eyes. You hear with your ears. You smell with your nose.",
-                    q: "What do you use to hear?",
-                    options: ["Eyes", "Ears", "Nose", "Mouth"],
-                    answer: 1,
-                    tts: "You look with your eyes. You hear with your ears. You smell with your nose.",
-                    explanation: "The text states 'You hear with your ears'.",
-                    cefr: "Can locate specific body part functions."
+                    text: "My sister has long hair and brown eyes. Her nose is small.",
+                    q: "What color are her eyes?",
+                    options: ["Blue", "Black", "Brown", "Green"],
+                    answer: 2,
+                    tts: "My sister has long hair and brown eyes. Her nose is small.",
+                    explanation: "The text says 'brown eyes'.",
+                    cefr: "Can locate specific information in a short text."
                 },
                 {
                     id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
-                    text: "You use your mouth to eat and talk. You kiss with your lips.",
-                    q: "What do you use to eat?",
-                    options: ["Your nose", "Your mouth", "Your ears", "Your eyes"],
+                    text: "I wash my hands before lunch. Then I brush my teeth.",
+                    q: "What does the person wash before lunch?",
+                    options: ["Face", "Hands", "Hair", "Feet"],
                     answer: 1,
-                    tts: "You use your mouth to eat and talk. You kiss with your lips.",
-                    explanation: "The text says 'You use your mouth to eat'.",
-                    cefr: "Can understand mouth function."
+                    tts: "I wash my hands before lunch. Then I brush my teeth.",
+                    explanation: "The text says 'I wash my hands before lunch'.",
+                    cefr: "Can understand routine actions with body vocabulary."
                 },
                 {
                     id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: "You have one tooth, but many teeth. You chew food with your white teeth.",
-                    q: "What is the plural of 'tooth'?",
-                    options: ["Tooths", "Teeth", "Toothies", "Toothes"],
-                    answer: 1,
-                    tts: "You have one tooth, but many teeth. You chew food with your white teeth.",
-                    explanation: "The text says 'one tooth, but many teeth'.",
-                    cefr: "Can understand irregular plurals."
+                    text: "The baby cannot walk yet, but she moves her arms and legs a lot.",
+                    q: "Which body parts does the baby move a lot?",
+                    options: ["Arms and legs", "Eyes and ears", "Hands and feet", "Head and neck"],
+                    answer: 0,
+                    tts: "The baby cannot walk yet, but she moves her arms and legs a lot.",
+                    explanation: "The text says 'she moves her arms and legs a lot'.",
+                    cefr: "Can understand simple references to body movement."
                 },
                 {
                     id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: "Your neck is below your head. Your shoulders are between your neck and arms.",
-                    q: "Where is your neck?",
-                    options: ["Below your stomach", "Below your head", "Above your head", "On your legs"],
-                    answer: 1,
-                    tts: "Your neck is below your head. Your shoulders are between your neck and arms.",
-                    explanation: "The text says 'Your neck is below your head'.",
-                    cefr: "Can understand body position."
+                    text: "My grandfather has gray hair and a big nose. He also has strong hands.",
+                    q: "What color is the grandfather's hair?",
+                    options: ["Brown", "Black", "Gray", "Blonde"],
+                    answer: 2,
+                    tts: "My grandfather has gray hair and a big nose. He also has strong hands.",
+                    explanation: "The text says 'gray hair'.",
+                    cefr: "Can understand a short physical description."
                 },
                 {
                     id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
-                    text: "Your arms go from your shoulders to your hands. You grab and hold things with your hands.",
-                    q: "What connects shoulders to hands?",
-                    options: ["Legs", "Arms", "Fingers", "Neck"],
-                    answer: 1,
-                    tts: "Your arms go from your shoulders to your hands. You grab and hold things with your hands.",
-                    explanation: "The text says 'Your arms go from your shoulders to your hands'.",
-                    cefr: "Can understand body connections."
+                    text: "Sara has ten fingers and ten toes. She paints her fingernails every week.",
+                    q: "How many toes does Sara have?",
+                    options: ["Five", "Eight", "Ten", "Twelve"],
+                    answer: 2,
+                    tts: "Sara has ten fingers and ten toes. She paints her fingernails every week.",
+                    explanation: "The text says 'ten toes'.",
+                    cefr: "Can find numbers linked to body parts."
                 },
                 {
                     id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
-                    text: "You have five fingers on each hand. You have five toes on each foot.",
-                    q: "How many fingers on one hand?",
-                    options: ["Four", "Five", "Six", "Ten"],
+                    text: "After the game, my legs are tired and my feet hurt.",
+                    q: "Which body parts hurt?",
+                    options: ["Hands", "Legs and feet", "Arms", "Eyes"],
                     answer: 1,
-                    tts: "You have five fingers on each hand. You have five toes on each foot.",
-                    explanation: "The text says 'five fingers on each hand'.",
-                    cefr: "Can understand quantities."
+                    tts: "After the game, my legs are tired and my feet hurt.",
+                    explanation: "The text says 'my legs are tired and my feet hurt'.",
+                    cefr: "Can understand simple feelings about body parts."
                 },
                 {
                     id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: "Your chest is between your neck and your stomach. Your back is behind your chest.",
-                    q: "What is between neck and stomach?",
-                    options: ["Back", "Chest", "Shoulders", "Arms"],
+                    text: "Tom wears glasses because his eyes are not very strong.",
+                    q: "Why does Tom wear glasses?",
+                    options: ["Because his ears are small", "Because his eyes are not very strong", "Because his nose hurts", "Because his hair is long"],
                     answer: 1,
-                    tts: "Your chest is between your neck and your stomach. Your back is behind your chest.",
-                    explanation: "The text says 'Your chest is between your neck and your stomach'.",
-                    cefr: "Can understand body positions."
+                    tts: "Tom wears glasses because his eyes are not very strong.",
+                    explanation: "The text directly explains that he wears glasses because of his eyes.",
+                    cefr: "Can understand a simple reason in a sentence."
                 },
                 {
                     id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
-                    text: "You walk with your two legs. Your knees are in the middle of your legs.",
-                    q: "Where are your knees?",
-                    options: ["On your arms", "In the middle of your legs", "On your head", "On your feet"],
+                    text: "My robot has one head, two arms, two hands, two legs, and two feet.",
+                    q: "How many hands does the robot have?",
+                    options: ["One", "Two", "Three", "Four"],
                     answer: 1,
-                    tts: "You walk with your two legs. Your knees are in the middle of your legs.",
-                    explanation: "The text says 'Your knees are in the middle of your legs'.",
-                    cefr: "Can locate body parts."
+                    tts: "My robot has one head, two arms, two hands, two legs, and two feet.",
+                    explanation: "The text says 'two hands'.",
+                    cefr: "Can count body parts in a simple description."
                 },
                 {
                     id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
-                    text: "You wear shoes on your feet. You use your tongue to taste food.",
-                    q: "What do you wear on your feet?",
-                    options: ["Gloves", "Shoes", "Hats", "Socks on hands"],
+                    text: "Lina smiles a lot. You can always see her white teeth when she is happy.",
+                    q: "What can you see when Lina is happy?",
+                    options: ["Her ears", "Her teeth", "Her knees", "Her shoulders"],
                     answer: 1,
-                    tts: "You wear shoes on your feet. You use your tongue to taste food.",
-                    explanation: "The text says 'You wear shoes on your feet'.",
-                    cefr: "Can understand clothing and body parts."
+                    tts: "Lina smiles a lot. You can always see her white teeth when she is happy.",
+                    explanation: "The text says you can see her white teeth when she is happy.",
+                    cefr: "Can understand body vocabulary in a short descriptive sentence."
                 }
             ],
 
+            // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "Which body part do you hear?", tts: "Head", options: ["Head", "Hand", "Foot", "Eye"], answer: 0, speed: 0.85 },
+                    q: "Which body part do you hear?", tts: "Head", options: ["Head", "Hand", "Hair", "Heart"], answer: 0, speed: 0.85 },
                 { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "Listen and choose:", tts: "Eyes", options: ["Ears", "Eyes", "Nose", "Mouth"], answer: 1, speed: 0.85 },
+                    q: "Listen and choose:", tts: "Eyes", options: ["Eyes", "Ears", "Arms", "Legs"], answer: 0, speed: 0.85 },
                 { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: "Which word do you hear?", tts: "Shoulders", options: ["Shoulders", "Elbows", "Knees", "Toes"], answer: 0, speed: 0.85 },
+                    q: "Which word do you hear?", tts: "Mouth", options: ["Nose", "Mouth", "Tooth", "Face"], answer: 1, speed: 0.85 },
                 { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "Listen carefully:", tts: "You have five fingers", options: ["Three fingers", "Four fingers", "Five fingers", "Six fingers"], answer: 2, speed: 0.85 },
+                    q: "Listen carefully:", tts: "I have two hands", options: ["One hand", "Two hands", "Two heads", "Two arms"], answer: 1, speed: 0.85 },
                 { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "What do you walk with?", tts: "You walk with your legs", options: ["Arms", "Hands", "Legs", "Feet"], answer: 2, speed: 0.85 },
+                    q: "Which body part is mentioned?", tts: "My nose is small", options: ["Nose", "Mouth", "Neck", "Knee"], answer: 0, speed: 0.85 },
                 { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: "Listen to the body part:", tts: "Your tongue", options: ["Tongue", "Teeth", "Lips", "Mouth"], answer: 0, speed: 0.85 },
+                    q: "Listen to the sentence:", tts: "She has long hair", options: ["Short hair", "Long hair", "Blue eyes", "Big ears"], answer: 1, speed: 0.85 },
                 { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
-                    q: "Which plural form?", tts: "Feet", options: ["Foot", "Feet", "Foots", "Feets"], answer: 1, speed: 0.85 },
+                    q: "Which phrase do you hear?", tts: "My left arm", options: ["My left arm", "My right arm", "My left hand", "My right hand"], answer: 0, speed: 0.85 },
                 { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'nose'", tts: "Nose", options: ["True", "False"], answer: 0, speed: 0.85 },
+                    q: "True or False: The speaker says 'feet'", tts: "Feet", options: ["True", "False"], answer: 0, speed: 0.85 },
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'hands'", tts: "Feet", options: ["True", "False"], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'shoulder'", tts: "Knee", options: ["True", "False"], answer: 1, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: "What do you chew with?", tts: "You chew with your teeth", options: ["Tongue", "Lips", "Teeth", "Mouth"], answer: 2, speed: 0.85 }
+                    q: "How many eyes?", tts: "We have two eyes", options: ["One eye", "Two eyes", "Three eyes", "Four eyes"], answer: 1, speed: 0.85 }
             ],
 
+            // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "Head"', model: "head", expected: "head" },
                 { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "My eyes"', model: "my eyes", expected: "my eyes" },
+                    prompt: 'Repeat: "Shoulders"', model: "shoulders", expected: "shoulders" },
                 { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "My hands"', model: "my hands", expected: "my hands" },
+                    prompt: 'Repeat: "Eyes"', model: "eyes", expected: "eyes" },
                 { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Pointing to body parts',
-                    prompt: 'Say: "This is my head."',
-                    model: "This is my head.",
-                    expected: "this is my head" },
+                    scenario: 'Describing a person',
+                    prompt: 'Say: "I have two hands."',
+                    model: "I have two hands.",
+                    expected: "i have two hands" },
                 { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Describing function',
-                    prompt: 'Say: "I see with my eyes."',
-                    model: "I see with my eyes.",
-                    expected: "i see with my eyes" },
+                    scenario: 'Describing appearance',
+                    prompt: 'Say: "She has long hair."',
+                    model: "She has long hair.",
+                    expected: "she has long hair" },
                 { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Talking about quantities',
-                    prompt: 'Say: "I have two arms."',
-                    model: "I have two arms.",
-                    expected: "i have two arms" },
+                    scenario: 'Simple body description',
+                    prompt: 'Say: "My eyes are brown."',
+                    model: "My eyes are brown.",
+                    expected: "my eyes are brown" },
                 { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of hand]. Say what you have.',
-                    expected: "fingers", minWords: 3 },
+                    prompt: 'Describe this: [Image of a face]. Say at least three body parts you can see.',
+                    expected: "face", minWords: 3 },
                 { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of face]. Name three parts.',
-                    expected: "eyes", minWords: 4 },
+                    prompt: 'Describe this: [Image of a person]. Say: "These are my arms."',
+                    expected: "these are my arms", minWords: 4 },
                 { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Tell me about your hands. How many fingers?', minWords: 5, expectedPattern: "fingers" },
+                    prompt: 'Describe your face. Talk about your eyes, nose, and mouth.', minWords: 5, expectedPattern: "eyes" },
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe what you do with your legs.', minWords: 6, expectedPattern: "legs" }
+                    prompt: 'Describe your body. Mention your arms, hands, legs, or feet.', minWords: 6, expectedPattern: "body" }
             ],
 
+            // WRITING: 10 intelligent tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "This is my ____." (head)', answer: 'head', example: 'This is my head.' },
+                    prompt: 'Complete: "This is my _____." (head)', answer: 'head', example: 'This is my head.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "I see with my ____." (eyes)', answer: 'eyes', example: 'I see with my eyes.' },
+                    prompt: 'Complete: "I have two _____." (eyes)', answer: 'eyes', example: 'I have two eyes.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
                     prompt: 'Write the plural: "foot"', answer: 'feet', example: 'feet' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Rewrite using possessive: "The hand of Maria" ->', answer: "Maria's hand", example: "Maria's hand" },
+                    prompt: 'Rewrite using has: "She / long hair" ->', answer: "She has long hair", example: "She has long hair." },
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Change to plural: "This is my foot" ->', answer: 'These are my feet', example: 'These are my feet' },
+                    prompt: 'Change to plural: "This is my hand" ->', answer: 'These are my hands', example: 'These are my hands.' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Use possessive adjective: "____ eyes are blue" (She)', answer: 'Her', example: 'Her eyes are blue' },
+                    prompt: 'Complete with have or has: "He _____ brown eyes."', answer: 'has', example: 'He has brown eyes.' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about your hands. How many fingers?', example: 'I have ten fingers on my hands.', minLength: 15, maxLength: 40 },
+                    prompt: 'Write one sentence about your face.', example: 'I have two eyes and one nose.', minLength: 15, maxLength: 50 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe what you do with your eyes.', example: 'I use my eyes to see.', minLength: 15, maxLength: 40 },
+                    prompt: 'Describe your hair and eyes.', example: 'I have short hair and brown eyes.', minLength: 15, maxLength: 60 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Write about your legs and feet. What do you do with them?', minLength: 30, maxLength: 80 },
+                    prompt: 'Write about three body parts you use every day.', minLength: 30, maxLength: 90 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe three body parts and what you do with them.', minLength: 40, maxLength: 100 }
+                    prompt: 'Describe a person using body parts vocabulary.', minLength: 40, maxLength: 100 }
             ],
 
+            // VOCABULARY: 30 Words - Body Parts
             vocabulary: [
-                { word: "Head", pron: "/hed/", meaning: "Cabeça", example: "My head is on top." },
-                { word: "Eyes", pron: "/aɪz/", meaning: "Olhos", example: "I see with my eyes." },
-                { word: "Ears", pron: "/ɪrz/", meaning: "Orelhas", example: "I hear with my ears." },
-                { word: "Nose", pron: "/noʊz/", meaning: "Nariz", example: "I smell with my nose." },
-                { word: "Mouth", pron: "/maʊθ/", meaning: "Boca", example: "I eat with my mouth." },
-                { word: "Lips", pron: "/lɪps/", meaning: "Lábios", example: "I kiss with my lips." },
-                { word: "Tooth", pron: "/tuːθ/", meaning: "Dente (singular)", example: "I have one white tooth." },
-                { word: "Teeth", pron: "/tiːθ/", meaning: "Dentes (plural)", example: "I have many teeth." },
-                { word: "Tongue", pron: "/tʌŋ/", meaning: "Língua", example: "I taste with my tongue." },
-                { word: "Neck", pron: "/nek/", meaning: "Pescoço", example: "My neck is below my head." },
-                { word: "Shoulders", pron: "/ˈʃoʊldərz/", meaning: "Ombros", example: "My shoulders are strong." },
-                { word: "Arms", pron: "/ɑːrmz/", meaning: "Braços", example: "I have two arms." },
-                { word: "Hands", pron: "/hændz/", meaning: "Mãos", example: "I grab with my hands." },
-                { word: "Fingers", pron: "/ˈfɪŋɡərz/", meaning: "Dedos das mãos", example: "I have five fingers." },
-                { word: "Chest", pron: "/tʃest/", meaning: "Peito", example: "My chest is between neck and stomach." },
-                { word: "Stomach", pron: "/ˈstʌmək/", meaning: "Estômago", example: "Food goes to my stomach." },
-                { word: "Back", pron: "/bæk/", meaning: "Costas", example: "I carry a backpack on my back." },
-                { word: "Legs", pron: "/leɡz/", meaning: "Pernas", example: "I walk with my legs." },
-                { word: "Knees", pron: "/niːz/", meaning: "Joelhos", example: "My knees bend." },
-                { word: "Foot", pron: "/fʊt/", meaning: "Pé (singular)", example: "I have one foot." },
-                { word: "Feet", pron: "/fiːt/", meaning: "Pés (plural)", example: "I wear shoes on my feet." },
-                { word: "Toes", pron: "/toʊz/", meaning: "Dedos dos pés", example: "I have five toes." },
-                { word: "Hair", pron: "/her/", meaning: "Cabelo", example: "My hair is brown." },
-                { word: "Face", pron: "/feɪs/", meaning: "Rosto", example: "My face has eyes and nose." },
-                { word: "Elbow", pron: "/ˈelboʊ/", meaning: "Cotovelo", example: "My elbow bends." },
-                { word: "Wrist", pron: "/rɪst/", meaning: "Pulso", example: "I wear a watch on my wrist." },
-                { word: "Ankle", pron: "/ˈæŋkəl/", meaning: "Tornozelo", example: "My ankle connects foot and leg." },
-                { word: "My", pron: "/maɪ/", meaning: "Meu/Minha", example: "This is my body." },
-                { word: "Your", pron: "/jɔːr/", meaning: "Seu/Sua", example: "Is this your hand?" },
-                { word: "Body", pron: "/ˈbɑːdi/", meaning: "Corpo", example: "I have one body." }
+                { word: "Head", pron: "/hed/", meaning: "Cabeça", example: "My head hurts." },
+                { word: "Hair", pron: "/her/", meaning: "Cabelo", example: "She has long hair." },
+                { word: "Face", pron: "/feɪs/", meaning: "Rosto", example: "Wash your face." },
+                { word: "Eye", pron: "/aɪ/", meaning: "Olho", example: "I have one blue eye in the drawing." },
+                { word: "Eyes", pron: "/aɪz/", meaning: "Olhos", example: "My eyes are brown." },
+                { word: "Ear", pron: "/ɪr/", meaning: "Orelha", example: "My ear is red." },
+                { word: "Ears", pron: "/ɪrz/", meaning: "Orelhas", example: "Rabbits have long ears." },
+                { word: "Nose", pron: "/noʊz/", meaning: "Nariz", example: "His nose is small." },
+                { word: "Mouth", pron: "/maʊθ/", meaning: "Boca", example: "Open your mouth." },
+                { word: "Tooth", pron: "/tuːθ/", meaning: "Dente", example: "I have a loose tooth." },
+                { word: "Teeth", pron: "/tiːθ/", meaning: "Dentes", example: "Brush your teeth." },
+                { word: "Neck", pron: "/nek/", meaning: "Pescoço", example: "My neck is sore." },
+                { word: "Shoulder", pron: "/ˈʃoʊldər/", meaning: "Ombro", example: "My shoulder hurts." },
+                { word: "Arm", pron: "/ɑːrm/", meaning: "Braço", example: "Raise your arm." },
+                { word: "Hand", pron: "/hænd/", meaning: "Mão", example: "This is my hand." },
+                { word: "Finger", pron: "/ˈfɪŋɡər/", meaning: "Dedo da mão", example: "I have ten fingers." },
+                { word: "Chest", pron: "/tʃest/", meaning: "Peito", example: "Put your hand on your chest." },
+                { word: "Back", pron: "/bæk/", meaning: "Costas", example: "My back is tired." },
+                { word: "Stomach", pron: "/ˈstʌmək/", meaning: "Estômago/Barriga", example: "My stomach is full." },
+                { word: "Leg", pron: "/leɡ/", meaning: "Perna", example: "My leg is strong." },
+                { word: "Knee", pron: "/niː/", meaning: "Joelho", example: "Bend your knee." },
+                { word: "Foot", pron: "/fʊt/", meaning: "Pé", example: "My foot is cold." },
+                { word: "Feet", pron: "/fiːt/", meaning: "Pés", example: "My feet are tired." },
+                { word: "Toe", pron: "/toʊ/", meaning: "Dedo do pé", example: "I hurt my toe." },
+                { word: "Toes", pron: "/toʊz/", meaning: "Dedos do pé", example: "We have ten toes." },
+                { word: "Body", pron: "/ˈbɑːdi/", meaning: "Corpo", example: "The human body is amazing." },
+                { word: "Left", pron: "/left/", meaning: "Esquerdo", example: "My left hand is busy." },
+                { word: "Right", pron: "/raɪt/", meaning: "Direito", example: "Raise your right arm." },
+                { word: "Strong", pron: "/strɔːŋ/", meaning: "Forte", example: "He has strong legs." },
+                { word: "Weak", pron: "/wiːk/", meaning: "Fraco", example: "My arms feel weak today." }
             ],
 
+            // GRAMMAR: Body Parts
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Possessive Adjectives with Body Parts (my, your, his, her)',
+                    title: 'Have / Has for Body Parts',
                     explanation: {
-                        theory: 'Use possessive adjectives before body parts to show ownership.',
-                        formula: 'my / your / his / her + body part',
+                        theory: 'Use have and has to describe body parts and physical features.',
+                        formula: 'I/You/We/They have + noun\nHe/She/It has + noun',
                         examples: [
-                            'This is my head.',
-                            'These are your eyes.',
-                            'His nose is small.',
-                            'Her hands are beautiful.'
+                            'I have two hands.',
+                            'She has long hair.',
+                            'They have blue eyes.',
+                            'He has a small nose.'
                         ],
-                        exceptions: 'Always use before the noun, never after.',
-                        tip: 'Remember: my = meu/minha, your = seu/sua, his = dele, her = dela',
-                        usage: "Essential for talking about your body and others' bodies."
+                        exceptions: 'Use have with I, you, we, they. Use has with he, she, it.',
+                        tip: 'Think: I have / She has.',
+                        usage: 'Very common when describing people.'
                     }
                 },
                 {
                     id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
                     title: 'Singular and Plural Body Parts',
                     explanation: {
-                        theory: 'Some body parts are singular, others are plural (we have two).',
-                        formula: 'Singular: head, nose, mouth, neck, stomach, back
-Plural: eyes, ears, arms, hands, legs, feet',
+                        theory: 'Some body parts are singular and some are usually used in pairs.',
+                        formula: 'one + singular noun\ntwo + plural noun',
                         examples: [
-                            'I have one head. (singular)',
-                            'I have two eyes. (plural)',
-                            'I have one nose. (singular)',
-                            'I have two hands. (plural)'
+                            'one nose',
+                            'one mouth',
+                            'two eyes',
+                            'two ears'
                         ],
-                        exceptions: 'Some words have irregular plurals: tooth → teeth, foot → feet',
-                        tip: 'Think: Do I have one or two of this body part?',
-                        usage: 'Important for correct grammar when describing your body.'
+                        exceptions: 'Foot changes to feet. Tooth changes to teeth.',
+                        tip: 'Learn the irregular plurals: foot → feet, tooth → teeth.',
+                        usage: 'Important for counting body parts correctly.'
                     }
                 },
                 {
                     id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Using "I have" for Body Parts',
+                    title: 'This is / These are',
                     explanation: {
-                        theory: 'Use "I have" to talk about the body parts you possess.',
-                        formula: 'I have + [number] + [body part]',
+                        theory: 'Use this is for one body part and these are for more than one.',
+                        formula: 'This is + singular noun\nThese are + plural noun',
                         examples: [
-                            'I have one head.',
-                            'I have two eyes.',
-                            'I have ten fingers.',
-                            'I have two feet.'
+                            'This is my hand.',
+                            'This is my head.',
+                            'These are my hands.',
+                            'These are my eyes.'
                         ],
-                        exceptions: 'Use "has" with he/she/it: He has two eyes.',
-                        tip: 'I/You/We/They = have | He/She/It = has',
-                        usage: 'Essential for describing your body.'
+                        exceptions: 'Use that is / those are for things farther away.',
+                        tip: 'This = singular. These = plural.',
+                        usage: 'Useful when pointing to body parts.'
                     }
                 },
                 {
                     id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Functions of Body Parts (I use my... to...)',
+                    title: 'My / Your / His / Her',
                     explanation: {
-                        theory: 'Use "I use my [body part] to [action]" to describe functions.',
-                        formula: 'I use my + [body part] + to + [verb]',
+                        theory: 'Use possessive adjectives before body part nouns.',
+                        formula: 'my / your / his / her + noun',
                         examples: [
-                            'I use my eyes to see.',
-                            'I use my ears to hear.',
-                            'I use my mouth to eat.',
-                            'I use my legs to walk.'
+                            'My eyes are brown.',
+                            'Your hair is short.',
+                            'His nose is big.',
+                            'Her hands are small.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Think: What do I do with this body part?',
-                        usage: 'Useful for explaining body functions.'
+                        exceptions: 'Always put the possessive adjective before the noun.',
+                        tip: 'Say whose body part it is: my hand, her face.',
+                        usage: 'Essential in body descriptions.'
                     }
                 },
                 {
                     id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Position Words with Body Parts (on, in, between)',
+                    title: 'Describing Color',
                     explanation: {
-                        theory: 'Use prepositions to describe where body parts are located.',
-                        formula: 'on / in / between + body part',
+                        theory: 'Use be + color to describe eyes, hair, and other visible features.',
+                        formula: 'Subject + am/is/are + color',
                         examples: [
-                            'My eyes are on my face.',
-                            'My tongue is in my mouth.',
-                            'My neck is between my head and shoulders.',
-                            'I wear shoes on my feet.'
+                            'My eyes are brown.',
+                            'Her hair is black.',
+                            'His face is red.',
+                            'Their eyes are green.'
                         ],
-                        exceptions: 'Use "in" for inside, "on" for surface, "between" for middle position.',
-                        tip: 'on = superfície | in = dentro | between = entre',
-                        usage: 'Important for describing body locations.'
+                        exceptions: 'Hair is usually singular in English when talking generally.',
+                        tip: 'Say: Her hair is long and black.',
+                        usage: 'Useful for basic appearance descriptions.'
                     }
                 },
                 {
                     id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Asking About Body Parts',
+                    title: 'Big / Small / Long / Short',
                     explanation: {
-                        theory: 'Use question words to ask about body parts.',
-                        formula: 'What do you use to [action]?
-How many [body parts] do you have?
-Where is your [body part]?',
+                        theory: 'Use simple adjectives before nouns or after be to describe body parts.',
+                        formula: 'adjective + noun\nSubject + be + adjective',
                         examples: [
-                            'What do you use to see? - I use my eyes.',
-                            'How many fingers do you have? - I have ten.',
-                            'Where is your nose? - It is on my face.'
+                            'big hands',
+                            'small ears',
+                            'long hair',
+                            'Her hair is short.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Use "do" with I/you/we/they, "does" with he/she/it',
-                        usage: 'Essential for conversations about the body.'
+                        exceptions: 'Use long and short especially with hair.',
+                        tip: 'Adjective before noun: long hair. After be: Her hair is long.',
+                        usage: 'Very common in physical descriptions.'
                     }
                 },
                 {
                     id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Irregular Plurals: Tooth/Teeth, Foot/Feet',
+                    title: 'Can / Cannot with the Body',
                     explanation: {
-                        theory: 'Some body parts have irregular plural forms.',
-                        formula: 'tooth → teeth | foot → feet',
+                        theory: 'Use can and cannot to talk about body actions.',
+                        formula: 'Subject + can/cannot + verb',
                         examples: [
-                            'I have one tooth. I have many teeth.',
-                            'I have one foot. I have two feet.',
-                            'My tooth hurts. My teeth are white.',
-                            'My foot is big. My feet are clean.'
+                            'I can move my arms.',
+                            'She can touch her toes.',
+                            'He cannot hear well.',
+                            'The baby cannot walk yet.'
                         ],
-                        exceptions: 'Most body parts add -s: eye → eyes, hand → hands',
-                        tip: 'Memorize: tooth/teeth and foot/feet are irregular!',
-                        usage: 'Important for correct plural forms.'
+                        exceptions: 'After can, use the base form of the verb.',
+                        tip: 'Can + move, see, hear, touch.',
+                        usage: 'Useful for describing ability with body parts.'
                     }
                 },
                 {
                     id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Describing Body Parts with Adjectives',
+                    title: 'There is / There are in Descriptions',
                     explanation: {
-                        theory: 'Use adjectives after "be" verb to describe body parts.',
-                        formula: 'My + [body part] + is/are + [adjective]',
+                        theory: 'Use there is and there are to say what exists in a picture or body description.',
+                        formula: 'There is + singular noun\nThere are + plural noun',
                         examples: [
-                            'My hair is long.',
-                            'My eyes are blue.',
-                            'My hands are small.',
-                            'My teeth are white.'
+                            'There is one nose.',
+                            'There are two eyes.',
+                            'There is a mouth.',
+                            'There are ten fingers.'
                         ],
-                        exceptions: 'Use "is" with singular, "are" with plural body parts.',
-                        tip: 'Singular = is | Plural = are',
-                        usage: 'Useful for describing appearance.'
+                        exceptions: 'Use there is for singular and there are for plural.',
+                        tip: 'Count first, then choose is or are.',
+                        usage: 'Helps when describing pictures and diagrams.'
                     }
                 },
                 {
                     id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Actions with Body Parts',
+                    title: 'Right and Left',
                     explanation: {
-                        theory: 'Use verbs to describe what body parts do.',
-                        formula: '[Body part] + [verb] | I + [verb] + with my + [body part]',
+                        theory: 'Use right and left before body parts to show side.',
+                        formula: 'right/left + body part',
                         examples: [
-                            'My eyes see. / I see with my eyes.',
-                            'My ears hear. / I hear with my ears.',
-                            'My legs walk. / I walk with my legs.',
-                            'My hands grab. / I grab with my hands.'
+                            'my right hand',
+                            'her left arm',
+                            'his right foot',
+                            'their left eye'
                         ],
-                        exceptions: 'Some verbs are irregular: go → goes (My leg goes up).',
-                        tip: 'Think: What action does this body part do?',
-                        usage: 'Essential for describing body functions.'
+                        exceptions: 'The adjective comes before the noun.',
+                        tip: 'Right and left work like other adjectives.',
+                        usage: 'Useful in classroom instructions and descriptions.'
                     }
                 },
                 {
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Comparing Body Parts',
+                    title: 'Simple Questions About Body Parts',
                     explanation: {
-                        theory: 'Use comparative adjectives to compare body parts.',
-                        formula: 'My + [body part] + is/are + [adjective-er] + than + [person]',
+                        theory: 'Use what and how many to ask simple questions about body parts.',
+                        formula: 'What is this?\nHow many + plural noun + do/does + subject + have?',
                         examples: [
-                            'My arm is longer than yours.',
-                            'Her eyes are bigger than mine.',
-                            'His feet are smaller than my feet.',
-                            'My hair is shorter than her hair.'
+                            'What is this? It is a hand.',
+                            'What are these? They are feet.',
+                            'How many eyes do you have?',
+                            'How many fingers does he have?'
                         ],
-                        exceptions: 'Use "than" after the comparative adjective.',
-                        tip: 'Short adjectives: add -er (long → longer)
-Long adjectives: use "more" (beautiful → more beautiful)',
-                        usage: 'Useful for comparing yourself with others.'
+                        exceptions: 'Use do with I/you/we/they and does with he/she/it.',
+                        tip: 'How many + plural noun = count question.',
+                        usage: 'Important for classroom interaction.'
                     }
                 }
             ]
         }
     };
-
-    // ===== STATE =====
+// ===== STATE =====
     let currentTab = 'video';
     let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0, grammar: 0 };
     let score = 0, streak = 0, totalXP = 0;
@@ -770,7 +773,6 @@ Long adjectives: use "more" (beautiful → more beautiful)',
     // ===== INIT =====
     onAuthStateChanged(auth, async (user) => {
         currentUser = user || null;
-        currentUser = user || null;
         if (user) {
             try {
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
@@ -789,10 +791,6 @@ Long adjectives: use "more" (beautiful → more beautiful)',
                             const key = `${prefix}${sec}`;
                             if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
                         });
-                        const savedTab = data.progresso.u05_currentTab;
-                        if (savedTab && ['video','reading','listening','speaking','writing','vocabulary','grammar'].includes(savedTab)) {
-                            currentTab = savedTab;
-                        }
                     }
                     userNotes = data.notes?.u05 || {};
                 }
@@ -1415,7 +1413,6 @@ Long adjectives: use "more" (beautiful → more beautiful)',
             'progresso.u05_done': done,
             'progresso.u05_percent': pct,
             'progresso.u05_status': status,
-            'progresso.u05_currentTab': currentTab,
             'progresso.u05_completed': pct >= 100,
             'progresso.lastUpdate': new Date().toISOString(),
             'notes.u05': userNotes
@@ -1432,7 +1429,7 @@ Long adjectives: use "more" (beautiful → more beautiful)',
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Think about the family words you\'ve learned.','Remember: "my" = meu/minha, "your" = seu/sua','Look for possessive relationships in the text.'];
+        const hints=['Think about the body words you\'ve learned.','Remember the singular and plural forms: eye/eyes, foot/feet.','Look for body parts and descriptive words in the text.'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
@@ -1443,7 +1440,7 @@ Long adjectives: use "more" (beautiful → more beautiful)',
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
     window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
     window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
-    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); currentTab='video'; score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
 
     document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
 
@@ -1451,8 +1448,26 @@ Long adjectives: use "more" (beautiful → more beautiful)',
         if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
             e.preventDefault();
             const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
-            if(checkBtn&&!checkBtn.disabled&&!isAnswered) checkAnswer();
-            else if((checkBtn&&checkBtn.textContent.includes('Correct'))||(continueBtn&&!continueBtn.disabled)){
+
+            if(currentTab==='writing' && checkBtn && !checkBtn.disabled){
+                checkWriting();
+                return;
+            }
+
+            if(currentTab==='grammar'){
+                nextQuestion();
+                return;
+            }
+
+            if(currentTab==='speaking' && continueBtn && !continueBtn.disabled){
+                nextQuestion();
+                return;
+            }
+
+            if(checkBtn && !checkBtn.disabled && !isAnswered){
+                if(currentTab==='vocabulary' && typeof checkVocabAnswer === 'function') checkVocabAnswer();
+                else checkAnswer();
+            } else if((checkBtn && (checkBtn.textContent.includes('Correct') || checkBtn.textContent.includes('Next Question'))) || (continueBtn && !continueBtn.disabled)){
                 if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
                 else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
             }
