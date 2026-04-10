@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U21: Like / Don't Like | EnglishPath A1</title>
+    <title>U21: Like/Don't Like | EnglishPath A1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,7 +12,14 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: { primary: '#f97316', secondary: '#fb923c', accent: '#f59e0b', danger: '#ef4444' } // Orange theme
+                    colors: { 
+                        primary: '#8b5cf6',    // Violet theme for preferences
+                        secondary: '#a78bfa', 
+                        accent: '#f59e0b', 
+                        danger: '#ef4444',
+                        like: '#22c55e',        // Green for "like"
+                        dislike: '#ef4444'      // Red for "don't like"
+                    }
                 }
             }
         }
@@ -25,20 +32,20 @@
             display: flex; align-items: center; justify-content: space-between;
             position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #f97316; cursor: pointer; }
-        .logo:hover { color: #ea580c; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #8b5cf6; cursor: pointer; }
+        .logo:hover { color: #7c3aed; }
         .cefr-badge {
             padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
-            background: #ffedd5; color: #9a3412;
+            background: #ede9fe; color: #5b21b6;
         }
         .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
         .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); transition: width 0.5s ease; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #7c3aed); transition: width 0.5s ease; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
         .stats { display: flex; gap: 1rem; align-items: center; }
         .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
         .stat-fire { background: #fff7ed; color: #f59e0b; }
-        .stat-bolt { background: #ffedd5; color: #fb923c; }
+        .stat-bolt { background: #eff6ff; color: #3b82f6; }
         .stat-xp { background: #f0fdf4; color: #22c55e; }
         .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
         .menu-btn:hover { background: #f1f5f9; }
@@ -55,8 +62,8 @@
             display: flex; align-items: center; gap: 0.5rem;
         }
         .tab-btn:hover { background: #f8fafc; color: #1e293b; }
-        .tab-btn.active { background: #f97316; color: white; }
-        .tab-btn.completed { color: #ea580c; }
+        .tab-btn.active { background: #8b5cf6; color: white; }
+        .tab-btn.completed { color: #7c3aed; }
         .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
         .difficulty {
             display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
@@ -69,7 +76,7 @@
         .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
         .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
         .objective-box {
-            background: #ffedd5; border-left: 4px solid #f97316; padding: 1rem; border-radius: 8px;
+            background: #ede9fe; border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 8px;
             margin-bottom: 2rem; font-size: 0.9rem;
         }
         .card {
@@ -81,24 +88,24 @@
             padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
             background: white; transition: all 0.2s;
         }
-        .vocab-card:hover { border-color: #f97316; transform: translateX(4px); }
+        .vocab-card:hover { border-color: #8b5cf6; transform: translateX(4px); }
         .vocab-word { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
         .vocab-pron { font-size: 0.9rem; color: #64748b; font-style: italic; }
-        .vocab-meaning { font-size: 1rem; color: #f97316; font-weight: 600; margin-top: 0.25rem; }
+        .vocab-meaning { font-size: 1rem; color: #8b5cf6; font-weight: 600; margin-top: 0.25rem; }
         .vocab-example { font-size: 0.9rem; color: #475569; margin-top: 0.5rem; font-style: italic; }
         .vocab-audio-btn {
-            width: 40px; height: 40px; border-radius: 50%; background: #ffedd5; color: #f97316;
+            width: 40px; height: 40px; border-radius: 50%; background: #ede9fe; color: #8b5cf6;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
             transition: all 0.2s; border: none;
         }
-        .vocab-audio-btn:hover { background: #f97316; color: white; }
+        .vocab-audio-btn:hover { background: #8b5cf6; color: white; }
         .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
         .tts-controls {
             display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
         }
         .tts-btn {
             display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
-            background: #f97316; color: white; border: none; border-radius: 8px;
+            background: #8b5cf6; color: white; border: none; border-radius: 8px;
             font-weight: 600; font-size: 0.9rem; cursor: pointer;
         }
         .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
@@ -113,18 +120,18 @@
         }
         .transcript.show { display: block; }
         
-        /* READING STYLES FOR LIKE/DISLIKE */
+        /* READING STYLES FOR LIKE/DON'T LIKE */
         .reading-card {
-            background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
-            border: 1px solid #fed7aa;
-            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.08);
+            background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+            border: 1px solid #ddd6fe;
+            box-shadow: 0 8px 24px rgba(139,92,246,0.08);
         }
         .reading-header {
             display: flex; align-items: center; justify-content: space-between; gap: 1rem;
             flex-wrap: wrap; margin-bottom: 1rem;
         }
         .reading-label {
-            display: inline-flex; align-items: center; gap: 0.5rem; background: #ffedd5; color: #9a3412;
+            display: inline-flex; align-items: center; gap: 0.5rem; background: #ede9fe; color: #6d28d9;
             padding: 0.5rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;
         }
         .reading-focus {
@@ -136,7 +143,7 @@
         }
         .reading-text.rich {
             background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            border: 1px solid #e2e8f0; border-left: 6px solid #f97316; border-radius: 14px;
+            border: 1px solid #e2e8f0; border-left: 6px solid #8b5cf6; border-radius: 14px;
             padding: 1.5rem 1.5rem; line-height: 2.1; font-size: 1.1rem;
             text-align: justify;
         }
@@ -148,10 +155,9 @@
         }
         .reading-keyword:hover { transform: scale(1.05); }
         /* Colors for Like/Don't Like */
-        .keyword-green { background: #dcfce7; color: #166534; } /* Like / Loves */
-        .keyword-red { background: #fee2e2; color: #991b1b; } /* Don't like / Hates */
-        .keyword-blue { background: #dbeafe; color: #1d4ed8; } /* Nouns (Food/Hobbies) */
-        .keyword-purple { background: #ede9fe; color: #6d28d9; } /* Subjects/People */
+        .keyword-like { background: #dcfce7; color: #166534; } /* Like/Loves */
+        .keyword-dislike { background: #fef2f2; color: #991b1b; } /* Don't like/Hates */
+        .keyword-neutral { background: #f1f5f9; color: #334155; } /* Neutral verbs */
         /* END READING STYLES */
 
         .video-container {
@@ -164,8 +170,8 @@
             padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
             transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
         }
-        .option:hover { border-color: #f97316; background: #f8fafc; transform: translateX(4px); }
-        .option.selected { border-color: #f97316; background: #ffedd5; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
+        .option:hover { border-color: #8b5cf6; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #8b5cf6; background: #ede9fe; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
         .option.correct { border-color: #22c55e; background: #f0fdf4; }
         .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
@@ -186,17 +192,17 @@
             width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
             border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
         }
-        .writing-area:focus { outline: none; border-color: #f97316; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
+        .writing-area:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
         .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
         .grammar-explanation {
-            background: #ffedd5; border: 2px solid #f97316; border-radius: 12px;
+            background: #ede9fe; border: 2px solid #8b5cf6; border-radius: 12px;
             padding: 1.5rem; margin: 1.5rem 0;
         }
-        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #9a3412; display: flex; align-items: center; gap: 0.5rem; }
+        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #5b21b6; display: flex; align-items: center; gap: 0.5rem; }
         .grammar-explanation .rule { background: white; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; }
         .grammar-explanation .formula {
-            background: #fed7aa; padding: 0.75rem; border-radius: 8px; font-family: monospace;
-            font-weight: 600; margin: 0.75rem 0; text-align: center; color: #7c2d12;
+            background: #ddd6fe; padding: 0.75rem; border-radius: 8px; font-family: monospace;
+            font-weight: 600; margin: 0.75rem 0; text-align: center; color: #4c1d95;
         }
         .grammar-explanation ul { margin-left: 1.5rem; color: #475569; }
         .grammar-explanation li { margin-bottom: 0.5rem; }
@@ -211,8 +217,8 @@
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
             min-width: 120px;
         }
-        .btn-primary { background: #f97316; color: white; box-shadow: 0 4px 0 #ea580c; }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #ea580c; }
+        .btn-primary { background: #8b5cf6; color: white; box-shadow: 0 4px 0 #7c3aed; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #7c3aed; }
         .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
         .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
         .btn-secondary:hover { background: #e2e8f0; }
@@ -222,9 +228,9 @@
         .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
         .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
         .btn-next-section { 
-            background: #f97316; 
+            background: #8b5cf6; 
             color: white; 
-            box-shadow: 0 4px 0 #ea580c;
+            box-shadow: 0 4px 0 #7c3aed;
             font-size: 1.1rem;
             padding: 1.2rem 2rem;
         }
@@ -268,12 +274,12 @@
         .completion-screen {
             text-align: center; padding: 3rem 1rem;
         }
-        .completion-screen i { font-size: 5rem; color: #f97316; margin-bottom: 1.5rem; }
-        .xp-reward { font-size: 3rem; font-weight: 800; color: #f97316; margin: 1rem 0; }
+        .completion-screen i { font-size: 5rem; color: #8b5cf6; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #8b5cf6; margin: 1rem 0; }
         .section-complete {
             text-align: center; padding: 3rem 1rem;
         }
-        .section-complete i { font-size: 4rem; color: #f97316; margin-bottom: 1rem; }
+        .section-complete i { font-size: 4rem; color: #8b5cf6; margin-bottom: 1rem; }
         .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
         .section-complete p { color: #64748b; margin-bottom: 2rem; }
         .enter-hint {
@@ -295,6 +301,53 @@
     </style>
 </head>
 <body>
+
+    <!-- 
+    ============================================
+    TEACHER'S GUIDE - U21: Like/Don't Like
+    ============================================
+    
+    🎯 LESSON OVERVIEW:
+    • Level: A1 (Beginner)
+    • Theme: Expressing preferences with Like/Don't Like
+    • Estimated Time: 60 minutes
+    • Target: All audiences, inclusive design
+    
+    📚 LEARNING OBJECTIVES:
+    1. Identify and use "like" and "don't like" in simple sentences
+    2. Express preferences about food, activities, and hobbies
+    3. Ask and answer questions about preferences: "Do you like...?"
+    4. Distinguish between positive and negative preference expressions
+    
+    ⏱️ TIME ALLOCATION:
+    • Video Intro: 5-7 min
+    • Reading: 12-15 min (10 questions)
+    • Listening: 10-12 min (10 questions)
+    • Speaking: 10-12 min (10 activities)
+    • Writing: 8-10 min (10 tasks)
+    • Vocabulary: 8-10 min (30 words + quiz)
+    • Grammar: 5-7 min (10 explanations)
+    
+    🔍 POTENTIAL STUDENT CHALLENGES:
+    • Confusing "like" (verb) with "like" (preposition)
+    • Forgetting the auxiliary "do/does" in questions/negatives
+    • Pronunciation of "don't" vs "doesn't"
+    • Using gerunds (-ing) after like/don't like
+    
+    💡 EXPANSION IDEAS:
+    • Create a class "Preferences Survey" activity
+    • Have students interview each other about likes/dislikes
+    • Build a "Class Favorites" poster with drawings
+    • Connect to local culture: foods, activities, places students like
+    
+    ✨ ACCESSIBILITY NOTES:
+    • All audio has TTS fallback + transcript option
+    • Color-coded keywords for visual learners
+    • Large touch targets for mobile users
+    • Keyboard navigation support (Enter to continue)
+    
+    ============================================
+    -->
 
     <!-- HEADER -->
     <div class="header">
@@ -369,13 +422,13 @@
     const lessonData = {
         unitInfo: {
             level: 'A1',
-            theme: 'Like / Don\'t Like',
+            theme: 'Like/Don\'t Like',
             videoId: 'tidOxlj1T38',
             objectives: [
-                'Express what you like and dislike',
-                'Use "I like" and "I don\'t like" correctly',
-                'Ask about preferences with "Do you like...?"',
-                'Use the 3rd person form "He/She likes"'
+                'Use "like" and "don\'t like" to express preferences',
+                'Ask and answer questions: "Do you like...?"',
+                'Talk about food, activities, and hobbies',
+                'Use gerunds (-ing) after like/don\'t like'
             ]
         },
 
@@ -383,145 +436,145 @@
             video: {
                 type: 'embed',
                 videoId: 'tidOxlj1T38',
-                instructions: 'Watch the video about Likes and Dislikes. Learn how to talk about food and hobbies.'
+                instructions: 'Watch the video about expressing preferences. Learn how to say what you like and don\'t like!'
             },
 
-            // READING: 10 questions - PREFERENCES FOCUS
+            // READING: 10 questions - FOCUS ON PREFERENCES
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: `My name is Tom. I <span class="reading-keyword keyword-green">like</span> <span class="reading-keyword keyword-blue">pizza</span>. It is delicious. I <span class="reading-keyword keyword-red">don\'t like</span> <span class="reading-keyword keyword-blue">broccoli</span>. It is bitter. My mom says it is healthy, but I still <span class="reading-keyword keyword-red">hate</span> it.`,
-                    q: 'What does Tom like?',
-                    options: ['Broccoli', 'Pizza', 'Salad', 'Carrots'],
+                    text: `Hello! <span class="reading-keyword keyword-like">I like</span> pizza. <span class="reading-keyword keyword-like">I like</span> pasta too. But <span class="reading-keyword keyword-dislike">I don't like</span> salad. My friend Anna <span class="reading-keyword keyword-like">likes</span> ice cream. She <span class="reading-keyword keyword-dislike">doesn't like</span> coffee.`,
+                    q: 'What does the speaker like?',
+                    options: ['Salad', 'Pizza and pasta', 'Coffee', 'Tea'],
                     answer: 1,
-                    tts: 'I like pizza. It is delicious.',
-                    explanation: 'The text says "I like pizza."',
-                    cefr: 'Can identify food preferences.',
-                    focusWords: ['like', 'pizza', 'don\'t like', 'broccoli', 'hate']
+                    tts: 'I like pizza. I like pasta too. But I don\'t like salad.',
+                    explanation: 'The text says "I like pizza. I like pasta too."',
+                    cefr: 'Can identify positive preferences in simple texts.',
+                    focusWords: ['like', 'don\'t like', 'likes', 'doesn\'t like']
                 },
                 {
                     id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
-                    text: `<span class="reading-keyword keyword-purple">Sarah</span> <span class="reading-keyword keyword-green">likes</span> music. She plays the piano. She <span class="reading-keyword keyword-red">doesn\'t like</span> loud noise. She likes quiet places. She <span class="reading-keyword keyword-green">loves</span> reading books in the library.`,
-                    q: 'What does Sarah like?',
-                    options: ['Loud noise', 'Music', 'Sports', 'Running'],
+                    text: `Do you <span class="reading-keyword keyword-like">like</span> music? <span class="reading-keyword keyword-like">I like</span> pop music. <span class="reading-keyword keyword-dislike">I don't like</span> rock music. My brother <span class="reading-keyword keyword-like">likes</span> sports. He <span class="reading-keyword keyword-dislike">doesn't like</span> reading books.`,
+                    q: 'What doesn\'t the speaker like?',
+                    options: ['Pop music', 'Rock music', 'Sports', 'Books'],
                     answer: 1,
-                    tts: 'Sarah likes music. She plays the piano.',
-                    explanation: 'The text says "Sarah likes music."',
-                    cefr: 'Can identify hobbies.',
-                    focusWords: ['likes', 'music', 'doesn\'t like', 'loves']
+                    tts: 'I like pop music. I don\'t like rock music.',
+                    explanation: 'The text says "I don\'t like rock music."',
+                    cefr: 'Can identify negative preferences.',
+                    focusWords: ['like', 'don\'t like', 'likes', 'doesn\'t like']
                 },
                 {
                     id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
-                    text: `We have a cat and a dog. The cat <span class="reading-keyword keyword-green">likes</span> fish. The dog <span class="reading-keyword keyword-green">likes</span> meat. They both <span class="reading-keyword keyword-green">like</span> playing in the garden. They are happy pets.`,
-                    q: 'What does the cat like?',
-                    options: ['Meat', 'Fish', 'Vegetables', 'Milk'],
+                    text: `Look at Tom. Tom <span class="reading-keyword keyword-like">likes</span> swimming. He <span class="reading-keyword keyword-like">likes</span> running too. But Tom <span class="reading-keyword keyword-dislike">doesn't like</span> cycling. His sister <span class="reading-keyword keyword-like">likes</span> dancing. She <span class="reading-keyword keyword-dislike">doesn't like</span> singing.`,
+                    q: 'What does Tom like?',
+                    options: ['Cycling', 'Swimming and running', 'Dancing', 'Singing'],
                     answer: 1,
-                    tts: 'The cat likes fish.',
-                    explanation: 'The text says "The cat likes fish."',
-                    cefr: 'Can understand animal preferences.',
-                    focusWords: ['likes', 'fish', 'meat', 'like']
+                    tts: 'Tom likes swimming. He likes running too.',
+                    explanation: 'The text says "Tom likes swimming. He likes running too."',
+                    cefr: 'Can match activities to people using like/likes.',
+                    focusWords: ['likes', 'doesn\'t like']
                 },
                 {
                     id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `I <span class="reading-keyword keyword-green">like</span> summer. It is hot and sunny. I <span class="reading-keyword keyword-green">love</span> the beach. I <span class="reading-keyword keyword-red">don\'t like</span> winter. It is cold and dark. I prefer warm days.`,
-                    q: 'Which season does the person dislike?',
-                    options: ['Summer', 'Spring', 'Autumn', 'Winter'],
-                    answer: 3,
-                    tts: 'I don\'t like winter. It is cold and dark.',
-                    explanation: 'The text says "I don\'t like winter."',
-                    cefr: 'Can infer preference based on description.',
-                    focusWords: ['like', 'love', 'don\'t like']
+                    text: `We are at the restaurant. <span class="reading-keyword keyword-like">I like</span> the chicken. <span class="reading-keyword keyword-dislike">I don't like</span> the fish. <span class="reading-keyword keyword-like">Do you like</span> the soup? Yes, <span class="reading-keyword keyword-like">I like</span> it! <span class="reading-keyword keyword-dislike">My friend doesn't like</span> vegetables.`,
+                    q: 'What question does the speaker ask?',
+                    options: ['Do you like chicken?', 'Do you like the soup?', 'Do you like fish?', 'Do you like vegetables?'],
+                    answer: 1,
+                    tts: 'Do you like the soup? Yes, I like it!',
+                    explanation: 'The text says "Do you like the soup?"',
+                    cefr: 'Can identify preference questions in dialogues.',
+                    focusWords: ['like', 'don\'t like', 'Do you like', 'doesn\'t like']
                 },
                 {
                     id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: `<span class="reading-keyword keyword-purple">John</span> <span class="reading-keyword keyword-red">hates</span> vegetables. He only eats <span class="reading-keyword keyword-blue">chicken</span> and <span class="reading-keyword keyword-blue">rice</span>. His doctor is worried. He says John should eat more greens.`,
-                    q: 'What does John hate?',
-                    options: ['Chicken', 'Rice', 'Vegetables', 'Meat'],
-                    answer: 2,
-                    tts: 'John hates vegetables.',
-                    explanation: 'The text says "John hates vegetables."',
-                    cefr: 'Can identify strong dislikes.',
-                    focusWords: ['hates', 'chicken', 'rice', 'vegetables']
+                    text: `This is <span class="reading-keyword keyword-like">my</span> family. <span class="reading-keyword keyword-like">My</span> mom <span class="reading-keyword keyword-like">likes</span> cooking. <span class="reading-keyword keyword-like">My</span> dad <span class="reading-keyword keyword-like">likes</span> gardening. <span class="reading-keyword keyword-dislike">I don't like</span> cleaning. <span class="reading-keyword keyword-like">We like</span> watching movies together.`,
+                    q: 'What does the family like to do together?',
+                    options: ['Cook', 'Garden', 'Clean', 'Watch movies'],
+                    answer: 3,
+                    tts: 'We like watching movies together.',
+                    explanation: 'The text says "We like watching movies together."',
+                    cefr: 'Can understand group preferences.',
+                    focusWords: ['likes', 'don\'t like', 'like']
                 },
                 {
                     id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
-                    text: `Do you <span class="reading-keyword keyword-green">like</span> <span class="reading-keyword keyword-blue">coffee</span> or <span class="reading-keyword keyword-blue">tea</span>? I <span class="reading-keyword keyword-green">like</span> coffee in the morning. I <span class="reading-keyword keyword-green">like</span> tea in the afternoon. I <span class="reading-keyword keyword-red">don\'t like</span> water. I need sugar.`,
-                    q: 'When does the person like tea?',
-                    options: ['In the morning', 'In the afternoon', 'At night', 'All day'],
-                    answer: 1,
-                    tts: 'I like tea in the afternoon.',
-                    explanation: 'The text says "I like tea in the afternoon."',
-                    cefr: 'Can understand habits.',
-                    focusWords: ['like', 'coffee', 'tea', 'don\'t like']
+                    text: `Sarah and Mike are friends. Sarah <span class="reading-keyword keyword-like">likes</span> cats. Mike <span class="reading-keyword keyword-like">likes</span> dogs. Sarah <span class="reading-keyword keyword-dislike">doesn't like</span> spiders. Mike <span class="reading-keyword keyword-dislike">doesn't like</span> snakes. <span class="reading-keyword keyword-like">They like</span> animals!`,
+                    q: 'What do Sarah and Mike both like?',
+                    options: ['Cats', 'Dogs', 'Animals', 'Spiders'],
+                    answer: 2,
+                    tts: 'They like animals!',
+                    explanation: 'The text says "They like animals!"',
+                    cefr: 'Can identify shared preferences.',
+                    focusWords: ['likes', 'doesn\'t like', 'like']
                 },
                 {
                     id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
-                    text: `My sister <span class="reading-keyword keyword-green">loves</span> <span class="reading-keyword keyword-blue">chocolate</span>. She eats it every day. She <span class="reading-keyword keyword-red">doesn\'t like</span> vanilla ice cream. She only wants chocolate flavor.`,
-                    q: 'What flavor does she dislike?',
-                    options: ['Chocolate', 'Strawberry', 'Vanilla', 'Mint'],
-                    answer: 2,
-                    tts: 'She doesn\'t like vanilla ice cream.',
-                    explanation: 'The text says "She doesn\'t like vanilla ice cream."',
-                    cefr: 'Can distinguish flavors.',
-                    focusWords: ['loves', 'chocolate', 'doesn\'t like', 'vanilla']
+                    text: `Excuse me. <span class="reading-keyword keyword-like">Do you like</span> chocolate? Yes, <span class="reading-keyword keyword-like">I like</span> chocolate! <span class="reading-keyword keyword-dislike">I don't like</span> vanilla. <span class="reading-keyword keyword-like">Do you like</span> strawberries? No, <span class="reading-keyword keyword-dislike">I don't like</span> them.`,
+                    q: 'What doesn\'t the speaker like?',
+                    options: ['Chocolate', 'Vanilla and strawberries', 'Fruit', 'Dessert'],
+                    answer: 1,
+                    tts: 'I don\'t like vanilla. I don\'t like strawberries.',
+                    explanation: 'The text says "I don\'t like vanilla" and "I don\'t like them [strawberries]".',
+                    cefr: 'Can follow a preference dialogue about food.',
+                    focusWords: ['Do you like', 'like', 'don\'t like']
                 },
                 {
                     id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `<span class="reading-keyword keyword-purple">We</span> <span class="reading-keyword keyword-green">like</span> to watch movies. We <span class="reading-keyword keyword-red">don\'t like</span> horror movies. They are scary. We <span class="reading-keyword keyword-green">prefer</span> comedies. They make us laugh.`,
-                    q: 'What genre do they dislike?',
-                    options: ['Comedies', 'Action', 'Horror', 'Drama'],
-                    answer: 2,
-                    tts: 'We don\'t like horror movies.',
-                    explanation: 'The text says "We don\'t like horror movies."',
-                    cefr: 'Can understand movie preferences.',
-                    focusWords: ['like', 'don\'t like', 'prefer', 'comedies']
+                    text: `<span class="reading-keyword keyword-like">I like</span> <span class="reading-keyword keyword-neutral">my</span> job. It is fun. <span class="reading-keyword keyword-like">I like</span> <span class="reading-keyword keyword-neutral">my</span> coworkers. <span class="reading-keyword keyword-dislike">I don't like</span> working late. <span class="reading-keyword keyword-like">Do you like</span> <span class="reading-keyword keyword-neutral">your</span> job?`,
+                    q: 'What is the speaker\'s opinion about their job?',
+                    options: ['They hate it', 'They like it but not working late', 'They want to quit', 'They don\'t know'],
+                    answer: 1,
+                    tts: 'I like my job. It is fun. I don\'t like working late.',
+                    explanation: 'The speaker says they like their job but don\'t like working late.',
+                    cefr: 'Can understand nuanced preferences.',
+                    focusWords: ['like', 'don\'t like', 'Do you like']
                 },
                 {
                     id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
-                    text: `<span class="reading-keyword keyword-purple">The dog</span> <span class="reading-keyword keyword-red">doesn\'t like</span> the mailman. He barks at him. The dog <span class="reading-keyword keyword-green">likes</span> the postman\'s cat. They play together sometimes. It is funny.`,
-                    q: 'Who does the dog not like?',
-                    options: ['The cat', 'The mailman', 'The owner', 'The boy'],
-                    answer: 1,
-                    tts: 'The dog doesn\'t like the mailman.',
-                    explanation: 'The text says "The dog doesn\'t like the mailman."',
-                    cefr: 'Can understand relationships/feelings.',
-                    focusWords: ['doesn\'t like', 'likes']
+                    text: `Look at those children. They <span class="reading-keyword keyword-like">like</span> playing. The boy <span class="reading-keyword keyword-like">likes</span> soccer. <span class="reading-keyword keyword-dislike">He doesn't like</span> homework. The girl <span class="reading-keyword keyword-like">likes</span> drawing. <span class="reading-keyword keyword-dislike">She doesn't like</span> math. <span class="reading-keyword keyword-like">They like</span> weekends!`,
+                    q: 'What do the children NOT like?',
+                    options: ['Playing', 'Soccer and drawing', 'Homework and math', 'Weekends'],
+                    answer: 2,
+                    tts: 'He doesn\'t like homework. She doesn\'t like math.',
+                    explanation: 'The text says the boy doesn\'t like homework and the girl doesn\'t like math.',
+                    cefr: 'Can identify multiple negative preferences.',
+                    focusWords: ['like', 'likes', 'doesn\'t like']
                 },
                 {
                     id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
-                    text: `I <span class="reading-keyword keyword-green">like</span> to be busy. I have many hobbies. I <span class="reading-keyword keyword-green">enjoy</span> painting. I <span class="reading-keyword keyword-red">dislike</span> cleaning. It is boring. But I do it anyway because I <span class="reading-keyword keyword-green">love</span> a clean house.`,
-                    q: 'Why does the person clean?',
-                    options: ['He likes cleaning', 'He loves a clean house', 'He is bored', 'He has time'],
+                    text: `<span class="reading-keyword keyword-like">My</span> name is Lucy. <span class="reading-keyword keyword-like">I like</span> reading books. <span class="reading-keyword keyword-like">I like</span> writing stories too. But <span class="reading-keyword keyword-dislike">I don't like</span> loud noises. <span class="reading-keyword keyword-like">Do you like</span> quiet places? <span class="reading-keyword keyword-like">I like</span> them very much!`,
+                    q: 'What can you infer about Lucy?',
+                    options: ['She is loud', 'She prefers quiet environments', 'She hates books', 'She likes parties'],
                     answer: 1,
-                    tts: 'I love a clean house.',
-                    explanation: 'The text says "I love a clean house."',
-                    cefr: 'Can infer motivation.',
-                    focusWords: ['like', 'enjoy', 'dislike', 'love']
+                    tts: 'I don\'t like loud noises. Do you like quiet places? I like them very much!',
+                    explanation: 'Lucy says she doesn\'t like loud noises and likes quiet places.',
+                    cefr: 'Can infer personality from preferences.',
+                    focusWords: ['like', 'don\'t like', 'Do you like']
                 }
             ],
 
             // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Do you hear like or don\'t like?', tts: 'I like apples', options: ['I don\'t like apples', 'I like apples', 'I likes apples', 'I liking apples'], answer: 1, speed: 0.85 },
+                    q: 'Which word do you hear?', tts: 'I like pizza', options: ['I like pizza', 'I don\'t like pizza', 'Do you like pizza?', 'He likes pizza'], answer: 0, speed: 0.85 },
                 { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Listen and choose:', tts: 'She likes dancing', options: ['She like dancing', 'She likes dancing', 'She liking dancing', 'She don\'t like dancing'], answer: 1, speed: 0.85 },
+                    q: 'Listen and choose:', tts: 'She doesn\'t like coffee', options: ['She likes coffee', 'She doesn\'t like coffee', 'Does she like coffee?', 'He doesn\'t like coffee'], answer: 1, speed: 0.85 },
                 { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Which do you hear?', tts: 'We don\'t like rain', options: ['We don\'t likes rain', 'We don\'t like rain', 'We doesn\'t like rain', 'We don\'t liking rain'], answer: 1, speed: 0.85 },
+                    q: 'Which question do you hear?', tts: 'Do you like music?', options: ['Do you like music?', 'I like music', 'She likes music', 'They don\'t like music'], answer: 0, speed: 0.85 },
                 { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen carefully:', tts: 'He doesn\'t like coffee', options: ['He don\'t like coffee', 'He doesn\'t like coffee', 'He doesn\'t likes coffee', 'He doesn\'t liking coffee'], answer: 1, speed: 0.85 },
+                    q: 'Listen carefully:', tts: 'We like swimming', options: ['We like swimming', 'We don\'t like swimming', 'Do we like swimming?', 'They like swimming'], answer: 0, speed: 0.85 },
                 { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'What is missing?', tts: 'Do you like pizza?', options: ['Do you likes pizza?', 'Do you like pizza?', 'Does you like pizza?', 'Do you liking pizza?'], answer: 1, speed: 0.85 },
+                    q: 'What is missing?', tts: 'He doesn\'t like homework', options: ['He like homework', 'He doesn\'t like homework', 'He don\'t like homework', 'He doesn\'t likes homework'], answer: 1, speed: 0.85 },
                 { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen to the sentence:', tts: 'They love this song', options: ['They love this song', 'They loves this song', 'They loving this song', 'They love this songs'], answer: 0, speed: 0.85 },
+                    q: 'Listen to the sentence:', tts: 'Do they like sports?', options: ['Do they like sports?', 'They like sports', 'They don\'t like sports', 'Does they like sports?'], answer: 0, speed: 0.85 },
                 { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
-                    q: 'Which phrase do you hear?', tts: 'I don\'t know', options: ['I no know', 'I don\'t know', 'I not know', 'I don\'t knowing'], answer: 1, speed: 0.85 },
+                    q: 'Which phrase do you hear?', tts: 'I don\'t like vegetables', options: ['I like vegetables', 'I don\'t like vegetables', 'Do I like vegetables?', 'She doesn\'t like vegetables'], answer: 1, speed: 0.85 },
                 { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'He like swimming'", tts: 'He likes swimming', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'I likes pizza'", tts: 'I like pizza', options: ['True', 'False'], answer: 1, speed: 0.85 },
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'She don't like it'", tts: 'She doesn\'t like it', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'She don\'t like cats'", tts: 'She doesn\'t like cats', options: ['True', 'False'], answer: 1, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: 'Which is correct?', tts: 'Does he likes football?', options: ['Does he like football?', 'Does he likes football?', 'Do he like football?', 'Does he liking football?'], answer: 0, speed: 0.85 }
+                    q: 'Which is correct?', tts: 'Do you like playing soccer?', options: ['Do you like play soccer?', 'Do you like playing soccer?', 'Does you like playing soccer?', 'You like playing soccer?'], answer: 1, speed: 0.85 }
             ],
 
             // SPEAKING: 10 activities
@@ -529,266 +582,262 @@
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
                     prompt: 'Repeat: "I like pizza."', model: 'I like pizza.', expected: 'i like pizza' },
                 { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "I don\'t like spinach."', model: 'I don\'t like spinach.', expected: 'i don\'t like spinach' },
+                    prompt: 'Repeat: "I don\'t like coffee."', model: 'I don\'t like coffee.', expected: 'i don\'t like coffee' },
                 { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "She likes coffee."', model: 'She likes coffee.', expected: 'she likes coffee' },
+                    prompt: 'Repeat: "Do you like music?"', model: 'Do you like music?', expected: 'do you like music' },
                 { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Preference',
-                    prompt: 'Say: "I love music."',
-                    model: 'I love music.',
-                    expected: 'i love music' },
+                    scenario: 'Food Preferences',
+                    prompt: 'Ask: "Do you like ice cream?"',
+                    model: 'Do you like ice cream?',
+                    expected: 'do you like ice cream' },
                 { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Dislike',
-                    prompt: 'Say: "I don\'t like vegetables."',
-                    model: 'I don\'t like vegetables.',
-                    expected: 'i don\'t like vegetables' },
+                    scenario: 'Activities',
+                    prompt: 'Say: "I like swimming."',
+                    model: 'I like swimming.',
+                    expected: 'i like swimming' },
                 { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Question',
-                    prompt: 'Ask: "Do you like chocolate?"',
-                    model: 'Do you like chocolate?',
-                    expected: 'do you like chocolate' },
+                    scenario: 'Hobbies',
+                    prompt: 'Say: "She doesn\'t like reading."',
+                    model: 'She doesn\'t like reading.',
+                    expected: 'she doesn\'t like reading' },
                 { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of Person Happy with Ice Cream]. Say: "I like ice cream."',
-                    expected: 'i like ice cream', minWords: 3 },
+                    prompt: 'Describe this: [Image of pizza]. Say: "I like pizza."',
+                    expected: 'like pizza', minWords: 2 },
                 { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of Person Sad with Rain]. Say: "I don\'t like rain."',
-                    expected: 'i don\'t like rain', minWords: 3 },
+                    prompt: 'Describe this: [Image of broccoli]. Say: "I don\'t like broccoli."',
+                    expected: 'don\'t like broccoli', minWords: 3 },
                 { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Tell me 3 foods you like. (e.g., I like pizza, I like...)', minWords: 5, expectedPattern: 'i like' },
+                    prompt: 'Tell me 3 things you like. Use "I like..."', minWords: 6, expectedPattern: 'i like' },
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Tell me 2 things you don\'t like. (e.g., I don\'t like..., I don\'t like...)', minWords: 6, expectedPattern: 'don\'t like' }
+                    prompt: 'Tell me 2 things you don\'t like. Use "I don\'t like..."', minWords: 6, expectedPattern: 'i don\'t like' }
             ],
 
             // WRITING: 10 tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "I ___ pizza." (like)', answer: 'like', example: 'I like pizza.' },
+                    prompt: 'Complete: "I ___ (like) pizza."', answer: 'like', example: 'I like pizza.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "She ___ dancing." (likes)', answer: 'likes', example: 'She likes dancing.' },
+                    prompt: 'Complete: "She ___ (not like) coffee."', answer: 'doesn\'t like', example: 'She doesn\'t like coffee.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "I ___ running." (don\'t like)', answer: 'don\'t like', example: 'I don\'t like running.' },
+                    prompt: 'Complete: "___ you like music?"', answer: 'Do', example: 'Do you like music?' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Change to Question: "You like dogs." ->', answer: 'Do you like dogs', example: 'Do you like dogs?' },
+                    prompt: 'Make negative: "I like homework." ->', answer: 'I don\'t like homework', example: 'I don\'t like homework.' },
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Make Negative: "He likes coffee." ->', answer: 'He doesn\'t like coffee', example: 'He doesn\'t like coffee.' },
+                    prompt: 'Make a question: "You like sports." ->', answer: 'Do you like sports?', example: 'Do you like sports?' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Answer Yes: "Do you like cats?" ->', answer: 'Yes I like', example: 'Yes, I like cats.' },
+                    prompt: 'Change to third person: "I like reading." (She) ->', answer: 'She likes reading', example: 'She likes reading.' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about your favorite food and a food you hate.', example: 'I like pizza. I hate broccoli.', minLength: 10, maxLength: 50 },
+                    prompt: 'Write about food. Use "I like..." and "I don\'t like...".', example: 'I like pizza. I don\'t like salad.', minLength: 15, maxLength: 50 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write 3 questions starting with "Do you like...?"', example: 'Do you like apples? Do you like milk?', minLength: 10, maxLength: 50 },
+                    prompt: 'Write about activities. Use "He likes..." and "She doesn\'t like...".', example: 'He likes soccer. She doesn\'t like swimming.', minLength: 15, maxLength: 50 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your hobbies. Use "I like...".', minLength: 20, maxLength: 70 },
+                    prompt: 'Write about your preferences. Use like/don\'t like with 3 topics.', minLength: 25, maxLength: 70 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Write about what your friends like or dislike.', minLength: 25, maxLength: 80 }
+                    prompt: 'Ask 3 questions about preferences. Use "Do you like...?"', minLength: 20, maxLength: 60 }
             ],
 
-            // VOCABULARY: 30 Words - FOOD & HOBBIES
+            // VOCABULARY: 30 Words - PREFERENCES, FOOD, HOBBIES
             vocabulary: [
                 { word: 'Like', pron: '/laɪk/', meaning: 'Gostar', example: 'I like pizza.' },
-                { word: 'Don\'t like', pron: '/doʊnt laɪk/', meaning: 'Não gostar', example: 'I don\'t like fish.' },
-                { word: 'Love', pron: '/lʌv/', meaning: 'Amar', example: 'I love my family.' },
-                { word: 'Hate', pron: '/heɪt/', meaning: 'Odiar', example: 'I hate homework.' },
-                { word: 'Prefer', pron: '/prɪˈfɜːr/', meaning: 'Preferir', example: 'I prefer tea.' },
-                { word: 'Enjoy', pron: '/ɪnˈdʒɔɪ/', meaning: 'Curti-se / Desfrutar', example: 'I enjoy reading.' },
-                { word: 'Pizza', pron: '/ˈpiːtsə/', meaning: 'Pizza', example: 'I love pizza.' },
-                { word: 'Pasta', pron: '/ˈpæstə/', meaning: 'Massa', example: 'She likes pasta.' },
-                { word: 'Bread', pron: '/bred/', meaning: 'Pão', example: 'I like bread.' },
-                { word: 'Meat', pron: '/miːt/', meaning: 'Carne', example: 'Do you like meat?' },
-                { word: 'Fish', pron: '/fɪʃ/', meaning: 'Peixe', example: 'I don\'t like fish.' },
-                { word: 'Chicken', pron: '/ˈtʃɪkɪn/', meaning: 'Frango', example: 'We like chicken.' },
-                { word: 'Rice', pron: '/raɪs/', meaning: 'Arroz', example: 'He likes rice.' },
-                { word: 'Salad', pron: '/ˈsæləd/', meaning: 'Salada', example: 'I like salad.' },
-                { word: 'Vegetables', pron: '/ˈvedʒtəbəlz/', meaning: 'Legumes', example: 'Eat your vegetables.' },
-                { word: 'Fruit', pron: '/fruːt/', meaning: 'Fruta', example: 'Apples are fruit.' },
-                { word: 'Coffee', pron: '/ˈkɒfi/', meaning: 'Café', example: 'I like coffee.' },
-                { word: 'Tea', pron: '/tiː/', meaning: 'Chá', example: 'She likes tea.' },
-                { word: 'Water', pron: '/ˈwɔːtər/', meaning: 'Água', example: 'Do you like water?' },
-                { word: 'Milk', pron: '/mɪlk/', meaning: 'Leite', example: 'Babies like milk.' },
-                { word: 'Juice', pron: '/dʒuːs/', meaning: 'Suco', example: 'Orange juice.' },
-                { word: 'Chocolate', pron: '/ˈtʃɒkələt/', meaning: 'Chocolate', example: 'I love chocolate.' },
-                { word: 'Ice cream', pron: '/aɪs kriːm/', meaning: 'Sorvete', example: 'Kids like ice cream.' },
-                { word: 'Movie', pron: '/ˈmuːvi/', meaning: 'Filme', example: 'We like movies.' },
-                { word: 'Music', pron: '/ˈmjuːzɪk/', meaning: 'Música', example: 'I like music.' },
-                { word: 'Dance', pron: '/dæns/', meaning: 'Dançar', example: 'She likes dancing.' },
-                { word: 'Singing', pron: '/ˈsɪŋɪŋ/', meaning: 'Cantar', example: 'He likes singing.' },
-                { word: 'Reading', pron: '/ˈriːdɪŋ/', meaning: 'Ler', example: 'I enjoy reading.' },
-                { word: 'Swimming', pron: '/ˈswɪmɪŋ/', meaning: 'Nadar', example: 'I like swimming.' },
-                { word: 'Football', pron: '/ˈfʊtbɔːl/', meaning: 'Futebol', example: 'They like football.' },
-                { word: 'Cooking', pron: '/ˈkʊkɪŋ/', meaning: 'Cozinhar', example: 'I don\'t like cooking.' },
-                { word: 'Cleaning', pron: '/ˈkliːnɪŋ/', meaning: 'Limpar', example: 'He hates cleaning.' }
+                { word: 'Don\'t like', pron: '/doʊnt laɪk/', meaning: 'Não gostar', example: 'I don\'t like coffee.' },
+                { word: 'Love', pron: '/lʌv/', meaning: 'Amar/Adorar', example: 'I love music.' },
+                { word: 'Hate', pron: '/heɪt/', meaning: 'Odiar', example: 'I hate spiders.' },
+                { word: 'Pizza', pron: '/ˈpiːtsə/', meaning: 'Pizza', example: 'I like pizza.' },
+                { word: 'Pasta', pron: '/ˈpɑːstə/', meaning: 'Massa', example: 'She likes pasta.' },
+                { word: 'Salad', pron: '/ˈsæləd/', meaning: 'Salada', example: 'I don\'t like salad.' },
+                { word: 'Coffee', pron: '/ˈkɔːfi/', meaning: 'Café', example: 'He doesn\'t like coffee.' },
+                { word: 'Tea', pron: '/tiː/', meaning: 'Chá', example: 'Do you like tea?' },
+                { word: 'Ice cream', pron: '/aɪs kriːm/', meaning: 'Sorvete', example: 'We like ice cream.' },
+                { word: 'Chocolate', pron: '/ˈtʃɒklət/', meaning: 'Chocolate', example: 'I love chocolate.' },
+                { word: 'Music', pron: '/ˈmjuːzɪk/', meaning: 'Música', example: 'They like music.' },
+                { word: 'Sports', pron: '/spɔːrts/', meaning: 'Esportes', example: 'He likes sports.' },
+                { word: 'Reading', pron: '/ˈriːdɪŋ/', meaning: 'Ler/Leitura', example: 'She likes reading.' },
+                { word: 'Swimming', pron: '/ˈswɪmɪŋ/', meaning: 'Nadar/Natação', example: 'I like swimming.' },
+                { word: 'Running', pron: '/ˈrʌnɪŋ/', meaning: 'Correr/Corrida', example: 'He likes running.' },
+                { word: 'Dancing', pron: '/ˈdænsɪŋ/', meaning: 'Dançar/Dança', example: 'She likes dancing.' },
+                { word: 'Singing', pron: '/ˈsɪŋɪŋ/', meaning: 'Cantar/Canto', example: 'I don\'t like singing.' },
+                { word: 'Cooking', pron: '/ˈkʊkɪŋ/', meaning: 'Cozinhar/Culinária', example: 'My mom likes cooking.' },
+                { word: 'Gardening', pron: '/ˈɡɑːrdnɪŋ/', meaning: 'Jardinagem', example: 'My dad likes gardening.' },
+                { word: 'Movies', pron: '/ˈmuːviz/', meaning: 'Filmes', example: 'We like watching movies.' },
+                { word: 'Books', pron: '/bʊks/', meaning: 'Livros', example: 'I like reading books.' },
+                { word: 'Animals', pron: '/ˈænɪməlz/', meaning: 'Animais', example: 'They like animals.' },
+                { word: 'Cats', pron: '/kæts/', meaning: 'Gatos', example: 'Sarah likes cats.' },
+                { word: 'Dogs', pron: '/dɔːɡz/', meaning: 'Cachorros', example: 'Mike likes dogs.' },
+                { word: 'Homework', pron: '/ˈhoʊmwɜːrk/', meaning: 'Lição de casa', example: 'I don\'t like homework.' },
+                { word: 'Vegetables', pron: '/ˈvedʒtəbəlz/', meaning: 'Legumes/Verduras', example: 'I don\'t like vegetables.' },
+                { word: 'Weekends', pron: '/ˈwiːkendz/', meaning: 'Fins de semana', example: 'They like weekends.' },
+                { word: 'Quiet', pron: '/ˈkwaɪət/', meaning: 'Silencioso/Calmo', example: 'I like quiet places.' },
+                { word: 'Loud', pron: '/laʊd/', meaning: 'Barulhento', example: 'I don\'t like loud noises.' }
             ],
 
-            // GRAMMAR: Like/Don't Like
+            // GRAMMAR: Like/Don't Like Structures
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Affirmative: I like',
+                    title: 'I like / I don\'t like',
                     explanation: {
-                        theory: 'Use "I like" followed by a noun (thing) or a verb+ing (hobby) to say you enjoy something.',
-                        formula: 'I like + Noun\nI like + Verb-ing',
+                        theory: 'Use "like" for positive preferences and "don\'t like" for negative preferences with I/you/we/they.',
+                        formula: 'I/You/We/They + like + noun/verb-ing\nI/You/We/They + don\'t like + noun/verb-ing',
                         examples: [
                             'I like pizza.',
-                            'I like swimming.',
-                            'I like music.',
-                            'I like reading.'
+                            'I don\'t like salad.',
+                            'We like swimming.',
+                            'They don\'t like homework.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Like = Enjoy.',
-                        usage: 'Talking about preferences.'
+                        exceptions: 'None for A1 level.',
+                        tip: 'Don\'t forget the apostrophe in don\'t!',
+                        usage: 'Talking about your own preferences.'
                     }
                 },
                 {
                     id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Negative: I don\'t like',
+                    title: 'He/She likes / doesn\'t like',
                     explanation: {
-                        theory: 'Use "don\'t like" (do not like) to say you do not enjoy something.',
-                        formula: 'I don\'t like + Noun\nI don\'t like + Verb-ing',
+                        theory: 'With he/she/it, add -s to "like" in positive sentences. Use "doesn\'t like" (no -s) for negatives.',
+                        formula: 'He/She/It + likes + noun/verb-ing\nHe/She/It + doesn\'t like + noun/verb-ing',
                         examples: [
-                            'I don\'t like rain.',
-                            'I don\'t like running.',
-                            'I don\'t like spinach.',
-                            'I don\'t like waking up early.'
+                            'He likes pizza.',
+                            'She doesn\'t like coffee.',
+                            'It likes bones. (The dog)',
+                            'My mom likes cooking.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Don\'t = Do not.',
-                        usage: 'Talking about dislikes.'
+                        exceptions: 'Never add -s after doesn\'t!',
+                        tip: 'He likes (with s). He doesn\'t like (no s).',
+                        usage: 'Talking about other people\'s preferences.'
                     }
                 },
                 {
                     id: 'g3', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Questions: Do you like...?',
+                    title: 'Asking Questions: Do you like...?',
                     explanation: {
-                        theory: 'Use "Do" and the subject to ask about preferences. The verb is always in the base form.',
-                        formula: 'Do + Subject + like + Noun?',
+                        theory: 'To ask about preferences, start with "Do" + subject + "like".',
+                        formula: 'Do + I/you/we/they + like + noun/verb-ing?\nDoes + he/she/it + like + noun/verb-ing?',
                         examples: [
                             'Do you like pizza?',
-                            'Do you like swimming?',
                             'Do they like music?',
-                            'Does she like cats?'
+                            'Does she like swimming?',
+                            'Does he like reading?'
                         ],
-                        exceptions: 'For He/She/It, use "Does".',
-                        tip: 'Move "Do" to the front.',
-                        usage: 'Asking questions.'
+                        exceptions: 'Short answers: Yes, I do. / No, I don\'t.',
+                        tip: 'Do for I/you/we/they. Does for he/she/it.',
+                        usage: 'Asking about preferences.'
                     }
                 },
                 {
-                    id: 'g4', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Short Answers',
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Like + Verb-ing (Gerunds)',
                     explanation: {
-                        theory: 'Answer with "Yes, I do/like" or "No, I don\'t/like".',
-                        formula: 'Yes, I do. / No, I don\'t.\nYes, I like... / No, I don\'t like...',
+                        theory: 'After like/don\'t like, use the -ing form of verbs (gerunds) to talk about activities.',
+                        formula: 'like/don\'t like + verb-ing',
                         examples: [
-                            'Do you like fish? -> Yes, I do.',
-                            'Do you like fish? -> No, I don\'t.',
-                            'Do you like dancing? -> Yes, I like it.',
-                            'Do you like dancing? -> No, I don\'t like it.'
+                            'I like swimming.',
+                            'She doesn\'t like reading.',
+                            'Do you like dancing?',
+                            'We like watching movies.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Short answer: I do/don\'t. Long answer: I like/don\'t like.',
-                        usage: 'Conversation.'
+                        exceptions: 'Some verbs can also use infinitive (to + verb), but -ing is more common at A1.',
+                        tip: 'Think: like + action-ing',
+                        usage: 'Talking about activities you enjoy or don\'t enjoy.'
                     }
                 },
                 {
                     id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: '3rd Person: He/She likes',
+                    title: 'Like + Noun',
                     explanation: {
-                        theory: 'For He, She, and It, add "s" to "Like".',
-                        formula: 'He/She/It + likes + Noun',
+                        theory: 'Use like/don\'t like directly with nouns (things, foods, people).',
+                        formula: 'like/don\'t like + noun',
                         examples: [
-                            'He likes cars.',
-                            'She likes pizza.',
-                            'It likes milk.',
-                            'The cat likes fish.'
+                            'I like pizza.',
+                            'She doesn\'t like coffee.',
+                            'Do you like cats?',
+                            'They like music.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'He/She/It likeS.',
-                        usage: 'Talking about others.'
+                        exceptions: 'Use plural nouns for general preferences: "I like dogs" (all dogs).',
+                        tip: 'No verb needed after like when using nouns!',
+                        usage: 'Talking about things you prefer.'
                     }
                 },
                 {
                     id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Negative 3rd Person: Doesn\'t like',
+                    title: 'Short Answers',
                     explanation: {
-                        theory: 'For He, She, It, use "Doesn\'t like". The main verb is in the base form (no "s").',
-                        formula: 'He/She/It + doesn\'t like + Noun',
+                        theory: 'Answer preference questions with short answers: Yes/No + auxiliary verb.',
+                        formula: 'Yes, I/you/we/they do.\nNo, I/you/we/they don\'t.\nYes, he/she/it does.\nNo, he/she/it doesn\'t.',
                         examples: [
-                            'He doesn\'t like vegetables.',
-                            'She doesn\'t like coffee.',
-                            'It doesn\'t like water.',
-                            'John doesn\'t like mornings.'
+                            'Do you like pizza? → Yes, I do.',
+                            'Does she like coffee? → No, she doesn\'t.',
+                            'Do they like sports? → Yes, they do.',
+                            'Does he like reading? → No, he doesn\'t.'
                         ],
-                        exceptions: 'Never write "doesn\'t likes".',
-                        tip: 'Doesn\'t kills the "s" on the verb.',
-                        usage: 'Talking about dislikes of others.'
+                        exceptions: 'You can add more: "Yes, I do. I love it!"',
+                        tip: 'Match the auxiliary: Do → do/don\'t. Does → does/doesn\'t.',
+                        usage: 'Quick, natural responses to preference questions.'
                     }
                 },
                 {
                     id: 'g7', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Love vs. Like',
+                    title: 'Love / Hate (Stronger Preferences)',
                     explanation: {
-                        theory: '"Like" is a general preference. "Love" is a strong preference. "Hate" is a strong dislike.',
-                        formula: 'Like (General)\nLove (Strong)\nHate (Strong Negative)',
+                        theory: '"Love" is stronger than "like". "Hate" is stronger than "don\'t like". Use the same grammar.',
+                        formula: 'I/You/We/They + love/hate + noun/verb-ing\nHe/She/It + loves/hates + noun/verb-ing',
                         examples: [
-                            'I like pizza.',
-                            'I love my mom.',
-                            'I hate waiting.',
-                            'He likes cars.'
+                            'I love chocolate!',
+                            'She hates spiders.',
+                            'He loves playing soccer.',
+                            'They hate homework.'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Love > Like. Hate < Don\'t like.',
-                        usage: 'Expressing intensity.'
+                        exceptions: 'Remember: he/she/it + loves/hates (with -s).',
+                        tip: 'Use love/hate for strong feelings!',
+                        usage: 'Expressing strong preferences.'
                     }
                 },
                 {
-                    id: 'g8', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Questions with Does',
+                    id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Common Mistake: Don\'t vs Doesn\'t',
                     explanation: {
-                        theory: 'For He/She/It, use "Does" instead of "Do". The verb stays in the base form.',
-                        formula: 'Does + He/She/It + like + Noun?',
+                        theory: 'Use "don\'t" with I/you/we/they. Use "doesn\'t" with he/she/it. Never add -s after doesn\'t.',
+                        formula: 'I/You/We/They + don\'t like\nHe/She/It + doesn\'t like (NOT doesn\'t likes)',
                         examples: [
-                            'Does he like football?',
-                            'Does she like pizza?',
-                            'Does it like milk?',
-                            'Does John like school?'
+                            '✓ I don\'t like coffee.\n✗ I doesn\'t like coffee.',
+                            '✓ She doesn\'t like coffee.\n✗ She don\'t like coffee.\n✗ She doesn\'t likes coffee.'
                         ],
-                        exceptions: 'Do NOT add "s" to the verb (Does he likes?).',
-                        tip: 'Does it like...?',
-                        usage: 'Asking others about preferences.'
+                        exceptions: 'None.',
+                        tip: 'He/She/It = doesn\'t (no s on like).',
+                        usage: 'Writing and speaking correctly.'
                     }
                 },
                 {
                     id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Noun vs. Verb-ing',
+                    title: 'Like vs As (Don\'t Confuse!)',
                     explanation: {
-                        theory: 'You can like a THING (Noun) or an ACTIVITY (Verb + ing).',
-                        formula: 'I like + Noun\nI like + Verb-ing',
+                        theory: '"Like" (verb) = to enjoy. "Like" (preposition) = similar to. This lesson is about the verb.',
+                        formula: 'LIKE (verb): I like pizza.\nLIKE (preposition): She looks like her mom.',
                         examples: [
-                            'I like apples. (Noun)',
-                            'I like reading. (Verb-ing)',
-                            'She likes cooking.',
-                            'We don\'t like running.'
+                            'I like swimming. (verb = enjoy)',
+                            'He is like his father. (preposition = similar)',
+                            'Do you like this song? (verb)',
+                            'It tastes like chocolate. (preposition)'
                         ],
-                        exceptions: 'Do not use "to" after like (I like to swim is usually incorrect in simple preferences).',
-                        tip: 'Activity = Add -ing.',
-                        usage: 'Describing hobbies.'
+                        exceptions: 'Context tells you which meaning.',
+                        tip: 'If you can replace with "enjoy", it\'s the verb like.',
+                        usage: 'Understanding different uses of "like".'
                     }
                 },
                 {
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Would like (Polite)',
+                    title: 'Preferences in Context',
                     explanation: {
-                        theory: '"Would like" is more polite than "Like". It is used for offers or requests.',
-                        formula: 'Would you like + Noun?',
+                        theory: 'Combine preferences with reasons using "because" for richer communication.',
+                        formula: 'I like X because + reason.\nI don\'t like Y because + reason.',
                         examples: [
-                            'Would you like some tea?',
-                            'I would like a coffee.',
-                            'Would you like to go?',
-                            'I would like to leave.'
+                            'I like pizza because it\'s delicious.',
+                            'She doesn\'t like coffee because it\'s bitter.',
+                            'We like swimming because it\'s fun.',
+                            'He doesn\'t like homework because it\'s hard.'
                         ],
-                        exceptions: 'Short form: "I\'d like".',
-                        tip: 'Would like = Polite "I want".',
-                        usage: 'Being polite.'
+                        exceptions: 'Keep reasons simple at A1 level.',
+                        tip: 'Start with simple preferences, then add "because" later.',
+                        usage: 'Explaining why you like or don\'t like something.'
                     }
                 }
             ]
@@ -951,12 +1000,12 @@
     function renderReading(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">📖 Reading</h1>
-            <p class="section-subtitle">Read about preferences</p>
+            <p class="section-subtitle">Read and identify preferences</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card reading-card">
                 <div class="reading-header">
-                    <div class="reading-label"><i class="fa-solid fa-font"></i> Preferences</div>
-                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Like/Love/Hate</div>
+                    <div class="reading-label"><i class="fa-solid fa-heart"></i> Likes & Dislikes</div>
+                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Preferences</div>
                 </div>
                 ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
                 <div class="reading-text rich">${q.text}</div>
@@ -989,7 +1038,7 @@
     function renderListening(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">🎧 Listening</h1>
-            <p class="section-subtitle">Train your ear for likes and dislikes</p>
+            <p class="section-subtitle">Train your ear for preferences</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
                 <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
@@ -1018,7 +1067,7 @@
     function renderSpeaking(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">💬 Speaking</h1>
-            <p class="section-subtitle">Practice expressing preferences</p>
+            <p class="section-subtitle">Practice saying "I like", "I don't like"</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
                 <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
@@ -1069,7 +1118,7 @@
         const vocabList = lessonData.tabs.vocabulary;
         let html = `
             <h1 class="section-title">📚 Vocabulary Study</h1>
-            <p class="section-subtitle">30 Words for Food & Hobbies</p>
+            <p class="section-subtitle">30 Words for Preferences & Activities</p>
             <div class="card">
                 <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
                 <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
@@ -1367,7 +1416,7 @@
                                 <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
                             </div>
                              <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
-                                <div style="font-weight:700;color:#f97316;">Grammar</div>
+                                <div style="font-weight:700;color:#6366f1;">Grammar</div>
                                 <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
                             </div>
                         </div>
@@ -1449,7 +1498,7 @@
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Is it positive? Use Like.', 'Is it negative? Use Don\'t like.', 'Is it strong? Use Love/Hate.'];
+        const hints=['Look for "like" = positive. "don\'t like" = negative.','He/She/It uses "likes" (with s) and "doesn\'t like" (no s on like).','Questions start with "Do" or "Does".'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
