@@ -12,7 +12,7 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: { primary: '#22c55e', secondary: '#3b82f6', accent: '#f59e0b', danger: '#ef4444' }
+                    colors: { primary: '#3b82f6', secondary: '#6366f1', accent: '#f59e0b', danger: '#ef4444' } // Changed primary to Blue for U16
                 }
             }
         }
@@ -25,15 +25,15 @@
             display: flex; align-items: center; justify-content: space-between;
             position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #22c55e; cursor: pointer; }
-        .logo:hover { color: #16a34a; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #3b82f6; cursor: pointer; }
+        .logo:hover { color: #2563eb; }
         .cefr-badge {
             padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
             background: #dbeafe; color: #1e40af;
         }
         .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
         .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); transition: width 0.5s ease; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #2563eb); transition: width 0.5s ease; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
         .stats { display: flex; gap: 1rem; align-items: center; }
         .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
@@ -55,8 +55,8 @@
             display: flex; align-items: center; gap: 0.5rem;
         }
         .tab-btn:hover { background: #f8fafc; color: #1e293b; }
-        .tab-btn.active { background: #22c55e; color: white; }
-        .tab-btn.completed { color: #16a34a; }
+        .tab-btn.active { background: #3b82f6; color: white; }
+        .tab-btn.completed { color: #2563eb; }
         .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
         .difficulty {
             display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
@@ -113,7 +113,7 @@
         }
         .transcript.show { display: block; }
         
-        /* ENHANCED READING STYLES */
+        /* ENHANCED READING STYLES FOR SIMPLE PRESENT */
         .reading-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
             border: 1px solid #dbeafe;
@@ -147,11 +147,12 @@
             cursor: default;
         }
         .reading-keyword:hover { transform: scale(1.05); }
-        .keyword-blue { background: #dbeafe; color: #1d4ed8; } /* Pronouns (I, You, He, She...) */
-        .keyword-purple { background: #ede9fe; color: #6d28d9; } /* Verbs (do, does, plays, watches) */
-        .keyword-orange { background: #ffedd5; color: #c2410c; } /* Frequency/Time (every day, always) */
-        .keyword-green { background: #dcfce7; color: #15803d; } /* Actions/Context (routines) */
-        /* END ENHANCED READING STYLES */
+        /* Specific colors for Simple Present */
+        .keyword-blue { background: #dbeafe; color: #1d4ed8; } /* Verbs (He, She, It + s) */
+        .keyword-purple { background: #ede9fe; color: #6d28d9; } /* Verbs (I, You, We, They) */
+        .keyword-orange { background: #ffedd5; color: #c2410c; } /* Frequency Adverbs */
+        .keyword-green { background: #dcfce7; color: #15803d; } /* Auxiliary (Do/Does) */
+        /* END READING STYLES */
 
         .video-container {
             position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
@@ -210,8 +211,8 @@
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
             min-width: 120px;
         }
-        .btn-primary { background: #22c55e; color: white; box-shadow: 0 4px 0 #16a34a; }
-        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #16a34a; }
+        .btn-primary { background: #3b82f6; color: white; box-shadow: 0 4px 0 #2563eb; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #2563eb; }
         .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
         .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
         .btn-secondary:hover { background: #e2e8f0; }
@@ -221,9 +222,9 @@
         .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
         .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
         .btn-next-section { 
-            background: #22c55e; 
+            background: #3b82f6; 
             color: white; 
-            box-shadow: 0 4px 0 #16a34a;
+            box-shadow: 0 4px 0 #2563eb;
             font-size: 1.1rem;
             padding: 1.2rem 2rem;
         }
@@ -267,12 +268,12 @@
         .completion-screen {
             text-align: center; padding: 3rem 1rem;
         }
-        .completion-screen i { font-size: 5rem; color: #22c55e; margin-bottom: 1.5rem; }
-        .xp-reward { font-size: 3rem; font-weight: 800; color: #22c55e; margin: 1rem 0; }
+        .completion-screen i { font-size: 5rem; color: #3b82f6; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #3b82f6; margin: 1rem 0; }
         .section-complete {
             text-align: center; padding: 3rem 1rem;
         }
-        .section-complete i { font-size: 4rem; color: #22c55e; margin-bottom: 1rem; }
+        .section-complete i { font-size: 4rem; color: #3b82f6; margin-bottom: 1rem; }
         .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
         .section-complete p { color: #64748b; margin-bottom: 2rem; }
         .enter-hint {
@@ -308,7 +309,7 @@
                 <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
             <div class="progress-stats">
-                <span><span id="currentQ">0</span>/<span id="totalQ">65</span> questões</span>
+                <span><span id="currentQ">0</span>/<span id="totalQ">60</span> questões</span>
                 <span id="progressPercent">0%</span>
             </div>
         </div>
@@ -372,9 +373,9 @@
             videoId: 'nvVdIJ0las0',
             objectives: [
                 'Talk about daily routines and habits',
-                'Use the Simple Present tense for facts and general truths',
-                'Add "-s" or "-es" to verbs for He/She/It',
-                'Use frequency adverbs (always, usually, sometimes, never)'
+                'Use the correct verb form for He/She/It (add -s/-es)',
+                'Use "Do" and "Does" for questions',
+                'Use "Don\'t" and "Doesn\'t" for negatives'
             ]
         },
 
@@ -382,339 +383,298 @@
             video: {
                 type: 'embed',
                 videoId: 'nvVdIJ0las0',
-                instructions: 'Watch the video about the Simple Present. Learn how to talk about what you do every day.'
+                instructions: 'Watch the video about daily routines. Learn how to talk about things you do every day.'
             },
 
-            // READING: 10 questions - EXPANDED TEXT & COLORFUL
+            // READING: 10 questions - FOCUS ON 3rd PERSON SINGULAR
             reading: [
                 {
                     id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">wake up</span> at 7:00 <span class="reading-keyword keyword-orange">every day</span>. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">brush</span> my teeth and <span class="reading-keyword keyword-purple">eat</span> breakfast. My sister <span class="reading-keyword keyword-purple">wakes</span> up late. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">eats</span> an apple. <span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">go</span> to school together.`,
-                    q: 'What does the sister eat?',
-                    options: ['Bread', 'An apple', 'Eggs', 'Cereal'],
-                    answer: 1,
-                    tts: 'I wake up at 7:00 every day. My sister wakes up late. She eats an apple.',
-                    explanation: 'The text says "She eats an apple."',
-                    cefr: 'Can identify actions in the 3rd person singular.',
-                    focusWords: ['I', 'wake up', 'She', 'eats', 'We', 'go']
+                    text: `Sarah <span class="reading-keyword keyword-blue">lives</span> in London. She <span class="reading-keyword keyword-blue">wakes</span> up at 7:00 AM every day. She <span class="reading-keyword keyword-blue">drinks</span> coffee for breakfast. She <span class="reading-keyword keyword-blue">goes</span> to work by bus. She <span class="reading-keyword keyword-blue">likes</span> her job.`,
+                    q: 'What does Sarah drink?',
+                    options: ['Tea', 'Water', 'Coffee', 'Juice'],
+                    answer: 2,
+                    tts: 'Sarah lives in London. She wakes up at 7:00 AM. She drinks coffee for breakfast.',
+                    explanation: 'The text says "She drinks coffee for breakfast."',
+                    cefr: 'Can identify details in a simple description of a routine.',
+                    focusWords: ['lives', 'wakes', 'drinks', 'goes', 'likes']
                 },
                 {
                     id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
-                    text: `John <span class="reading-keyword keyword-purple">works</span> in a bank. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">starts</span> work <span class="reading-keyword keyword-orange">at 9 AM</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">likes</span> his job. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">finishes</span> at 5 PM. Then <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">goes</span> home.`,
-                    q: 'When does John finish work?',
-                    options: ['At 9 AM', 'At 5 PM', 'At 6 PM', 'At 7 PM'],
+                    text: `My brother <span class="reading-keyword keyword-blue">works</span> in a bank. He <span class="reading-keyword keyword-blue">wears</span> a suit to work. He <span class="reading-keyword keyword-blue">finishes</span> work at 5:00 PM. Then, he <span class="reading-keyword keyword-blue">plays</span> football with friends. He <span class="reading-keyword keyword-blue">loves</span> sports.`,
+                    q: 'What does he wear to work?',
+                    options: ['A uniform', 'A suit', 'Jeans', 'A T-shirt'],
                     answer: 1,
-                    tts: 'He starts work at 9 AM. He likes his job. He finishes at 5 PM.',
-                    explanation: 'The text says "He finishes at 5 PM."',
-                    cefr: 'Can locate time in a schedule.',
-                    focusWords: ['works', 'He', 'starts', 'finishes', 'goes']
+                    tts: 'My brother works in a bank. He wears a suit to work.',
+                    explanation: 'The text says "He wears a suit to work."',
+                    cefr: 'Can locate specific information about clothes/jobs.',
+                    focusWords: ['works', 'wears', 'finishes', 'plays', 'loves']
                 },
                 {
                     id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
-                    text: `My cat <span class="reading-keyword keyword-purple">sleeps</span> a lot. <span class="reading-keyword keyword-blue">It</span> <span class="reading-keyword keyword-purple">sleeps</span> on the sofa. It <span class="reading-keyword keyword-purple">does not</span> sleep on the floor. The dog <span class="reading-keyword keyword-purple">plays</span> with the cat. The dog <span class="reading-keyword keyword-purple">barks</span> <span class="reading-keyword keyword-orange">sometimes</span>.`,
-                    q: 'Where does the cat sleep?',
-                    options: ['On the floor', 'On the sofa', 'In the garden', 'On the bed'],
+                    text: `Mr. Smith <span class="reading-keyword keyword-blue">teaches</span> English. He <span class="reading-keyword keyword-blue">has</span> many students. He <span class="reading-keyword keyword-blue">corrects</span> homework every night. He <span class="reading-keyword keyword-blue">helps</span> students learn. He <span class="reading-keyword keyword-blue">watches</span> TV in the evening.`,
+                    q: 'What does Mr. Smith teach?',
+                    options: ['Math', 'English', 'Science', 'History'],
                     answer: 1,
-                    tts: 'My cat sleeps a lot. It sleeps on the sofa.',
-                    explanation: 'The text says "It sleeps on the sofa."',
-                    cefr: 'Can locate position in text.',
-                    focusWords: ['sleeps', 'It', 'does not', 'plays', 'barks']
+                    tts: 'Mr. Smith teaches English. He has many students.',
+                    explanation: 'The text says "Mr. Smith teaches English."',
+                    cefr: 'Can identify professions and actions.',
+                    focusWords: ['teaches', 'has', 'corrects', 'helps', 'watches']
                 },
                 {
                     id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `<span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">study</span> English <span class="reading-keyword keyword-orange">every morning</span>. <span class="reading-keyword keyword-purple">They</span> <span class="reading-keyword keyword-purple">study</span> Math. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">read</span> the book. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">watches</span> TV. <span class="reading-keyword keyword-orange">Always</span> focus!`,
-                    q: 'Who watches TV?',
-                    options: ['We', 'They', 'I', 'She'],
-                    answer: 3,
-                    tts: 'She watches TV.',
-                    explanation: 'The text says "She watches TV."',
-                    cefr: 'Can identify specific actions per subject.',
-                    focusWords: ['We', 'study', 'They', 'read', 'watches', 'Always']
+                    text: `I <span class="reading-keyword keyword-purple">study</span> every morning. My sister <span class="reading-keyword keyword-blue">studies</span> at night. I <span class="reading-keyword keyword-purple">play</span> tennis. She <span class="reading-keyword keyword-blue">plays</span> the piano. We <span class="reading-keyword keyword-purple">have</span> different habits. She <span class="reading-keyword keyword-orange">always</span> <span class="reading-keyword keyword-blue">reads</span> before bed.`,
+                    q: 'When does the sister study?',
+                    options: ['In the morning', 'At night', 'In the afternoon', 'On weekends'],
+                    answer: 1,
+                    tts: 'My sister studies at night.',
+                    explanation: 'The text says "My sister studies at night."',
+                    cefr: 'Can compare routines between two people.',
+                    focusWords: ['study', 'studies', 'play', 'plays', 'always', 'reads']
                 },
                 {
                     id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
-                    text: `He <span class="reading-keyword keyword-purple">teaches</span> <span class="reading-keyword keyword-orange">Math</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">explains</span> the lesson well. The students <span class="reading-keyword keyword-purple">listen</span> <span class="reading-keyword keyword-orange">carefully</span>. <span class="reading-keyword keyword-blue">We</span> <span class="reading-keyword keyword-purple">write</span> notes.`,
-                    q: 'What subject does he teach?',
-                    options: ['English', 'Math', 'Science', 'History'],
-                    answer: 1,
-                    tts: 'He teaches Math. He explains the lesson well.',
-                    explanation: 'The text says "He teaches Math."',
-                    cefr: 'Can identify school subjects.',
-                    focusWords: ['teaches', 'He', 'explains', 'listen', 'write']
+                    text: `John is a chef. He <span class="reading-keyword keyword-blue">cooks</span> delicious food. He <span class="reading-keyword keyword-blue">starts</span> work early. He <span class="reading-keyword keyword-blue">washes</span> vegetables. He <span class="reading-keyword keyword-blue">makes</span> soup. He <span class="reading-keyword keyword-blue">cleans</span> the kitchen after work.`,
+                    q: 'What is John\'s job?',
+                    options: ['Doctor', 'Teacher', 'Chef', 'Driver'],
+                    answer: 2,
+                    tts: 'John is a chef. He cooks delicious food.',
+                    explanation: 'The text says "John is a chef."',
+                    cefr: 'Can identify the main topic of the text.',
+                    focusWords: ['cooks', 'starts', 'washes', 'makes', 'cleans']
                 },
                 {
                     id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
-                    text: `Tom <span class="reading-keyword keyword-purple">lives</span> in London. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">doesn't</span> <span class="reading-keyword keyword-purple">like</span> rain. <span class="reading-keyword keyword-orange">Usually</span>, <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">walks</span> to work. But today <span class="reading-keyword keyword-blue">he</span> <span class="reading-keyword keyword-purple">takes</span> the bus.`,
-                    q: 'How does he usually go to work?',
-                    options: ['By car', 'Walks', 'By bus', 'By train'],
+                    text: `The cat <span class="reading-keyword keyword-blue">sleeps</span> all day. It <span class="reading-keyword keyword-blue">eats</span> fish. It <span class="reading-keyword keyword-blue">drinks</span> milk. It <span class="reading-keyword keyword-blue">catches</span> mice. The cat <span class="reading-keyword keyword-orange">usually</span> <span class="reading-keyword keyword-blue">stays</span> inside the house.`,
+                    q: 'What does the cat catch?',
+                    options: ['Birds', 'Mice', 'Fish', 'Balls'],
                     answer: 1,
-                    tts: 'Usually, he walks to work.',
-                    explanation: 'The text says "Usually, he walks to work."',
-                    cefr: 'Can identify habits vs specific events.',
-                    focusWords: ['lives', 'doesn't', 'like', 'Usually', 'walks', 'takes']
+                    tts: 'It catches mice.',
+                    explanation: 'The text says "It catches mice."',
+                    cefr: 'Can identify actions of an animal.',
+                    focusWords: ['sleeps', 'eats', 'drinks', 'catches', 'usually', 'stays']
                 },
                 {
                     id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
-                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">have</span> <span class="reading-keyword keyword-orange">breakfast</span> at 8. <span class="reading-keyword keyword-blue">You</span> <span class="reading-keyword keyword-purple">have</span> lunch at 1. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">has</span> dinner at 7. <span class="reading-keyword keyword-orange">Sometimes</span> we eat pizza.`,
-                    q: 'Who has dinner at 7?',
-                    options: ['I', 'You', 'She', 'We'],
-                    answer: 2,
-                    tts: 'She has dinner at 7.',
-                    explanation: 'The text says "She has dinner at 7."',
-                    cefr: 'Can identify routines of different people.',
-                    focusWords: ['have', 'breakfast', 'has', 'dinner']
+                    text: `My father <span class="reading-keyword keyword-blue">drives</span> a red car. He <span class="reading-keyword keyword-blue">buys</span> gas every week. He <span class="reading-keyword keyword-blue">fixes</span> the car if it breaks. He <span class="reading-keyword keyword-blue">listens</span> to the radio. He <span class="reading-keyword keyword-blue">goes</span> to many places.`,
+                    q: 'What does he listen to?',
+                    options: ['Music', 'The radio', 'Podcasts', 'News'],
+                    answer: 1,
+                    tts: 'He listens to the radio.',
+                    explanation: 'The text says "He listens to the radio."',
+                    cefr: 'Can understand activities related to transport.',
+                    focusWords: ['drives', 'buys', 'fixes', 'listens', 'goes']
                 },
                 {
                     id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
-                    text: `<span class="reading-keyword keyword-blue">My father</span> <span class="reading-keyword keyword-purple">drives</span> a car. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">drives</span> <span class="reading-keyword keyword-orange">fast</span>. <span class="reading-keyword keyword-blue">My mother</span> <span class="reading-keyword keyword-purple">drives</span> a bus. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">drives</span> <span class="reading-keyword keyword-orange">slowly</span>. <span class="reading-keyword keyword-blue">They</span> <span class="reading-keyword keyword-purple">go</span> to work.`,
-                    q: 'Who drives slowly?',
-                    options: ['My father', 'My mother', 'They', 'I'],
+                    text: `Tom <span class="reading-keyword keyword-orange">never</span> <span class="reading-keyword keyword-blue">eats</span> vegetables. He <span class="reading-keyword keyword-orange">always</span> <span class="reading-keyword keyword-blue">eats</span> pizza. He <span class="reading-keyword keyword-orange">sometimes</span> <span class="reading-keyword keyword-blue">drinks</span> soda. This is not healthy. He <span class="reading-keyword keyword-blue">needs</span> to change.`,
+                    q: 'Is Tom\'s diet healthy?',
+                    options: ['Yes, very healthy', 'No, it is not healthy', 'Only on weekends', 'Maybe'],
                     answer: 1,
-                    tts: 'My mother drives a bus. She drives slowly.',
-                    explanation: 'The text says "She drives slowly."',
-                    cefr: 'Can compare descriptions.',
-                    focusWords: ['drives', 'fast', 'slowly', 'go']
+                    tts: 'He never eats vegetables. This is not healthy.',
+                    explanation: 'The text says "This is not healthy."',
+                    cefr: 'Can infer judgment about habits.',
+                    focusWords: ['never', 'eats', 'always', 'sometimes', 'drinks', 'needs']
                 },
                 {
                     id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
-                    text: `<span class="reading-keyword keyword-orange">Every weekend</span>, <span class="reading-keyword keyword-blue">we</span> <span class="reading-keyword keyword-purple">visit</span> the park. <span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">play</span> tennis. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">plays</span> football. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">reads</span> a book. <span class="reading-keyword keyword-blue">It</span> <span class="reading-keyword keyword-purple">is</span> fun.`,
-                    q: 'What does she play?',
-                    options: ['Tennis', 'Football', 'Basketball', 'Baseball'],
-                    answer: 1,
-                    tts: 'She plays football.',
-                    explanation: 'The text says "She plays football."',
-                    cefr: 'Can scan for specific activities.',
-                    focusWords: ['visit', 'play', 'plays', 'reads']
+                    text: `A pilot <span class="reading-keyword keyword-blue">flies</span> a plane. He <span class="reading-keyword keyword-blue">travels</span> to different countries. He <span class="reading-keyword keyword-blue">speaks</span> English. He <span class="reading-keyword keyword-blue">checks</span> the weather. He <span class="reading-keyword keyword-blue">lands</span> the plane safely. It is a hard job.`,
+                    q: 'What does the pilot fly?',
+                    options: ['A helicopter', 'A rocket', 'A plane', 'A car'],
+                    answer: 2,
+                    tts: 'A pilot flies a plane.',
+                    explanation: 'The text says "A pilot flies a plane."',
+                    cefr: 'Can identify the object associated with a profession.',
+                    focusWords: ['flies', 'travels', 'speaks', 'checks', 'lands']
                 },
                 {
                     id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
-                    text: `<span class="reading-keyword keyword-blue">I</span> <span class="reading-keyword keyword-purple">watch</span> the news <span class="reading-keyword keyword-orange">every night</span>. <span class="reading-keyword keyword-blue">She</span> <span class="reading-keyword keyword-purple">watches</span> movies <span class="reading-keyword keyword-orange">often</span>. <span class="reading-keyword keyword-blue">They</span> <span class="reading-keyword keyword-purple">watch</span> cartoons <span class="reading-keyword keyword-orange">on Sundays</span>. <span class="reading-keyword keyword-blue">He</span> <span class="reading-keyword keyword-purple">watches</span> sports <span class="reading-keyword keyword-orange">never</span>.`,
-                    q: 'Who watches sports?',
-                    options: ['I', 'She', 'They', 'He'],
-                    answer: 3,
-                    tts: 'He watches sports never.',
-                    explanation: 'The text says "He watches sports never."',
-                    cefr: 'Can identify frequency and subject.',
-                    focusWords: ['watch', 'watches', 'never', 'often']
+                    text: `She <span class="reading-keyword keyword-blue">brushes</span> her teeth three times a day. She <span class="reading-keyword keyword-blue">washes</span> her hands before eating. She <span class="reading-keyword keyword-blue">cleans</span> her room. She has good hygiene. Her mother <span class="reading-keyword keyword-blue">is</span> happy.`,
+                    q: 'Why is her mother happy?',
+                    options: ['She cooks', 'She has good hygiene', 'She sleeps', 'She plays'],
+                    answer: 1,
+                    tts: 'She has good hygiene. Her mother is happy.',
+                    explanation: 'The text implies her mother is happy because she has good hygiene habits.',
+                    cefr: 'Can connect cause and effect in habits.',
+                    focusWords: ['brushes', 'washes', 'cleans', 'is']
                 }
             ],
 
             // LISTENING: 10 questions
             listening: [
                 { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Which verb do you hear?', tts: 'He runs', options: ['He run', 'He runs', 'He runing', 'He running'], answer: 1, speed: 0.85 },
+                    q: 'Which verb do you hear?', tts: 'He works', options: ['He work', 'He works', 'He working', 'He worker'], answer: 1, speed: 0.85 },
                 { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Listen and choose:', tts: 'She studies', options: ['She study', 'She studies', 'She studys', 'She studing'], answer: 1, speed: 0.85 },
+                    q: 'Listen and choose:', tts: 'She plays tennis', options: ['She play tennis', 'She plays tennis', 'She playing tennis', 'She played tennis'], answer: 1, speed: 0.85 },
                 { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
-                    q: 'Which word do you hear?', tts: 'Works', options: ['Work', 'Works', 'Workes', 'Working'], answer: 1, speed: 0.85 },
+                    q: 'Which word do you hear?', tts: 'I go to school', options: ['I goes to school', 'I going to school', 'I go to school', 'I gone to school'], answer: 2, speed: 0.85 },
                 { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen carefully:', tts: 'He goes to school', options: ['He go to school', 'He goes to school', 'He going to school', 'He gos to school'], answer: 1, speed: 0.85 },
+                    q: 'Listen carefully:', tts: 'He watches TV', options: ['He watch TV', 'He watching TV', 'He watchs TV', 'He watches TV'], answer: 3, speed: 0.85 },
                 { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Does she like music?', tts: 'Yes, she likes', options: ['Yes, she like', 'Yes, she likes', 'No, she likes', 'Yes, she liked'], answer: 1, speed: 0.85 },
+                    q: 'What is missing?', tts: 'Does she like pizza?', options: ['Do she like pizza?', 'Does she like pizza?', 'Is she like pizza?', 'Does she likes pizza?'], answer: 1, speed: 0.85 },
                 { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
-                    q: 'Listen to the sentence:', tts: 'We play football', options: ['We plays football', 'We play football', 'We playing football', 'We played football'], answer: 1, speed: 0.85 },
+                    q: 'Listen to the sentence:', tts: 'It rains a lot', options: ['It rain a lot', 'It raining a lot', 'It rains a lot', 'It rained a lot'], answer: 2, speed: 0.85 },
                 { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
-                    q: 'Which phrase do you hear?', tts: 'He doesn't work here', options: ['He doesn't work here', 'He don't work here', 'He isnt work here', 'He does not work here'], answer: 0, speed: 0.85 },
+                    q: 'Which phrase do you hear?', tts: 'He teaches English', options: ['He teach English', 'He teaches English', 'He teacher English', 'He teaching English'], answer: 1, speed: 0.85 },
                 { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'I walk'", tts: 'He walks', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'She go'", tts: 'She goes', options: ['True', 'False'], answer: 1, speed: 0.85 },
                 { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
-                    q: "True or False: The speaker says 'They run'", tts: 'They run', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                    q: "True or False: The speaker says 'They study'", tts: 'They study', options: ['True', 'False'], answer: 0, speed: 0.85 },
                 { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
-                    q: 'What is the question?', tts: 'Do you like coffee?', options: ['Does you like coffee?', 'Do you like coffee?', 'Are you like coffee?', 'Did you like coffee?'], answer: 1, speed: 0.85 }
+                    q: 'Which is correct?', tts: 'He fix the car', options: ['He fix the car', 'He fixes the car', 'He fixing the car', 'He fixed the car'], answer: 1, speed: 0.85 }
             ],
 
             // SPEAKING: 10 activities
             speaking: [
                 { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "She plays tennis."', model: 'She plays tennis.', expected: 'she plays tennis' },
+                    prompt: 'Repeat: "I wake up at 7."', model: 'I wake up at 7.', expected: 'i wake up at 7' },
                 { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "He works in a bank."', model: 'He works in a bank.', expected: 'he works in a bank' },
+                    prompt: 'Repeat: "She walks to school."', model: 'She walks to school.', expected: 'she walks to school' },
                 { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
-                    prompt: 'Repeat: "They study English."', model: 'They study English.', expected: 'they study english' },
+                    prompt: 'Repeat: "He drinks coffee."', model: 'He drinks coffee.', expected: 'he drinks coffee' },
                 { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
                     scenario: 'Daily Routine',
-                    prompt: 'Say: "I wake up at 7."',
-                    model: 'I wake up at 7.',
-                    expected: 'i wake up at 7' },
+                    prompt: 'Say: "I study English every day."',
+                    model: 'I study English every day.',
+                    expected: 'i study english every day' },
                 { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Habit',
-                    prompt: 'Say: "She eats breakfast."',
-                    model: 'She eats breakfast.',
-                    expected: 'she eats breakfast' },
+                    scenario: 'Habits',
+                    prompt: 'Say: "He plays football on weekends."',
+                    model: 'He plays football on weekends.',
+                    expected: 'he plays football on weekends' },
                 { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
-                    scenario: 'Frequency',
-                    prompt: 'Say: "He always arrives late."',
-                    model: 'He always arrives late.',
-                    expected: 'he always arrives late' },
+                    scenario: 'Likes/Dislikes',
+                    prompt: 'Say: "She likes pizza."',
+                    model: 'She likes pizza.',
+                    expected: 'she likes pizza' },
                 { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of Person Reading]. Say: "He reads books."',
-                    expected: 'he reads books', minWords: 3 },
+                    prompt: 'Describe this: [Image of person running]. Say: "He runs fast."',
+                    expected: 'he runs', minWords: 3 },
                 { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
-                    prompt: 'Describe this: [Image of Person Working]. Say: "She works in an office."',
-                    expected: 'she works in an office', minWords: 4 },
+                    prompt: 'Describe this: [Image of person teaching]. Say: "She teaches students."',
+                    expected: 'she teaches', minWords: 3 },
                 { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'What do you do on weekends? Use simple present verbs.', minWords: 5, expectedPattern: 'i' },
+                    prompt: 'What do you do in the morning? Use "I..." (e.g., I wake up, I eat).', minWords: 5, expectedPattern: 'i wake i eat' },
                 { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your friend\'s job. Use "He/She works..."', minWords: 6, expectedPattern: 'he she works' }
+                    prompt: 'Talk about a friend. Use "He/She..." (e.g., He works, She lives).', minWords: 6, expectedPattern: 'he she' }
             ],
 
             // WRITING: 10 tasks
             writing: [
                 { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "She ____ (play) tennis." (plays)', answer: 'plays', example: 'She plays tennis.' },
+                    prompt: 'Complete: "She ___ to the gym." (go)', answer: 'goes', example: 'She goes to the gym.' },
                 { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "He ____ (work) here." (works)', answer: 'works', example: 'He works here.' },
+                    prompt: 'Complete: "He ___ TV at night." (watch)', answer: 'watches', example: 'He watches TV at night.' },
                 { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
-                    prompt: 'Complete: "They ____ (go) to school." (go)', answer: 'go', example: 'They go to school.' },
+                    prompt: 'Complete: "We ___ English." (study)', answer: 'study', example: 'We study English.' },
                 { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Change to 3rd person singular: "I wake up early." ->', answer: 'He wakes up early', example: 'He wakes up early.' },
+                    prompt: 'Change to Negative: "He plays tennis." ->', answer: 'He does not play tennis', example: 'He does not play tennis.' },
                 { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Make negative: "She likes pizza." ->', answer: 'She does not like pizza', example: 'She does not like pizza.' },
+                    prompt: 'Make a Question: "She works here." ->', answer: 'Does she work here', example: 'Does she work here?' },
                 { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
-                    prompt: 'Make a question: "You live here." ->', answer: 'Do you live here', example: 'Do you live here?' },
+                    prompt: 'Change to "He": "I like pizza." ->', answer: 'He likes pizza', example: 'He likes pizza.' },
                 { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about your morning routine.', example: 'I wake up at 7. I brush my teeth. I eat breakfast.', minLength: 10, maxLength: 60 },
+                    prompt: 'Write about your morning routine. Use "I wake up, I eat..."', example: 'I wake up at 7. I eat toast. I drink coffee.', minLength: 10, maxLength: 50 },
                 { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
-                    prompt: 'Write about what your friend does in the evening.', example: 'He watches TV. He eats dinner at 8.', minLength: 10, maxLength: 60 },
+                    prompt: 'Write 2 things a friend does. Use "He/She...".', example: 'She works in a bank. She drives a car.', minLength: 10, maxLength: 50 },
                 { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Describe your family members and their jobs.', minLength: 25, maxLength: 80 },
+                    prompt: 'Describe your daily routine from morning to night. Use verbs like: go, eat, study, sleep.', minLength: 20, maxLength: 70 },
                 { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
-                    prompt: 'Write about your hobbies and how often you do them.', minLength: 20, maxLength: 70 }
+                    prompt: 'Write about someone in your family. What do they do? Where do they work?', minLength: 25, maxLength: 80 }
             ],
 
-            // VOCABULARY: 30 Words - SIMPLE PRESENT
+            // VOCABULARY: 30 Words - ROUTINE & VERBS
             vocabulary: [
                 { word: 'Wake up', pron: '/weɪk ʌp/', meaning: 'Acordar', example: 'I wake up at 7.' },
-                { word: 'Get up', pron: '/ɡet ʌp/', meaning: 'Levantar', example: 'He gets up late.' },
-                { word: 'Work', pron: '/wɜːrk/', meaning: 'Trabalhar', example: 'She works hard.' },
-                { word: 'Study', pron: '/ˈstʌdi/', meaning: 'Estudar', example: 'We study English.' },
-                { word: 'Play', pron: '/pleɪ/', meaning: 'Brincar/Jogar', example: 'They play soccer.' },
-                { word: 'Eat', pron: '/iːt/', meaning: 'Comer', example: 'I eat an apple.' },
-                { word: 'Drink', pron: '/drɪŋk/', meaning: 'Beber', example: 'He drinks water.' },
-                { word: 'Go', pron: '/ɡoʊ/', meaning: 'Ir', example: 'We go to school.' },
-                { word: 'Come', pron: '/kʌm/', meaning: 'Vir', example: 'She comes home.' },
-                { word: 'Watch', pron: '/wɑːtʃ/', meaning: 'Assistir/Olhar', example: 'He watches TV.' },
-                { word: 'Listen', pron: '/ˈlɪsn/', meaning: 'Ouvir', example: 'They listen to music.' },
+                { word: 'Get up', pron: '/ɡet ʌp/', meaning: 'Levantar', example: 'He gets up early.' },
+                { word: 'Brush', pron: '/brʌʃ/', meaning: 'Escovar', example: 'She brushes her hair.' },
+                { word: 'Wash', pron: '/wɒʃ/', meaning: 'Lavar', example: 'He washes his hands.' },
+                { word: 'Eat', pron: '/iːt/', meaning: 'Comer', example: 'We eat lunch.' },
+                { word: 'Drink', pron: '/drɪŋk/', meaning: 'Beber', example: 'She drinks water.' },
+                { word: 'Go', pron: '/ɡoʊ/', meaning: 'Ir', example: 'He goes to school.' },
+                { word: 'Come', pron: '/kʌm/', meaning: 'Vir', example: 'She comes home late.' },
+                { word: 'Study', pron: '/ˈstʌdi/', meaning: 'Estudar', example: 'I study English.' },
+                { word: 'Work', pron: '/wɜːrk/', meaning: 'Trabalhar', example: 'He works hard.' },
+                { word: 'Play', pron: '/pleɪ/', meaning: 'Jogar/Brincar', example: 'They play football.' },
+                { word: 'Watch', pron: '/wɒtʃ/', meaning: 'Assistir/Olhar', example: 'She watches TV.' },
+                { word: 'Listen', pron: '/ˈlɪsn/', meaning: 'Ouvir', example: 'He listens to music.' },
                 { word: 'Read', pron: '/riːd/', meaning: 'Ler', example: 'I read books.' },
-                { word: 'Write', pron: '/raɪt/', meaning: 'Escrever', example: 'She writes letters.' },
+                { word: 'Write', pron: '/raɪt/', meaning: 'Escrever', example: 'She writes emails.' },
                 { word: 'Speak', pron: '/spiːk/', meaning: 'Falar', example: 'He speaks English.' },
+                { word: 'Cook', pron: '/kʊk/', meaning: 'Cozinhar', example: 'My mom cooks dinner.' },
+                { word: 'Clean', pron: '/kliːn/', meaning: 'Limpar', example: 'He cleans his room.' },
                 { word: 'Sleep', pron: '/sliːp/', meaning: 'Dormir', example: 'The baby sleeps.' },
-                { word: 'Cook', pron: '/kʊk/', meaning: 'Cozinhar', example: 'She cooks dinner.' },
-                word: 'Clean', pron: '/kliːn/', meaning: 'Limpar', example: 'He cleans the room.' },
-                { word: 'Drive', pron: '/draɪv/', meaning: 'Dirigir', example: 'She drives a car.' },
                 { word: 'Run', pron: '/rʌn/', meaning: 'Correr', example: 'He runs fast.' },
-                { word: 'Walk', pron: '/wɔːk/', meaning: 'Caminhar', example: 'We walk to school.' },
-                { word: 'Swim', pron: '/swɪm/', meaning: 'Nadar', example: 'Fish swim in the sea.' },
-                { word: 'Fly', pron: '/flaɪ/', meaning: 'Voar', example: 'Birds fly in the sky.' },
-                { word: 'Start', pron: '/stɑːrt/', meaning: 'Começar', example: 'School starts at 8.' },
-                { word: 'Finish', pron: '/ˈfɪnɪʃ/', meaning: 'Terminar', example: 'The movie finishes at 10.' },
-                { word: 'Live', pron: '/lɪv/', meaning: 'Viver', example: 'We live in Brazil.' },
-                { word: 'Like', pron: '/laɪk/', meaning: 'Gostar', example: 'She likes pizza.' },
-                { word: 'Love', pron: '/lʌv/', meaning: 'Amar', example: 'I love my family.' },
-                { word: 'Have', pron: '/hæv/', meaning: 'Ter', example: 'He has a car.' },
-                { word: 'Understand', pron: '/ˌndərˈstænd/', meaning: 'Entender', example: 'I understand the lesson.' },
-                { word: 'Know', pron: '/noʊ/', meaning: 'Saber', example: 'She knows the answer.' },
-                { word: 'Need', pron: '/niːd/', meaning: 'Precisar', example: 'We need water.' },
-                { word: 'Want', pron: '/wɑːnt/', meaning: 'Querer', example: 'He wants coffee.' },
+                { word: 'Walk', pron: '/wɔːk/', meaning: 'Andar', example: 'She walks to work.' },
+                { word: 'Drive', pron: '/draɪv/', meaning: 'Dirigir', example: 'He drives a car.' },
+                { word: 'Fly', pron: '/flaɪ/', meaning: 'Voar', example: 'Birds fly.' },
                 { word: 'Always', pron: '/ˈɔːlweɪz/', meaning: 'Sempre', example: 'I always drink coffee.' },
-                { word: 'Usually', pron: '/ˈjuːʒuəli/', meaning: 'Geralmente', example: 'He usually takes the bus.' },
-                { word: 'Often', pron: '/ˈɔːfən/', meaning: 'Frequentemente', example: 'We often eat out.' },
-                { word: 'Sometimes', pron: '/ˈsʌmtaɪmz/', meaning: 'Às vezes', example: 'She sometimes forgets.' },
-                { word: 'Never', pron: '/ˈnevər/', meaning: 'Nunca', example: 'I am never late.' }
+                { word: 'Usually', pron: '/ˈjuːʒuəli/', meaning: 'Geralmente', example: 'He usually wakes up early.' },
+                { word: 'Sometimes', pron: '/ˈsʌmtaɪmz/', meaning: 'Às vezes', example: 'I sometimes eat pizza.' },
+                { word: 'Never', pron: '/ˈnevər/', meaning: 'Nunca', example: 'I never smoke.' },
+                { word: 'Start', pron: '/stɑːrt/', meaning: 'Começar', example: 'School starts at 8.' },
+                { word: 'Finish', pron: '/ˈfɪnɪʃ/', meaning: 'Terminar', example: 'We finish at 5.' }
             ],
 
             // GRAMMAR: Simple Present
             grammar: [
                 {
                     id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Affirmative: I/You/We/They + Verb',
+                    title: 'Affirmative: I, You, We, They',
                     explanation: {
-                        theory: 'Use the base form of the verb for I, You, We, and They.',
-                        formula: 'Subject + Verb',
+                        theory: 'For I, You, We, and They, use the verb in its base form. Do not add -s.',
+                        formula: 'I/You/We/They + Verb',
                         examples: [
                             'I play tennis.',
-                            'You run fast.',
+                            'You like coffee.',
                             'We study English.',
-                            'They like pizza.'
+                            'They live in London.'
                         ],
                         exceptions: 'None.',
-                        tip: 'No S at the end of the verb.',
-                        usage: 'Talking about habits for plural subjects and I/You.'
+                        tip: 'Think: "I play, You play". Simple!',
+                        usage: 'Talking about habits with these subjects.'
                     }
                 },
                 {
                     id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
-                    title: 'Affirmative: He/She/It + Verb + S/ES',
+                    title: 'Affirmative: He, She, It',
                     explanation: {
-                        theory: 'Add -S or -ES to the verb for He, She, and It.',
-                        formula: 'Subject + Verb-s/es',
+                        theory: 'For He, She, and It, add -s or -es to the verb. This is 3rd Person Singular.',
+                        formula: 'He/She/It + Verb (-s/-es)',
                         examples: [
-                            'He plays football.',
-                            'She teaches Math.',
-                            'It rains a lot.',
-                            'The bus stops here.'
+                            'He plays tennis.',
+                            'She likes coffee.',
+                            'It runs fast.',
+                            'John watches TV.'
                         ],
-                        exceptions: 'Verbs ending in Y change Y to IES (Fly -> Flies).',
-                        tip: 'He/She/It likes the letter S.',
-                        usage: 'Talking about habits for singular subjects (3rd person).'
+                        exceptions: 'Verbs ending in -o, -ch, -sh, -ss, -x take -es (go -> goes, watch -> watches).',
+                        tip: 'He/She/It likes the letter S!',
+                        usage: 'Talking about other people or things.'
                     }
                 },
                 {
                     id: 'g3', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Negative: Don\'t / Doesn\'t',
+                    title: 'Spelling Rules (-es)',
                     explanation: {
-                        theory: 'Use DO NOT (don\'t) for I/You/We/They. Use DOES NOT (doesn\'t) for He/She/It. The verb stays in base form.',
-                        formula: 'I/You/We/They + do not + Verb\nHe/She/It + does not + Verb',
+                        theory: 'Some verbs need -es instead of just -s.',
+                        formula: 'Verb + o/ch/sh/ss/x + es',
                         examples: [
-                            'I do not like coffee.',
-                            'She does not work here.',
-                            'We do not know him.',
-                            'It does not rain.'
+                            'Go -> Goes',
+                            'Watch -> Watches',
+                            'Wash -> Washes',
+                            'Kiss -> Kisses',
+                            'Fix -> Fixes'
                         ],
-                        exceptions: 'Don\'t is informal. Does not is formal.',
-                        tip: 'Does not helps the verb stay short.',
-                        usage: 'Saying what does NOT happen.'
+                        exceptions: 'None.',
+                        tip: 'If the verb sounds like a "hissing" or "buzzing" sound, add -es.',
+                        usage: 'Correct conjugation.'
                     }
                 },
                 {
                     id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Questions: Do / Does',
+                    title: 'Spelling Rules (-y)',
                     explanation: {
-                        theory: 'Use DO for I/You/We/They. Use DOES for He/She/It. Move the verb to the beginning.',
-                        formula: 'Do/Does + Subject + Verb?',
-                        examples: [
-                            'Do you like pizza?',
-                            'Does she play tennis?',
-                            'Do they live here?',
-                            'Does it work?'
-                        ],
-                        exceptions: 'Don\'t forget the question mark (?).',
-                        tip: 'Does replaces the S/ES on the verb.',
-                        usage: 'Asking for information.'
-                    }
-                },
-                {
-                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Spelling Rules: -ES',
-                    explanation: {
-                        theory: 'Add -ES if the verb ends in -CH, -SH, -S, -X, or -Z.',
-                        formula: 'Verb + es',
-                        examples: [
-                            'Watch -> Watches',
-                            'Go -> Goes',
-                            'Finish -> Finishes',
-                            'Miss -> Misses'
-                        ],
-                        exceptions: 'If the verb ends in consonant + Y, change Y to IES.',
-                        tip: 'Verbs ending in -ch, -sh, -s, -x, -z love -es.',
-                        usage: 'Correct spelling in 3rd person.'
-                    }
-                },
-                {
-                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
-                    title: 'Spelling Rules: -IES',
-                    explanation: {
-                        theory: 'If the verb ends in Consonant + Y, change Y to IES.',
+                        theory: 'For verbs ending in Consonant + Y, change Y to I and add -es.',
                         formula: 'Consonant + y -> ies',
                         examples: [
                             'Study -> Studies',
@@ -722,76 +682,111 @@
                             'Cry -> Cries',
                             'Try -> Tries'
                         ],
-                        exceptions: 'If the verb ends in Vowel + Y, just add -S (Play -> Plays).',
-                        tip: 'Vowel + Y = Just S. Consonant + Y = IES.',
-                        usage: 'Spelling verbs in 3rd person singular.'
+                        exceptions: 'If the verb ends in Vowel + Y, just add -s (Play -> Plays).',
+                        tip: 'The Y turns into I and brings his friends ES.',
+                        usage: 'Verbs like study, fly, cry.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Negative: Don\'t',
+                    explanation: {
+                        theory: 'Use DO NOT (don\'t) for I, You, We, They. The verb stays in the base form.',
+                        formula: 'I/You/We/They + do not (don\'t) + Verb',
+                        examples: [
+                            'I do not like pizza.',
+                            'You don\'t play football.',
+                            'We don\'t watch TV.',
+                            'They don\'t live here.'
+                        ],
+                        exceptions: 'None.',
+                        tip: 'Don\'t = Do not. No changes to the main verb.',
+                        usage: 'Saying what you do not do.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Negative: Doesn\'t',
+                    explanation: {
+                        theory: 'Use DOES NOT (doesn\'t) for He, She, It. IMPORTANT: The verb goes back to the base form (no -s).',
+                        formula: 'He/She/It + does not (doesn\'t) + Verb (base)',
+                        examples: [
+                            'He does not work here.',
+                            'She doesn\'t play tennis.',
+                            'It doesn\'t rain.',
+                            'John doesn\'t like coffee.'
+                        ],
+                        exceptions: 'Never use -s on the verb after doesn\'t.',
+                        tip: 'Doesn\'t kills the -s. (He plays -> He doesn\'t play).',
+                        usage: 'Negative sentences for 3rd person.'
                     }
                 },
                 {
                     id: 'g7', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Short Answers',
+                    title: 'Questions: Do',
                     explanation: {
-                        theory: 'Answer Yes/No questions with "Yes, I do" or "No, he doesn\'t".',
-                        formula: 'Yes/No, + Subject + do/does/don\'t/doesn\'t',
+                        theory: 'Use DO for questions with I, You, We, They. Put DO at the start.',
+                        formula: 'Do + I/You/We/They + Verb?',
                         examples: [
-                            'Do you play? Yes, I do.',
-                            'Does she work? No, she doesn\'t.',
-                            'Do they like it? Yes, they do.',
-                            'Does it rain? No, it doesn\'t.'
+                            'Do you like pizza?',
+                            'Do they live here?',
+                            'Do we have class today?',
+                            'Do I know you?'
                         ],
-                        exceptions: 'Do not repeat the verb "like" or "work" in short answers.',
-                        tip: 'Use the helping verb do/does.',
-                        usage: 'Quick responses to questions.'
+                        exceptions: 'None.',
+                        tip: 'Switch the order: You like -> Do you like?',
+                        usage: 'Asking about habits.'
                     }
                 },
                 {
                     id: 'g8', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Question Words (Wh- Questions)',
+                    title: 'Questions: Does',
                     explanation: {
-                        theory: 'Use What, When, Where, Who, How with Do/Does + Subject + Verb.',
-                        formula: 'Wh-Word + Do/Does + Subject + Verb?',
+                        theory: 'Use DOES for questions with He, She, It. The verb is in the base form.',
+                        formula: 'Does + He/She/It + Verb (base)?',
                         examples: [
-                            'What do you play?',
-                            'Where does he live?',
-                            'When do they start?',
-                            'How does she go?'
+                            'Does he play tennis?',
+                            'Does she work here?',
+                            'Does it rain often?',
+                            'Does John speak English?'
                         ],
-                        exceptions: 'None.',
-                        tip: 'Order: Word -> Do/Does -> Subject -> Verb (base form).',
-                        usage: 'Asking for details about routines.'
+                        exceptions: 'Do not use -s on the main verb.',
+                        tip: 'Does asks the question, the verb answers simply.',
+                        usage: 'Asking about others.'
                     }
                 },
                 {
                     id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Frequency Adverbs',
+                    title: 'Short Answers',
                     explanation: {
-                        theory: 'Adverbs like always, usually, often, sometimes, never show how often something happens. They go before the verb.',
-                        formula: 'Subject + Adverb + Verb',
+                        theory: 'Answer Yes/No questions with "Yes, I do" or "No, I don\'t". Don\'t repeat the full sentence.',
+                        formula: 'Yes, Subject + Aux / No, Subject + Aux + n\'t',
                         examples: [
-                            'I always wake up early.',
-                            'She usually walks to work.',
-                            'We never skip class.',
-                            'They sometimes eat fast food.'
+                            'Do you like coffee? -> Yes, I do.',
+                            'Does she work? -> No, she doesn\'t.',
+                            'Do they play? -> Yes, they do.',
+                            'Does he study? -> No, he doesn\'t.'
                         ],
-                        exceptions: 'Be careful with the position: Before the main verb, after "to be".',
-                        tip: 'Frequency comes first.',
-                        usage: 'Describing habits clearly.'
+                        exceptions: 'None.',
+                        tip: 'Keep it short and simple.',
+                        usage: 'Conversation.'
                     }
                 },
                 {
                     id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
-                    title: 'Do vs Does',
+                    title: 'Frequency Adverbs',
                     explanation: {
-                        theory: 'Use DO for I, You, We, They. Use DOES for He, She, It.',
-                        formula: 'DO (Plural/I/You)\nDOES (Singular/He/She/It)',
+                        theory: 'Words like Always, Usually, Sometimes, Never tell how often something happens. They go BEFORE the main verb.',
+                        formula: 'Subject + Adverb + Verb',
                         examples: [
-                            'Do you play? / Does he play?',
-                            'Do they work? / Does she work?',
-                            'I do like / He does like.'
+                            'I always wake up early.',
+                            'She usually eats breakfast.',
+                            'He never smokes.',
+                            'They sometimes play games.'
                         ],
-                        exceptions: 'Does is the 3rd person singular form of Do.',
-                        tip: 'DOES has an ES, just like verbs.',
-                        usage: 'Forming questions and negatives correctly.'
+                        exceptions: 'After the verb TO BE (I am always happy).',
+                        tip: 'Adverbs of frequency are "timers" for the verb.',
+                        usage: 'Adding detail to habits.'
                     }
                 }
             ]
@@ -952,15 +947,14 @@
 
     // ===== RENDERERS =====
     function renderReading(q) {
-        // Using the enhanced HTML structure for Reading with expanded text
         mainContent.innerHTML = `
             <h1 class="section-title">📖 Reading</h1>
-            <p class="section-subtitle">Read about daily routines and habits</p>
+            <p class="section-subtitle">Read and identify the verbs</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card reading-card">
                 <div class="reading-header">
-                    <div class="reading-label"><i class="fa-solid fa-clock"></i> Daily Context</div>
-                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on Verbs + S/ES</div>
+                    <div class="reading-label"><i class="fa-solid fa-font"></i> Daily Routines</div>
+                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-highlighter"></i> Focus on 3rd Person</div>
                 </div>
                 ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
                 <div class="reading-text rich">${q.text}</div>
@@ -1022,7 +1016,7 @@
     function renderSpeaking(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">💬 Speaking</h1>
-            <p class="section-subtitle">Practice the -s and -es endings</p>
+            <p class="section-subtitle">Practice pronunciation of -s endings</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card" style="text-align:center;">
                 <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
@@ -1044,7 +1038,7 @@
     function renderWriting(q) {
         mainContent.innerHTML = `
             <h1 class="section-title">✍️ Writing</h1>
-            <p class="section-subtitle">Practice writing in Simple Present</p>
+            <p class="section-subtitle">Practice writing Simple Present sentences</p>
             <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
             <div class="card">
                 <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
@@ -1073,7 +1067,7 @@
         const vocabList = lessonData.tabs.vocabulary;
         let html = `
             <h1 class="section-title">📚 Vocabulary Study</h1>
-            <p class="section-subtitle">30 Essential Simple Present Verbs</p>
+            <p class="section-subtitle">30 Essential Words for Routines</p>
             <div class="card">
                 <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
                 <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
@@ -1339,7 +1333,7 @@
                             <div class="report-label">Day Streak</div>
                         </div>
                         <div class="report-item">
-                            <div class="report-value">65</div>
+                            <div class="report-value">60</div>
                             <div class="report-label">Questions Completed</div>
                         </div>
                         <div class="report-item">
@@ -1392,7 +1386,7 @@
     function unlockBadge(id){ console.log(`Badge: ${id}`); }
     
     function getOverallProgress(){
-        const total = 65;
+        const total = 60;
         const rawDone = Object.values(questionIndex).reduce((acc, value) => acc + Number(value || 0), 0);
         const done = Math.max(0, Math.min(rawDone, total));
         const pct = Math.max(0, Math.min(Math.round((done / total) * 100), 100));
@@ -1453,7 +1447,7 @@
         const cost=hintsUsed===0?5:hintsUsed===1?10:20;
         if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
         totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
-        const hints=['Check if the subject is He/She/It. Does it need an "s" at the end?','Is it a routine or a fact? Use Simple Present.','Use DO for I/You/We/They. Use DOES for He/She/It.'];
+        const hints=['Look at the subject. Is it He/She/It? Add -s.','Listen for the "s" sound at the end of the verb.','Is it negative? Use Don\'t or Doesn\'t.'];
         document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
         document.getElementById('hintBox').classList.add('show');
         saveProgress();
