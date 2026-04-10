@@ -1,394 +1,208 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishPath A1 - Time & Clock | Complete Interactive Course</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
-        
-        /* Interactive Subtitle Styles */
-        .subtitle-word {
-            display: inline-block;
-            cursor: pointer;
-            padding: 0 2px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        .subtitle-word:hover {
-            background: rgba(14, 165, 233, 0.3);
-            transform: scale(1.05);
-        }
-        .translation-tooltip {
-            position: fixed;
-            background: #1e293b;
-            color: #f1f5f9;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            z-index: 10000;
-            pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            animation: fadeIn 0.2s ease;
-            font-family: monospace;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Game styles */
-        .drag-drop-area {
-            min-height: 200px;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            padding: 1rem;
-            transition: all 0.2s;
-        }
-        .drag-drop-area.drag-over {
-            border-color: #0ea5e9;
-            background: #f0f9ff;
-        }
-        .draggable-word {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 4px;
-            background: #e0f2fe;
-            border-radius: 20px;
-            cursor: grab;
-            user-select: none;
-            transition: all 0.2s;
-        }
-        .draggable-word:active { cursor: grabbing; }
-        .draggable-word.dragging { opacity: 0.5; }
-        
-        /* Card flip for vocabulary */
-        .vocab-flip-card {
-            background: transparent;
-            width: 100%;
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        .vocab-flip-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .vocab-flip-card.flipped .vocab-flip-inner {
-            transform: rotateY(180deg);
-        }
-        .vocab-flip-front, .vocab-flip-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .vocab-flip-front {
-            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-            color: white;
-        }
-        .vocab-flip-back {
-            background: #f1f5f9;
-            color: #1e293b;
-            transform: rotateY(180deg);
-            border: 2px solid #0ea5e9;
-        }
-        
-        /* Board Game */
-        .board-game {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 8px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .board-cell {
-            aspect-ratio: 1;
-            background: #f1f5f9;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .board-cell.player {
-            background: #0ea5e9;
-            color: white;
-            border-color: #0284c7;
-            box-shadow: 0 0 0 3px #fef3c7;
-        }
-        .board-cell.completed {
-            background: #22c55e;
-            color: white;
-        }
-        
-        /* Other styles */
-        .header, .tabs-container, .main { transition: all 0.3s; }
-        .card { background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-primary { background: #0ea5e9; color: white; }
-        .btn-primary:hover { background: #0284c7; transform: translateY(-2px); }
-        .tab-btn.active { background: #0ea5e9; color: white; }
-        
-        @media (max-width: 768px) {
-            .board-game { grid-template-columns: repeat(4, 1fr); gap: 4px; }
-            .card { padding: 1rem; }
-        }
-    </style>
-</head>
-<body>
-
-<!-- Header -->
-<div class="header bg-white border-b px-4 py-3 flex flex-wrap items-center justify-between sticky top-0 z-50">
-    <div class="logo flex items-center gap-2 cursor-pointer" onclick="goHome()">
-        <i class="fa-solid fa-graduation-cap text-sky-500 text-2xl"></i>
-        <span class="font-extrabold text-xl text-sky-500">EnglishPath</span>
-        <span class="cefr-badge bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full text-xs font-bold">A1</span>
-    </div>
-    
-    <div class="progress-section flex-1 max-w-md mx-4">
-        <div class="progress-bar h-2 bg-gray-200 rounded-full overflow-hidden">
-            <div id="progressBar" class="progress-fill h-full bg-sky-500 transition-all" style="width:0%"></div>
-        </div>
-        <div class="progress-stats flex justify-between text-xs text-gray-500 mt-1">
-            <span><span id="currentQ">0</span>/<span id="totalQ">240</span> atividades</span>
-            <span id="progressPercent">0%</span>
-        </div>
-    </div>
-    
-    <div class="stats flex gap-2">
-        <div class="stat bg-orange-50 px-3 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-fire text-orange-500"></i><span id="streakDisplay">0</span></div>
-        <div class="stat bg-blue-50 px-3 py-1 rounded-full flex items-center gap-1"><i class="fa-solid fa-bolt text-blue-500"></i><span id="xpDisplay">0</span></div>
-        <button class="menu-btn p-2 hover:bg-gray-100 rounded-lg" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-    </div>
-</div>
-
-<!-- Settings Menu -->
-<div id="settingsMenu" class="hidden fixed top-20 right-4 bg-white border rounded-xl shadow-xl p-4 z-50 min-w-48">
-    <div class="settings-item p-2 hover:bg-gray-100 rounded-lg cursor-pointer" onclick="goHome()"><i class="fa-solid fa-house mr-2"></i> Voltar Home</div>
-    <div class="settings-item p-2 hover:bg-gray-100 rounded-lg cursor-pointer" onclick="resetProgress()"><i class="fa-solid fa-rotate-right mr-2"></i> Reiniciar</div>
-    <div class="settings-item p-2 hover:bg-gray-100 rounded-lg cursor-pointer" onclick="toggleVoice()"><i class="fa-solid fa-language mr-2"></i> Voz: <span id="voiceLabel">US</span></div>
-    <div class="settings-item p-2 hover:bg-gray-100 rounded-lg cursor-pointer" onclick="exportData()"><i class="fa-solid fa-download mr-2"></i> Exportar Progresso</div>
-</div>
-
-<!-- Tabs -->
-<div class="tabs-container bg-white border-b sticky top-[73px] z-40 overflow-x-auto">
-    <div class="tabs flex gap-1 px-4 min-w-max">
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video mr-1"></i> Video</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open mr-1"></i> Reading</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones mr-1"></i> Listening</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone mr-1"></i> Speaking</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen mr-1"></i> Writing</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check mr-1"></i> Vocabulary</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book mr-1"></i> Grammar</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="daily" onclick="switchTab('daily')"><i class="fa-solid fa-calendar-day mr-1"></i> Daily</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="story" onclick="switchTab('story')"><i class="fa-solid fa-book-open mr-1"></i> Story</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="mistakes" onclick="switchTab('mistakes')"><i class="fa-solid fa-exclamation-triangle mr-1"></i> Mistakes</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="tenses" onclick="switchTab('tenses')"><i class="fa-solid fa-chart-line mr-1"></i> Tense Map</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="dictation" onclick="switchTab('dictation')"><i class="fa-solid fa-keyboard mr-1"></i> Dictation</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="boardgame" onclick="switchTab('boardgame')"><i class="fa-solid fa-gamepad mr-1"></i> Board Game</button>
-        <button class="tab-btn px-4 py-2 rounded-lg font-semibold" data-tab="translation" onclick="switchTab('translation')"><i class="fa-solid fa-language mr-1"></i> Translation</button>
-    </div>
-</div>
-
-<!-- Main Content -->
-<div id="mainContent" class="main max-w-4xl mx-auto p-6 min-h-[calc(100vh-200px)]"></div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnglishPath A1 - U22: Time & Clock | Ultimate</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script>
-// ============================================
-// COMPLETE LESSON DATA - 240+ ACTIVITIES
-// ============================================
-
-const lessonData = {
-    unitInfo: { level: 'A1', theme: 'Time & Clock', totalActivities: 240 },
+tailwind.config = {
+    theme: {
+        extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            colors: {
+                primary: '#0ea5e9', secondary: '#38bdf8', accent: '#f59e0b',
+                success: '#22c55e', danger: '#ef4444', dark: '#1e293b'
+            }
+        }
+    }
+}
+</script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+    .tab-btn.active { background: #0ea5e9; color: white; box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2); }
+    .option:hover { border-color: #0ea5e9; background: #f0f9ff; transform: translateX(4px); }
+    .option.selected { border-color: #0ea5e9; background: #e0f2fe; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1); }
+    .option.correct { border-color: #22c55e; background: #f0fdf4; }
+    .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
     
-    // VIDEO with interactive subtitles
+    /* Interactive Subtitles */
+    .subtitle-word { display: inline-block; cursor: pointer; padding: 0 2px; border-radius: 4px; transition: all 0.2s; }
+    .subtitle-word:hover { background: rgba(14, 165, 233, 0.3); transform: scale(1.05); }
+    .translation-tooltip { position: fixed; background: #1e293b; color: #f1f5f9; padding: 8px 16px; border-radius: 12px; font-size: 14px; z-index: 10000; pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Vocabulary Flip Card */
+    .vocab-flip-card { perspective: 1000px; cursor: pointer; height: 250px; }
+    .vocab-flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+    .vocab-flip-card.flipped .vocab-flip-inner { transform: rotateY(180deg); }
+    .vocab-flip-front, .vocab-flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; border: 2px solid #e2e8f0; }
+    .vocab-flip-front { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; }
+    .vocab-flip-back { background: white; color: #1e293b; transform: rotateY(180deg); }
+
+    /* Board Game */
+    .board-game { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-width: 600px; margin: 0 auto; }
+    .board-cell { aspect-ratio: 1; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; position: relative; }
+    .board-cell.player { background: #0ea5e9; color: white; border-color: #0284c7; box-shadow: 0 0 0 3px #fef3c7; z-index: 10; }
+    .board-cell.completed { background: #dcfce7; color: #166534; border-color: #22c55e; }
+
+    /* Drag Drop */
+    .draggable-word { display: inline-block; padding: 8px 16px; margin: 4px; background: #e0f2fe; border-radius: 20px; cursor: grab; user-select: none; }
+    .drag-drop-area { min-height: 100px; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 1rem; transition: all 0.2s; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; }
+    .drag-drop-area.drag-over { border-color: #0ea5e9; background: #f0f9ff; }
+
+    .btn-primary { box-shadow: 0 4px 0 #0284c7; }
+    .btn-primary:active { transform: translateY(4px); box-shadow: none; }
+    .enter-hint kbd { background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: monospace; font-weight: 600; border: 1px solid #e2e8f0; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="bg-white border-b sticky top-0 z-50 px-4 py-3 shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+            <i class="fa-solid fa-graduation-cap text-2xl text-sky-500"></i>
+            <span class="font-extrabold text-xl text-sky-600">EnglishPath</span>
+            <span class="bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full text-xs font-bold">A1</span>
+        </div>
+        
+        <div class="flex-1 max-w-md mx-4">
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden mb-1">
+                <div id="progressBar" class="h-full bg-sky-500 transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+                <span><span id="currentQ">0</span>/<span id="totalQ">0</span> atividades</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <div class="bg-orange-50 px-3 py-1 rounded-full flex items-center gap-1 border border-orange-100">
+                <i class="fa-solid fa-fire text-orange-500"></i><span id="streakDisplay" class="font-bold">0</span>
+            </div>
+            <div class="bg-blue-50 px-3 py-1 rounded-full flex items-center gap-1 border border-blue-100">
+                <i class="fa-solid fa-bolt text-blue-500"></i><span id="xpDisplay" class="font-bold">0</span>
+            </div>
+            <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-600" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        </div>
+    </div>
+</header>
+
+<!-- SETTINGS MENU -->
+<div id="settingsMenu" class="hidden fixed top-20 right-4 bg-white border rounded-xl shadow-xl p-4 z-[60] min-w-[200px] animate-fade-in">
+    <div class="space-y-1">
+        <div class="p-2 hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2" onclick="goHome()"><i class="fa-solid fa-house text-gray-400"></i> Voltar Home</div>
+        <div class="p-2 hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2" onclick="resetProgress()"><i class="fa-solid fa-rotate-right text-gray-400"></i> Reiniciar Lição</div>
+        <div class="p-2 hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2" onclick="toggleVoice()"><i class="fa-solid fa-language text-gray-400"></i> Voz: <span id="voiceLabel">US</span></div>
+        <div class="p-2 hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2" onclick="exportData()"><i class="fa-solid fa-download text-gray-400"></i> Exportar Dados</div>
+    </div>
+</div>
+
+<!-- TABS NAVIGATION -->
+<nav class="bg-white border-b sticky top-[73px] z-40 overflow-x-auto hide-scrollbar">
+    <div class="max-w-7xl mx-auto px-2 flex gap-1 min-w-max py-2">
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="daily" onclick="switchTab('daily')"><i class="fa-solid fa-calendar-day"></i> Daily</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="story" onclick="switchTab('story')"><i class="fa-solid fa-book-open-reader"></i> Story</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="mistakes" onclick="switchTab('mistakes')"><i class="fa-solid fa-triangle-exclamation"></i> Mistakes</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="tenses" onclick="switchTab('tenses')"><i class="fa-solid fa-chart-line"></i> Tense Map</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="dictation" onclick="switchTab('dictation')"><i class="fa-solid fa-keyboard"></i> Dictation</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="boardgame" onclick="switchTab('boardgame')"><i class="fa-solid fa-chess-board"></i> Board Game</button>
+        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50 transition flex items-center gap-2" data-tab="translation" onclick="switchTab('translation')"><i class="fa-solid fa-language"></i> Translation</button>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main id="mainContent" class="flex-1 max-w-4xl mx-auto w-full p-4 md:p-6 min-h-[calc(100vh-140px)]">
+    <!-- Content injected via JS -->
+</main>
+
+<!-- FIREBASE & LOGIC -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// ===== CONFIGURAÇÃO FIREBASE =====
+const firebaseConfig = {
+    apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+    authDomain: "englishpath-2d558.firebaseapp.com",
+    projectId: "englishpath-2d558",
+    storageBucket: "englishpath-2d558.firebasestorage.app",
+    messagingSenderId: "384301599670",
+    appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let currentUser = null;
+
+// ===== DADOS DA LIÇÃO (Resumido para caber, mas expansível) =====
+const lessonData = {
+    unitInfo: { level: 'A1', theme: 'Time & Clock', videoId: 'ozKvUYkc5q0' },
     video: {
-        videoId: 'ozKvUYkc5q0',
         subtitles: [
             { start: 0, end: 5, text: "Hello everyone! Welcome to EnglishPath." },
             { start: 5, end: 10, text: "Today we will learn about time and clocks." },
             { start: 10, end: 15, text: "What time is it? It's three o'clock." },
-            { start: 15, end: 20, text: "Let's look at the clock. The short hand shows the hour." },
-            { start: 20, end: 25, text: "The long hand shows the minutes." },
-            { start: 25, end: 30, text: "When the long hand is at 6, it's half past." },
-            { start: 30, end: 35, text: "When the long hand is at 3, it's quarter past." },
-            { start: 35, end: 40, text: "When the long hand is at 9, it's quarter to." },
-            { start: 40, end: 45, text: "Practice saying times every day!" }
+            { start: 15, end: 20, text: "The short hand shows the hour." },
+            { start: 20, end: 25, text: "The long hand shows the minutes." }
         ]
     },
-    
-    // READING: 20 texts with inference questions
-    reading: Array(20).fill().map((_, i) => ({
-        id: `r${i+1}`,
-        difficulty: i < 6 ? 'easy' : i < 12 ? 'medium' : 'hard',
-        xp: i < 6 ? 10 : i < 12 ? 20 : 30,
-        text: i === 0 ? `The clock says <span class="keyword-time">three o'clock</span>. In the morning, I wake up.` :
-              i === 1 ? `It is <span class="keyword-time">half past two</span>. School starts at <span class="keyword-time">quarter past eight</span>.` :
-              i === 2 ? `My watch shows <span class="keyword-time">quarter to five</span>. The bus comes at five o'clock.` :
-              `Time is important. ${['morning','afternoon','evening','night'][i%4]} is special. At ${[7,8,9,10,11,12][i%6]} o'clock, I do activities.`,
-        q: `Question ${i+1}: What time is mentioned?`,
-        options: [`${[3,7,8,9,10,11][i%6]} o'clock`, `Half past ${[1,2,3,4,5][i%5]}`, `Quarter to ${[4,5,6,7,8][i%5]}`, `Quarter past ${[2,3,4,5,6][i%5]}`],
-        answer: i % 4,
-        explanation: `The text shows a specific time.`,
-        inferenceLevel: i > 5 ? 'inferential' : 'literal'
+    reading: Array(10).fill().map((_, i) => ({
+        id: `r${i+1}`, difficulty: i < 3 ? 'easy' : i < 7 ? 'medium' : 'hard', xp: 10,
+        text: i === 0 ? `The clock says <span class="text-sky-600 font-bold">three o'clock</span>. In the morning, I wake up.` : `It is <span class="text-sky-600 font-bold">${['half past two','quarter past six','ten o\'clock'][i%3]}</span>. School starts soon.`,
+        q: "What time is mentioned?",
+        options: ["Three o'clock", "Half past two", "Quarter past six", "Ten o'clock"],
+        answer: i % 4, explanation: "Look at the highlighted text in the reading."
     })),
-    
-    // LISTENING: 20 with accents + background noise
-    listening: Array(20).fill().map((_, i) => ({
-        id: `l${i+1}`,
-        difficulty: i < 6 ? 'easy' : i < 12 ? 'medium' : 'hard',
-        xp: i < 6 ? 10 : i < 12 ? 20 : 30,
-        q: `Listen and choose the correct time.`,
-        tts: `It's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine', 'ten o\'clock', 'half past seven'][i%6]}.`,
-        options: [`${['Three', 'Four', 'Five', 'Six'][i%4]} o'clock`, `Half past ${[1,2,3,4][i%4]}`, `Quarter past ${[5,6,7,8][i%4]}`, `Quarter to ${[8,9,10,11][i%4]}`],
-        answer: i % 3,
-        accent: ['en-US', 'en-GB', 'en-AU'][i % 3],
-        hasBackgroundNoise: i > 9
+    listening: Array(10).fill().map((_, i) => ({
+        id: `l${i+1}`, difficulty: 'easy', xp: 10,
+        tts: `It's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine'][i%4]}.`,
+        q: "Listen and choose:",
+        options: ["Three o'clock", "Half past two", "Quarter past six", "Quarter to nine"],
+        answer: i % 4
     })),
-    
-    // SPEAKING: 20 with phoneme feedback
-    speaking: Array(20).fill().map((_, i) => ({
-        id: `s${i+1}`,
-        difficulty: i < 6 ? 'easy' : i < 12 ? 'medium' : 'hard',
-        xp: i < 6 ? 10 : i < 12 ? 20 : 30,
-        prompt: i < 5 ? `Repeat: "It's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine', 'ten o\'clock'][i]}."` :
-                i < 10 ? `Say: "I ${['wake up', 'eat lunch', 'go home', 'watch TV', 'sleep'][i-5]} at ${[7,12,15,19,22][i-5]} o'clock."` :
-                `Role-play: Ask and answer about the time.`,
-        model: `It's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine'][i%4]}.`,
-        expected: `it's ${['three', 'half past two', 'quarter past six', 'quarter to nine'][i%4]}`,
-        targetPhonemes: ['/θ/', '/hæf/', '/kwɔːrtər/', '/klɒk/'][i%4]
+    speaking: Array(10).fill().map((_, i) => ({
+        id: `s${i+1}`, difficulty: 'medium', xp: 15,
+        prompt: `Repeat: "It's ${['three o\'clock', 'half past two'][i%2]}."`,
+        expected: i % 2 === 0 ? "it's three o'clock" : "it's half past two"
     })),
-    
-    // WRITING: 20 with AI correction suggestions
-    writing: Array(20).fill().map((_, i) => ({
-        id: `w${i+1}`,
-        difficulty: i < 6 ? 'easy' : i < 12 ? 'medium' : 'hard',
-        xp: i < 6 ? 10 : i < 12 ? 20 : 30,
-        prompt: i < 5 ? `Write the time: ${['3:00', '2:30', '6:15', '8:45', '10:00'][i]}` :
-                i < 10 ? `Complete: "I ___ at ___ o'clock."` :
-                `Write 3 sentences about your daily schedule.`,
-        answer: i < 5 ? ['It\'s three o\'clock', 'It\'s half past two', 'It\'s quarter past six', 'It\'s quarter to nine', 'It\'s ten o\'clock'][i] : null,
-        example: `Example: I wake up at seven o'clock.`,
-        minLength: i < 5 ? 5 : i < 10 ? 10 : 30,
-        maxLength: i < 5 ? 50 : i < 10 ? 100 : 200,
-        suggestions: [`Try using "o'clock" for exact hours.`, `Use "half past" for :30.`, `Add more details.`]
+    writing: Array(10).fill().map((_, i) => ({
+        id: `w${i+1}`, difficulty: 'medium', xp: 15,
+        prompt: "Write the time in words: 3:00",
+        answer: "three o'clock", example: "It's three o'clock.", minLength: 5
     })),
-    
-    // VOCABULARY: 60 words with SRS
-    vocabulary: Array(60).fill().map((_, i) => ({
-        word: ['Time', 'Clock', 'Watch', 'Hour', 'Minute', 'O\'clock', 'Half past', 'Quarter past', 'Quarter to', 'Morning', 'Afternoon', 'Evening', 'Night', 'Wake up', 'Breakfast', 'Lunch', 'Dinner', 'School', 'Home', 'Bed', 'Sleep', 'Play', 'Watch TV', 'Homework', 'Bus', 'Movie', 'Read', 'Eat', 'Go', 'Day', 'Week', 'Month', 'Year', 'Second', 'Now', 'Later', 'Early', 'Late', 'Fast', 'Slow', 'Alarm', 'Timer', 'Schedule', 'Routine', 'Activity', 'Event', 'Meeting', 'Appointment', 'Deadline', 'Duration', 'Start', 'Finish', 'Begin', 'End', 'Wait', 'Hurry', 'Punctual', 'Delay', 'Instant', 'Moment'][i],
-        meaning: ['Tempo/Hora', 'Relógio', 'Relógio de pulso', 'Hora', 'Minuto', 'Em ponto', 'Meia e...', 'Quinze e...', 'Quinze para...', 'Manhã', 'Tarde', 'Noite (cedo)', 'Noite (tarde)', 'Acordar', 'Café da manhã', 'Almoço', 'Jantar', 'Escola', 'Casa', 'Cama', 'Dormir', 'Brincar', 'Assistir TV', 'Lição de casa', 'Ônibus', 'Filme', 'Ler', 'Comer', 'Ir', 'Dia', 'Semana', 'Mês', 'Ano', 'Segundo', 'Agora', 'Mais tarde', 'Cedo', 'Tarde', 'Rápido', 'Lento', 'Despertador', 'Temporizador', 'Horário', 'Rotina', 'Atividade', 'Evento', 'Reunião', 'Compromisso', 'Prazo', 'Duração', 'Começar', 'Terminar', 'Iniciar', 'Finalizar', 'Esperar', 'Apressar-se', 'Pontual', 'Atraso', 'Instante', 'Momento'][i],
-        srsLevel: Math.floor(i / 12), // 5 levels
-        imageEmoji: ['⏰', '🕐', '⌚', '⏱️', '⏲️', '🕛', '🕧', '🕒', '🕘', '🌅', '🌞', '🌙', '🌌', '😴', '🍳', '🍱', '🍽️', '📚', '🏠', '🛏️', '💤', '🎮', '📺', '📝', '🚌', '🎬', '📖', '🍽️', '🚶', '📅', '📆', '📅', '🎂', '⏱️', '🔴', '⏩', '🌅', '🌙', '⚡', '🐢', '⏰', '⏲️', '📋', '🔄', '⚽', '📌', '👥', '📅', '⏳', '⏱️', '▶️', '🏁', '▶️', '🏁', '⏳', '🏃', '✅', '⏰', '⚡', '🔵'][i],
-        example: `Example with "${['Time', 'Clock', 'Watch', 'Hour', 'Minute', 'O\'clock', 'Half past', 'Quarter past', 'Quarter to', 'Morning', 'Afternoon', 'Evening', 'Night', 'Wake up', 'Breakfast', 'Lunch', 'Dinner', 'School', 'Home', 'Bed', 'Sleep', 'Play', 'Watch TV', 'Homework', 'Bus', 'Movie', 'Read', 'Eat', 'Go', 'Day', 'Week', 'Month', 'Year', 'Second', 'Now', 'Later', 'Early', 'Late', 'Fast', 'Slow', 'Alarm', 'Timer', 'Schedule', 'Routine', 'Activity', 'Event', 'Meeting', 'Appointment', 'Deadline', 'Duration', 'Start', 'Finish', 'Begin', 'End', 'Wait', 'Hurry', 'Punctual', 'Delay', 'Instant', 'Moment'][i]}": I use it every day.`
+    vocabulary: Array(20).fill().map((_, i) => ({
+        word: ['Time', 'Clock', 'Watch', 'Hour', 'Minute', 'O\'clock', 'Half past', 'Morning', 'Afternoon', 'Night', 'Wake up', 'Sleep', 'Breakfast', 'Lunch', 'Dinner', 'School', 'Bus', 'Late', 'Early', 'Now'][i],
+        meaning: ['Tempo', 'Relógio', 'Relógio pulso', 'Hora', 'Minuto', 'Em ponto', 'Meia e...', 'Manhã', 'Tarde', 'Noite', 'Acordar', 'Dormir', 'Café da manhã', 'Almoço', 'Jantar', 'Escola', 'Ônibus', 'Atrasado', 'Cedo', 'Agora'][i],
+        emoji: ['','🕐','⌚','⏱️','⏲️','🕛','🕧','🌅','🌞','🌙','😴','💤','','🍱','🍽️','📚','🚌','🐢','🐇','🔴'][i]
     })),
-    
-    // GRAMMAR: 20 topics with mini-games
-    grammar: Array(20).fill().map((_, i) => ({
-        id: `g${i+1}`,
-        title: ['It\'s ... o\'clock', 'Half past + hour', 'Quarter past / Quarter to', 'What time is it?', 'in the morning/afternoon', 'At + time', 'Numbers for time', 'To vs Past', 'Digital vs Analog', 'Time in routines', 'Present Simple with time', 'Past time expressions', 'Future time (will)', 'Duration (for/since)', 'Prepositions of time', 'Time clauses (when)', 'Asking for duration', 'Saying approximate time', 'Time adverbs', 'Review: All time expressions'][i],
-        difficulty: i < 6 ? 'easy' : i < 12 ? 'medium' : 'hard',
-        explanation: `Complete explanation for ${['o\'clock usage', 'half past', 'quarter expressions', 'asking time', 'time periods', 'at preposition', 'cardinal numbers', 'to vs past', 'clock types', 'daily routines', 'present simple', 'past time', 'future will', 'duration', 'prepositions', 'time clauses', 'duration questions', 'approximate time', 'adverbs', 'review'][i]}.`,
-        formula: `Formula ${i+1}`,
-        examples: [`Example 1`, `Example 2`, `Example 3`],
-        miniGame: i % 2 === 0 ? 'drag-drop' : 'dialogue-complete'
+    grammar: Array(10).fill().map((_, i) => ({
+        id: `g${i+1}`, title: ['It\'s ... o\'clock', 'Half past', 'Quarter past/to', 'Asking Time', 'In the morning', 'At + time', 'Numbers', 'To vs Past', 'Digital vs Analog', 'Review'][i],
+        explanation: `Rule explanation for ${['exact hours', '30 mins', '15 mins', 'questions', 'periods', 'prepositions', 'cardinals', 'direction', 'types', 'summary'][i]}.`,
+        formula: "Formula here", examples: ["Ex 1", "Ex 2"]
     })),
-    
-    // DAILY QUESTS: 30 challenges
-    dailyQuests: Array(30).fill().map((_, i) => ({
-        id: `dq${i+1}`,
-        title: [`Conjugate 5 verbs in present`, `Use "o'clock" 3 times`, `Ask "What time is it?"`, `Describe your morning`, `Say 3 times in English`, `Record your schedule`, `Write 5 time sentences`, `Learn 10 time words`, `Answer time questions`, `Play time bingo`][i % 10],
-        description: `Complete this daily challenge to earn ${10 + Math.floor(i/3)*5} XP!`,
-        xp: 10 + Math.floor(i/3) * 5,
-        timeLimit: 24, // hours
-        category: ['grammar', 'speaking', 'writing', 'vocabulary'][i % 4]
-    })),
-    
-    // STORY MODE: 10 chapters
-    storyMode: Array(10).fill().map((_, i) => ({
-        id: `ch${i+1}`,
-        title: [`Anna's Morning`, `School Day`, `Lunch Time`, `Afternoon Fun`, `Evening Routine`, `Weekend Plan`, `Birthday Party`, `Doctor Appointment`, `Travel Story`, `Final Challenge`][i],
-        scenes: 3 + Math.floor(i/2),
-        choices: [2, 2, 3, 2, 3, 2, 3, 2, 3, 4][i],
-        xpReward: 50 + i * 10,
-        dialogue: `Chapter ${i+1}: You are the main character. Choose your path wisely!`
-    })),
-    
-    // COMMON MISTAKES: 20 topics for Portuguese speakers
-    commonMistakes: Array(20).fill().map((_, i) => ({
-        id: `cm${i+1}`,
-        portugueseError: [`"Make" vs "Do"`, `"Since" vs "For"`, `Prepositions "in/on/at"`, `Present Perfect confusion`, `"Much" vs "Many"`, `"Say" vs "Tell"`, `"Lend" vs "Borrow"`, `False cognates`, `Word order questions`, `Third person -s`, `Irregular verbs`, `Conditionals`, `Passive voice`, `Modal verbs`, `Gerund vs Infinitive`, `Relative clauses`, `Reported speech`, `Articles (a/an/the)`, `Comparatives`, `Superlatives`][i],
-        correctForm: `Correct usage of ${['make/do', 'since/for', 'in/on/at', 'present perfect', 'much/many', 'say/tell', 'lend/borrow', 'false cognates', 'question order', '-s ending', 'irregular verbs', 'conditionals', 'passive', 'modals', 'gerund', 'relative', 'reported', 'articles', 'comparatives', 'superlatives'][i]}`,
-        explanation: `Portuguese speakers often confuse these. Remember: ${['Make = criar, Do = ação geral', 'Since = ponto inicial, For = duração', 'In = mês/ano, On = dia, At = hora', 'Present Perfect = experiência/resultado', 'Much = incontável, Many = contável', 'Say = conteúdo, Tell = informação a alguém', 'Lend = emprestar (dar), Borrow = pegar emprestado', 'False friends: actually ≠ atualmente', 'Question: verb before subject', 'He/She/It adds -s', 'Go-went-gone', 'If + present, will + base', 'Object becomes subject', 'Can/could/may/might', 'I like swimming vs I want to swim', 'The man who...', 'He said that...', 'A/an (general), The (specific)', '-er for short, more for long', '-est for short, most for long'][i]}`,
-        exercises: 5
-    })),
-    
-    // TENSE MAP: 8 interactive maps
-    tenseMap: Array(8).fill().map((_, i) => ({
-        id: `tm${i+1}`,
-        tense: ['Present Simple', 'Present Continuous', 'Past Simple', 'Past Continuous', 'Present Perfect', 'Future Simple', 'Going to Future', 'Review'][i],
-        timeline: `Timeline for ${['Present Simple', 'Present Continuous', 'Past Simple', 'Past Continuous', 'Present Perfect', 'Future Simple', 'Going to Future', 'All tenses'][i]}`,
-        examples: [`I ${['eat', 'am eating', 'ate', 'was eating', 'have eaten', 'will eat', 'am going to eat', 'various'][i]} at ${[7, 8, 9, 10, 11, 12, 13, 14][i]} o'clock.`],
-        dragDropEnabled: true
-    })),
-    
-    // SMART DICTATION: 30 dictations
-    smartDictation: Array(30).fill().map((_, i) => ({
-        id: `sd${i+1}`,
-        audio: `It's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine', 'ten o\'clock', 'half past seven'][i%6]}. I ${['wake up', 'eat', 'go', 'study', 'play', 'sleep'][i%6]} at ${[7,8,9,10,11,12][i%6]}.`,
-        expected: `it's ${['three o\'clock', 'half past two', 'quarter past six', 'quarter to nine', 'ten o\'clock', 'half past seven'][i%6]} i ${['wake up', 'eat', 'go', 'study', 'play', 'sleep'][i%6]} at ${[7,8,9,10,11,12][i%6]}`,
-        phoneticHints: i > 14,
-        difficulty: i < 10 ? 'easy' : i < 20 ? 'medium' : 'hard'
-    })),
-    
-    // BOARD GAME: 5 boards with 30 cells each
-    boardGame: Array(5).fill().map((_, boardIdx) => ({
-        id: `bg${boardIdx+1}`,
-        name: [`Time Explorer`, `Daily Routine Race`, `Clock Challenge`, `Schedule Master`, `Grammar Grand Prix`][boardIdx],
-        cells: 30,
-        questions: Array(30).fill().map((_, qIdx) => ({
-            text: `Question ${qIdx+1}: What time is ${['breakfast', 'lunch', 'dinner', 'school', 'bed'][qIdx%5]}?`,
-            answer: `${[7,12,18,8,21][qIdx%5]} o'clock`
-        }))
-    })),
-    
-    // TRANSLATION CHALLENGE: 100 sentences
-    translationChallenge: Array(100).fill().map((_, i) => ({
-        id: `tc${i+1}`,
-        portuguese: [`Que horas são?`, `São três horas.`, `São duas e meia.`, `São seis e quinze.`, `São quinze para as nove.`, `Eu acordo às sete.`, `Eu almoço ao meio-dia.`, `Eu vou para casa às três.`, `Eu janto às seis e meia.`, `Eu durmo às dez.`][i % 10],
-        english: [`What time is it?`, `It's three o'clock.`, `It's half past two.`, `It's quarter past six.`, `It's quarter to nine.`, `I wake up at seven.`, `I eat lunch at twelve.`, `I go home at three.`, `I eat dinner at half past six.`, `I sleep at ten.`][i % 10],
-        options: [
-            [`What time is it?`, `What hour is?`, `Which time?`, `Time what?`],
-            [`It's three o'clock`, `It's three hours`, `Three times`, `Hour three`],
-            [`It's half past two`, `Two and half`, `Half two`, `Two thirty`],
-            [`It's quarter past six`, `Six and fifteen`, `Fifteen six`, `Six fifteen`],
-            [`It's quarter to nine`, `Nine less fifteen`, `Eight forty-five`, `Fifteen to nine`]
-        ][i % 5],
-        correctIndex: 0
-    }))
+    daily: Array(5).fill().map((_, i) => ({ title: `Daily Challenge ${i+1}`, xp: 20, desc: "Complete this task!" })),
+    story: Array(5).fill().map((_, i) => ({ title: `Chapter ${i+1}`, dialogue: "You wake up...", choices: ["Check time", "Go back to sleep"] })),
+    mistakes: Array(5).fill().map((_, i) => ({ error: "Make vs Do", correct: "Use 'Do' for activities.", explain: "Common error." })),
+    tenses: Array(5).fill().map((_, i) => ({ tense: "Present Simple", example: "I wake up at 7." })),
+    dictation: Array(10).fill().map((_, i) => ({ audio: "It is three o'clock", expected: "it is three o'clock" })),
+    boardgame: { cells: 20, questions: Array(20).fill({ text: "What time is lunch?", answer: "twelve o'clock" }) },
+    translation: Array(10).fill().map((_, i) => ({ pt: "Que horas são?", en: "What time is it?", options: ["What time is it?", "How are you?", "Where is it?"] }))
 };
 
-// ============================================
-// STATE MANAGEMENT
-// ============================================
+// ===== ESTADO GLOBAL =====
 let currentTab = 'video';
 let questionIndex = {
     video: 0, reading: 0, listening: 0, speaking: 0, writing: 0,
@@ -396,702 +210,388 @@ let questionIndex = {
     tenses: 0, dictation: 0, boardgame: 0, translation: 0
 };
 let totalXP = 0, streak = 0;
-let currentSubtitleIndex = 0;
+let voice = 'en-US', ttsRate = 0.9;
 let recognition = null;
-let srsData = JSON.parse(localStorage.getItem('srsData')) || {};
-let boardGamePositions = JSON.parse(localStorage.getItem('boardGamePositions')) || {};
+let srsData = {}; // Simplificado
 
-// ============================================
-// RENDER FUNCTIONS
-// ============================================
-
-function renderVideo() {
-    const video = lessonData.video;
-    const subtitleText = video.subtitles[currentSubtitleIndex]?.text || '';
-    
-    const html = `
-        <div class="card">
-            <h2 class="text-2xl font-bold mb-4">🎬 Video Lesson with Interactive Subtitles</h2>
-            <p class="text-gray-600 mb-4">🎯 Click ANY word in the subtitle to see translation!</p>
-            <div class="video-container relative pb-[56.25%] h-0 rounded-xl overflow-hidden bg-black">
-                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${video.videoId}?rel=0&enablejsapi=1" frameborder="0" allowfullscreen id="youtubePlayer"></iframe>
-            </div>
-            <div id="subtitleContainer" class="mt-4 p-4 bg-gray-900 text-white rounded-xl text-center text-lg font-mono">
-                <div id="interactiveSubtitle" class="subtitle-line">${subtitleText.split(' ').map(word => `<span class="subtitle-word cursor-pointer hover:bg-sky-500/30 px-1 rounded" onclick="translateWord('${word}')">${word}</span>`).join(' ')}</div>
-            </div>
-            <div class="flex justify-center gap-2 mt-4">
-                <button class="btn btn-secondary" onclick="prevSubtitle()"><i class="fa-solid fa-backward"></i> Previous</button>
-                <button class="btn btn-primary" onclick="nextSubtitle()">Next <i class="fa-solid fa-forward"></i></button>
-            </div>
-            <div class="mt-4 text-center text-gray-500 text-sm">
-                <i class="fa-solid fa-lightbulb"></i> Dica: Clique em qualquer palavra para ver a tradução instantânea!
-            </div>
-        </div>
-        <div class="actions flex justify-center gap-4">
-            <button class="btn btn-primary px-8 py-3 text-lg" onclick="startActivities()">▶ Começar Atividades</button>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderReading() {
-    const idx = questionIndex.reading;
-    if (idx >= lessonData.reading.length) {
-        renderSectionComplete('reading');
-        return;
-    }
-    const q = lessonData.reading[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="badge ${q.difficulty} px-3 py-1 rounded-full text-sm">${q.difficulty.toUpperCase()} • +${q.xp} XP</span>
-                <span class="text-gray-500">${idx+1}/${lessonData.reading.length}</span>
-            </div>
-            <h2 class="text-xl font-bold mb-4">📖 Reading Comprehension</h2>
-            <div class="reading-text bg-gray-50 p-6 rounded-xl text-lg leading-relaxed mb-4">
-                ${q.text}
-            </div>
-            <div class="tts-controls flex gap-2 mb-4">
-                <button class="btn btn-secondary text-sm" onclick="speakText('${q.text.replace(/'/g, "\\'")}')"><i class="fa-solid fa-volume-up"></i> Listen</button>
-                <select id="readingSpeed" class="border rounded-lg px-2 py-1 text-sm" onchange="setReadingSpeed(this.value)">
-                    <option value="0.7">🐢 Slow</option>
-                    <option value="0.85" selected>🐕 Normal</option>
-                    <option value="1">🐇 Fast</option>
-                </select>
-            </div>
-            <h3 class="font-bold text-lg mb-3">${q.q}</h3>
-            <div class="options space-y-3">
-                ${q.options.map((opt, i) => `
-                    <div class="option p-3 border-2 rounded-xl cursor-pointer hover:border-sky-400 transition" onclick="selectReadingOption(${i})" data-opt-index="${i}">
-                        <span class="inline-block w-8 h-8 bg-gray-100 rounded-full text-center leading-8 mr-3">${String.fromCharCode(65+i)}</span>
-                        ${opt}
-                    </div>
-                `).join('')}
-            </div>
-            <div id="readingFeedback" class="mt-4 hidden"></div>
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" id="checkReadingBtn" onclick="checkReading()" disabled>✓ Verificar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('reading')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.currentReadingQ = q;
-    window.readingSelected = null;
-}
-
-function renderListening() {
-    const idx = questionIndex.listening;
-    if (idx >= lessonData.listening.length) {
-        renderSectionComplete('listening');
-        return;
-    }
-    const q = lessonData.listening[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="badge ${q.difficulty} px-3 py-1 rounded-full text-sm">${q.difficulty.toUpperCase()} • +${q.xp} XP</span>
-                <span class="text-gray-500">${idx+1}/${lessonData.listening.length}</span>
-            </div>
-            <h2 class="text-xl font-bold mb-4">🎧 Listening Practice</h2>
-            <div class="text-center mb-6">
-                <button class="btn btn-primary text-2xl px-8 py-4" onclick="playListeningAudio('${q.tts.replace(/'/g, "\\'")}', ${q.hasBackgroundNoise})">
-                    <i class="fa-solid fa-headphones"></i> ▶ Play Audio
-                </button>
-                <div class="mt-2 flex justify-center gap-3">
-                    <select id="accentSelect" class="border rounded-lg px-2 py-1 text-sm" onchange="setAccent(this.value)">
-                        <option value="en-US" ${q.accent === 'en-US' ? 'selected' : ''}>🇺🇸 US English</option>
-                        <option value="en-GB" ${q.accent === 'en-GB' ? 'selected' : ''}>🇬🇧 UK English</option>
-                        <option value="en-AU" ${q.accent === 'en-AU' ? 'selected' : ''}>🇦🇺 Australian</option>
-                    </select>
-                    <label class="flex items-center gap-2 text-sm">
-                        <input type="checkbox" id="bgNoise" onchange="toggleBackgroundNoise(this.checked)"> 🌧 Ruído ambiente
-                    </label>
-                </div>
-            </div>
-            <h3 class="font-bold text-lg mb-3">${q.q}</h3>
-            <div class="options space-y-3">
-                ${q.options.map((opt, i) => `
-                    <div class="option p-3 border-2 rounded-xl cursor-pointer hover:border-sky-400 transition" onclick="selectListeningOption(${i})" data-opt-index="${i}">
-                        <span class="inline-block w-8 h-8 bg-gray-100 rounded-full text-center leading-8 mr-3">${String.fromCharCode(65+i)}</span>
-                        ${opt}
-                    </div>
-                `).join('')}
-            </div>
-            <div id="listeningFeedback" class="mt-4 hidden"></div>
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" id="checkListeningBtn" onclick="checkListening()" disabled>✓ Verificar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('listening')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.currentListeningQ = q;
-    window.listeningSelected = null;
-}
-
-function renderSpeaking() {
-    const idx = questionIndex.speaking;
-    if (idx >= lessonData.speaking.length) {
-        renderSectionComplete('speaking');
-        return;
-    }
-    const q = lessonData.speaking[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="badge ${q.difficulty} px-3 py-1 rounded-full text-sm">${q.difficulty.toUpperCase()} • +${q.xp} XP</span>
-                <span class="text-gray-500">${idx+1}/${lessonData.speaking.length}</span>
-            </div>
-            <h2 class="text-xl font-bold mb-4">🎤 Speaking Practice</h2>
-            <div class="text-center mb-6">
-                <p class="text-lg mb-4">${q.prompt}</p>
-                <button class="btn btn-secondary mb-3" onclick="speakText('${q.model.replace(/'/g, "\\'")}')"><i class="fa-solid fa-volume-up"></i> Ouvir exemplo</button>
-                <div>
-                    <button id="recordBtn" class="w-32 h-32 rounded-full bg-red-500 text-white text-4xl hover:bg-red-600 transition shadow-lg" onclick="toggleSpeakingRecording()">
-                        <i class="fa-solid fa-microphone"></i>
-                    </button>
-                    <p id="recordStatus" class="text-sm text-gray-500 mt-2">Clique no microfone e fale</p>
-                </div>
-                <div id="phonemeFeedback" class="mt-4 p-3 bg-gray-100 rounded-xl hidden"></div>
-            </div>
-            <div class="actions flex gap-3 mt-6 justify-center">
-                <button class="btn btn-primary" id="continueSpeakingBtn" onclick="nextQuestion('speaking')" disabled>✓ Continuar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('speaking')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.currentSpeakingQ = q;
-}
-
-function renderWriting() {
-    const idx = questionIndex.writing;
-    if (idx >= lessonData.writing.length) {
-        renderSectionComplete('writing');
-        return;
-    }
-    const q = lessonData.writing[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="badge ${q.difficulty} px-3 py-1 rounded-full text-sm">${q.difficulty.toUpperCase()} • +${q.xp} XP</span>
-                <span class="text-gray-500">${idx+1}/${lessonData.writing.length}</span>
-            </div>
-            <h2 class="text-xl font-bold mb-4">✍️ Writing Exercise</h2>
-            <p class="font-medium mb-2">${q.prompt}</p>
-            ${q.example ? `<p class="text-gray-500 text-sm mb-3 italic">📝 Exemplo: ${q.example}</p>` : ''}
-            <textarea id="writingInput" class="w-full h-32 p-3 border-2 rounded-xl resize-y" placeholder="Escreva sua resposta aqui..." oninput="checkWritingLength(${q.minLength}, ${q.maxLength})"></textarea>
-            <div class="flex justify-between text-sm text-gray-500 mt-1">
-                <span>Mínimo: ${q.minLength} caracteres</span>
-                <span id="charCount">0</span>
-            </div>
-            <div id="suggestionBox" class="mt-3 p-3 bg-blue-50 rounded-xl hidden">
-                <strong><i class="fa-solid fa-magic"></i> Sugestões de melhoria:</strong>
-                <ul id="suggestionsList" class="mt-2 text-sm"></ul>
-            </div>
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" id="submitWritingBtn" onclick="checkWriting()" disabled>📤 Enviar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('writing')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.currentWritingQ = q;
-}
-
-function renderVocabulary() {
-    const idx = questionIndex.vocabulary;
-    const vocabList = lessonData.vocabulary;
-    
-    if (idx < vocabList.length) {
-        // SRS Flashcard View
-        const word = vocabList[idx];
-        const srsLevel = srsData[word.word] || 0;
-        
-        const html = `
-            <div class="card">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-gray-500">SRS Nível ${srsLevel + 1}/5 • ${idx+1}/${vocabList.length}</span>
-                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">+10 XP</span>
-                </div>
-                <div class="vocab-flip-card" onclick="this.classList.toggle('flipped')">
-                    <div class="vocab-flip-inner">
-                        <div class="vocab-flip-front">
-                            <div class="text-6xl mb-3">${word.imageEmoji}</div>
-                            <div class="text-3xl font-bold">${word.word}</div>
-                            <div class="text-sm opacity-80 mt-2">👆 Clique para ver significado</div>
-                        </div>
-                        <div class="vocab-flip-back">
-                            <div class="text-3xl mb-2">📖</div>
-                            <div class="text-xl font-bold mb-1">${word.meaning}</div>
-                            <div class="text-sm text-gray-600">${word.example}</div>
-                            <button class="btn btn-primary text-sm mt-3" onclick="event.stopPropagation(); speakText('${word.word}')">
-                                <i class="fa-solid fa-volume-up"></i> Ouvir
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-3 mt-6 justify-center">
-                    <button class="btn bg-red-500 text-white" onclick="markVocabKnown(false)"><i class="fa-solid fa-times"></i> Ainda não sei</button>
-                    <button class="btn btn-primary" onclick="markVocabKnown(true)"><i class="fa-solid fa-check"></i> Já sei! ➡️</button>
-                </div>
-            </div>
-        `;
-        document.getElementById('mainContent').innerHTML = html;
-    } else {
-        renderSectionComplete('vocabulary');
-    }
-}
-
-function renderGrammar() {
-    const idx = questionIndex.grammar;
-    if (idx >= lessonData.grammar.length) {
-        renderSectionComplete('grammar');
-        return;
-    }
-    const g = lessonData.grammar[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="badge ${g.difficulty} px-3 py-1 rounded-full text-sm">${g.difficulty.toUpperCase()}</span>
-                <span class="text-gray-500">${idx+1}/${lessonData.grammar.length}</span>
-            </div>
-            <h2 class="text-xl font-bold mb-2">📖 ${g.title}</h2>
-            <div class="grammar-explanation bg-sky-50 p-4 rounded-xl mb-4">
-                <p class="mb-2"><strong>📖 Explicação:</strong> ${g.explanation}</p>
-                <p class="mb-2"><strong>📐 Fórmula:</strong> ${g.formula}</p>
-                <div class="examples bg-white p-3 rounded-lg">
-                    <strong>💡 Exemplos:</strong>
-                    <ul class="list-disc ml-5 mt-1">
-                        ${g.examples.map(ex => `<li>${ex}</li>`).join('')}
-                    </ul>
-                </div>
-            </div>
-            
-            ${g.miniGame === 'drag-drop' ? `
-            <div class="mini-game border-2 border-dashed border-sky-300 rounded-xl p-4">
-                <h3 class="font-bold mb-2">🎮 Mini-Game: Arraste as palavras</h3>
-                <div id="dragWords" class="flex flex-wrap gap-2 mb-3">
-                    ${['o\'clock', 'half', 'quarter', 'past', 'to'].map(w => `<span class="draggable-word" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)" data-word="${w}">${w}</span>`).join('')}
-                </div>
-                <div id="dropZone" class="drag-drop-area min-h-[100px] bg-gray-50 rounded-lg p-3 text-center" ondrop="drop(event)" ondragover="dragOver(event)">
-                    Arraste as palavras para completar: "It's three _____"
-                </div>
-                <button class="btn btn-primary mt-3" onclick="checkDragDrop()">Verificar</button>
-                <div id="dragFeedback" class="mt-2"></div>
-            </div>
-            ` : `
-            <div class="mini-game border-2 border-dashed border-green-300 rounded-xl p-4">
-                <h3 class="font-bold mb-2">🎮 Mini-Game: Complete o diálogo</h3>
-                <div class="dialogue bg-gray-50 p-3 rounded-lg mb-3">
-                    <p>A: "What time is it?"</p>
-                    <p>B: "_____"</p>
-                </div>
-                <select id="dialogueAnswer" class="border rounded-lg p-2 w-full">
-                    <option value="">Selecione...</option>
-                    <option value="It's three o'clock">It's three o'clock</option>
-                    <option value="Half past two">Half past two</option>
-                    <option value="Quarter to nine">Quarter to nine</option>
-                </select>
-                <button class="btn btn-primary mt-3" onclick="checkDialogue()">Verificar</button>
-                <div id="dialogueFeedback" class="mt-2"></div>
-            </div>
-            `}
-            
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" onclick="nextQuestion('grammar')">Próximo tópico ➡️</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderDailyQuests() {
-    const idx = questionIndex.daily;
-    if (idx >= lessonData.dailyQuests.length) {
-        renderSectionComplete('daily');
-        return;
-    }
-    const q = lessonData.dailyQuests[idx];
-    
-    const html = `
-        <div class="card text-center">
-            <div class="text-6xl mb-4">🎯</div>
-            <h2 class="text-2xl font-bold mb-2">Desafio Diário #${idx+1}</h2>
-            <h3 class="text-xl mb-2">${q.title}</h3>
-            <p class="text-gray-600 mb-4">${q.description}</p>
-            <div class="bg-orange-50 p-3 rounded-xl inline-block mx-auto mb-4">
-                <i class="fa-solid fa-gem text-orange-500"></i> Recompensa: ${q.xp} XP
-            </div>
-            <div class="flex gap-3 justify-center">
-                <button class="btn btn-primary" onclick="completeDailyQuest(${q.xp})">✅ Completar Desafio</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('daily')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderStoryMode() {
-    const idx = questionIndex.story;
-    if (idx >= lessonData.storyMode.length) {
-        renderSectionComplete('story');
-        return;
-    }
-    const ch = lessonData.storyMode[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="text-center mb-4">
-                <i class="fa-solid fa-book-open text-5xl text-sky-500"></i>
-                <h2 class="text-2xl font-bold mt-2">📖 ${ch.title}</h2>
-                <span class="text-gray-500">Capítulo ${idx+1} de ${lessonData.storyMode.length}</span>
-            </div>
-            <div class="bg-gradient-to-r from-sky-50 to-indigo-50 p-6 rounded-xl mb-6">
-                <p class="text-lg leading-relaxed">${ch.dialogue}</p>
-            </div>
-            <h3 class="font-bold mb-3">O que você faz?</h3>
-            <div class="space-y-3">
-                ${Array(ch.choices).fill().map((_, i) => `
-                    <div class="choice-option p-3 border-2 rounded-xl cursor-pointer hover:border-sky-400 transition" onclick="selectStoryChoice(${i})">
-                        <span class="inline-block w-8 h-8 bg-gray-100 rounded-full text-center leading-8 mr-3">${String.fromCharCode(65+i)}</span>
-                        Opção ${String.fromCharCode(65+i)}: ${['Perguntar as horas', 'Olhar o relógio', 'Continuar andando', 'Checar o celular', 'Esperar', 'Perguntar a alguém'][i % 6]}
-                    </div>
-                `).join('')}
-            </div>
-            <div id="storyFeedback" class="mt-4 hidden"></div>
-            <div class="actions flex gap-3 mt-6 justify-center">
-                <button class="btn btn-primary" id="continueStoryBtn" onclick="completeStoryChapter(${ch.xpReward})" disabled>▶ Continuar</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.storyChoiceSelected = null;
-}
-
-function renderCommonMistakes() {
-    const idx = questionIndex.mistakes;
-    if (idx >= lessonData.commonMistakes.length) {
-        renderSectionComplete('mistakes');
-        return;
-    }
-    const m = lessonData.commonMistakes[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex items-center gap-3 mb-4">
-                <i class="fa-solid fa-exclamation-triangle text-yellow-500 text-3xl"></i>
-                <h2 class="text-xl font-bold">Erro Comum #${idx+1}</h2>
-            </div>
-            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg mb-4">
-                <p class="font-bold text-red-700">❌ Erro típico de falantes de português:</p>
-                <p class="text-lg">${m.portugueseError}</p>
-            </div>
-            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-4">
-                <p class="font-bold text-green-700">✅ Forma correta:</p>
-                <p class="text-lg">${m.correctForm}</p>
-            </div>
-            <div class="bg-blue-50 p-4 rounded-lg">
-                <p class="font-bold">📖 Explicação:</p>
-                <p>${m.explanation}</p>
-            </div>
-            <div class="actions flex gap-3 mt-6 justify-center">
-                <button class="btn btn-primary" onclick="completeMistakeLesson()">Entendi! ➡️</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderTenseMap() {
-    const idx = questionIndex.tenses;
-    if (idx >= lessonData.tenseMap.length) {
-        renderSectionComplete('tenses');
-        return;
-    }
-    const t = lessonData.tenseMap[idx];
-    
-    const html = `
-        <div class="card">
-            <h2 class="text-xl font-bold mb-4">📊 Mapa de Tempos Verbais: ${t.tense}</h2>
-            <div class="timeline bg-gradient-to-r from-gray-100 to-gray-200 p-6 rounded-xl mb-6 relative">
-                <div class="absolute left-0 right-0 top-1/2 h-1 bg-gray-400"></div>
-                <div class="flex justify-between relative">
-                    <div class="text-center"><span class="bg-white px-2 py-1 rounded shadow">Past</span></div>
-                    <div class="text-center"><span class="bg-white px-2 py-1 rounded shadow">Present</span></div>
-                    <div class="text-center"><span class="bg-white px-2 py-1 rounded shadow">Future</span></div>
-                </div>
-                <div class="mt-8 text-center">
-                    <p class="text-lg font-mono">${t.examples[0]}</p>
-                </div>
-            </div>
-            <div class="drag-drop-activity">
-                <p class="mb-2">Arraste a frase para o tempo verbal correto:</p>
-                <div class="flex gap-4 flex-wrap">
-                    <div class="draggable-sentence p-2 bg-sky-100 rounded cursor-grab" draggable="true" ondragstart="dragSentenceStart(event)" data-tense="present">I eat breakfast at 7am.</div>
-                    <div class="draggable-sentence p-2 bg-sky-100 rounded cursor-grab" draggable="true" ondragstart="dragSentenceStart(event)" data-tense="past">I ate breakfast at 7am yesterday.</div>
-                    <div class="draggable-sentence p-2 bg-sky-100 rounded cursor-grab" draggable="true" ondragstart="dragSentenceStart(event)" data-tense="future">I will eat breakfast at 7am tomorrow.</div>
-                </div>
-                <div class="flex gap-4 mt-4">
-                    <div class="tense-drop-zone w-1/3 p-4 bg-gray-50 border-2 border-dashed rounded-lg text-center" ondrop="dropSentence(event)" ondragover="dragOver(event)" data-target-tense="present">Presente</div>
-                    <div class="tense-drop-zone w-1/3 p-4 bg-gray-50 border-2 border-dashed rounded-lg text-center" ondrop="dropSentence(event)" ondragover="dragOver(event)" data-target-tense="past">Passado</div>
-                    <div class="tense-drop-zone w-1/3 p-4 bg-gray-50 border-2 border-dashed rounded-lg text-center" ondrop="dropSentence(event)" ondragover="dragOver(event)" data-target-tense="future">Futuro</div>
-                </div>
-                <div id="tenseFeedback" class="mt-3"></div>
-                <button class="btn btn-primary mt-3" onclick="checkTenseMap()">Verificar</button>
-            </div>
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" onclick="nextQuestion('tenses')">Próximo Mapa ➡️</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderDictation() {
-    const idx = questionIndex.dictation;
-    if (idx >= lessonData.smartDictation.length) {
-        renderSectionComplete('dictation');
-        return;
-    }
-    const d = lessonData.smartDictation[idx];
-    
-    const html = `
-        <div class="card">
-            <h2 class="text-xl font-bold mb-4">🎧 Smart Dictation #${idx+1}</h2>
-            <div class="text-center mb-6">
-                <button class="btn btn-primary text-2xl px-8 py-4" onclick="playDictationAudio('${d.audio.replace(/'/g, "\\'")}')">
-                    <i class="fa-solid fa-ear-listen"></i> ▶ Ouvir Áudio
-                </button>
-                ${d.phoneticHints ? `<p class="text-sm text-gray-500 mt-2">🔊 Dica fonética: Preste atenção nos sons /θ/ e /hæf/</p>` : ''}
-            </div>
-            <textarea id="dictationInput" class="w-full h-32 p-3 border-2 rounded-xl resize-y" placeholder="Digite o que você ouviu..."></textarea>
-            <div id="dictationFeedback" class="mt-4 hidden"></div>
-            <div class="actions flex gap-3 mt-6">
-                <button class="btn btn-primary" onclick="checkDictation('${d.expected.replace(/'/g, "\\'")}')">✓ Verificar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('dictation')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderBoardGame() {
-    const boardIdx = questionIndex.boardgame;
-    if (boardIdx >= lessonData.boardGame.length) {
-        renderSectionComplete('boardgame');
-        return;
-    }
-    const board = lessonData.boardGame[boardIdx];
-    const playerPos = boardGamePositions[board.id] || 0;
-    const currentQuestion = board.questions[playerPos];
-    
-    const html = `
-        <div class="card">
-            <h2 class="text-xl font-bold mb-2 text-center">🎲 ${board.name}</h2>
-            <p class="text-center text-gray-500 mb-4">Jogador está na casa ${playerPos + 1} de ${board.cells}</p>
-            
-            <div class="board-game grid grid-cols-6 gap-2 mb-6">
-                ${Array(board.cells).fill().map((_, i) => `
-                    <div class="board-cell ${i === playerPos ? 'player' : ''} ${i < playerPos ? 'completed' : ''}">
-                        ${i + 1}
-                    </div>
-                `).join('')}
-            </div>
-            
-            <div class="bg-sky-50 p-4 rounded-xl mb-4">
-                <p class="font-bold mb-2">📌 Pergunta atual:</p>
-                <p class="text-lg">${currentQuestion.text}</p>
-                <input type="text" id="boardAnswer" class="w-full p-2 border rounded-lg mt-2" placeholder="Sua resposta...">
-                <button class="btn btn-primary mt-3" onclick="checkBoardAnswer('${currentQuestion.answer.replace(/'/g, "\\'")}', '${board.id}')">Responder</button>
-                <div id="boardFeedback" class="mt-2"></div>
-            </div>
-            
-            <div class="actions flex gap-3 justify-center">
-                <button class="btn btn-secondary" onclick="resetBoardGame('${board.id}')">🔄 Reiniciar Jogo</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function renderTranslation() {
-    const idx = questionIndex.translation;
-    if (idx >= lessonData.translationChallenge.length) {
-        renderSectionComplete('translation');
-        return;
-    }
-    const t = lessonData.translationChallenge[idx];
-    
-    const html = `
-        <div class="card">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-500">Desafio ${idx+1} de ${lessonData.translationChallenge.length}</span>
-                <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">+15 XP</span>
-            </div>
-            <h2 class="text-xl font-bold mb-4">🌐 Tradução Contextual</h2>
-            <div class="bg-gray-100 p-6 rounded-xl text-center mb-6">
-                <p class="text-gray-500 text-sm">🇧🇷 Português</p>
-                <p class="text-2xl font-bold">${t.portuguese}</p>
-                <p class="text-gray-500 text-sm mt-4">🇺🇸 Inglês</p>
-                <div class="options space-y-2 mt-3">
-                    ${t.options.map((opt, i) => `
-                        <div class="translation-option p-3 border-2 rounded-xl cursor-pointer hover:border-purple-400 transition" onclick="selectTranslationOption(${i})" data-opt-index="${i}">
-                            ${opt}
-                        </div>
-                    `).join('')}
-                </div>
-                <div id="translationFeedback" class="mt-4 hidden"></div>
-            </div>
-            <div class="actions flex gap-3 justify-center">
-                <button class="btn btn-primary" id="checkTranslationBtn" onclick="checkTranslation(${t.correctIndex})" disabled>✓ Verificar</button>
-                <button class="btn btn-secondary" onclick="skipQuestion('translation')">⏭ Pular</button>
-            </div>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-    window.currentTranslationQ = t;
-    window.translationSelected = null;
-}
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-function renderSectionComplete(section) {
-    const nextSections = ['video', 'reading', 'listening', 'speaking', 'writing', 'vocabulary', 'grammar', 'daily', 'story', 'mistakes', 'tenses', 'dictation', 'boardgame', 'translation'];
-    const currentIdx = nextSections.indexOf(section);
-    const nextSection = nextSections[currentIdx + 1];
-    
-    const html = `
-        <div class="card text-center">
-            <i class="fa-solid fa-check-circle text-green-500 text-6xl mb-4"></i>
-            <h2 class="text-2xl font-bold mb-2">Seção Concluída! 🎉</h2>
-            <p class="text-gray-600 mb-6">Parabéns! Você completou todas as atividades desta seção.</p>
-            ${nextSection ? `<button class="btn btn-primary" onclick="switchTab('${nextSection}')">Próxima Seção: ${nextSection.toUpperCase()} ➡️</button>` : 
-                            `<button class="btn btn-primary" onclick="showFinalCompletion()">🏆 Ver Certificado Final</button>`}
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function showFinalCompletion() {
-    const total = totalXP;
-    const html = `
-        <div class="card text-center">
-            <i class="fa-solid fa-crown text-yellow-500 text-7xl mb-4"></i>
-            <h2 class="text-3xl font-bold mb-2">🎓 PARABÉNS!</h2>
-            <p class="text-xl mb-2">Você completou todas as ${lessonData.unitInfo.totalActivities} atividades!</p>
-            <p class="text-gray-600 mb-4">Total de XP conquistado: ${total}</p>
-            <div class="bg-gradient-to-r from-sky-500 to-purple-500 text-white p-6 rounded-xl mb-6">
-                <i class="fa-solid fa-download mr-2"></i> Seu certificado está disponível!
-            </div>
-            <button class="btn btn-primary" onclick="goHome()">Voltar para Home</button>
-        </div>
-    `;
-    document.getElementById('mainContent').innerHTML = html;
-}
-
-function addXP(amount) {
-    totalXP += amount;
-    streak++;
-    document.getElementById('xpDisplay').textContent = totalXP;
-    document.getElementById('streakDisplay').textContent = streak;
-    updateProgress();
-    saveProgress();
-}
-
-function updateProgress() {
-    let totalDone = 0;
-    let totalAvailable = 0;
-    
-    for (const [key, value] of Object.entries(lessonData)) {
-        if (Array.isArray(value)) {
-            totalAvailable += value.length;
-            totalDone += Math.min(questionIndex[key] || 0, value.length);
+// ===== INICIALIZAÇÃO =====
+onAuthStateChanged(auth, async (user) => {
+    currentUser = user || null;
+    if (user) {
+        const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            totalXP = Number(data.totalXP || 0);
+            streak = Number(data.streak || 0);
+            // Carregar progresso específico da unidade u22
+            if(data.progresso) {
+                Object.keys(questionIndex).forEach(key => {
+                    if(typeof data.progresso[`u22_${key}`] === 'number') {
+                        questionIndex[key] = data.progresso[`u22_${key}`];
+                    }
+                });
+            }
         }
     }
-    
-    const percent = totalAvailable > 0 ? (totalDone / totalAvailable) * 100 : 0;
-    document.getElementById('progressBar').style.width = `${percent}%`;
-    document.getElementById('currentQ').textContent = totalDone;
-    document.getElementById('totalQ').textContent = totalAvailable;
-    document.getElementById('progressPercent').textContent = `${Math.round(percent)}%`;
-}
+    updateStats();
+    switchTab('video');
+});
 
-function saveProgress() {
-    localStorage.setItem('englishPath_progress', JSON.stringify({
-        questionIndex, totalXP, streak, srsData, boardGamePositions
-    }));
-}
-
-function loadProgress() {
-    const saved = localStorage.getItem('englishPath_progress');
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            Object.assign(questionIndex, data.questionIndex);
-            totalXP = data.totalXP || 0;
-            streak = data.streak || 0;
-            if (data.srsData) srsData = data.srsData;
-            if (data.boardGamePositions) boardGamePositions = data.boardGamePositions;
-            document.getElementById('xpDisplay').textContent = totalXP;
-            document.getElementById('streakDisplay').textContent = streak;
-        } catch(e) {}
-    }
+// ===== NAVEGAÇÃO E RENDERIZAÇÃO =====
+window.switchTab = (tab) => {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.classList.add('active');
+    renderCurrentTab();
     updateProgress();
-}
-
-// ============================================
-// INTERACTIVE FUNCTIONS
-// ============================================
-
-window.translateWord = async (word) => {
-    // Remove punctuation
-    const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
-    
-    // Simple translation dictionary for time words
-    const translations = {
-        'hello': 'olá', 'everyone': 'todos', 'welcome': 'bem-vindo', 'to': 'para',
-        'today': 'hoje', 'we': 'nós', 'will': 'vamos', 'learn': 'aprender',
-        'about': 'sobre', 'time': 'tempo/hora', 'and': 'e', 'clocks': 'relógios',
-        'what': 'qual', 'is': 'é', 'it': 'isto', 'three': 'três', "o'clock": 'em ponto',
-        "let's": 'vamos', 'look': 'olhar', 'at': 'em', 'the': 'o/a', 'clock': 'relógio',
-        'short': 'curto/pequeno', 'hand': 'ponteiro', 'shows': 'mostra', 'hour': 'hora',
-        'long': 'longo', 'minutes': 'minutos', 'when': 'quando', 'half': 'meia',
-        'past': 'passado/depois', 'quarter': 'quarto/15 minutos'
-    };
-    
-    const translation = translations[cleanWord] || `[${cleanWord}]`;
-    
-    // Create tooltip
-    const tooltip = document.createElement('div');
-    tooltip.className = 'translation-tooltip';
-    tooltip.innerHTML = `<strong>${word}</strong><br>➡️ ${translation}`;
-    document.body.appendChild(tooltip);
-    
-    // Position near click
-    const event = window.event;
-    tooltip.style.left = (event.clientX + 10) + 'px';
-    tooltip.style.top = (event.clientY - 40) + 'px';
-    
-    // Remove after 2 seconds
-    setTimeout(() => tooltip.remove(), 2000);
 };
 
-window.speakText = (text) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ''));
-    utterance.lang = document.getElementById('accentSelect')?.value || 'en-US';
-    utterance.rate = 0.85;
-    window.speechSynthesis.speak(utterance);
+function renderCurrentTab() {
+    const main = document.getElementById('mainContent');
+    const idx = questionIndex[currentTab];
+    const sectionData = lessonData[currentTab];
+
+    // Verifica se completou a seção
+    if (Array.isArray(sectionData) && idx >= sectionData.length) {
+        renderSectionComplete(currentTab);
+        return;
+    }
+
+    switch(currentTab) {
+        case 'video': renderVideo(main); break;
+        case 'reading': renderReading(main, sectionData[idx]); break;
+        case 'listening': renderListening(main, sectionData[idx]); break;
+        case 'speaking': renderSpeaking(main, sectionData[idx]); break;
+        case 'writing': renderWriting(main, sectionData[idx]); break;
+        case 'vocabulary': renderVocabulary(main, sectionData[idx]); break;
+        case 'grammar': renderGrammar(main, sectionData[idx]); break;
+        case 'daily': renderDaily(main, sectionData[idx]); break;
+        case 'story': renderStory(main, sectionData[idx]); break;
+        case 'mistakes': renderMistakes(main, sectionData[idx]); break;
+        case 'tenses': renderTenses(main, sectionData[idx]); break;
+        case 'dictation': renderDictation(main, sectionData[idx]); break;
+        case 'boardgame': renderBoardGame(main); break;
+        case 'translation': renderTranslation(main, sectionData[idx]); break;
+        default: main.innerHTML = `<div class="text-center p-10">Conteúdo não encontrado.</div>`;
+    }
+}
+
+// ===== RENDERIZADORES ESPECÍFICOS =====
+
+function renderVideo(container) {
+    const sub = lessonData.video.subtitles[questionIndex.video] || lessonData.video.subtitles[0];
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-bold mb-4 text-sky-600">🎬 Video Lesson</h2>
+            <div class="aspect-video bg-black rounded-xl overflow-hidden mb-4 relative">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/${lessonData.unitInfo.videoId}?rel=0" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="bg-gray-900 text-white p-4 rounded-xl text-center text-lg font-mono mb-4">
+                ${sub.text.split(' ').map(w => `<span class="subtitle-word" onclick="translateWord('${w}')">${w}</span>`).join(' ')}
+            </div>
+            <div class="flex justify-center gap-4">
+                <button class="btn btn-secondary px-6 py-3 rounded-xl font-bold border border-gray-300" onclick="prevSubtitle()">⬅ Anterior</button>
+                <button class="btn btn-primary px-6 py-3 rounded-xl font-bold text-white" onclick="nextSubtitle()">Próximo ➡</button>
+            </div>
+            <div class="mt-6 text-center">
+                <button class="btn btn-primary w-full py-4 text-lg" onclick="startActivities()">▶ Iniciar Atividades Completas</button>
+            </div>
+        </div>
+    `;
+}
+
+function renderReading(container, q) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">READING • +${q.xp} XP</span>
+                <span class="text-gray-400 text-sm">${questionIndex.reading + 1}/${lessonData.reading.length}</span>
+            </div>
+            <div class="prose max-w-none mb-6 bg-gray-50 p-6 rounded-xl border-l-4 border-sky-400">
+                ${q.text}
+            </div>
+            <h3 class="font-bold text-lg mb-3">${q.q}</h3>
+            <div class="grid gap-3 mb-6">
+                ${q.options.map((opt, i) => `
+                    <div class="option p-4 border-2 rounded-xl cursor-pointer transition flex items-center gap-3" onclick="selectOption(${i})">
+                        <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center font-bold text-sm">${String.fromCharCode(65+i)}</span>
+                        ${opt}
+                    </div>
+                `).join('')}
+            </div>
+            <div id="feedback" class="hidden p-4 rounded-xl mb-4"></div>
+            <div class="flex justify-between items-center mt-6">
+                <button class="btn btn-secondary px-4 py-2 rounded-lg" onclick="retrySection('reading')">🔄 Refazer</button>
+                <div class="flex gap-2">
+                    <button class="btn btn-primary px-6 py-2 rounded-lg font-bold text-white" id="checkBtn" onclick="checkAnswer()" disabled>Verificar</button>
+                </div>
+            </div>
+            <div class="enter-hint text-center text-gray-400 text-xs mt-2">Pressione <kbd>Enter</kbd> para verificar</div>
+        </div>
+    `;
+    window.selectedOption = null;
+}
+
+function renderListening(container, q) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div class="mb-6">
+                <button class="w-20 h-20 rounded-full bg-sky-500 text-white text-3xl hover:bg-sky-600 transition shadow-lg mx-auto flex items-center justify-center" onclick="playAudio('${q.tts.replace(/'/g, "\\'")}')">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+                <p class="mt-2 text-gray-500 text-sm">Clique para ouvir</p>
+            </div>
+            <h3 class="font-bold text-lg mb-4">${q.q}</h3>
+            <div class="grid gap-3 mb-6">
+                ${q.options.map((opt, i) => `
+                    <div class="option p-4 border-2 rounded-xl cursor-pointer transition" onclick="selectOption(${i})">${opt}</div>
+                `).join('')}
+            </div>
+            <div id="feedback" class="hidden p-4 rounded-xl mb-4"></div>
+            <div class="flex justify-between items-center">
+                <button class="btn btn-secondary px-4 py-2 rounded-lg" onclick="retrySection('listening')">🔄 Refazer</button>
+                <button class="btn btn-primary px-6 py-2 rounded-lg font-bold text-white" id="checkBtn" onclick="checkAnswer()" disabled>Verificar</button>
+            </div>
+             <div class="enter-hint text-center text-gray-400 text-xs mt-2">Pressione <kbd>Enter</kbd> para verificar</div>
+        </div>
+    `;
+    window.selectedOption = null;
+}
+
+function renderSpeaking(container, q) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <h3 class="font-bold text-lg mb-2">🎤 Speaking Practice</h3>
+            <p class="text-gray-600 mb-6 text-lg">${q.prompt}</p>
+            <button class="w-24 h-24 rounded-full bg-red-500 text-white text-3xl hover:bg-red-600 transition shadow-lg mx-auto flex items-center justify-center mb-4" id="recordBtn" onclick="toggleRecording('${q.expected}')">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <p id="recordStatus" class="text-gray-500 mb-4">Clique e fale...</p>
+            <div id="scoreDisplay" class="text-2xl font-bold mb-4 hidden"></div>
+            <div class="flex justify-center gap-2">
+                 <button class="btn btn-secondary px-4 py-2 rounded-lg" onclick="retrySection('speaking')">🔄 Refazer</button>
+                 <button class="btn btn-primary px-6 py-2 rounded-lg font-bold text-white" id="continueBtn" onclick="nextQuestion()" disabled>Continuar ➡</button>
+            </div>
+             <div class="enter-hint text-center text-gray-400 text-xs mt-2">Pressione <kbd>Enter</kbd> para continuar</div>
+        </div>
+    `;
+}
+
+function renderWriting(container, q) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="font-bold text-lg mb-2">✍️ Writing</h3>
+            <p class="text-gray-600 mb-4">${q.prompt}</p>
+            <textarea id="writingInput" class="w-full p-4 border-2 rounded-xl focus:border-sky-500 outline-none resize-none h-32" placeholder="Type your answer here..."></textarea>
+            <div class="flex justify-end text-xs text-gray-400 mt-1"><span id="charCount">0</span> chars</div>
+            <div id="feedback" class="hidden p-4 rounded-xl my-4"></div>
+            <div class="flex justify-between items-center mt-4">
+                <button class="btn btn-secondary px-4 py-2 rounded-lg" onclick="retrySection('writing')">🔄 Refazer</button>
+                <button class="btn btn-primary px-6 py-2 rounded-lg font-bold text-white" id="checkBtn" onclick="checkWriting()" disabled>Enviar</button>
+            </div>
+             <div class="enter-hint text-center text-gray-400 text-xs mt-2">Pressione <kbd>Enter</kbd> para enviar</div>
+        </div>
+    `;
+    document.getElementById('writingInput').addEventListener('input', (e) => {
+        document.getElementById('charCount').innerText = e.target.value.length;
+        document.getElementById('checkBtn').disabled = e.target.value.length < (q.minLength || 1);
+    });
+}
+
+function renderVocabulary(container, item) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <h3 class="font-bold text-lg mb-6"> Vocabulary Flashcard</h3>
+            <div class="vocab-flip-card mx-auto max-w-sm" onclick="this.classList.toggle('flipped')">
+                <div class="vocab-flip-inner">
+                    <div class="vocab-flip-front">
+                        <div class="text-6xl mb-4">${item.emoji}</div>
+                        <div class="text-3xl font-bold">${item.word}</div>
+                        <div class="text-sm opacity-80 mt-2">(Clique para virar)</div>
+                    </div>
+                    <div class="vocab-flip-back">
+                        <div class="text-3xl mb-2">📖</div>
+                        <div class="text-xl font-bold mb-2">${item.meaning}</div>
+                        <button class="btn btn-secondary text-sm mt-2" onclick="event.stopPropagation(); playAudio('${item.word}')"> Ouvir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4 mt-8 justify-center">
+                <button class="btn bg-red-100 text-red-600 hover:bg-red-200 px-6 py-3 rounded-xl font-bold" onclick="markVocab(false)">Ainda não sei</button>
+                <button class="btn btn-primary px-6 py-3 rounded-xl font-bold text-white" onclick="markVocab(true)">Já sei! ➡</button>
+            </div>
+        </div>
+    `;
+}
+
+function renderGrammar(container, g) {
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="font-bold text-2xl mb-4 text-sky-600">📖 ${g.title}</h3>
+            <div class="bg-sky-50 p-6 rounded-xl mb-6 border border-sky-100">
+                <p class="mb-3"><strong>Regra:</strong> ${g.explanation}</p>
+                <p class="font-mono bg-white p-2 rounded border text-center text-sky-700">${g.formula}</p>
+                <ul class="list-disc ml-5 mt-3 space-y-1">
+                    ${g.examples.map(ex => `<li>${ex}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="flex justify-end">
+                <button class="btn btn-primary px-6 py-3 rounded-xl font-bold text-white" onclick="nextQuestion()">Entendi, Próximo ➡</button>
+            </div>
+             <div class="enter-hint text-center text-gray-400 text-xs mt-2">Pressione <kbd>Enter</kbd> para continuar</button>
+        </div>
+    `;
+}
+
+// Renderizadores simplificados para outras abas (Daily, Story, etc) seguem padrão similar
+function renderDaily(c, d) { c.innerHTML = `<div class="text-center p-10 bg-white rounded-2xl shadow"><h2 class="text-2xl font-bold mb-2">🎯 ${d.title}</h2><p class="mb-6">${d.desc}</p><button class="btn btn-primary px-6 py-3 rounded-xl text-white font-bold" onclick="completeTask('daily', ${d.xp})">Completar (+${d.xp} XP)</button></div>`; }
+function renderStory(c, s) { c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow"><h2 class="text-xl font-bold mb-4">📖 ${s.title}</h2><p class="mb-4">${s.dialogue}</p><div class="space-y-2">${s.choices.map(ch => `<button class="w-full p-3 border rounded hover:bg-gray-50 text-left" onclick="completeTask('story', 20)">${ch}</button>`).join('')}</div></div>`; }
+function renderMistakes(c, m) { c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow"><h2 class="text-xl font-bold mb-4 text-red-500">⚠️ ${m.error}</h2><p class="mb-2"><strong>Errado:</strong> ${m.error}</p><p class="mb-4 text-green-600"><strong>Correto:</strong> ${m.correct}</p><p class="text-sm text-gray-500 mb-6">${m.explain}</p><button class="btn btn-primary px-6 py-2 rounded text-white" onclick="nextQuestion()">Entendi</button></div>`; }
+function renderTenses(c, t) { c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow text-center"><h2 class="text-xl font-bold mb-4">⏳ ${t.tense}</h2><p class="text-2xl font-mono mb-6">${t.example}</p><button class="btn btn-primary px-6 py-2 rounded text-white" onclick="nextQuestion()">Próximo</button></div>`; }
+function renderDictation(c, d) { 
+    c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow text-center">
+        <h2 class="text-xl font-bold mb-4">🎧 Dictation</h2>
+        <button class="btn btn-secondary mb-4" onclick="playAudio('${d.audio}')">🔊 Ouvir</button>
+        <input type="text" id="dictInput" class="border p-3 rounded w-full mb-4" placeholder="Digite o que ouviu...">
+        <button class="btn btn-primary px-6 py-2 rounded text-white" onclick="checkDictation('${d.expected}')">Verificar</button>
+        <div id="fb" class="mt-4"></div>
+    </div>`; 
+}
+function renderBoardGame(c) {
+    const pos = questionIndex.boardgame;
+    c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-bold mb-4 text-center"> Board Game</h2>
+        <div class="board-game mb-6">
+            ${Array(20).fill().map((_, i) => `<div class="board-cell ${i===pos?'player':''} ${i<pos?'completed':''}">${i+1}</div>`).join('')}
+        </div>
+        <div class="bg-gray-50 p-4 rounded mb-4">
+            <p class="font-bold mb-2">Pergunta:</p>
+            <p class="mb-2">${lessonData.boardgame.questions[pos]?.text || "Fim do jogo!"}</p>
+            <input type="text" id="boardInput" class="border p-2 rounded w-full mb-2" placeholder="Resposta...">
+            <button class="btn btn-primary px-4 py-2 rounded text-white text-sm" onclick="checkBoardAnswer()">Responder</button>
+        </div>
+    </div>`;
+}
+function renderTranslation(c, t) {
+    c.innerHTML = `<div class="p-6 bg-white rounded-2xl shadow text-center">
+        <h2 class="text-xl font-bold mb-2">🌐 Translation</h2>
+        <p class="text-2xl mb-6 font-bold text-gray-700">${t.pt}</p>
+        <div class="grid gap-2 max-w-md mx-auto">
+            ${t.options.map(opt => `<button class="p-3 border rounded hover:bg-sky-50 text-left" onclick="checkTranslation(this, '${t.en}')">${opt}</button>`).join('')}
+        </div>
+        <div id="fb" class="mt-4"></div>
+    </div>`;
+}
+
+// ===== LÓGICA DE INTERAÇÃO E VERIFICAÇÃO =====
+
+window.selectOption = (idx) => {
+    if(document.getElementById('feedback').classList.contains('show')) return; // Já respondido
+    window.selectedOption = idx;
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.option')[idx].classList.add('selected');
+    document.getElementById('checkBtn').disabled = false;
+};
+
+window.checkAnswer = () => {
+    const q = lessonData[currentTab][questionIndex[currentTab]];
+    const isCorrect = window.selectedOption === q.answer;
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('hidden');
+    fb.classList.add(isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700');
+    fb.innerHTML = isCorrect ? `<strong>✅ Correto!</strong> ${q.explanation || 'Great job!'}` : `<strong>❌ Incorreto.</strong> A resposta certa era: ${q.options[q.answer]}`;
+    
+    if(isCorrect) {
+        addXP(q.xp);
+        document.getElementById('checkBtn').innerHTML = 'Correto!';
+        setTimeout(() => nextQuestion(), 1500); // Auto-avanço
+    } else {
+        streak = 0; updateStats();
+        document.getElementById('checkBtn').disabled = true;
+        document.getElementById('checkBtn').innerHTML = 'Tentar Novamente';
+        document.getElementById('checkBtn').onclick = () => { retrySection(currentTab); };
+    }
+};
+
+window.checkWriting = () => {
+    const input = document.getElementById('writingInput').value.trim();
+    const q = lessonData.writing[questionIndex.writing];
+    // Validação simples (pode ser melhorada)
+    const isCorrect = input.toLowerCase().includes(q.answer.toLowerCase());
+    const fb = document.getElementById('feedback');
+    fb.classList.remove('hidden');
+    if(isCorrect) {
+        fb.className = 'p-4 rounded-xl mb-4 bg-green-100 text-green-700 show';
+        fb.innerHTML = '<strong>✅ Excelente escrita!</strong>';
+        addXP(q.xp);
+        setTimeout(() => nextQuestion(), 1500);
+    } else {
+        fb.className = 'p-4 rounded-xl mb-4 bg-red-100 text-red-700 show';
+        fb.innerHTML = `<strong>❌ Quase lá.</strong> Tente: "${q.example}"`;
+    }
+};
+
+window.markVocab = (known) => {
+    if(known) addXP(10);
+    nextQuestion();
+};
+
+window.completeTask = (tab, xp) => {
+    addXP(xp);
+    nextQuestion();
+};
+
+window.checkDictation = (expected) => {
+    const val = document.getElementById('dictInput').value.toLowerCase().trim();
+    if(val === expected) {
+        document.getElementById('fb').innerHTML = '<span class="text-green-600 font-bold">✅ Correto!</span>';
+        addXP(15);
+        setTimeout(nextQuestion, 1000);
+    } else {
+        document.getElementById('fb').innerHTML = `<span class="text-red-600">❌ Era: "${expected}"</span>`;
+    }
+};
+
+window.checkBoardAnswer = () => {
+    const val = document.getElementById('boardInput').value.toLowerCase();
+    const ans = lessonData.boardgame.questions[questionIndex.boardgame].answer.toLowerCase();
+    if(val.includes(ans)) {
+        addXP(15);
+        questionIndex.boardgame++;
+        saveProgress();
+        renderBoardGame(document.getElementById('mainContent'));
+    } else {
+        alert('Tente novamente!');
+    }
+};
+
+window.checkTranslation = (btn, correct) => {
+    if(btn.innerText === correct) {
+        btn.classList.add('bg-green-100', 'border-green-500');
+        document.getElementById('fb').innerHTML = '<span class="text-green-600 font-bold">✅ Correct!</span>';
+        addXP(15);
+        setTimeout(nextQuestion, 1000);
+    } else {
+        btn.classList.add('bg-red-100', 'border-red-500');
+        document.getElementById('fb').innerHTML = `<span class="text-red-600">❌ Correct: ${correct}</span>`;
+    }
+};
+
+// ===== CONTROLES GERAIS =====
+
+window.nextQuestion = () => {
+    questionIndex[currentTab]++;
+    saveProgress();
+    renderCurrentTab();
+    updateProgress();
+};
+
+window.retrySection = (tab) => {
+    if(confirm("Reiniciar esta atividade?")) {
+        questionIndex[tab] = 0; // Ou manter índice e apenas limpar estado visual
+        saveProgress();
+        renderCurrentTab();
+    }
 };
 
 window.startActivities = () => {
@@ -1099,516 +599,144 @@ window.startActivities = () => {
 };
 
 window.nextSubtitle = () => {
-    if (currentSubtitleIndex < lessonData.video.subtitles.length - 1) {
-        currentSubtitleIndex++;
-        renderVideo();
+    if(questionIndex.video < lessonData.video.subtitles.length - 1) {
+        questionIndex.video++;
+        renderVideo(document.getElementById('mainContent'));
     }
 };
-
 window.prevSubtitle = () => {
-    if (currentSubtitleIndex > 0) {
-        currentSubtitleIndex--;
-        renderVideo();
+    if(questionIndex.video > 0) {
+        questionIndex.video--;
+        renderVideo(document.getElementById('mainContent'));
     }
 };
 
-// Reading functions
-window.selectReadingOption = (idx) => {
-    window.readingSelected = idx;
-    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('border-sky-400', 'bg-sky-50'));
-    document.querySelectorAll('.option')[idx].classList.add('border-sky-400', 'bg-sky-50');
-    document.getElementById('checkReadingBtn').disabled = false;
-};
-
-window.checkReading = () => {
-    if (window.readingSelected === undefined) return;
-    const q = window.currentReadingQ;
-    const isCorrect = window.readingSelected === q.answer;
-    const feedback = document.getElementById('readingFeedback');
+function renderSectionComplete(tab) {
+    const tabs = ['video','reading','listening','speaking','writing','vocabulary','grammar','daily','story','mistakes','tenses','dictation','boardgame','translation'];
+    const idx = tabs.indexOf(tab);
+    const next = tabs[idx+1];
     
-    if (isCorrect) {
-        feedback.className = 'mt-4 p-3 bg-green-100 text-green-700 rounded-xl';
-        feedback.innerHTML = `✅ Correto! ${q.explanation}`;
-        addXP(q.xp);
-        setTimeout(() => nextQuestion('reading'), 1500);
-    } else {
-        feedback.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-xl';
-        feedback.innerHTML = `❌ Incorreto. Resposta correta: ${q.options[q.answer]}. ${q.explanation}`;
-        streak = 0;
-        document.getElementById('streakDisplay').textContent = streak;
-    }
-    feedback.classList.remove('hidden');
-    document.getElementById('checkReadingBtn').disabled = true;
+    document.getElementById('mainContent').innerHTML = `
+        <div class="text-center p-10 bg-white rounded-2xl shadow-lg border-2 border-sky-100">
+            <i class="fa-solid fa-trophy text-6xl text-yellow-400 mb-4"></i>
+            <h2 class="text-3xl font-bold mb-2">Seção Concluída! 🎉</h2>
+            <p class="text-gray-500 mb-6">Você completou todas as atividades de ${tab.toUpperCase()}.</p>
+            <div class="flex gap-4 justify-center">
+                ${next ? `<button class="btn btn-primary px-6 py-3 rounded-xl text-white font-bold" onclick="switchTab('${next}')">Ir para ${next.toUpperCase()} ➡</button>` : ''}
+                <button class="btn btn-secondary px-6 py-3 rounded-xl font-bold" onclick="retrySection('${tab}')">🔄 Refazer Tudo</button>
+            </div>
+        </div>
+    `;
+}
+
+// ===== ÁUDIO E VOZ =====
+window.playAudio = (text) => {
+    if(!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = voice;
+    u.rate = ttsRate;
+    window.speechSynthesis.speak(u);
 };
 
-// Listening functions
-let listeningAudio = null;
-window.playListeningAudio = (text, hasNoise) => {
-    if (listeningAudio) listeningAudio.pause();
-    speakText(text);
-    if (hasNoise) {
-        // Simulate background noise
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        oscillator.connect(gain);
-        gain.connect(audioContext.destination);
-        gain.gain.value = 0.1;
-        oscillator.frequency.value = 200;
-        oscillator.start();
-        setTimeout(() => oscillator.stop(), 2000);
-    }
-};
-
-window.selectListeningOption = (idx) => {
-    window.listeningSelected = idx;
-    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('border-sky-400', 'bg-sky-50'));
-    document.querySelectorAll('.option')[idx].classList.add('border-sky-400', 'bg-sky-50');
-    document.getElementById('checkListeningBtn').disabled = false;
-};
-
-window.checkListening = () => {
-    if (window.listeningSelected === undefined) return;
-    const q = window.currentListeningQ;
-    const isCorrect = window.listeningSelected === q.answer;
-    const feedback = document.getElementById('listeningFeedback');
+window.toggleRecording = (expected) => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!SR) { alert("Seu navegador não suporta reconhecimento de voz."); return; }
     
-    if (isCorrect) {
-        feedback.className = 'mt-4 p-3 bg-green-100 text-green-700 rounded-xl';
-        feedback.innerHTML = `✅ Correto! +${q.xp} XP`;
-        addXP(q.xp);
-        setTimeout(() => nextQuestion('listening'), 1500);
-    } else {
-        feedback.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-xl';
-        feedback.innerHTML = `❌ Resposta correta: ${q.options[q.answer]}`;
-        streak = 0;
-        document.getElementById('streakDisplay').textContent = streak;
-    }
-    feedback.classList.remove('hidden');
-    document.getElementById('checkListeningBtn').disabled = true;
-};
-
-// Speaking functions
-let mediaRecorder = null;
-let audioChunks = [];
-
-window.toggleSpeakingRecording = () => {
+    const rec = new SR();
+    rec.lang = voice;
     const btn = document.getElementById('recordBtn');
     const status = document.getElementById('recordStatus');
     
-    if (!mediaRecorder) {
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            
-            mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                simulateSpeechRecognition(audioBlob);
-            };
-            
-            mediaRecorder.start();
-            btn.classList.add('bg-red-700', 'animate-pulse');
-            status.textContent = '🎤 Gravando... Fale agora!';
-        });
-    } else {
-        mediaRecorder.stop();
-        mediaRecorder = null;
-        btn.classList.remove('bg-red-700', 'animate-pulse');
-        status.textContent = '✅ Gravação finalizada! Analisando...';
-    }
+    rec.onstart = () => { btn.classList.add('animate-pulse', 'bg-red-600'); status.innerText = "Ouvindo..."; };
+    rec.onend = () => { btn.classList.remove('animate-pulse', 'bg-red-600'); };
+    
+    rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript.toLowerCase();
+        const match = transcript.includes(expected);
+        const scoreDiv = document.getElementById('scoreDisplay');
+        scoreDiv.classList.remove('hidden');
+        scoreDiv.innerHTML = match ? `<span class="text-green-500">✅ ${Math.round(100)}% Match</span>` : `<span class="text-red-500">❌ Ouvi: "${transcript}"</span>`;
+        if(match) {
+            addXP(15);
+            document.getElementById('continueBtn').disabled = false;
+        }
+    };
+    rec.start();
 };
 
-function simulateSpeechRecognition(audioBlob) {
-    const q = window.currentSpeakingQ;
-    const expected = q.expected.toLowerCase();
-    const feedback = document.getElementById('phonemeFeedback');
-    
-    // Simulate phoneme analysis
-    const phonemeScore = Math.random() * 100;
-    const isGood = phonemeScore > 60;
-    
-    feedback.classList.remove('hidden');
-    feedback.innerHTML = `
-        <strong>📊 Análise de pronúncia:</strong><br>
-        🔤 Precisão: ${Math.round(phonemeScore)}%<br>
-        🎯 Fonemas alvo: ${q.targetPhonemes}<br>
-        ${isGood ? '✅ Bom trabalho!' : '🔄 Tente novamente, preste atenção nos sons.'}
-    `;
-    
-    if (isGood) {
-        addXP(q.xp);
-        document.getElementById('continueSpeakingBtn').disabled = false;
-    }
+// ===== UTILITÁRIOS =====
+function addXP(amount) {
+    totalXP += amount;
+    streak++;
+    updateStats();
+    saveProgress();
 }
 
-// Writing functions
-window.checkWritingLength = (min, max) => {
-    const input = document.getElementById('writingInput');
-    const length = input.value.length;
-    const submitBtn = document.getElementById('submitWritingBtn');
-    const charCount = document.getElementById('charCount');
+function updateStats() {
+    document.getElementById('xpDisplay').innerText = totalXP;
+    document.getElementById('streakDisplay').innerText = streak;
+}
+
+function updateProgress() {
+    let total = 0, done = 0;
+    Object.keys(lessonData).forEach(k => {
+        if(Array.isArray(lessonData[k])) {
+            total += lessonData[k].length;
+            done += Math.min(questionIndex[k], lessonData[k].length);
+        }
+    });
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressBar').style.width = `${pct}%`;
+    document.getElementById('currentQ').innerText = done;
+    document.getElementById('totalQ').innerText = total;
+    document.getElementById('progressPercent').innerText = `${pct}%`;
+}
+
+async function saveProgress() {
+    if(!currentUser) return;
+    const updates = {};
+    updates['totalXP'] = totalXP;
+    updates['streak'] = streak;
+    Object.keys(questionIndex).forEach(k => updates[`progresso.u22_${k}`] = questionIndex[k]);
+    await updateDoc(doc(db, "usuarios", currentUser.uid), updates);
+}
+
+window.translateWord = (word) => {
+    const clean = word.replace(/[^\w]/g, '').toLowerCase();
+    const dict = { 'hello':'olá', 'time':'tempo/hora', 'clock':'relógio', 'three':'três', 'o\'clock':'em ponto', 'half':'meia', 'past':'passado/depois', 'quarter':'quarto/15min' };
+    const trans = dict[clean] || `[${clean}]`;
     
-    charCount.textContent = length;
-    submitBtn.disabled = length < min;
+    const tooltip = document.createElement('div');
+    tooltip.className = 'translation-tooltip';
+    tooltip.innerHTML = `<strong>${word}</strong><br>➡️ ${trans}`;
+    document.body.appendChild(tooltip);
     
-    // Show suggestions
-    if (length > 0 && window.currentWritingQ.suggestions) {
-        const suggestionBox = document.getElementById('suggestionBox');
-        const suggestionsList = document.getElementById('suggestionsList');
-        suggestionBox.classList.remove('hidden');
-        suggestionsList.innerHTML = window.currentWritingQ.suggestions.map(s => `<li>💡 ${s}</li>`).join('');
-    }
+    const ev = window.event;
+    tooltip.style.left = (ev.clientX + 10) + 'px';
+    tooltip.style.top = (ev.clientY - 40) + 'px';
+    setTimeout(() => tooltip.remove(), 2000);
 };
 
-window.checkWriting = () => {
-    const input = document.getElementById('writingInput');
-    const q = window.currentWritingQ;
-    
-    if (input.value.length >= q.minLength) {
-        addXP(q.xp);
-        alert(`✅ Escrita enviada! +${q.xp} XP`);
-        nextQuestion('writing');
-    } else {
-        alert(`❌ Mínimo de ${q.minLength} caracteres. Você escreveu ${input.value.length}.`);
-    }
-};
-
-// Vocabulary SRS
-window.markVocabKnown = (known) => {
-    const idx = questionIndex.vocabulary;
-    const word = lessonData.vocabulary[idx];
-    
-    if (known) {
-        srsData[word.word] = Math.min((srsData[word.word] || 0) + 1, 5);
-        addXP(10);
-    } else {
-        srsData[word.word] = Math.max((srsData[word.word] || 0) - 1, 0);
-    }
-    
-    localStorage.setItem('srsData', JSON.stringify(srsData));
-    questionIndex.vocabulary++;
-    saveProgress();
-    renderVocabulary();
-};
-
-// Daily Quests
-window.completeDailyQuest = (xp) => {
-    addXP(xp);
-    questionIndex.daily++;
-    saveProgress();
-    renderDailyQuests();
-};
-
-// Story Mode
-window.selectStoryChoice = (idx) => {
-    window.storyChoiceSelected = idx;
-    document.querySelectorAll('.choice-option').forEach(opt => opt.classList.remove('border-sky-400', 'bg-sky-50'));
-    document.querySelectorAll('.choice-option')[idx].classList.add('border-sky-400', 'bg-sky-50');
-    document.getElementById('continueStoryBtn').disabled = false;
-};
-
-window.completeStoryChapter = (xp) => {
-    if (window.storyChoiceSelected === undefined) {
-        alert('Escolha uma opção primeiro!');
-        return;
-    }
-    addXP(xp);
-    questionIndex.story++;
-    saveProgress();
-    renderStoryMode();
-};
-
-// Common Mistakes
-window.completeMistakeLesson = () => {
-    addXP(20);
-    questionIndex.mistakes++;
-    saveProgress();
-    renderCommonMistakes();
-};
-
-// Drag and Drop for Grammar
-let draggedWord = null;
-window.dragStart = (e) => {
-    draggedWord = e.target.getAttribute('data-word');
-    e.target.classList.add('dragging');
-};
-window.dragEnd = (e) => {
-    e.target.classList.remove('dragging');
-};
-window.dragOver = (e) => {
-    e.preventDefault();
-};
-window.drop = (e) => {
-    e.preventDefault();
-    if (draggedWord) {
-        e.target.innerHTML = `Palavra "${draggedWord}" colocada! ✅`;
-        window.droppedWord = draggedWord;
-    }
-};
-window.checkDragDrop = () => {
-    const feedback = document.getElementById('dragFeedback');
-    if (window.droppedWord === 'o\'clock') {
-        feedback.innerHTML = '✅ Correto! "It\'s three o\'clock" está certo!';
-        addXP(10);
-        setTimeout(() => nextQuestion('grammar'), 1500);
-    } else {
-        feedback.innerHTML = '❌ Tente novamente. A palavra correta é "o\'clock"!';
-    }
-};
-
-// Dialogue completion
-window.checkDialogue = () => {
-    const answer = document.getElementById('dialogueAnswer').value;
-    const feedback = document.getElementById('dialogueFeedback');
-    if (answer === "It's three o'clock") {
-        feedback.innerHTML = '✅ Perfeito! "It\'s three o\'clock" é a resposta correta!';
-        addXP(10);
-        setTimeout(() => nextQuestion('grammar'), 1500);
-    } else {
-        feedback.innerHTML = '❌ Não é bem isso. Tente "It\'s three o\'clock"!';
-    }
-};
-
-// Tense Map
-let draggedSentence = null;
-window.dragSentenceStart = (e) => {
-    draggedSentence = e.target;
-};
-window.dropSentence = (e) => {
-    e.preventDefault();
-    const targetTense = e.target.closest('.tense-drop-zone').getAttribute('data-target-tense');
-    const sentenceTense = draggedSentence.getAttribute('data-tense');
-    
-    if (targetTense === sentenceTense) {
-        e.target.closest('.tense-drop-zone').style.backgroundColor = '#dcfce7';
-        draggedSentence.style.opacity = '0.5';
-        window.tenseScore = (window.tenseScore || 0) + 1;
-    } else {
-        e.target.closest('.tense-drop-zone').style.backgroundColor = '#fee2e2';
-    }
-};
-
-window.checkTenseMap = () => {
-    const feedback = document.getElementById('tenseFeedback');
-    if (window.tenseScore >= 3) {
-        feedback.innerHTML = '✅ Excelente! Você domina os tempos verbais! +20 XP';
-        addXP(20);
-        setTimeout(() => nextQuestion('tenses'), 1500);
-    } else {
-        feedback.innerHTML = '🔄 Continue praticando! Reveja os exemplos.';
-    }
-};
-
-// Dictation
-window.playDictationAudio = (text) => {
-    speakText(text);
-};
-
-window.checkDictation = (expected) => {
-    const input = document.getElementById('dictationInput').value.toLowerCase();
-    const normalizedInput = input.replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-    const normalizedExpected = expected.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-    const feedback = document.getElementById('dictationFeedback');
-    
-    const similarity = normalizedInput.includes(normalizedExpected) || normalizedExpected.includes(normalizedInput);
-    
-    if (similarity || normalizedInput === normalizedExpected) {
-        feedback.className = 'mt-4 p-3 bg-green-100 text-green-700 rounded-xl';
-        feedback.innerHTML = '✅ Ditado correto! +15 XP';
-        addXP(15);
-        setTimeout(() => nextQuestion('dictation'), 1500);
-    } else {
-        feedback.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-xl';
-        feedback.innerHTML = `❌ Resposta esperada: "${expected}"`;
-    }
-    feedback.classList.remove('hidden');
-};
-
-// Board Game
-window.checkBoardAnswer = (correctAnswer, boardId) => {
-    const input = document.getElementById('boardAnswer');
-    const userAnswer = input.value.toLowerCase();
-    const normalizedCorrect = correctAnswer.toLowerCase();
-    
-    if (userAnswer.includes(normalizedCorrect) || normalizedCorrect.includes(userAnswer)) {
-        const newPos = (boardGamePositions[boardId] || 0) + 1;
-        boardGamePositions[boardId] = Math.min(newPos, 29);
-        localStorage.setItem('boardGamePositions', JSON.stringify(boardGamePositions));
-        addXP(15);
-        alert('✅ Resposta correta! Avance uma casa!');
-        renderBoardGame();
-    } else {
-        document.getElementById('boardFeedback').innerHTML = '❌ Resposta incorreta. Tente novamente!';
-    }
-};
-
-window.resetBoardGame = (boardId) => {
-    boardGamePositions[boardId] = 0;
-    localStorage.setItem('boardGamePositions', JSON.stringify(boardGamePositions));
-    renderBoardGame();
-};
-
-// Translation
-window.selectTranslationOption = (idx) => {
-    window.translationSelected = idx;
-    document.querySelectorAll('.translation-option').forEach(opt => opt.classList.remove('border-purple-400', 'bg-purple-50'));
-    document.querySelectorAll('.translation-option')[idx].classList.add('border-purple-400', 'bg-purple-50');
-    document.getElementById('checkTranslationBtn').disabled = false;
-};
-
-window.checkTranslation = (correctIndex) => {
-    const feedback = document.getElementById('translationFeedback');
-    const isCorrect = window.translationSelected === correctIndex;
-    
-    if (isCorrect) {
-        feedback.className = 'mt-4 p-3 bg-green-100 text-green-700 rounded-xl';
-        feedback.innerHTML = '✅ Tradução correta! +15 XP';
-        addXP(15);
-        setTimeout(() => nextQuestion('translation'), 1500);
-    } else {
-        feedback.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded-xl';
-        feedback.innerHTML = `❌ A tradução correta é: "${window.currentTranslationQ.english}"`;
-        streak = 0;
-        document.getElementById('streakDisplay').textContent = streak;
-    }
-    feedback.classList.remove('hidden');
-    document.getElementById('checkTranslationBtn').disabled = true;
-};
-
-// Navigation functions
-window.switchTab = (tab) => {
-    currentTab = tab;
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'bg-sky-500', 'text-white'));
-    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
-    if (activeBtn) {
-        activeBtn.classList.add('active', 'bg-sky-500', 'text-white');
-    }
-    
-    const renderMap = {
-        'video': renderVideo,
-        'reading': renderReading,
-        'listening': renderListening,
-        'speaking': renderSpeaking,
-        'writing': renderWriting,
-        'vocabulary': renderVocabulary,
-        'grammar': renderGrammar,
-        'daily': renderDailyQuests,
-        'story': renderStoryMode,
-        'mistakes': renderCommonMistakes,
-        'tenses': renderTenseMap,
-        'dictation': renderDictation,
-        'boardgame': renderBoardGame,
-        'translation': renderTranslation
-    };
-    
-    if (renderMap[tab]) renderMap[tab]();
-};
-
-window.nextQuestion = (section) => {
-    questionIndex[section]++;
-    saveProgress();
-    const renderMap = {
-        'reading': renderReading,
-        'listening': renderListening,
-        'speaking': renderSpeaking,
-        'writing': renderWriting,
-        'vocabulary': renderVocabulary,
-        'grammar': renderGrammar,
-        'daily': renderDailyQuests,
-        'story': renderStoryMode,
-        'mistakes': renderCommonMistakes,
-        'tenses': renderTenseMap,
-        'dictation': renderDictation,
-        'translation': renderTranslation
-    };
-    if (renderMap[section]) renderMap[section]();
-    updateProgress();
-};
-
-window.skipQuestion = (section) => {
-    questionIndex[section]++;
-    saveProgress();
-    const renderMap = {
-        'reading': renderReading,
-        'listening': renderListening,
-        'speaking': renderSpeaking,
-        'writing': renderWriting,
-        'vocabulary': renderVocabulary,
-        'daily': renderDailyQuests,
-        'story': renderStoryMode,
-        'mistakes': renderCommonMistakes,
-        'tenses': renderTenseMap,
-        'dictation': renderDictation,
-        'translation': renderTranslation
-    };
-    if (renderMap[section]) renderMap[section]();
-    updateProgress();
-};
-
-window.goHome = () => {
-    saveProgress();
-    window.location.href = 'index.html';
-};
-
-window.toggleSettings = () => {
-    document.getElementById('settingsMenu').classList.toggle('hidden');
-};
-
-window.toggleVoice = () => {
-    const currentVoice = document.getElementById('voiceLabel').textContent;
-    const newVoice = currentVoice === 'US' ? 'UK' : 'US';
-    document.getElementById('voiceLabel').textContent = newVoice;
-};
-
-window.resetProgress = () => {
-    if (confirm('Tem certeza que deseja reiniciar todo o progresso?')) {
-        localStorage.clear();
-        location.reload();
-    }
-};
-
-window.exportData = () => {
-    const data = {
-        totalXP,
-        streak,
-        questionIndex,
-        srsData,
-        boardGamePositions,
-        exportDate: new Date().toISOString()
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'englishpath_progress.json';
-    a.click();
-    URL.revokeObjectURL(url);
-};
-
-// Set accent for TTS
-window.setAccent = (accent) => {
-    window.currentAccent = accent;
-};
-
-window.toggleBackgroundNoise = (enabled) => {
-    window.backgroundNoiseEnabled = enabled;
-};
-
-window.setReadingSpeed = (speed) => {
-    window.readingSpeed = parseFloat(speed);
-};
-
-// Initialize
-loadProgress();
-switchTab('video');
-
-// Close settings when clicking outside
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.menu-btn') && !e.target.closest('#settingsMenu')) {
-        document.getElementById('settingsMenu').classList.add('hidden');
+// Tecla ENTER Global
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' && !e.repeat) {
+        const checkBtn = document.getElementById('checkBtn');
+        const continueBtn = document.getElementById('continueBtn');
+        
+        if(checkBtn && !checkBtn.disabled) checkBtn.click();
+        else if(continueBtn && !continueBtn.disabled) continueBtn.click();
+        else if(currentTab === 'grammar' || currentTab === 'video') nextQuestion(); // Avança direto nessas
     }
 });
+
+// Menu Settings
+window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('hidden');
+window.toggleVoice = () => { voice = voice === 'en-US' ? 'en-GB' : 'en-US'; document.getElementById('voiceLabel').innerText = voice === 'en-US' ? 'US' : 'UK'; };
+window.goHome = () => { saveProgress(); window.location.href = 'index.html'; };
+window.resetProgress = () => { if(confirm('Resetar tudo?')) { Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); totalXP=0; streak=0; saveProgress(); location.reload(); } };
+window.exportData = () => { const data = JSON.stringify({xp: totalXP, streak, progress: questionIndex}); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='progress.json'; a.click(); };
+
 </script>
 </body>
 </html>
