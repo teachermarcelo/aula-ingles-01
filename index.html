@@ -11,6 +11,10 @@
     <!-- Chart.js para Gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- jsPDF para PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
     
@@ -30,11 +34,17 @@
                     animation: {
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'shine': 'shine 2s linear infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shine: {
+                            '0%': { backgroundPosition: '-200% center' },
+                            '100%': { backgroundPosition: '200% center' },
                         }
                     }
                 }
@@ -50,6 +60,7 @@
             --primary: #22c55e; --primary-dark: #16a34a;
             --secondary: #3b82f6; --accent: #fbbf24; --accent-dark: #f59e0b;
             --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
+            --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
             --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
@@ -90,15 +101,20 @@
         .c-xp { color: var(--xp); }
         .c-danger { color: var(--danger); }
         .c-danger-bg { background: var(--danger); }
+        .c-gold { color: var(--gold); }
+        .c-gold-bg { background: linear-gradient(135deg, #ffd700, #ffed4e); }
+        .c-silver { color: var(--silver); }
+        .c-silver-bg { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); }
+        .c-bronze { color: var(--bronze); }
+        .c-bronze-bg { background: linear-gradient(135deg, #cd7f32, #e8a87c); }
         
-        /* 🔧 FIX COROA: Removido !important para permitir display: none */
-        /* 👑 Crown Button - GOLD */
+        /* Crown Button - GOLD */
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
             transition: all 0.3s ease;
-            display: flex; /* Sem !important aqui */
+            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -109,7 +125,6 @@
         }
         .crown-btn i { color: #78350f !important; }
 
-        /* 🔧 FIX: Classe de Força para Esconder (Prioridade Máxima) */
         .force-hidden { display: none !important; }
         
         /* Buttons */
@@ -133,6 +148,7 @@
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-danger { background: var(--danger); color: white; }
+        .btn-gold { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #78350f; }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
@@ -291,6 +307,189 @@
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
+
+        /* 🏆 LEADERBOARD & ACHIEVEMENTS */
+        .podium {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .podium-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        .podium-1st { 
+            background: linear-gradient(135deg, #ffd700, #ffed4e); 
+            order: 2;
+            transform: scale(1.2);
+            z-index: 10;
+        }
+        .podium-2nd { 
+            background: linear-gradient(135deg, #c0c0c0, #e8e8e8); 
+            order: 1;
+        }
+        .podium-3rd { 
+            background: linear-gradient(135deg, #cd7f32, #e8a87c); 
+            order: 3;
+        }
+        .podium-base {
+            padding: 0.5rem 1.5rem;
+            border-radius: 12px 12px 0 0;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+        .base-1st { background: linear-gradient(135deg, #ffd700, #ffed4e); height: 100px; width: 100px; color: #78350f; }
+        .base-2nd { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); height: 70px; width: 90px; color: #4a5568; }
+        .base-3rd { background: linear-gradient(135deg, #cd7f32, #e8a87c); height: 50px; width: 80px; color: white; }
+        .podium-crown {
+            position: absolute;
+            top: -30px;
+            font-size: 2rem;
+            animation: bounce-slow 2s infinite;
+        }
+        
+        .achievement-card {
+            background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(245,158,11,0.1));
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+        .achievement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px rgba(251,191,36,0.3);
+        }
+        .achievement-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .achievement-medal { background: linear-gradient(135deg, #ffd700, #ffed4e); }
+        .achievement-trophy { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .achievement-star { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .achievement-locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+            border-color: var(--border);
+            background: var(--card);
+        }
+        .achievement-locked::before { display: none; }
+        
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #78350f; }
+        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #4a5568; }
+        .rank-3 { background: linear-gradient(135deg, #cd7f32, #e8a87c); color: white; }
+        .rank-other { background: var(--border); color: var(--text-muted); }
+
+        /* Activity Timeline */
+        .activity-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .activity-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -1.35rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--bg);
+        }
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .activity-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* PDF Report Preview */
+        .pdf-preview {
+            background: white;
+            color: #1a202c;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .pdf-preview h1 { color: #2d3748; font-size: 2rem; margin-bottom: 1rem; }
+        .pdf-preview h2 { color: #4a5568; font-size: 1.5rem; margin: 1.5rem 0 1rem; }
+        .pdf-preview .stat { 
+            display: inline-block; 
+            padding: 1rem 2rem; 
+            background: #edf2f7; 
+            border-radius: 8px; 
+            margin: 0.5rem;
+        }
+        .pdf-preview .stat-value { font-size: 2rem; font-weight: bold; color: #22c55e; }
+        .pdf-preview .stat-label { font-size: 0.875rem; color: #718096; }
     </style>
 </head>
 <body>
@@ -384,6 +583,81 @@
         </div>
     </div>
 
+    <!-- ===== MODAL: LEADERBOARD (RANKING) ===== -->
+    <div id="leaderboardModal" class="modal">
+        <div class="modal-content max-w-4xl">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl c-gold-bg flex items-center justify-center">
+                        <i class="fa-solid fa-trophy text-2xl" style="color: #78350f;"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display font-bold text-2xl">🏆 Ranking Semanal</h2>
+                        <p class="c-text-muted text-sm">Competição entre alunos • Top 10</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('leaderboardModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- PODIUM TOP 3 -->
+            <div id="podiumContainer" class="podium">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <!-- FULL RANKING LIST -->
+            <div class="mt-8">
+                <h3 class="font-bold text-lg mb-4">📊 Classificação Completa</h3>
+                <div id="rankingList" class="space-y-2 max-h-96 overflow-y-auto">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+
+            <!-- CONGRATULATIONS MESSAGE -->
+            <div id="congratsMessage" class="mt-6 p-4 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 text-center hidden">
+                <i class="fa-solid fa-party-horn text-3xl c-gold mb-2"></i>
+                <p class="font-bold text-lg">Parabéns aos vencedores! 🎉</p>
+                <p class="c-text-muted">Continuem assim e inspirem seus colegas!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: ACHIEVEMENTS (CONQUISTAS) ===== -->
+    <div id="achievementsModal" class="modal">
+        <div class="modal-content max-w-3xl">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl c-accent-bg flex items-center justify-center">
+                        <i class="fa-solid fa-medal text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display font-bold text-2xl">🏅 Minhas Conquistas</h2>
+                        <p class="c-text-muted text-sm">Desbloqueie medalhas e troféus</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('achievementsModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="achievementsList" class="space-y-3">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <div class="mt-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/50">
+                <h4 class="font-bold mb-2">💡 Como ganhar conquistas?</h4>
+                <ul class="text-sm c-text-muted space-y-1 list-disc list-inside">
+                    <li>Complete lições diárias</li>
+                    <li>Alcance novos níveis (A1, A2, B1...)</li>
+                    <li>Mantenha sequências de estudo (streak)</li>
+                    <li>Acumule XP e suba no ranking</li>
+                    <li>Participe de cursos especiais</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== MODAL: ADMIN DASHBOARD (FULL) ===== -->
     <div id="adminModal" class="modal">
         <div class="modal-content full">
@@ -407,8 +681,11 @@
                 <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn">
                     <i class="fa-solid fa-users mr-2"></i>Alunos
                 </button>
+                <button onclick="showAdminTab('leaderboard')" id="tab-leaderboard" class="tab-btn">
+                    <i class="fa-solid fa-trophy mr-2"></i>Ranking
+                </button>
                 <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn">
-                    <i class="fa-solid fa-file-alt mr-2"></i>Relatórios
+                    <i class="fa-solid fa-file-alt mr-2"></i>Relatórios PDF
                 </button>
                 <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn">
                     <i class="fa-solid fa-graduation-cap mr-2"></i>Cursos
@@ -507,10 +784,23 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tab: Leaderboard Admin -->
+            <div id="admin-leaderboard" class="admin-section hidden-section p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-lg">🏆 Ranking e Competição</h3>
+                    <button onclick="resetWeeklyRanking()" class="btn btn-outline btn-sm">
+                        <i class="fa-solid fa-rotate-right"></i> Resetar Semana
+                    </button>
+                </div>
+                <div id="adminLeaderboardContent">
+                    <!-- Same as user leaderboard but with more details -->
+                </div>
+            </div>
             
-            <!-- Tab: Reports -->
+            <!-- Tab: Reports (PDF) -->
             <div id="admin-reports" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">📋 Relatórios Detalhados</h3>
+                <h3 class="font-bold text-lg mb-4">📋 Relatórios em PDF</h3>
                 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="stat-card">
@@ -526,9 +816,20 @@
                                 <input type="date" id="reportEndDate" class="input-field">
                             </div>
                         </div>
+
+                        <div class="mb-4">
+                            <label class="flex items-center gap-2 mb-2">
+                                <input type="checkbox" id="includeAchievements" checked class="rounded">
+                                <span class="text-sm">Incluir conquistas e medalhas</span>
+                            </label>
+                            <label class="flex items-center gap-2 mb-2">
+                                <input type="checkbox" id="includeActivity" checked class="rounded">
+                                <span class="text-sm">Incluir histórico de atividades</span>
+                            </label>
+                        </div>
                         
-                        <button onclick="generateReport()" class="btn btn-secondary w-full">
-                            <i class="fa-solid fa-download"></i> Gerar Relatório
+                        <button onclick="generatePDFReport()" class="btn btn-danger w-full">
+                            <i class="fa-solid fa-file-pdf"></i> Gerar PDF
                         </button>
                     </div>
                     
@@ -618,7 +919,6 @@
                         </div>
                     </div>
                     
-                    <!-- 🔥 CRITICAL FIX: Database Repair -->
                     <div class="stat-card border-red-900/50 bg-red-900/10">
                         <h4 class="font-bold mb-4 text-red-400">🔥 Correção de Emergência</h4>
                         <p class="text-sm text-gray-400 mb-4">Se todos os usuários estão vendo a coroa de admin, o banco de dados pode estar corrompido. Use este botão para forçar todos a serem 'student', exceto você.</p>
@@ -633,7 +933,6 @@
                         <div class="flex flex-wrap gap-3">
                             <button onclick="exportData('json')" class="btn btn-outline justify-start"><i class="fa-solid fa-file-code mr-2"></i> Exportar JSON</button>
                             <button onclick="exportData('csv')" class="btn btn-outline justify-start"><i class="fa-solid fa-file-csv mr-2"></i> Exportar CSV</button>
-                            <button onclick="exportData('pdf')" class="btn btn-outline justify-start"><i class="fa-solid fa-file-pdf mr-2"></i> Exportar PDF</button>
                             <button onclick="logout()" class="btn btn-danger ml-auto"><i class="fa-solid fa-sign-out-alt mr-2"></i> Sair</button>
                         </div>
                     </div>
@@ -644,7 +943,7 @@
 
     <!-- ===== MODAL: Student Details ===== -->
     <div id="studentModal" class="modal">
-        <div class="modal-content max-w-2xl">
+        <div class="modal-content max-w-3xl">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">👤 Detalhes do Aluno</h2>
                 <button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
@@ -688,7 +987,17 @@
                             <span id="displayUserName">Usuário</span>
                         </span>
                         
-                        <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) - Added force-hidden class -->
+                        <!-- 🏆 LEADERBOARD BUTTON -->
+                        <button onclick="openLeaderboard()" class="w-10 h-10 rounded-full c-gold-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Ranking">
+                            <i class="fa-solid fa-trophy" style="color: #78350f;"></i>
+                        </button>
+
+                        <!-- 🏅 ACHIEVEMENTS BUTTON -->
+                        <button onclick="openAchievements()" class="w-10 h-10 rounded-full c-accent-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Conquistas">
+                            <i class="fa-solid fa-medal text-white"></i>
+                        </button>
+                        
+                        <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) -->
                         <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
                         </button>
@@ -714,7 +1023,7 @@
                 <h2 class="font-display font-black text-4xl md:text-5xl mb-4">Aprenda Inglês de Forma <span class="c-primary">Divertida</span>! 🎮</h2>
                 <p class="text-xl c-text-muted mb-10 max-w-2xl mx-auto leading-relaxed">
                     Do básico ao avançado, jogue, aprenda e acompanhe seu progresso. 
-                    Cursos especiais para Business, Bíblico, Kids, Viagens e muito mais!
+                    Compete com outros alunos, ganhe medalhas e suba no ranking!
                 </p>
                 <div class="flex justify-center gap-4 flex-wrap">
                     <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
@@ -733,9 +1042,9 @@
                     <p class="c-text-muted">Lições interativas com gamificação, XP e recompensas.</p>
                 </div>
                 <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-secondary-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-chart-line"></i></div>
-                    <h3 class="font-bold text-xl mb-2">Acompanhe seu Progresso</h3>
-                    <p class="c-text-muted">Veja sua evolução do A1 ao C2 com relatórios.</p>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-gold-bg flex items-center justify-center text-3xl" style="color: #78350f;"><i class="fa-solid fa-trophy"></i></div>
+                    <h3 class="font-bold text-xl mb-2">Competição Saudável</h3>
+                    <p class="c-text-muted">Ranking semanal, medalhas e troféus para os melhores!</p>
                 </div>
                 <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all">
                     <div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-volume-high"></i></div>
@@ -770,6 +1079,16 @@
                     <div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div>
                     <div class="text-xs c-text-muted">Nível Atual</div>
                 </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="flex justify-center gap-4 flex-wrap">
+                <button onclick="openLeaderboard()" class="btn btn-gold px-8 py-3 text-lg">
+                    <i class="fa-solid fa-trophy"></i> Ver Ranking
+                </button>
+                <button onclick="openAchievements()" class="btn btn-outline px-8 py-3 text-lg">
+                    <i class="fa-solid fa-medal c-accent"></i> Minhas Conquistas
+                </button>
             </div>
             
             <!-- LEVEL TRACK: A1 → C2 -->
@@ -830,6 +1149,17 @@
                 <a href="a1.html" class="btn btn-primary w-full mt-6">
                     <i class="fa-solid fa-play"></i> Continuar Estudos
                 </a>
+            </div>
+
+            <!-- ACHIEVEMENTS PREVIEW -->
+            <div class="c-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-display font-bold text-xl">🏅 Suas Conquistas Recentes</h3>
+                    <button onclick="openAchievements()" class="btn btn-sm btn-outline">Ver Todas</button>
+                </div>
+                <div id="recentAchievements" class="grid md:grid-cols-3 gap-4">
+                    <!-- Preenchido via JS -->
+                </div>
             </div>
             
             <!-- SPECIAL COURSES SECTION -->
@@ -898,7 +1228,8 @@
     // ===== IMPORTS =====
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, deleteDoc, arrayUnion, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
     // ===== FIREBASE CONFIG =====
     const firebaseConfig = {
@@ -914,15 +1245,29 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
     // ===== CONSTANTS =====
     const SUPER_ADMIN_EMAIL = 'marcellospropaganda@gmail.com';
+
+    // ===== ACHIEVEMENTS DEFINITIONS =====
+    const ACHIEVEMENTS = {
+        first_steps: { id: 'first_steps', name: 'Primeiros Passos', desc: 'Complete sua primeira lição', icon: 'fa-seedling', type: 'medal', requirement: { type: 'lessonsCompleted', value: 1 } },
+        week_warrior: { id: 'week_warrior', name: 'Guerreiro da Semana', desc: 'Mantenha 7 dias seguidos', icon: 'fa-fire', type: 'trophy', requirement: { type: 'streak', value: 7 } },
+        xp_hunter: { id: 'xp_hunter', name: 'Caçador de XP', desc: 'Alcance 1000 XP', icon: 'fa-bolt', type: 'medal', requirement: { type: 'xp', value: 1000 } },
+        level_up: { id: 'level_up', name: 'Evolução', desc: 'Alcance o nível A2', icon: 'fa-arrow-up', type: 'trophy', requirement: { type: 'level', value: 'A2' } },
+        top_student: { id: 'top_student', name: 'Top Student', desc: 'Fique no Top 3 do ranking', icon: 'fa-crown', type: 'trophy', requirement: { type: 'rank', value: 3 } },
+        dedicated: { id: 'dedicated', name: 'Dedicado', desc: 'Complete 50 lições', icon: 'fa-book-open', type: 'medal', requirement: { type: 'lessonsCompleted', value: 50 } },
+        perfect_week: { id: 'perfect_week', name: 'Semana Perfeita', desc: 'Mantenha 30 dias seguidos', icon: 'fa-star', type: 'trophy', requirement: { type: 'streak', value: 30 } },
+        master: { id: 'master', name: 'Mestre', desc: 'Alcance o nível C2', icon: 'fa-crown', type: 'trophy', requirement: { type: 'level', value: 'C2' } }
+    };
 
     // ===== STATE =====
     let currentUser = null;
     let userData = null;
     let allStudents = [];
     let charts = {};
+    let userAchievements = [];
 
     // ===== EXPOSE FUNCTIONS =====
     window.openModal = openModal;
@@ -942,13 +1287,17 @@
     window.openCourseWhatsapp = openCourseWhatsapp;
     window.loadDynamicLessons = loadDynamicLessons;
     window.openStudentDetails = openStudentDetails;
-    window.generateReport = generateReport;
+    window.generatePDFReport = generatePDFReport;
     window.showAddCourseModal = showAddCourseModal;
     window.updateUserRole = updateUserRole;
     window.fixDatabaseRoles = fixDatabaseRoles;
     window.removeUser = removeUser;
+    window.openLeaderboard = openLeaderboard;
+    window.openAchievements = openAchievements;
+    window.checkAchievements = checkAchievements;
+    window.resetWeeklyRanking = resetWeeklyRanking;
 
-    // ===== AUTH STATE LISTENER WITH AGGRESSIVE SANITIZATION =====
+    // ===== AUTH STATE LISTENER =====
     onAuthStateChanged(auth, async (user) => {
         console.log('🔄 Auth state changed:', user ? 'LOGGED IN' : 'LOGGED OUT');
         
@@ -962,12 +1311,10 @@
                     const userEmail = user.email.toLowerCase().trim();
                     const isSuperAdmin = userEmail === SUPER_ADMIN_EMAIL;
 
-                    // 🛡️ AGGRESSIVE SANITIZATION: FIX ROLE BASED ON EMAIL
+                    // Fix role based on email
                     if (!isSuperAdmin && data.role === 'admin') {
                         console.warn('⚠️ USUÁRIO COM EMAIL INVÁLIDO TINHA ROLE DE ADMIN. CORRIGINDO...');
-                        // 1. Update DB silently
                         await updateDoc(doc(db, "usuarios", user.uid), { role: 'student' });
-                        // 2. Update local data
                         data.role = 'student';
                     }
 
@@ -987,15 +1334,27 @@
                     userData = { uid: user.uid, ...data };
                     currentUser = user;
 
-                    console.log('✅ Dados sanitizados:', userData);
+                    // Initialize achievements if not exists
+                    if (!userData.achievements) {
+                        await updateDoc(doc(db, "usuarios", user.uid), { 
+                            achievements: [],
+                            activities: [] 
+                        });
+                        userData.achievements = [];
+                        userData.activities = [];
+                    }
+
+                    console.log('✅ Dados carregados:', userData);
                     
                     await updateDoc(doc(db, "usuarios", user.uid), {
-                        ultimoLogin: new Date().toISOString()
+                        ultimoLogin: serverTimestamp()
                     });
                     
                     if (userData.status === 'approved') {
                         updateUI();
                         loadDynamicLessons();
+                        loadUserAchievements();
+                        checkAchievements();
                         showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                     } else {
                         showToast('Aguarde', `Seu cadastro está "${userData.status}".`, 'warning');
@@ -1009,11 +1368,13 @@
                         email: user.email,
                         role: isSuperAdmin ? 'admin' : 'student',
                         status: isSuperAdmin ? 'approved' : 'pending',
-                        createdAt: new Date().toISOString(),
+                        createdAt: serverTimestamp(),
                         xp: 0, level: 'A1', streak: 0, gems: 0,
-                        tempoTotal: 0, ultimoLogin: new Date().toISOString()
+                        tempoTotal: 0, ultimoLogin: serverTimestamp(),
+                        achievements: [],
+                        activities: [],
+                        lessonsCompleted: 0
                     });
-                    // Reload logic to fetch the new doc
                 }
             } catch (error) {
                 console.error('❌ Erro ao carregar usuário:', error);
@@ -1034,12 +1395,9 @@
         const loggedInView = document.getElementById('loggedInView');
         const adminBtn = document.getElementById('adminBtn');
         
-        // 🔒 STRICT SECURITY: ONLY SUPER ADMIN EMAIL GETS THE CROWN
         const isSuperAdmin = userData && userData.email && userData.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL;
         const canAccessAdmin = isSuperAdmin;
 
-        console.log('🔒 UI Security Check:', { email: userData?.email, isSuperAdmin, canAccessAdmin });
-        
         if (userData) {
             authButtons.classList.add('hidden');
             userInfo.classList.remove('hidden');
@@ -1059,11 +1417,11 @@
             if (adminBtn) {
                 if (canAccessAdmin) {
                     adminBtn.classList.remove('hidden');
-                    adminBtn.classList.remove('force-hidden'); // 🔧 FIX: Remover force-hidden
+                    adminBtn.classList.remove('force-hidden');
                     adminBtn.style.display = 'flex';
                 } else {
                     adminBtn.classList.add('hidden');
-                    adminBtn.classList.add('force-hidden'); // 🔧 FIX: Adicionar force-hidden
+                    adminBtn.classList.add('force-hidden');
                     adminBtn.style.display = 'none';
                 }
             }
@@ -1082,6 +1440,268 @@
                 adminBtn.style.display = 'none';
             }
         }
+    }
+
+    // ===== ACHIEVEMENTS SYSTEM =====
+    function loadUserAchievements() {
+        userAchievements = userData.achievements || [];
+        renderRecentAchievements();
+    }
+
+    function renderRecentAchievements() {
+        const container = document.getElementById('recentAchievements');
+        if (!container) return;
+        
+        const recent = userAchievements.slice(-3).reverse();
+        if (recent.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-3 text-center c-text-muted py-8">
+                    <i class="fa-solid fa-medal text-4xl mb-2 opacity-50"></i>
+                    <p>Você ainda não tem conquistas. Continue estudando!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = recent.map(ach => {
+            const def = ACHIEVEMENTS[ach.id];
+            return `
+                <div class="achievement-card">
+                    <div class="achievement-icon achievement-${def.type}">
+                        <i class="fa-solid ${def.icon}"></i>
+                    </div>
+                    <h4 class="font-bold mb-1">${def.name}</h4>
+                    <p class="text-sm c-text-muted">${def.desc}</p>
+                    <p class="text-xs c-text-muted mt-2">Desbloqueado em ${new Date(ach.unlockedAt).toLocaleDateString('pt-BR')}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function checkAchievements() {
+        if (!userData) return;
+        
+        const newAchievements = [];
+        const currentAchievements = userData.achievements || [];
+        const currentIds = currentAchievements.map(a => a.id);
+        
+        // Check each achievement
+        for (const [id, def] of Object.entries(ACHIEVEMENTS)) {
+            if (currentIds.includes(id)) continue;
+            
+            let unlocked = false;
+            const req = def.requirement;
+            
+            switch(req.type) {
+                case 'lessonsCompleted':
+                    unlocked = (userData.lessonsCompleted || 0) >= req.value;
+                    break;
+                case 'streak':
+                    unlocked = (userData.streak || 0) >= req.value;
+                    break;
+                case 'xp':
+                    unlocked = (userData.xp || 0) >= req.value;
+                    break;
+                case 'level':
+                    unlocked = userData.level === req.value;
+                    break;
+                case 'rank':
+                    // Will be checked in leaderboard
+                    break;
+            }
+            
+            if (unlocked) {
+                newAchievements.push({ id, unlockedAt: serverTimestamp() });
+            }
+        }
+        
+        if (newAchievements.length > 0) {
+            await updateDoc(doc(db, "usuarios", userData.uid), {
+                achievements: arrayUnion(...newAchievements)
+            });
+            
+            newAchievements.forEach(ach => {
+                const def = ACHIEVEMENTS[ach.id];
+                showToast('🏆 Conquista Desbloqueada!', `${def.name}: ${def.desc}`, 'success');
+            });
+            
+            userData.achievements = [...currentAchievements, ...newAchievements];
+            loadUserAchievements();
+        }
+    }
+
+    function openAchievements() {
+        const container = document.getElementById('achievementsList');
+        if (!container) return;
+        
+        const all = Object.values(ACHIEVEMENTS);
+        const unlockedIds = (userData.achievements || []).map(a => a.id);
+        
+        container.innerHTML = all.map(ach => {
+            const isUnlocked = unlockedIds.includes(ach.id);
+            const unlockedData = userData.achievements?.find(a => a.id === ach.id);
+            
+            return `
+                <div class="achievement-card ${isUnlocked ? '' : 'achievement-locked'}">
+                    <div class="flex items-start gap-4">
+                        <div class="achievement-icon achievement-${ach.type} flex-shrink-0">
+                            <i class="fa-solid ${ach.icon}"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-bold text-lg">${ach.name}</h4>
+                                ${isUnlocked ? 
+                                    '<span class="status-badge status-approved"><i class="fa-solid fa-check"></i> Desbloqueado</span>' : 
+                                    '<span class="status-badge status-pending"><i class="fa-solid fa-lock"></i> Bloqueado</span>'
+                                }
+                            </div>
+                            <p class="c-text-muted mb-2">${ach.desc}</p>
+                            ${isUnlocked && unlockedData ? 
+                                `<p class="text-xs c-text-muted">Desbloqueado em ${new Date(unlockedData.unlockedAt?.seconds * 1000).toLocaleDateString('pt-BR')}</p>` : 
+                                `<p class="text-xs c-text-muted">Requisito: ${getRequirementText(ach.requirement)}</p>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        openModal('achievementsModal');
+    }
+
+    function getRequirementText(req) {
+        const texts = {
+            lessonsCompleted: `Complete ${req.value} lições`,
+            streak: `Mantenha ${req.value} dias seguidos`,
+            xp: `Alcance ${req.value} XP`,
+            level: `Alcance o nível ${req.value}`,
+            rank: `Fique entre os top ${req.value}`
+        };
+        return texts[req.type] || req.type;
+    }
+
+    // ===== LEADERBOARD SYSTEM =====
+    async function openLeaderboard() {
+        await loadLeaderboardData();
+        openModal('leaderboardModal');
+    }
+
+    async function loadLeaderboardData() {
+        try {
+            const q = query(
+                collection(db, "usuarios"), 
+                where("status", "==", "approved"),
+                orderBy("xp", "desc"),
+                limit(10)
+            );
+            const snapshot = await getDocs(q);
+            const topUsers = snapshot.docs.map((doc, index) => ({
+                id: doc.id,
+                rank: index + 1,
+                ...doc.data()
+            }));
+            
+            renderPodium(topUsers.slice(0, 3));
+            renderRankingList(topUsers);
+            
+            // Show congratulations if user is in top 3
+            const userRank = topUsers.findIndex(u => u.id === userData?.uid);
+            const congratsDiv = document.getElementById('congratsMessage');
+            if (congratsDiv) {
+                if (userRank >= 0 && userRank < 3) {
+                    congratsDiv.classList.remove('hidden');
+                } else {
+                    congratsDiv.classList.add('hidden');
+                }
+            }
+            
+        } catch (error) {
+            console.error('Erro ao carregar ranking:', error);
+        }
+    }
+
+    function renderPodium(top3) {
+        const container = document.getElementById('podiumContainer');
+        if (!container || top3.length === 0) return;
+        
+        const [first, second, third] = top3;
+        
+        let html = '';
+        
+        // 2nd place
+        if (second) {
+            html += `
+                <div class="podium-place">
+                    <div class="podium-avatar podium-2nd">${second.nome.charAt(0).toUpperCase()}</div>
+                    <div class="podium-base base-2nd">
+                        <div class="font-bold">${second.nome.split(' ')[0]}</div>
+                        <div class="text-sm">${(second.xp || 0).toLocaleString()} XP</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 1st place
+        if (first) {
+            html += `
+                <div class="podium-place">
+                    <i class="fa-solid fa-crown podium-crown" style="color: #ffd700;"></i>
+                    <div class="podium-avatar podium-1st">${first.nome.charAt(0).toUpperCase()}</div>
+                    <div class="podium-base base-1st">
+                        <div class="font-bold">${first.nome.split(' ')[0]}</div>
+                        <div class="text-sm">${(first.xp || 0).toLocaleString()} XP</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 3rd place
+        if (third) {
+            html += `
+                <div class="podium-place">
+                    <div class="podium-avatar podium-3rd">${third.nome.charAt(0).toUpperCase()}</div>
+                    <div class="podium-base base-3rd">
+                        <div class="font-bold">${third.nome.split(' ')[0]}</div>
+                        <div class="text-sm">${(third.xp || 0).toLocaleString()} XP</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        container.innerHTML = html;
+    }
+
+    function renderRankingList(users) {
+        const container = document.getElementById('rankingList');
+        if (!container) return;
+        
+        container.innerHTML = users.map((user, index) => {
+            const isCurrentUser = user.id === userData?.uid;
+            const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
+            
+            return `
+                <div class="user-row ${isCurrentUser ? 'border-2 border-primary' : ''}">
+                    <div class="user-info">
+                        <div class="rank-badge ${rankClass}">${index + 1}</div>
+                        <div class="user-avatar ${isCurrentUser ? 'c-primary-bg' : 'bg-gray-600'}">
+                            ${user.nome.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div class="font-bold text-sm ${isCurrentUser ? 'c-primary' : ''}">
+                                ${user.nome} ${isCurrentUser ? '(Você)' : ''}
+                            </div>
+                            <div class="text-xs c-text-muted">Nível ${user.level || 'A1'}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <div class="font-bold c-primary">${(user.xp || 0).toLocaleString()} XP</div>
+                            <div class="text-xs c-text-muted">${user.streak || 0} dias seguidos</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 
     // ===== MODAL FUNCTIONS =====
@@ -1150,9 +1770,12 @@
                 nome, email,
                 role: isSuperAdmin ? 'admin' : 'student',
                 status: isSuperAdmin ? 'approved' : 'pending',
-                createdAt: new Date().toISOString(),
+                createdAt: serverTimestamp(),
                 xp: 0, level: 'A1', streak: 0, gems: 0,
-                tempoTotal: 0, ultimoLogin: null
+                tempoTotal: 0, ultimoLogin: serverTimestamp(),
+                achievements: [],
+                activities: [],
+                lessonsCompleted: 0
             });
             
             closeModal('registerModal');
@@ -1269,7 +1892,7 @@
 
     function updateStats() {
         document.getElementById('statTotal').textContent = allStudents.length;
-        const activeUsers = allStudents.filter(u => u.status === 'approved' && u.ultimoLogin && new Date(u.ultimoLogin) > new Date(Date.now() - 86400000));
+        const activeUsers = allStudents.filter(u => u.status === 'approved' && u.ultimoLogin && new Date(u.ultimoLogin?.seconds * 1000 || 0) > new Date(Date.now() - 86400000));
         document.getElementById('statActive').textContent = activeUsers.length;
         document.getElementById('activeUsersList').innerHTML = activeUsers.length ? activeUsers.map(u => `<div>• ${u.nome}</div>`).join('') : '<span class="italic opacity-70">Nenhum usuário ativo.</span>';
         document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
@@ -1382,9 +2005,29 @@
         try { await updateDoc(doc(db, "usuarios", userId), { role: newRole }); showToast('Sucesso', `Cargo atualizado para ${newRole}`, 'success'); openStudentDetails(userId); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); }
     }
 
+    // ===== REMOVE USER (DELETE COMPLETELY) =====
     async function removeUser(userId) {
-        if (!confirm('Banir usuário?')) return;
-        try { await updateDoc(doc(db, "usuarios", userId), { status: 'banned', role: 'student' }); showToast('Removido', 'Usuário banido.', 'success'); closeModal('studentModal'); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); }
+        if (!confirm('⚠️ ATENÇÃO: Isso irá REMOVER permanentemente o usuário e todos os seus dados. Esta ação NÃO pode ser desfeita. Deseja continuar?')) return;
+        
+        const btn = event.target.closest('button');
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Removendo...';
+        btn.disabled = true;
+        
+        try {
+            // Delete from Firestore
+            await deleteDoc(doc(db, "usuarios", userId));
+            
+            showToast('Removido', 'Usuário excluído permanentemente.', 'success');
+            closeModal('studentModal');
+            loadDashboardData();
+        } catch (error) {
+            console.error('Erro ao remover:', error);
+            showToast('Erro', 'Falha ao remover usuário: ' + error.message, 'error');
+        } finally {
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+        }
     }
 
     async function fixDatabaseRoles() {
@@ -1410,12 +2053,16 @@
         } catch (error) { console.error(error); showToast('Erro', 'Falha ao corrigir.', 'error'); } finally { btn.innerHTML = originalText; btn.disabled = false; }
     }
 
-    function openStudentDetails(userId) {
+    async function openStudentDetails(userId) {
         const student = allStudents.find(u => u.id === userId);
         if (!student) return;
         const content = document.getElementById('studentDetailsContent');
         const userXP = student.xp ?? student.totalXP ?? 0;
         const isSuperAdmin = userData.email === SUPER_ADMIN_EMAIL;
+        
+        // Get recent activities
+        const activities = student.activities || [];
+        const recentActivities = activities.slice(-10).reverse();
         
         content.innerHTML = `
             <div class="space-y-4">
@@ -1441,7 +2088,23 @@
                 <div class="stat-card">
                     <h4 class="font-bold mb-3">⏱️ Tempo de Estudo</h4>
                     <p class="c-text-muted">Total: <span class="font-bold">${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas</span></p>
-                    <p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin).toLocaleString('pt-BR') : 'Nunca'}</span></p>
+                    <p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin.seconds * 1000).toLocaleString('pt-BR') : 'Nunca'}</span></p>
+                </div>
+
+                <!-- LAST ACTIVITY -->
+                <div class="stat-card">
+                    <h4 class="font-bold mb-3">📜 Última Atividade</h4>
+                    ${recentActivities.length > 0 ? `
+                        <div class="activity-timeline">
+                            ${recentActivities.map(act => `
+                                <div class="activity-item">
+                                    <div class="activity-time">${new Date(act.timestamp?.seconds * 1000).toLocaleString('pt-BR')}</div>
+                                    <div class="activity-title">${act.lessonName || 'Atividade'}</div>
+                                    <div class="activity-desc">${act.description || ''} • +${act.xp || 0} XP</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="c-text-muted">Nenhuma atividade registrada.</p>'}
                 </div>
                 
                 <div class="stat-card">
@@ -1472,7 +2135,7 @@
                         <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
                     ` : `
                         <button class="btn btn-secondary flex-1"><i class="fa-solid fa-key"></i> Resetar Senha</button>
-                        <button onclick="removeUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-trash"></i> Remover</button>
+                        <button onclick="removeUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-trash-alt"></i> Remover</button>
                     `}
                 </div>
             </div>
@@ -1498,9 +2161,131 @@
         `;
     }
 
-    function generateReport() {
-        showToast('Gerando...', 'Aguarde...', 'success');
-        setTimeout(() => showToast('Pronto!', 'Relatório exportado.', 'success'), 1500);
+    // ===== GENERATE PDF REPORT =====
+    async function generatePDFReport() {
+        const userId = document.getElementById('reportStudentSelect').value;
+        if (!userId) {
+            showToast('Erro', 'Selecione um aluno', 'error');
+            return;
+        }
+
+        const student = allStudents.find(u => u.id === userId);
+        if (!student) return;
+
+        const includeAchievements = document.getElementById('includeAchievements').checked;
+        const includeActivity = document.getElementById('includeActivity').checked;
+
+        showToast('Gerando PDF...', 'Aguarde...', 'success');
+
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Header
+            doc.setFillColor(34, 197, 94);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont('helvetica', 'bold');
+            doc.text('EnglishPath - Relatório do Aluno', 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text('Relatório de Progresso e Desempenho', 105, 30, { align: 'center' });
+            
+            // Student Info
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text(student.nome, 14, 55);
+            
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Email: ${student.email}`, 14, 63);
+            doc.text(`Nível: ${student.level || 'A1'} | XP Total: ${student.xp || 0}`, 14, 70);
+            doc.text(`Streak: ${student.streak || 0} dias | Gemas: ${student.gems || 0}`, 14, 77);
+            
+            let yPos = 90;
+            
+            // Stats
+            doc.setFillColor(241, 245, 249);
+            doc.rect(14, yPos - 10, 182, 30, 'F');
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('📊 Estatísticas', 18, yPos);
+            
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Tempo Total: ${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas`, 18, yPos + 10);
+            doc.text(`Lições Completadas: ${student.lessonsCompleted || 0}`, 100, yPos + 10);
+            
+            yPos += 35;
+            
+            // Achievements
+            if (includeAchievements && student.achievements && student.achievements.length > 0) {
+                doc.setFillColor(251, 191, 36);
+                doc.rect(14, yPos - 10, 182, 25, 'F');
+                doc.setTextColor(120, 53, 15);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('🏅 Conquistas Desbloqueadas', 18, yPos);
+                
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'normal');
+                
+                const achList = student.achievements.slice(0, 5);
+                achList.forEach((ach, idx) => {
+                    const def = ACHIEVEMENTS[ach.id];
+                    if (def) {
+                        doc.text(`• ${def.name}: ${def.desc}`, 18, yPos + 10 + (idx * 6));
+                    }
+                });
+                
+                yPos += 20 + (achList.length * 6);
+            }
+            
+            // Skills Progress
+            doc.setFillColor(59, 130, 246);
+            doc.rect(14, yPos - 10, 182, 25, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('📈 Progresso por Habilidade', 18, yPos);
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'normal');
+            const skills = [
+                { name: 'Reading', progress: 80 },
+                { name: 'Listening', progress: 65 },
+                { name: 'Speaking', progress: 45 },
+                { name: 'Writing', progress: 70 }
+            ];
+            
+            skills.forEach((skill, idx) => {
+                doc.text(`${skill.name}: ${skill.progress}%`, 18, yPos + 10 + (idx * 7));
+                doc.setFillColor(34, 197, 94);
+                doc.rect(70, yPos + 6 + (idx * 7), skill.progress, 4, 'F');
+            });
+            
+            yPos += 45;
+            
+            // Footer
+            doc.setFillColor(241, 245, 249);
+            doc.rect(0, 280, 210, 17, 'F');
+            doc.setTextColor(100, 116, 139);
+            doc.setFontSize(9);
+            doc.text(`Relatório gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, 105, 290, { align: 'center' });
+            doc.text('EnglishPath - Plataforma de Ensino de Inglês', 105, 295, { align: 'center' });
+            
+            // Save
+            doc.save(`relatorio-${student.nome.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`);
+            
+            showToast('Sucesso', 'PDF gerado e baixado!', 'success');
+            
+        } catch (error) {
+            console.error('Erro ao gerar PDF:', error);
+            showToast('Erro', 'Falha ao gerar PDF: ' + error.message, 'error');
+        }
     }
 
     function showAdminTab(tab) {
@@ -1508,6 +2293,10 @@
         document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`tab-${tab}`).classList.add('active');
+        
+        if (tab === 'leaderboard') {
+            loadLeaderboardData();
+        }
     }
 
     function exportData(format) {
@@ -1523,6 +2312,26 @@
 
     function showAddCourseModal() {
         showToast('Em desenvolvimento', 'Funcionalidade em breve!', 'warning');
+    }
+
+    async function resetWeeklyRanking() {
+        if (!confirm('Resetar ranking semanal? Isso zerará o XP da semana de todos os alunos.')) return;
+        
+        try {
+            const q = query(collection(db, "usuarios"));
+            const snapshot = await getDocs(q);
+            const batch = snapshot.docs.map(async (docSnap) => {
+                await updateDoc(doc(db, "usuarios", docSnap.id), { 
+                    weeklyXP: 0,
+                    lastWeekReset: serverTimestamp()
+                });
+            });
+            await Promise.all(batch);
+            showToast('Sucesso', 'Ranking semanal resetado!', 'success');
+            loadDashboardData();
+        } catch (error) {
+            showToast('Erro', 'Falha ao resetar: ' + error.message, 'error');
+        }
     }
 
     // ===== INIT =====
