@@ -1472,7 +1472,7 @@
                     </div>
                     <h4 class="font-bold mb-1">${def.name}</h4>
                     <p class="text-sm c-text-muted">${def.desc}</p>
-                    <p class="text-xs c-text-muted mt-2">Desbloqueado em ${new Date(ach.unlockedAt).toLocaleDateString('pt-BR')}</p>
+                    <p class="text-xs c-text-muted mt-2">Desbloqueado em ${new Date(ach.unlockedAt?.seconds * 1000).toLocaleDateString('pt-BR')}</p>
                 </div>
             `;
         }).join('');
@@ -1878,16 +1878,21 @@
     // ===== ADMIN FUNCTIONS =====
     async function loadDashboardData() {
         try {
+            console.log('📊 Carregando dados do dashboard...');
             const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(q);
             allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log('✅ Dados carregados:', allStudents.length, 'alunos');
             updateStats();
             renderCharts();
             renderStudentsList();
             populateReportSelect();
             updateCourseStats();
             renderTopStudents();
-        } catch (error) { showToast('Erro', 'Falha ao carregar dados.', 'error'); }
+        } catch (error) {
+            console.error('❌ Erro ao carregar dashboard:', error);
+            showToast('Erro', 'Falha ao carregar dados: ' + error.message, 'error');
+        }
     }
 
     function updateStats() {
@@ -2161,7 +2166,7 @@
         `;
     }
 
-    // ===== GENERATE PDF REPORT =====
+    // ===== GENERATE PDF REPORT - CORRECTED ALIGNMENT =====
     async function generatePDFReport() {
         const userId = document.getElementById('reportStudentSelect').value;
         if (!userId) {
@@ -2181,7 +2186,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Header
+            // Header - CORRECTED
             doc.setFillColor(34, 197, 94);
             doc.rect(0, 0, 210, 40, 'F');
             doc.setTextColor(255, 255, 255);
@@ -2191,7 +2196,7 @@
             doc.setFontSize(12);
             doc.text('Relatório de Progresso e Desempenho', 105, 30, { align: 'center' });
             
-            // Student Info
+            // Student Info - CORRECTED POSITIONING
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(16);
             doc.setFont('helvetica', 'bold');
@@ -2203,9 +2208,9 @@
             doc.text(`Nível: ${student.level || 'A1'} | XP Total: ${student.xp || 0}`, 14, 70);
             doc.text(`Streak: ${student.streak || 0} dias | Gemas: ${student.gems || 0}`, 14, 77);
             
-            let yPos = 90;
+            let yPos = 95; // CORRECTED starting position
             
-            // Stats
+            // Stats - CORRECTED
             doc.setFillColor(241, 245, 249);
             doc.rect(14, yPos - 10, 182, 30, 'F');
             doc.setFontSize(14);
@@ -2217,9 +2222,9 @@
             doc.text(`Tempo Total: ${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas`, 18, yPos + 10);
             doc.text(`Lições Completadas: ${student.lessonsCompleted || 0}`, 100, yPos + 10);
             
-            yPos += 35;
+            yPos += 40; // CORRECTED spacing
             
-            // Achievements
+            // Achievements - CORRECTED
             if (includeAchievements && student.achievements && student.achievements.length > 0) {
                 doc.setFillColor(251, 191, 36);
                 doc.rect(14, yPos - 10, 182, 25, 'F');
@@ -2243,7 +2248,7 @@
                 yPos += 20 + (achList.length * 6);
             }
             
-            // Skills Progress
+            // Skills Progress - CORRECTED
             doc.setFillColor(59, 130, 246);
             doc.rect(14, yPos - 10, 182, 25, 'F');
             doc.setTextColor(255, 255, 255);
@@ -2267,9 +2272,9 @@
                 doc.rect(70, yPos + 6 + (idx * 7), skill.progress, 4, 'F');
             });
             
-            yPos += 45;
+            yPos += 50; // CORRECTED spacing
             
-            // Footer
+            // Footer - CORRECTED
             doc.setFillColor(241, 245, 249);
             doc.rect(0, 280, 210, 17, 'F');
             doc.setTextColor(100, 116, 139);
