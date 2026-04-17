@@ -10,15 +10,16 @@
     <meta name="theme-color" content="#22c55e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <meta name="apple-mobile-web-app-title" content="EnglishPath">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js para Gráficos -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- jsPDF para PDF -->
+    <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <!-- Fontes -->
@@ -41,12 +42,10 @@
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'bounce-slow': 'bounce 2s infinite',
-                        'shine': 'shine 2s linear infinite',
                         'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
                     },
                     keyframes: {
                         float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
-                        shine: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
                     }
                 }
             }
@@ -63,8 +62,6 @@
             --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
             --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
-            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
         }
         [data-theme="light"] {
             --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
@@ -84,7 +81,6 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         
-        /* Utility Classes */
         .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
         .c-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
         .c-text { color: var(--text); }
@@ -99,13 +95,9 @@
         .c-streak { color: var(--streak); }
         .c-xp { color: var(--xp); }
         .c-danger { color: var(--danger); }
-        .c-danger-bg { background: var(--danger); }
         .c-gold { color: var(--gold); }
         .c-gold-bg { background: linear-gradient(135deg, #ffd700, #ffed4e); }
-        .c-silver { color: var(--silver); }
-        .c-bronze { color: var(--bronze); }
         
-        /* Crown Button */
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
@@ -125,14 +117,13 @@
         
         .force-hidden { display: none !important; }
         
-        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
             font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
             border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
         .btn-secondary { background: var(--secondary); color: white; }
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
@@ -141,7 +132,6 @@
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        /* Theme Toggle */
         .theme-toggle {
             width: 52px; height: 28px; border-radius: 14px;
             background: var(--border); position: relative; cursor: pointer; border: none;
@@ -150,12 +140,11 @@
         .theme-toggle::after {
             content: ''; position: absolute; top: 3px; left: 3px;
             width: 22px; height: 22px; border-radius: 50%;
-            background: var(--primary); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+            background: var(--primary); transition: transform 0.3s;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
         
-        /* Modals */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 1000;
             background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
@@ -171,7 +160,6 @@
         .modal-content.full { max-width: 1400px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Inputs */
         .input-field {
             width: 100%; padding: 0.75rem 1rem;
             border: 2px solid var(--border); border-radius: 12px;
@@ -180,7 +168,6 @@
         }
         .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
         
-        /* Stats Cards */
         .stat-card {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 16px; padding: 1.5rem; transition: all 0.3s; cursor: pointer;
@@ -188,7 +175,6 @@
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
         .stat-card.clickable:hover { border-color: var(--secondary); }
         
-        /* User Rows */
         .user-row {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
@@ -203,7 +189,6 @@
         @media (max-width: 768px) { .user-meta { display: none; } }
         .user-actions { display: flex; gap: 0.5rem; align-items: center; }
         
-        /* Status Badges */
         .status-badge {
             padding: 0.25rem 0.75rem; border-radius: 9999px;
             font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
@@ -213,11 +198,9 @@
         .status-rejected { background: #ef4444; color: white; }
         .status-banned { background: #7f1d1d; color: #fca5a5; }
         
-        /* Progress Bar */
         .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
         
-        /* Tabs */
         .tab-btn {
             padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
             font-weight: 600; transition: all 0.3s; border: none;
@@ -228,10 +211,8 @@
         .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
         .hidden-section { display: none !important; }
         
-        /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
         
-        /* Level Track */
         .level-track { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; flex-wrap: wrap; }
         .level-node {
             display: flex; flex-direction: column; align-items: center;
@@ -239,7 +220,7 @@
             transition: all 0.3s; cursor: pointer; min-width: 80px;
         }
         .level-node:hover { transform: translateY(-4px); }
-        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: var(--glow-primary); }
+        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
         .level-node.completed { opacity: 0.8; }
         .level-node.locked { opacity: 0.5; cursor: not-allowed; }
         .level-icon {
@@ -251,7 +232,6 @@
         .level-B1 { background: #06b6d4; } .level-B2 { background: #f59e0b; }
         .level-C1 { background: #f97316; } .level-C2 { background: #dc2626; }
         
-        /* Content Tabs */
         .content-tab {
             background: var(--card); border: 2px solid var(--border);
             border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;
@@ -269,13 +249,12 @@
         .content-grammar { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
         .content-exercises { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
         
-        /* Courses */
         .course-card {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 20px; padding: 1.5rem;
             transition: all 0.3s; cursor: pointer; text-align: center;
         }
-        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--glow-accent); }
+        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
         .course-icon {
             width: 70px; height: 70px; border-radius: 20px;
             margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
@@ -287,7 +266,6 @@
         .course-airport { background: linear-gradient(135deg, #0891b2, #22d3ee); }
         .course-travel { background: linear-gradient(135deg, #059669, #34d399); }
         
-        /* Toast */
         .toast {
             position: fixed; bottom: 20px; right: 20px;
             background: var(--card); border-left: 4px solid var(--primary);
@@ -301,7 +279,6 @@
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
         
-        /* 🏆 LEADERBOARD */
         .podium { display: flex; align-items: flex-end; justify-content: center; gap: 1rem; margin: 2rem 0; }
         .podium-place { display: flex; flex-direction: column; align-items: center; position: relative; }
         .podium-avatar {
@@ -332,7 +309,6 @@
         .rank-3 { background: linear-gradient(135deg, #cd7f32, #e8a87c); color: white; }
         .rank-other { background: var(--border); color: var(--text-muted); }
         
-        /* Activity List Modal */
         .active-user-item {
             display: flex; align-items: center; gap: 1rem;
             padding: 0.75rem; border-radius: 8px;
@@ -340,61 +316,6 @@
         }
         .active-user-item:hover { background: var(--card-hover); }
         
-        /* PDF Preview Styles */
-        .pdf-boletim {
-            background: white; color: #1a202c; padding: 2rem;
-            border-radius: 12px; border: 3px solid #22c55e;
-            font-family: 'Nunito', sans-serif;
-        }
-        .pdf-header {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white; padding: 1.5rem; border-radius: 8px 8px 0 0;
-            text-align: center; margin: -2rem -2rem 2rem -2rem;
-        }
-        .pdf-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem; }
-        .pdf-subtitle { font-size: 0.9rem; opacity: 0.9; }
-        .pdf-student-card {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border: 2px solid #22c55e; border-radius: 12px;
-            padding: 1.5rem; margin-bottom: 1.5rem;
-            display: flex; align-items: center; gap: 1rem;
-        }
-        .pdf-avatar {
-            width: 60px; height: 60px; border-radius: 50%;
-            background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; font-weight: bold; flex-shrink: 0;
-        }
-        .pdf-stats-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;
-        }
-        .pdf-stat {
-            background: #f1f5f9; border-radius: 8px; padding: 1rem; text-align: center;
-        }
-        .pdf-stat-value { font-size: 1.5rem; font-weight: 800; color: #22c55e; }
-        .pdf-stat-label { font-size: 0.8rem; color: #64748b; }
-        .pdf-skills { margin-bottom: 1.5rem; }
-        .pdf-skill-row {
-            display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;
-        }
-        .pdf-skill-name { width: 80px; font-weight: 600; font-size: 0.9rem; }
-        .pdf-skill-bar { flex: 1; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
-        .pdf-skill-fill { height: 100%; border-radius: 6px; transition: width 0.5s ease; }
-        .pdf-skill-percent { width: 40px; text-align: right; font-weight: 600; font-size: 0.9rem; }
-        .pdf-footer {
-            border-top: 2px dashed #cbd5e1; padding-top: 1rem; margin-top: 1rem;
-            text-align: center; font-size: 0.8rem; color: #64748b;
-        }
-        .pdf-badge {
-            display: inline-flex; align-items: center; gap: 0.25rem;
-            padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700; margin: 0.25rem;
-        }
-        .pdf-badge-gold { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #78350f; }
-        .pdf-badge-silver { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #4a5568; }
-        .pdf-badge-bronze { background: linear-gradient(135deg, #cd7f32, #e8a87c); color: white; }
-        
-        /* PWA Install Button */
         #installBtn {
             position: fixed; bottom: 20px; left: 20px;
             background: linear-gradient(135deg, #3b82f6, #60a5fa);
@@ -406,7 +327,6 @@
         #installBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6); }
         #installBtn i { font-size: 1.25rem; }
         
-        /* Notification Permission Banner */
         #notificationBanner {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: linear-gradient(135deg, #1e40af, #3b82f6);
@@ -426,8 +346,6 @@
             .actions { flex-direction: column; }
             .tabs-container { padding: 0.5rem 1rem; }
             .btn { min-width: 100px; padding: 0.75rem 1rem; }
-            .pdf-boletim { padding: 1rem; }
-            .pdf-header { padding: 1rem; margin: -1rem -1rem 1.5rem -1rem; }
         }
     </style>
 </head>
@@ -444,8 +362,10 @@
             <i class="fa-solid fa-bell mr-2"></i>
             <span>Receba lembretes para não perder seu streak! 🔔</span>
         </div>
-        <button class="btn btn-sm" onclick="requestNotificationPermission()">Ativar</button>
-        <button class="btn btn-sm btn-outline" onclick="dismissNotificationBanner()" style="margin-left: 0.5rem; border-color: white; color: white;">Não</button>
+        <div>
+            <button class="btn btn-sm" onclick="requestNotificationPermission()">Ativar</button>
+            <button class="btn btn-sm btn-outline" onclick="dismissNotificationBanner()" style="margin-left: 0.5rem; border-color: white; color: white;">Não</button>
+        </div>
     </div>
 
     <!-- ===== MODAL: LOGIN ===== -->
@@ -872,7 +792,6 @@
 
     // ===== CONSTANTS =====
     const SUPER_ADMIN_EMAIL = 'marcellospropaganda@gmail.com';
-    const PENDING_BADGE = document.getElementById('adminBadge');
 
     // ===== ACHIEVEMENTS DEFINITIONS =====
     const ACHIEVEMENTS = {
@@ -952,7 +871,6 @@
                 if (permission === 'granted') {
                     showToast('Notificações ativadas!', 'Você receberá lembretes de estudo', 'success');
                     dismissNotificationBanner();
-                    // Check for inactive users every hour
                     setInterval(checkInactiveUsers, 3600000);
                 }
             });
@@ -972,8 +890,7 @@
         snapshot.docs.forEach(async (docSnap) => {
             const user = docSnap.data();
             const lastLogin = user.ultimoLogin?.seconds * 1000 || 0;
-            if (now - lastLogin > 86400000 && user.uid !== currentUser.uid) { // 24h
-                // Send push notification (requires service worker setup)
+            if (now - lastLogin > 86400000 && user.uid !== currentUser.uid) {
                 if ('Notification' in window && Notification.permission === 'granted') {
                     new Notification('Volte a estudar! 🔥', {
                         body: `${user.nome} está perdendo seu streak!`,
@@ -998,7 +915,6 @@
                     const userEmail = user.email.toLowerCase().trim();
                     const isSuperAdmin = userEmail === SUPER_ADMIN_EMAIL;
 
-                    // Fix role based on email
                     if (!isSuperAdmin && data.role === 'admin') {
                         console.warn('⚠️ USUÁRIO COM EMAIL INVÁLIDO TINHA ROLE DE ADMIN. CORRIGINDO...');
                         await updateDoc(doc(db, "usuarios", user.uid), { role: 'student' });
@@ -1061,7 +977,6 @@
         }
     });
 
-    // ===== CHECK NOTIFICATION PERMISSION =====
     function checkNotificationPermission() {
         if ('Notification' in window && Notification.permission === 'default' && !localStorage.getItem('ep_notification_dismissed')) {
             document.getElementById('notificationBanner').classList.add('show');
@@ -1099,7 +1014,6 @@
                     adminBtn.classList.remove('hidden');
                     adminBtn.classList.remove('force-hidden');
                     adminBtn.style.display = 'flex';
-                    // Listen for pending users
                     listenForPendingUsers();
                 } else {
                     adminBtn.classList.add('hidden');
@@ -1226,12 +1140,16 @@
             }
         } catch (error) {
             console.error('Erro ao carregar ranking:', error);
+            showToast('Erro', 'Falha ao carregar ranking: ' + error.message, 'error');
         }
     }
 
     function renderPodium(top3) {
         const container = document.getElementById('podiumContainer');
-        if (!container || top3.length === 0) return;
+        if (!container || top3.length === 0) {
+            container.innerHTML = '<div class="text-center c-text-muted py-8"><i class="fa-solid fa-trophy text-4xl mb-2 opacity-50"></i><p>Nenhum dado disponível no ranking.</p></div>';
+            return;
+        }
         const [first, second, third] = top3;
         let html = '';
         if (second) html += `<div class="podium-place"><div class="podium-avatar podium-2nd">${second.nome.charAt(0).toUpperCase()}</div><div class="podium-base base-2nd"><div class="font-bold">${second.nome.split(' ')[0]}</div><div class="text-sm">${(second.xp || 0).toLocaleString()} XP</div></div></div>`;
@@ -1243,6 +1161,10 @@
     function renderRankingList(users) {
         const container = document.getElementById('rankingList');
         if (!container) return;
+        if (users.length === 0) {
+            container.innerHTML = '<div class="text-center c-text-muted py-8"><p>Nenhum usuário no ranking ainda.</p></div>';
+            return;
+        }
         container.innerHTML = users.map((user, index) => {
             const isCurrentUser = user.id === userData?.uid;
             const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
@@ -1294,7 +1216,6 @@
     // ===== CONTENT TABS =====
     function openContentTab(tab) {
         showToast('Em desenvolvimento', `Conteúdo de ${tab} será lançado em breve!`, 'success');
-        // Future: Load content from Firestore based on tab and user level
     }
 
     // ===== MODAL FUNCTIONS =====
@@ -1496,7 +1417,7 @@
         container.innerHTML = `<div class="stat-card mb-4"><h4 class="font-bold mb-3">${student.nome} - Relatório</h4><div class="space-y-3"><div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div></div></div><div class="stat-card"><h5 class="font-bold mb-3">Histórico Recente</h5><div class="space-y-2 text-sm"><div class="flex justify-between"><span>Hoje: A1.1</span><span class="c-primary">+50 XP</span></div><div class="flex justify-between"><span>Ontem: A1.2</span><span class="c-primary">+50 XP</span></div></div></div>`;
     }
 
-    // ===== GENERATE PDF REPORT - PROFESSIONAL BOLETIM =====
+    // ===== GENERATE PDF REPORT =====
     async function generatePDFReport() {
         const userId = document.getElementById('reportStudentSelect').value;
         if (!userId) { showToast('Erro', 'Selecione um aluno', 'error'); return; }
@@ -1509,7 +1430,6 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // HEADER
             doc.setFillColor(34, 197, 94);
             doc.rect(0, 0, 210, 40, 'F');
             doc.setTextColor(255, 255, 255);
@@ -1519,7 +1439,6 @@
             doc.setFontSize(12);
             doc.text('Relatório de Desempenho e Conquistas', 105, 30, { align: 'center' });
             
-            // STUDENT CARD
             doc.setTextColor(0, 0, 0);
             doc.setFillColor(240, 253, 244);
             doc.rect(14, 45, 182, 40, 'F');
@@ -1540,7 +1459,6 @@
             
             let yPos = 95;
             
-            // STATS
             doc.setFillColor(241, 245, 249);
             doc.rect(14, yPos - 8, 182, 32, 'F');
             doc.setFontSize(12);
@@ -1554,7 +1472,6 @@
             doc.text(`Nível Atual: ${student.level || 'A1'}`, 100, yPos + 18);
             yPos += 45;
             
-            // SKILLS PROGRESS
             doc.setFillColor(59, 130, 246);
             doc.rect(14, yPos - 8, 182, 45, 'F');
             doc.setTextColor(255, 255, 255);
@@ -1575,7 +1492,6 @@
             });
             yPos += 60;
             
-            // ACHIEVEMENTS
             if (includeAchievements && student.achievements && student.achievements.length > 0) {
                 doc.setFillColor(251, 191, 36);
                 doc.rect(14, yPos - 8, 182, 25, 'F');
@@ -1596,7 +1512,6 @@
                 yPos += 20 + (achList.length * 6);
             }
             
-            // FOOTER
             doc.setFillColor(241, 245, 249);
             doc.rect(0, 280, 210, 17, 'F');
             doc.setTextColor(100, 116, 139);
@@ -1604,7 +1519,6 @@
             doc.text(`Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, 105, 290, { align: 'center' });
             doc.text('EnglishPath — Plataforma de Ensino de Inglês', 105, 295, { align: 'center' });
             
-            // SAVE
             doc.save(`boletim-${student.nome.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`);
             showToast('Sucesso', 'PDF gerado e baixado!', 'success');
         } catch (error) {
