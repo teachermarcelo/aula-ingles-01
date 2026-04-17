@@ -2,25 +2,24 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>EnglishPath — Plataforma Completa de Inglês</title>
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRW5nbGlzaFBhdGgiLCJzaG9ydF9uYW1lIjoiRW5QYXRoIiwiZGVzY3JpcHRpb24iOiJBcHJlbmRhIGluZ2zDqXMgZGUgZm9ybWEgZGl2ZXJ0aWRhIGNvbSBnYW1pZmljYcOnw6NvISIsInN0YXJ0X3VybCI6Ii4vaW5kZXguaHRtbCIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMyMmM1NWUiLCJpY29ucyI6W3sic3JjIjoiaWNvbi0xOTJ4MTkyLnBuZyIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9wbmcifSx7InNyYyI6Imljb24tNTEyeDUxMi5wbmciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#22c55e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="EnglishPath">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2997/2997258.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js -->
+    <!-- Chart.js para Gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- jsPDF -->
+    <!-- jsPDF para PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -42,10 +41,13 @@
                         'float': 'float 3s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'bounce-slow': 'bounce 2s infinite',
-                        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                        'shine': 'shine 2s linear infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
                     },
                     keyframes: {
                         float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+                        shine: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
+                        wiggle: { '0%, 100%': { transform: 'rotate(-3deg)' }, '50%': { transform: 'rotate(3deg)' } }
                     }
                 }
             }
@@ -62,13 +64,17 @@
             --gem: #8b5cf6; --streak: #f97316; --xp: #06b6d4; --danger: #ef4444;
             --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.3);
+            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
         }
         [data-theme="light"] {
             --bg: #f8fafc; --bg2: #f1f5f9; --card: #ffffff; --card-hover: #f8fafc;
             --border: #e2e8f0; --text: #0f172a; --text-muted: #64748b;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --glow-primary: 0 0 20px rgba(34, 197, 94, 0.2);
+            --glow-accent: 0 0 20px rgba(251, 191, 36, 0.2);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Nunito', sans-serif;
             background: var(--bg);
@@ -76,11 +82,13 @@
             transition: all 0.3s ease;
             min-height: 100vh;
             overflow-x: hidden;
+            padding-bottom: 80px; /* Space for bottom nav on mobile */
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
         
+        /* Utility Classes */
         .c-card { background: var(--card); border: 1px solid var(--border); transition: all 0.3s; }
         .c-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
         .c-text { color: var(--text); }
@@ -95,71 +103,88 @@
         .c-streak { color: var(--streak); }
         .c-xp { color: var(--xp); }
         .c-danger { color: var(--danger); }
+        .c-danger-bg { background: var(--danger); }
         .c-gold { color: var(--gold); }
         .c-gold-bg { background: linear-gradient(135deg, #ffd700, #ffed4e); }
         
+        /* Crown Button - GOLD */
         .crown-btn {
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
             color: #78350f !important;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
             transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
-            position: relative;
+            display: flex; align-items: center; justify-content: center; position: relative;
         }
         .crown-btn:hover { transform: translateY(-2px) scale(1.1); box-shadow: 0 0 30px rgba(251, 191, 36, 0.8); }
-        .crown-btn .badge {
-            position: absolute; top: -4px; right: -4px;
-            background: #ef4444; color: white; font-size: 0.65rem;
-            width: 18px; height: 18px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; animation: ping-slow 2s infinite;
-        }
-        
+        .crown-btn i { color: #78350f !important; }
+
         .force-hidden { display: none !important; }
         
+        /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700;
             font-family: 'Fredoka', sans-serif; cursor: pointer; transition: all 0.3s;
             border: none; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--glow-primary); }
         .btn-secondary { background: var(--secondary); color: white; }
         .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-danger { background: var(--danger); color: white; }
         .btn-gold { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #78350f; }
         .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
+        /* Badge for Notifications */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg);
+            animation: pulse-slow 2s infinite;
+        }
+
+        /* Theme Toggle */
         .theme-toggle {
             width: 52px; height: 28px; border-radius: 14px;
-            background: var(--border); position: relative; cursor: pointer; border: none;
-            transition: background 0.3s;
+            background: var(--border); position: relative; cursor: pointer; border: none; transition: background 0.3s;
         }
         .theme-toggle::after {
             content: ''; position: absolute; top: 3px; left: 3px;
             width: 22px; height: 22px; border-radius: 50%;
-            background: var(--primary); transition: transform 0.3s;
+            background: var(--primary); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--secondary); }
         
+        /* Modals */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+            backdrop-filter: blur(8px); padding: 1rem;
         }
         .modal.active { display: flex; }
         .modal-content {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 24px; padding: 2rem;
-            max-width: 900px; width: 95%; max-height: 90vh; overflow-y: auto;
+            max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto;
             animation: slideUp 0.3s ease; box-shadow: var(--shadow);
+            position: relative;
         }
         .modal-content.full { max-width: 1400px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Inputs */
         .input-field {
             width: 100%; padding: 0.75rem 1rem;
             border: 2px solid var(--border); border-radius: 12px;
@@ -168,239 +193,98 @@
         }
         .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
         
+        /* Stats Cards */
         .stat-card {
             background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; transition: all 0.3s; cursor: pointer;
+            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
+            cursor: default;
         }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-        .stat-card.clickable:hover { border-color: var(--secondary); }
-        
-        .user-row {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
-            transition: all 0.3s; cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 1rem;
+        .stat-card.clickable:hover {
+            border-color: var(--secondary); transform: translateY(-4px); cursor: pointer;
         }
-        .user-row:hover { border-color: var(--primary); transform: translateX(4px); }
-        .user-info { display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0; }
-        .user-meta { display: flex; gap: 2rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; }
-        @media (max-width: 768px) { .user-meta { display: none; } }
-        .user-actions { display: flex; gap: 0.5rem; align-items: center; }
         
-        .status-badge {
-            padding: 0.25rem 0.75rem; border-radius: 9999px;
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-        }
-        .status-pending { background: #fbbf24; color: #78350f; }
-        .status-approved { background: #22c55e; color: white; }
-        .status-rejected { background: #ef4444; color: white; }
-        .status-banned { background: #7f1d1d; color: #fca5a5; }
-        
+        /* Progress Bar */
         .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.5s ease; }
         
+        /* Tabs */
         .tab-btn {
-            padding: 0.75rem 1.5rem; border-radius: 12px 12px 0 0;
+            padding: 0.75rem 1rem; border-radius: 12px;
             font-weight: 600; transition: all 0.3s; border: none;
             background: transparent; color: var(--text-muted); cursor: pointer;
-            position: relative; white-space: nowrap;
+            white-space: nowrap;
         }
-        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); }
-        .tab-btn:hover:not(.active) { background: var(--card); color: var(--text); }
+        .tab-btn.active { background: var(--card); color: var(--primary); border-bottom: 3px solid var(--primary); box-shadow: var(--shadow); }
         .hidden-section { display: none !important; }
         
+        /* Charts */
         .chart-container { position: relative; height: 280px; width: 100%; }
         
-        .level-track { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; flex-wrap: wrap; }
-        .level-node {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 0.5rem; padding: 1rem; border-radius: 16px;
-            transition: all 0.3s; cursor: pointer; min-width: 80px;
+        /* Study Tabs Area */
+        .study-nav {
+            display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 1rem;
+            margin-bottom: 1rem; -webkit-overflow-scrolling: touch;
         }
-        .level-node:hover { transform: translateY(-4px); }
-        .level-node.active { background: rgba(34,197,94,0.15); border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
-        .level-node.completed { opacity: 0.8; }
-        .level-node.locked { opacity: 0.5; cursor: not-allowed; }
-        .level-icon {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; color: white; font-weight: bold;
-        }
-        .level-A1 { background: #22c55e; } .level-A2 { background: #10b981; }
-        .level-B1 { background: #06b6d4; } .level-B2 { background: #f59e0b; }
-        .level-C1 { background: #f97316; } .level-C2 { background: #dc2626; }
+        .study-nav::-webkit-scrollbar { height: 0; } /* Hide scrollbar */
         
-        .content-tab {
-            background: var(--card); border: 2px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem;
-            transition: all 0.3s; cursor: pointer; text-align: center;
+        /* Content Sections */
+        .content-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;
         }
-        .content-tab:hover { border-color: var(--primary); transform: translateY(-2px); }
-        .content-tab-icon {
-            width: 64px; height: 64px; border-radius: 16px;
-            margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
-            font-size: 1.75rem; color: white;
+        .level-badge {
+            font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: bold; text-transform: uppercase;
         }
-        .content-reading { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .content-videos { background: linear-gradient(135deg, #ef4444, #f87171); }
-        .content-audios { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-        .content-grammar { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-        .content-exercises { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+        .lvl-a1 { background: #22c55e; color: white; }
+        .lvl-a2 { background: #10b981; color: white; }
+        .lvl-b1 { background: #06b6d4; color: white; }
+        .lvl-b2 { background: #f59e0b; color: white; }
+        .lvl-c1 { background: #f97316; color: white; }
         
-        .course-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 20px; padding: 1.5rem;
-            transition: all 0.3s; cursor: pointer; text-align: center;
-        }
-        .course-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
-        .course-icon {
-            width: 70px; height: 70px; border-radius: 20px;
-            margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
-            font-size: 1.75rem; color: white;
-        }
-        .course-business { background: linear-gradient(135deg, #1e40af, #3b82f6); }
-        .course-biblico { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
-        .course-kids { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .course-airport { background: linear-gradient(135deg, #0891b2, #22d3ee); }
-        .course-travel { background: linear-gradient(135deg, #059669, #34d399); }
-        
+        /* Toast */
         .toast {
             position: fixed; bottom: 20px; right: 20px;
             background: var(--card); border-left: 4px solid var(--primary);
             padding: 1rem 1.5rem; border-radius: 12px;
             box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
-            z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
-            max-width: 350px;
+            z-index: 3000; transform: translateX(150%); transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 90vw;
         }
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
-        
+
+        /* Ranking Podium */
         .podium { display: flex; align-items: flex-end; justify-content: center; gap: 1rem; margin: 2rem 0; }
         .podium-place { display: flex; flex-direction: column; align-items: center; position: relative; }
-        .podium-avatar {
-            width: 80px; height: 80px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; font-weight: bold; color: white;
-            margin-bottom: 0.5rem; box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        }
+        .podium-avatar { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: white; margin-bottom: 0.5rem; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
         .podium-1st { background: linear-gradient(135deg, #ffd700, #ffed4e); order: 2; transform: scale(1.2); z-index: 10; }
         .podium-2nd { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); order: 1; }
         .podium-3rd { background: linear-gradient(135deg, #cd7f32, #e8a87c); order: 3; }
-        .podium-base {
-            padding: 0.5rem 1.5rem; border-radius: 12px 12px 0 0;
-            font-weight: bold; color: white; text-align: center;
-        }
-        .base-1st { background: linear-gradient(135deg, #ffd700, #ffed4e); height: 100px; width: 100px; color: #78350f; }
-        .base-2nd { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); height: 70px; width: 90px; color: #4a5568; }
-        .base-3rd { background: linear-gradient(135deg, #cd7f32, #e8a87c); height: 50px; width: 80px; color: white; }
-        .podium-crown { position: absolute; top: -30px; font-size: 2rem; animation: bounce-slow 2s infinite; }
-        
-        .rank-badge {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 32px; height: 32px; border-radius: 50%;
-            font-weight: bold; font-size: 0.875rem;
-        }
-        .rank-1 { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #78350f; }
-        .rank-2 { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #4a5568; }
-        .rank-3 { background: linear-gradient(135deg, #cd7f32, #e8a87c); color: white; }
-        .rank-other { background: var(--border); color: var(--text-muted); }
-        
-        .active-user-item {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 0.75rem; border-radius: 8px;
-            background: var(--bg2); margin-bottom: 0.5rem;
-        }
-        .active-user-item:hover { background: var(--card-hover); }
-        
-        #installBtn {
-            position: fixed; bottom: 20px; left: 20px;
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            color: white; padding: 0.75rem 1.5rem; border-radius: 12px;
-            font-weight: 700; display: none; align-items: center; gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-            z-index: 2000; cursor: pointer; transition: all 0.3s;
-        }
-        #installBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6); }
-        #installBtn i { font-size: 1.25rem; }
-        
-        #notificationBanner {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
-            color: white; padding: 1rem 2rem; display: none;
-            align-items: center; justify-content: space-between;
-            z-index: 1500; box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
-        }
-        #notificationBanner.show { display: flex; }
-        #notificationBanner .btn { background: white; color: #1e40af; }
-        #notificationBanner .btn:hover { background: #f1f5f9; }
-        
-        @media (max-width: 768px) {
-            .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
-            .progress-section { margin: 0; width: 100%; }
-            .main { padding: 1rem; }
-            .card { padding: 1.5rem; }
-            .actions { flex-direction: column; }
-            .tabs-container { padding: 0.5rem 1rem; }
-            .btn { min-width: 100px; padding: 0.75rem 1rem; }
-        }
+        .podium-base { padding: 0.5rem 1.5rem; border-radius: 12px 12px 0 0; font-weight: bold; color: white; text-align: center; width: 60px; }
+        .base-1st { background: linear-gradient(135deg, #ffd700, #ffed4e); height: 80px; color: #78350f; }
+        .base-2nd { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); height: 60px; color: #4a5568; }
+        .base-3rd { background: linear-gradient(135deg, #cd7f32, #e8a87c); height: 40px; color: white; }
     </style>
 </head>
 <body>
-
-    <!-- PWA Install Button -->
-    <button id="installBtn" onclick="installPWA()">
-        <i class="fa-solid fa-download"></i> Instalar App
-    </button>
-
-    <!-- Notification Permission Banner -->
-    <div id="notificationBanner">
-        <div>
-            <i class="fa-solid fa-bell mr-2"></i>
-            <span>Receba lembretes para não perder seu streak! 🔔</span>
-        </div>
-        <div>
-            <button class="btn btn-sm" onclick="requestNotificationPermission()">Ativar</button>
-            <button class="btn btn-sm btn-outline" onclick="dismissNotificationBanner()" style="margin-left: 0.5rem; border-color: white; color: white;">Não</button>
-        </div>
-    </div>
 
     <!-- ===== MODAL: LOGIN ===== -->
     <div id="loginModal" class="modal">
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">Bem-vindo de volta! 👋</h2>
+                <h2 class="font-display font-bold text-2xl">Bem-vindo! 👋</h2>
                 <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="handleLogin(event)">
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Email</label>
-                        <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="loginPassword" class="input-field" placeholder="•••••••••" required>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" class="rounded">
-                            <span class="c-text-muted">Lembrar-me</span>
-                        </label>
-                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">Esqueceu a senha?</button>
-                    </div>
-                    <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3">
-                        <i class="fa-solid fa-right-to-bracket"></i> Entrar
-                    </button>
+                    <div><label class="block text-sm font-bold mb-2">Email</label><input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Senha</label><input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required></div>
+                    <button type="submit" id="loginBtn" class="btn btn-primary w-full py-3"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
                 </div>
             </form>
             <div class="mt-6 text-center">
-                <p class="c-text-muted">Não tem conta? 
-                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">Cadastre-se gratuitamente</button>
-                </p>
+                <p class="c-text-muted">Não tem conta? <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">Cadastrar</button></p>
             </div>
         </div>
     </div>
@@ -414,83 +298,14 @@
             </div>
             <form onsubmit="handleRegister(event)">
                 <div class="space-y-4">
-                    <div><label class="block text-sm font-bold mb-2">Nome completo</label>
-                        <input type="text" id="regName" class="input-field" placeholder="João Silva" required></div>
-                    <div><label class="block text-sm font-bold mb-2">Email</label>
-                        <input type="email" id="regEmail" class="input-field" placeholder="seu@email.com" required></div>
-                    <div><label class="block text-sm font-bold mb-2">Senha</label>
-                        <input type="password" id="regPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required></div>
-                    <div><label class="block text-sm font-bold mb-2">Confirmar senha</label>
-                        <input type="password" id="regConfirmPassword" class="input-field" placeholder="Digite novamente" required></div>
-                    <div class="flex items-start gap-2">
-                        <input type="checkbox" id="regTerms" required class="mt-1">
-                        <label for="regTerms" class="text-sm c-text-muted">Concordo com os termos de uso e política de privacidade</label>
-                    </div>
+                    <div><label class="block text-sm font-bold mb-2">Nome</label><input type="text" id="regName" class="input-field" placeholder="Seu nome" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Email</label><input type="email" id="regEmail" class="input-field" placeholder="seu@email.com" required></div>
+                    <div><label class="block text-sm font-bold mb-2">Senha</label><input type="password" id="regPassword" class="input-field" minlength="6" required></div>
                     <button type="submit" id="registerBtn" class="btn btn-primary w-full py-3"><i class="fa-solid fa-user-plus"></i> Criar conta</button>
                 </div>
             </form>
             <div class="mt-6 text-center">
-                <p class="c-text-muted">Já tem conta? 
-                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">Faça login</button>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== MODAL: LEADERBOARD ===== -->
-    <div id="leaderboardModal" class="modal">
-        <div class="modal-content max-w-4xl">
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl c-gold-bg flex items-center justify-center"><i class="fa-solid fa-trophy text-2xl" style="color: #78350f;"></i></div>
-                    <div><h2 class="font-display font-bold text-2xl">🏆 Ranking Semanal</h2><p class="c-text-muted text-sm">Competição entre alunos • Top 10</p></div>
-                </div>
-                <button onclick="closeModal('leaderboardModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="podiumContainer" class="podium"></div>
-            <div class="mt-8"><h3 class="font-bold text-lg mb-4">📊 Classificação Completa</h3>
-                <div id="rankingList" class="space-y-2 max-h-96 overflow-y-auto"></div>
-            </div>
-            <div id="congratsMessage" class="mt-6 p-4 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 text-center hidden">
-                <i class="fa-solid fa-party-horn text-3xl c-gold mb-2"></i>
-                <p class="font-bold text-lg">Parabéns aos vencedores! 🎉</p>
-                <p class="c-text-muted">Continuem assim e inspirem seus colegas!</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== MODAL: ACTIVE USERS ===== -->
-    <div id="activeUsersModal" class="modal">
-        <div class="modal-content max-w-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">👥 Alunos Ativos Hoje</h2>
-                <button onclick="closeModal('activeUsersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="activeUsersList" class="space-y-2 max-h-96 overflow-y-auto">
-                <div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando...</p></div>
-            </div>
-            <p class="text-sm c-text-muted mt-4 text-center">Atualizado em tempo real • Últimas 24 horas</p>
-        </div>
-    </div>
-
-    <!-- ===== MODAL: ACHIEVEMENTS ===== -->
-    <div id="achievementsModal" class="modal">
-        <div class="modal-content max-w-3xl">
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-xl c-accent-bg flex items-center justify-center"><i class="fa-solid fa-medal text-2xl text-white"></i></div>
-                    <div><h2 class="font-display font-bold text-2xl">🏅 Minhas Conquistas</h2><p class="c-text-muted text-sm">Desbloqueie medalhas e troféus</p></div>
-                </div>
-                <button onclick="closeModal('achievementsModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="achievementsList" class="space-y-3"></div>
-            <div class="mt-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/50">
-                <h4 class="font-bold mb-2">💡 Como ganhar conquistas?</h4>
-                <ul class="text-sm c-text-muted space-y-1 list-disc list-inside">
-                    <li>Complete lições diárias</li><li>Alcance novos níveis (A1, A2, B1...)</li>
-                    <li>Mantenha sequências de estudo (streak)</li><li>Acumule XP e suba no ranking</li>
-                    <li>Participe de cursos especiais</li>
-                </ul>
+                <p class="c-text-muted">Já tem conta? <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">Login</button></p>
             </div>
         </div>
     </div>
@@ -499,170 +314,121 @@
     <div id="adminModal" class="modal">
         <div class="modal-content full">
             <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl crown-btn flex items-center justify-center"><i class="fa-solid fa-crown text-lg"></i></div>
-                    <h2 class="font-display font-bold text-2xl">Painel Administrativo</h2>
-                </div>
-                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                <h2 class="font-display font-bold text-2xl"><i class="fa-solid fa-crown c-gold mr-2"></i>Painel Admin</h2>
+                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
-            <!-- Admin Tabs -->
-            <div class="flex gap-1 mb-0 border-b border-gray-700 overflow-x-auto pb-1">
-                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active"><i class="fa-solid fa-chart-line mr-2"></i>Dashboard</button>
-                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn"><i class="fa-solid fa-users mr-2"></i>Alunos</button>
-                <button onclick="showAdminTab('leaderboard')" id="tab-leaderboard" class="tab-btn"><i class="fa-solid fa-trophy mr-2"></i>Ranking</button>
-                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn"><i class="fa-solid fa-file-alt mr-2"></i>Relatórios PDF</button>
-                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn"><i class="fa-solid fa-graduation-cap mr-2"></i>Cursos</button>
-                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn"><i class="fa-solid fa-cog mr-2"></i>Config</button>
+            <div class="flex gap-1 mb-4 overflow-x-auto pb-1 border-b border-gray-700">
+                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active">Dashboard</button>
+                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn">Alunos</button>
+                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn">Relatórios PDF</button>
+                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn">Config</button>
             </div>
             
             <!-- Tab: Dashboard -->
-            <div id="admin-dashboard" class="admin-section p-6">
-                <h3 class="font-bold text-lg mb-4">📊 Visão Geral da Plataforma</h3>
+            <div id="admin-dashboard" class="admin-section p-4">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="stat-card text-center"><div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div><div class="text-sm c-text-muted">Total Alunos</div></div>
-                    <div class="stat-card text-center relative group clickable" onclick="openActiveUsersModal()">
-                        <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
-                        <div class="text-sm c-text-muted">Ativos Hoje <i class="fa-solid fa-eye ml-1"></i></div>
-                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-gray-800 text-white text-xs rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg text-left">
-                            <div class="font-bold border-b border-gray-600 mb-1">Clique para ver lista</div>
-                        </div>
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
+                        <div class="text-sm c-text-muted">Total Alunos</div>
                     </div>
-                    <div class="stat-card text-center relative">
+                    <!-- ACTIVE USERS - CLICKABLE -->
+                    <div class="stat-card text-center clickable" onclick="showActiveUsersList()">
+                        <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
+                        <div class="text-sm c-text-muted">Ativos Hoje (Clique)</div>
+                        <div class="text-xs c-primary mt-1 opacity-70"><i class="fa-solid fa-info-circle"></i> Ver quem entrou</div>
+                    </div>
+                    <div class="stat-card text-center">
                         <div class="text-3xl font-bold c-accent mb-1" id="statPending">0</div>
                         <div class="text-sm c-text-muted">Pendentes</div>
-                        <div id="pendingBadge" class="hidden absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white animate-ping"></div>
                     </div>
-                    <div class="stat-card text-center"><div class="text-3xl font-bold c-gem mb-1" id="statAvgTime">0h</div><div class="text-sm c-text-muted">Tempo Médio/Dia</div></div>
+                    <div class="stat-card text-center">
+                        <div class="text-3xl font-bold c-xp mb-1" id="statAvgTime">0h</div>
+                        <div class="text-sm c-text-muted">Tempo Médio</div>
+                    </div>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <div class="stat-card"><h4 class="font-bold mb-4">📈 Progresso por Nível (CEFR)</h4><div class="chart-container"><canvas id="chartLevels"></canvas></div></div>
-                    <div class="stat-card"><h4 class="font-bold mb-4">📅 Atividade Semanal</h4><div class="chart-container"><canvas id="chartActivity"></canvas></div></div>
-                </div>
                 <div class="grid md:grid-cols-2 gap-6">
-                    <div class="stat-card"><h4 class="font-bold mb-4">🎯 Cursos Especiais Mais Acessados</h4><div class="chart-container"><canvas id="chartCourses"></canvas></div></div>
-                    <div class="stat-card"><h4 class="font-bold mb-4">⭐ Top 10 Alunos (XP)</h4><div id="topStudents" class="space-y-2"></div></div>
+                    <div class="stat-card"><h4 class="font-bold mb-4">Progresso por Nível</h4><div class="chart-container"><canvas id="chartLevels"></canvas></div></div>
+                    <div class="stat-card"><h4 class="font-bold mb-4">Atividade Semanal</h4><div class="chart-container"><canvas id="chartActivity"></canvas></div></div>
                 </div>
             </div>
             
             <!-- Tab: Students -->
-            <div id="admin-students" class="admin-section hidden-section p-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                    <h3 class="font-bold text-lg">👥 Gestão de Alunos</h3>
-                    <div class="flex gap-2 flex-wrap">
-                        <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="filterStudents()">
-                        <select id="filterLevel" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos os níveis</option>
-                            <option value="A1">A1</option><option value="A2">A2</option>
-                            <option value="B1">B1</option><option value="B2">B2</option>
-                            <option value="C1">C1</option><option value="C2">C2</option>
-                        </select>
-                        <select id="filterStatus" class="input-field" onchange="filterStudents()">
-                            <option value="all">Todos status</option>
-                            <option value="approved">Aprovados</option>
-                            <option value="pending">Pendentes</option>
-                            <option value="banned">Banidos</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="hidden md:grid md:grid-cols-12 gap-4 text-sm font-bold c-text-muted px-4 mb-2">
-                    <div class="col-span-4">Aluno</div><div class="col-span-2">Nível</div><div class="col-span-2">XP</div><div class="col-span-2">Status</div><div class="col-span-2 text-right">Ações</div>
-                </div>
-                <div id="studentsList" class="space-y-2 max-h-[600px] overflow-y-auto pr-2">
-                    <div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando alunos...</p></div>
-                </div>
+            <div id="admin-students" class="admin-section hidden-section p-4">
+                <h3 class="font-bold text-lg mb-4">Gestão de Alunos</h3>
+                <div id="studentsList" class="space-y-2 max-h-[600px] overflow-y-auto"></div>
             </div>
 
-            <!-- Tab: Leaderboard Admin -->
-            <div id="admin-leaderboard" class="admin-section hidden-section p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-lg">🏆 Ranking e Competição</h3>
-                    <button onclick="resetWeeklyRanking()" class="btn btn-outline btn-sm"><i class="fa-solid fa-rotate-right"></i> Resetar Semana</button>
-                </div>
-                <div id="adminLeaderboardContent"></div>
-            </div>
-            
-            <!-- Tab: Reports (PDF) -->
-            <div id="admin-reports" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">📋 Relatórios em PDF</h3>
+            <!-- Tab: Reports -->
+            <div id="admin-reports" class="admin-section hidden-section p-4">
+                <h3 class="font-bold text-lg mb-4">Gerar Boletim (PDF)</h3>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="stat-card">
-                        <label class="block text-sm font-bold mb-2">Selecione um aluno:</label>
-                        <select id="reportStudentSelect" class="input-field mb-4" onchange="loadStudentReport(this.value)"><option value="">-- Selecione --</option></select>
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-2">Período:</label>
-                            <div class="flex gap-2"><input type="date" id="reportStartDate" class="input-field"><input type="date" id="reportEndDate" class="input-field"></div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="flex items-center gap-2 mb-2"><input type="checkbox" id="includeAchievements" checked class="rounded"><span class="text-sm">Incluir conquistas e medalhas</span></label>
-                            <label class="flex items-center gap-2 mb-2"><input type="checkbox" id="includeActivity" checked class="rounded"><span class="text-sm">Incluir histórico de atividades</span></label>
-                        </div>
-                        <button onclick="generatePDFReport()" class="btn btn-danger w-full"><i class="fa-solid fa-file-pdf"></i> Gerar PDF</button>
+                        <label class="block text-sm font-bold mb-2">Aluno:</label>
+                        <select id="reportStudentSelect" class="input-field mb-4" onchange="loadStudentReport(this.value)"></select>
+                        <button onclick="generatePDFReport()" class="btn btn-danger w-full"><i class="fa-solid fa-file-pdf"></i> Baixar Boletim</button>
                     </div>
-                    <div class="stat-card"><h4 class="font-bold mb-3">Pré-visualização</h4><div id="reportPreview" class="c-text-muted text-sm">Selecione um aluno para visualizar o relatório.</div></div>
-                </div>
-                <div id="studentReport" class="hidden-section mt-6"></div>
-            </div>
-            
-            <!-- Tab: Courses -->
-            <div id="admin-courses" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">🎓 Cursos Especiais</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="course-card"><div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div><h4 class="font-bold mb-2">Business English</h4><p class="text-sm c-text-muted mb-3">Inglês para negócios e carreira</p><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Alunos:</span><span class="font-bold" id="courseBusiness">0</span></div><div class="progress-bar mb-2"><div class="progress-fill" style="width: 45%"></div></div><button class="btn btn-sm btn-outline w-full">Gerenciar</button></div>
-                    <div class="course-card"><div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div><h4 class="font-bold mb-2">Bíblico</h4><p class="text-sm c-text-muted mb-3">Inglês com foco em textos bíblicos</p><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Alunos:</span><span class="font-bold" id="courseBiblico">0</span></div><div class="progress-bar mb-2"><div class="progress-fill" style="width: 30%"></div></div><button class="btn btn-sm btn-outline w-full">Gerenciar</button></div>
-                    <div class="course-card"><div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div><h4 class="font-bold mb-2">Kids</h4><p class="text-sm c-text-muted mb-3">Inglês divertido para crianças</p><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Alunos:</span><span class="font-bold" id="courseKids">0</span></div><div class="progress-bar mb-2"><div class="progress-fill" style="width: 60%"></div></div><button class="btn btn-sm btn-outline w-full">Gerenciar</button></div>
-                    <div class="course-card"><div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div><h4 class="font-bold mb-2">Airport & Travel</h4><p class="text-sm c-text-muted mb-3">Inglês para viagens e aeroportos</p><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Alunos:</span><span class="font-bold" id="courseAirport">0</span></div><div class="progress-bar mb-2"><div class="progress-fill" style="width: 25%"></div></div><button class="btn btn-sm btn-outline w-full">Gerenciar</button></div>
-                    <div class="course-card"><div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div><h4 class="font-bold mb-2">Travel Conversations</h4><p class="text-sm c-text-muted mb-3">Diálogos para turistas</p><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Alunos:</span><span class="font-bold" id="courseTravel">0</span></div><div class="progress-bar mb-2"><div class="progress-fill" style="width: 35%"></div></div><button class="btn btn-sm btn-outline w-full">Gerenciar</button></div>
-                    <div class="course-card border-2 border-dashed border-gray-600 hover:border-primary cursor-pointer" onclick="showAddCourseModal()"><div class="w-16 h-16 mx-auto rounded-2xl bg-gray-700 flex items-center justify-center mb-3"><i class="fa-solid fa-plus text-2xl c-text-muted"></i></div><h4 class="font-bold mb-2 c-text-muted">Adicionar Curso</h4><p class="text-sm c-text-muted">Crie um novo curso especial</p></div>
+                    <div class="stat-card" id="studentReportPreview">
+                        <p class="c-text-muted text-center">Selecione um aluno.</p>
+                    </div>
                 </div>
             </div>
             
             <!-- Tab: Settings -->
-            <div id="admin-settings" class="admin-section hidden-section p-6">
-                <h3 class="font-bold text-lg mb-4">⚙️ Configurações do Sistema</h3>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="stat-card"><h4 class="font-bold mb-4">🔧 Sistema</h4><div class="space-y-3">
-                        <div class="flex items-center justify-between"><span>Notificações por email</span><input type="checkbox" class="toggle" checked></div>
-                        <div class="flex items-center justify-between"><span>Aprovação automática</span><input type="checkbox" class="toggle"></div>
-                        <div class="flex items-center justify-between"><span>Modo manutenção</span><input type="checkbox" class="toggle"></div>
-                    </div></div>
-                    <div class="stat-card border-red-900/50 bg-red-900/10"><h4 class="font-bold mb-4 text-red-400">🔥 Correção de Emergência</h4><p class="text-sm text-gray-400 mb-4">Se todos os usuários estão vendo a coroa de admin, o banco de dados pode estar corrompido.</p><button onclick="fixDatabaseRoles()" class="btn btn-danger w-full"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Forçar Reset de Cargos</button></div>
-                    <div class="stat-card md:col-span-2"><h4 class="font-bold mb-4">💾 Dados</h4><div class="flex flex-wrap gap-3">
-                        <button onclick="exportData('json')" class="btn btn-outline justify-start"><i class="fa-solid fa-file-code mr-2"></i> Exportar JSON</button>
-                        <button onclick="exportData('csv')" class="btn btn-outline justify-start"><i class="fa-solid fa-file-csv mr-2"></i> Exportar CSV</button>
-                        <button onclick="logout()" class="btn btn-danger ml-auto"><i class="fa-solid fa-sign-out-alt mr-2"></i> Sair</button>
-                    </div></div>
+            <div id="admin-settings" class="admin-section hidden-section p-4">
+                <h3 class="font-bold text-lg mb-4">Configurações</h3>
+                <div class="p-4 border border-red-900/50 bg-red-900/10 rounded-xl">
+                    <h4 class="font-bold text-red-400 mb-2">Zona de Perigo</h4>
+                    <button onclick="fixDatabaseRoles()" class="btn btn-danger btn-sm">Forçar Reset de Cargos (Admin Only)</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== MODAL: Student Details ===== -->
-    <div id="studentModal" class="modal"><div class="modal-content max-w-3xl"><div class="flex justify-between items-center mb-6"><h2 class="font-display font-bold text-2xl">👤 Detalhes do Aluno</h2><button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div><div id="studentDetailsContent"></div></div></div>
+    <!-- ===== MODAL: ACTIVE USERS LIST ===== -->
+    <div id="activeUsersModal" class="modal">
+        <div class="modal-content max-w-md">
+            <h3 class="font-bold text-xl mb-4">Alunos Ativos nas últimas 24h</h3>
+            <div id="activeUsersListContent" class="space-y-2 max-h-96 overflow-y-auto"></div>
+            <button onclick="closeModal('activeUsersModal')" class="btn btn-outline w-full mt-4">Fechar</button>
+        </div>
+    </div>
 
     <!-- ===== HEADER ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center shadow-lg"><i class="fa-solid fa-graduation-cap text-white text-lg"></i></div>
-                    <div class="hidden sm:block"><h1 class="font-display font-bold text-lg leading-none">EnglishPath</h1><p class="text-[10px] c-text-muted font-medium">Do A1 ao C2 • Cursos Especiais</p></div>
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl c-primary-bg flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-graduation-cap text-white text-lg"></i>
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="font-display font-bold text-lg leading-none">EnglishPath</h1>
+                        <p class="text-[10px] c-text-muted font-medium">Do A1 ao C2 • PWA Ready</p>
+                    </div>
                 </a>
+                
                 <div class="flex items-center gap-3">
                     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
+                    
                     <div id="authButtons" class="flex items-center gap-2">
-                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm"><i class="fa-solid fa-user-plus"></i> Cadastrar</button>
+                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm">Login</button>
+                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm">Cadastrar</button>
                     </div>
+                    
                     <div id="userInfo" class="hidden flex items-center gap-3">
-                        <span id="userName" class="font-bold text-sm hidden md:inline text-right"><span class="block text-xs c-text-muted font-normal">Olá,</span><span id="displayUserName">Usuário</span></span>
-                        <button onclick="openLeaderboard()" class="w-10 h-10 rounded-full c-gold-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Ranking"><i class="fa-solid fa-trophy" style="color: #78350f;"></i></button>
-                        <button onclick="openAchievements()" class="w-10 h-10 rounded-full c-accent-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Conquistas"><i class="fa-solid fa-medal text-white"></i></button>
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
-                            <i class="fa-solid fa-crown"></i><span id="adminBadge" class="badge hidden">0</span>
+                        <span id="userName" class="font-bold text-sm hidden md:block text-right">
+                            <span class="block text-xs c-text-muted font-normal">Olá,</span>
+                            <span id="displayUserName">Usuário</span>
+                        </span>
+                        
+                        <!-- ADMIN BUTTON WITH BADGE -->
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn shadow-md relative">
+                            <i class="fa-solid fa-crown"></i>
+                            <span id="adminBadge" class="notification-badge force-hidden">0</span>
                         </button>
-                        <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
+                        
+                        <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>
                 </div>
             </div>
@@ -671,893 +437,716 @@
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- ===== GUEST VIEW ===== -->
-        <div id="guestView" class="fade-in">
-            <div class="text-center py-12 md:py-20">
-                <div class="w-28 h-28 mx-auto mb-8 rounded-2xl c-primary-bg flex items-center justify-center text-6xl text-white shadow-2xl animate-float"><i class="fa-solid fa-graduation-cap"></i></div>
-                <h2 class="font-display font-black text-4xl md:text-5xl mb-4">Aprenda Inglês de Forma <span class="c-primary">Divertida</span>! 🎮</h2>
-                <p class="text-xl c-text-muted mb-10 max-w-2xl mx-auto leading-relaxed">Do básico ao avançado, jogue, aprenda e acompanhe seu progresso. Compete com outros alunos, ganhe medalhas e suba no ranking!</p>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4"><i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!</button>
-                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4"><i class="fa-solid fa-right-to-bracket"></i> Já tenho conta</button>
-                </div>
+        <!-- GUEST VIEW -->
+        <div id="guestView" class="text-center py-12">
+            <div class="w-28 h-28 mx-auto mb-8 rounded-2xl c-primary-bg flex items-center justify-center text-6xl text-white shadow-2xl animate-float">
+                <i class="fa-solid fa-graduation-cap"></i>
             </div>
-            <div class="grid md:grid-cols-3 gap-6 mt-16">
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all"><div class="w-16 h-16 mx-auto mb-4 rounded-xl c-primary-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-gamepad"></i></div><h3 class="font-bold text-xl mb-2">Aprenda Jogando</h3><p class="c-text-muted">Lições interativas com gamificação, XP e recompensas.</p></div>
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all"><div class="w-16 h-16 mx-auto mb-4 rounded-xl c-gold-bg flex items-center justify-center text-3xl" style="color: #78350f;"><i class="fa-solid fa-trophy"></i></div><h3 class="font-bold text-xl mb-2">Competição Saudável</h3><p class="c-text-muted">Ranking semanal, medalhas e troféus para os melhores!</p></div>
-                <div class="c-card rounded-2xl p-6 text-center hover:border-primary transition-all"><div class="w-16 h-16 mx-auto mb-4 rounded-xl c-accent-bg flex items-center justify-center text-3xl text-white"><i class="fa-solid fa-volume-high"></i></div><h3 class="font-bold text-xl mb-2">Áudio Nativo TTS</h3><p class="c-text-muted">Tecnologia de texto-para-fala para ouvir a pronúncia correta.</p></div>
-            </div>
+            <h2 class="font-display font-black text-4xl md:text-5xl mb-4">Aprenda Inglês <span class="c-primary">Gamificado</span>! 🎮</h2>
+            <p class="text-xl c-text-muted mb-10 max-w-2xl mx-auto">Conquiste níveis, ganhe XP e suba no ranking global.</p>
+            <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4"><i class="fa-solid fa-rocket"></i> Começar Agora</button>
         </div>
 
-        <!-- ===== LOGGED IN VIEW ===== -->
+        <!-- LOGGED IN VIEW -->
         <div id="loggedInView" class="hidden fade-in space-y-8">
-            <div class="text-center mb-8"><h2 class="font-display font-bold text-3xl md:text-4xl mb-2">Olá, <span id="welcomeName" class="c-primary">Aluno</span>! 👋</h2><p class="c-text-muted text-lg">Continue sua jornada no inglês. Você está indo muito bem!</p></div>
-            
-            <!-- User Stats Cards -->
+            <!-- Stats Summary -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div><div class="text-xs c-text-muted">XP Total</div></div>
-                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire"></i> <span id="userStreak">0</span></div><div class="text-xs c-text-muted">Dias Seguidos</div></div>
-                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem"></i> <span id="userGems">0</span></div><div class="text-xs c-text-muted">Gemas</div></div>
-                <div class="c-card rounded-xl p-4 text-center"><div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div><div class="text-xs c-text-muted">Nível Atual</div></div>
-            </div>
-
-            <!-- QUICK ACTIONS -->
-            <div class="flex justify-center gap-4 flex-wrap">
-                <button onclick="openLeaderboard()" class="btn btn-gold px-8 py-3 text-lg"><i class="fa-solid fa-trophy"></i> Ver Ranking</button>
-                <button onclick="openAchievements()" class="btn btn-outline px-8 py-3 text-lg"><i class="fa-solid fa-medal c-accent"></i> Minhas Conquistas</button>
-            </div>
-            
-            <!-- LEVEL TRACK: A1 → C2 -->
-            <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">🗺️ Sua Jornada: A1 ao C2</h3><span class="text-sm c-text-muted">Nível atual: <span class="font-bold c-primary" id="currentLevel">A1</span></span></div>
-                <div class="level-track">
-                    <a href="a1.html" class="level-node active"><div class="level-icon level-A1"><i class="fa-solid fa-seedling"></i></div><span class="font-bold text-sm">A1</span><span class="text-xs c-text-muted">Beginner</span></a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    <a href="a2.html" class="level-node completed"><div class="level-icon level-A2"><i class="fa-solid fa-leaf"></i></div><span class="font-bold text-sm">A2</span><span class="text-xs c-text-muted">Elementary</span></a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    <a href="b1.html" class="level-node"><div class="level-icon level-B1"><i class="fa-solid fa-water"></i></div><span class="font-bold text-sm">B1</span><span class="text-xs c-text-muted">Intermediate</span></a>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    <div class="level-node locked"><div class="level-icon level-B2"><i class="fa-solid fa-fire"></i></div><span class="font-bold text-sm">B2</span><span class="text-xs c-text-muted">Upper-Int</span></div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    <div class="level-node locked"><div class="level-icon level-C1"><i class="fa-solid fa-bolt"></i></div><span class="font-bold text-sm">C1</span><span class="text-xs c-text-muted">Advanced</span></div>
-                    <div class="w-8 h-1 bg-gray-600 hidden md:block"></div>
-                    <div class="level-node locked"><div class="level-icon level-C2"><i class="fa-solid fa-crown"></i></div><span class="font-bold text-sm">C2</span><span class="text-xs c-text-muted">Mastery</span></div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-xp"><i class="fa-solid fa-bolt"></i> <span id="userXp">0</span></div>
+                    <div class="text-xs c-text-muted">XP Total</div>
                 </div>
-                <div class="mt-6"><div class="flex justify-between text-xs mb-2"><span class="c-text-muted">Progresso para próximo nível</span><span class="font-bold"><span id="currentXp">0</span>/2,500 XP</span></div><div class="progress-bar"><div id="xpBar" class="progress-fill" style="width: 0%"></div></div></div>
-                <a href="a1.html" class="btn btn-primary w-full mt-6"><i class="fa-solid fa-play"></i> Continuar Estudos</a>
-            </div>
-
-            <!-- CONTENT TABS (NEW) -->
-            <div class="c-card rounded-2xl p-6">
-                <h3 class="font-display font-bold text-xl mb-6">📚 Conteúdo por Categoria</h3>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    <div class="content-tab" onclick="openContentTab('reading')"><div class="content-tab-icon content-reading"><i class="fa-solid fa-book-open"></i></div><h4 class="font-bold text-sm">📖 Reading</h4><p class="text-xs c-text-muted">Textos e compreensão</p></div>
-                    <div class="content-tab" onclick="openContentTab('videos')"><div class="content-tab-icon content-videos"><i class="fa-solid fa-video"></i></div><h4 class="font-bold text-sm">🎬 Videos</h4><p class="text-xs c-text-muted">Videoaulas por nível</p></div>
-                    <div class="content-tab" onclick="openContentTab('audios')"><div class="content-tab-icon content-audios"><i class="fa-solid fa-headphones"></i></div><h4 class="font-bold text-sm">🎧 Audios</h4><p class="text-xs c-text-muted">Listening e pronúncia</p></div>
-                    <div class="content-tab" onclick="openContentTab('grammar')"><div class="content-tab-icon content-grammar"><i class="fa-solid fa-book"></i></div><h4 class="font-bold text-sm">📝 Grammar</h4><p class="text-xs c-text-muted">Gramática estruturada</p></div>
-                    <div class="content-tab" onclick="openContentTab('exercises')"><div class="content-tab-icon content-exercises"><i class="fa-solid fa-pen-to-square"></i></div><h4 class="font-bold text-sm">✏️ Exercises</h4><p class="text-xs c-text-muted">Exercícios práticos</p></div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-streak"><i class="fa-solid fa-fire"></i> <span id="userStreak">0</span></div>
+                    <div class="text-xs c-text-muted">Dias Seguidos</div>
+                </div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-gem"><i class="fa-solid fa-gem"></i> <span id="userGems">0</span></div>
+                    <div class="text-xs c-text-muted">Gemas</div>
+                </div>
+                <div class="c-card rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold c-primary"><span id="userLevel">A1</span></div>
+                    <div class="text-xs c-text-muted">Nível</div>
                 </div>
             </div>
 
-            <!-- ACHIEVEMENTS PREVIEW -->
-            <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">🏅 Suas Conquistas Recentes</h3><button onclick="openAchievements()" class="btn btn-sm btn-outline">Ver Todas</button></div>
-                <div id="recentAchievements" class="grid md:grid-cols-3 gap-4"></div>
+            <!-- NAVIGATION TABS (NEW) -->
+            <div class="study-nav">
+                <button onclick="showStudyTab('dashboard')" id="btn-dashboard" class="tab-btn active"><i class="fa-solid fa-home mr-2"></i>Dashboard</button>
+                <button onclick="showStudyTab('reading')" id="btn-reading" class="tab-btn"><i class="fa-solid fa-book-open mr-2"></i>Reading</button>
+                <button onclick="showStudyTab('videos')" id="btn-videos" class="tab-btn"><i class="fa-solid fa-video mr-2"></i>Videos</button>
+                <button onclick="showStudyTab('audios')" id="btn-audios" class="tab-btn"><i class="fa-solid fa-headphones mr-2"></i>Audios</button>
+                <button onclick="showStudyTab('grammar')" id="btn-grammar" class="tab-btn"><i class="fa-solid fa-spell-check mr-2"></i>Grammar</button>
+                <button onclick="showStudyTab('exercises')" id="btn-exercises" class="tab-btn"><i class="fa-solid fa-dumbbell mr-2"></i>Exercises</button>
             </div>
-            
-            <!-- SPECIAL COURSES SECTION -->
-            <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">🎓 Cursos Especiais</h3><span class="text-sm c-text-muted">Conteúdo exclusivo via WhatsApp</span></div>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <div onclick="openCourseWhatsapp('Business English')" class="course-card"><div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div><h4 class="font-bold text-sm mb-1">Business</h4><p class="text-xs c-text-muted">Inglês corporativo</p></div>
-                    <div onclick="openCourseWhatsapp('Bíblico')" class="course-card"><div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div><h4 class="font-bold text-sm mb-1">Bíblico</h4><p class="text-xs c-text-muted">Textos sagrados</p></div>
-                    <div onclick="openCourseWhatsapp('Kids')" class="course-card"><div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div><h4 class="font-bold text-sm mb-1">Kids</h4><p class="text-xs c-text-muted">Para crianças</p></div>
-                    <div onclick="openCourseWhatsapp('Airport')" class="course-card"><div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div><h4 class="font-bold text-sm mb-1">Airport</h4><p class="text-xs c-text-muted">Viagens aéreas</p></div>
-                    <div onclick="openCourseWhatsapp('Travel')" class="course-card"><div class="course-icon course-travel"><i class="fa-solid fa-suitcase-rolling"></i></div><h4 class="font-bold text-sm mb-1">Travel</h4><p class="text-xs c-text-muted">Turismo</p></div>
+
+            <!-- DASHBOARD TAB CONTENT -->
+            <div id="tab-content-dashboard" class="tab-content">
+                <div class="c-card rounded-2xl p-6 text-center mb-6">
+                    <h3 class="font-bold text-lg mb-4">Sua Jornada</h3>
+                    <div class="progress-bar h-4 rounded-full mb-2">
+                        <div id="xpBar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs c-text-muted"><span id="currentXp">0</span> / 2,500 XP para o próximo nível</p>
+                </div>
+                
+                <div class="c-card rounded-2xl p-6">
+                    <h3 class="font-display font-bold text-xl mb-4">🏆 Ranking Semanal</h3>
+                    <div id="leaderboardContainer" class="podium">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div id="rankingList" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                        <!-- Populated by JS -->
+                    </div>
                 </div>
             </div>
-            
-            <!-- Today's Lessons Preview -->
-            <div class="c-card rounded-2xl p-6">
-                <div class="flex items-center justify-between mb-6"><h3 class="font-display font-bold text-xl">📚 Lições de Hoje</h3><span class="text-sm c-text-muted">3 disponíveis</span></div>
-                <div id="todayLessonsContainer" class="space-y-3"><div class="text-center c-text-muted py-4"><i class="fa-solid fa-spinner fa-spin"></i> Carregando lições...</div></div>
+
+            <!-- READING TAB CONTENT -->
+            <div id="tab-content-reading" class="tab-content hidden-section">
+                <div class="c-card rounded-2xl p-6">
+                    <h3 class="font-bold text-xl mb-4">📚 Leitura Dinâmica</h3>
+                    <p class="c-text-muted mb-6">Pratique leitura com textos adaptados ao seu nível.</p>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <!-- Placeholders for future content -->
+                        <div class="p-4 border border-dashed border-gray-600 rounded-xl text-center">
+                            <span class="level-badge lvl-a1 mb-2 inline-block">A1</span>
+                            <h4 class="font-bold">Basic Stories</h4>
+                            <p class="text-xs c-text-muted">Textos curtos e simples.</p>
+                            <div class="mt-2 text-xs c-primary">+50 XP cada</div>
+                        </div>
+                        <div class="p-4 border border-dashed border-gray-600 rounded-xl text-center">
+                            <span class="level-badge lvl-b1 mb-2 inline-block">B1</span>
+                            <h4 class="font-bold">News & Articles</h4>
+                            <p class="text-xs c-text-muted">Notícias reais simplificadas.</p>
+                            <div class="mt-2 text-xs c-primary">+100 XP cada</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- VIDEOS TAB CONTENT -->
+            <div id="tab-content-videos" class="tab-content hidden-section">
+                <div class="c-card rounded-2xl p-6 text-center py-20">
+                    <i class="fa-solid fa-video text-6xl c-secondary mb-4 opacity-50"></i>
+                    <h3 class="font-bold text-xl">Em breve: Vídeos Legendados</h3>
+                    <p class="c-text-muted">Conteúdo visual para treinar listening.</p>
+                </div>
+            </div>
+
+            <!-- AUDIOS TAB CONTENT -->
+            <div id="tab-content-audios" class="tab-content hidden-section">
+                <div class="c-card rounded-2xl p-6 text-center py-20">
+                    <i class="fa-solid fa-headphones text-6xl c-accent mb-4 opacity-50"></i>
+                    <h3 class="font-bold text-xl">Em breve: Áudio Interativo</h3>
+                    <p class="c-text-muted">Conversações e diálogos nativos.</p>
+                </div>
+            </div>
+
+            <!-- GRAMMAR TAB CONTENT -->
+            <div id="tab-content-grammar" class="tab-content hidden-section">
+                <div class="c-card rounded-2xl p-6">
+                    <h3 class="font-bold text-xl mb-4">📝 Gramática Guiada</h3>
+                    <p class="c-text-muted mb-6">Regras essenciais explicadas de forma simples.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-gray-800 rounded-lg"><h4 class="font-bold">Verb To Be</h4><p class="text-xs c-text-muted mt-1">Presente Simples</p></div>
+                        <div class="p-4 bg-gray-800 rounded-lg"><h4 class="font-bold">Present Perfect</h4><p class="text-xs c-text-muted mt-1">Experiências de vida</p></div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- EXERCISES TAB CONTENT -->
+             <div id="tab-content-exercises" class="tab-content hidden-section">
+                <div class="c-card rounded-2xl p-6">
+                    <h3 class="font-bold text-xl mb-4">💪 Exercícios Diários</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 border border-gray-700 rounded-lg hover:bg-gray-800 cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-green-500/20 text-green-500 flex items-center justify-center"><i class="fa-solid fa-check"></i></div>
+                                <span>Complete as frases (A1)</span>
+                            </div>
+                            <span class="text-xs font-bold c-primary">+20 XP</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-gray-700 rounded-lg hover:bg-gray-800 cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-gray-700 text-gray-500 flex items-center justify-center"><i class="fa-solid fa-lock"></i></div>
+                                <span class="text-gray-500">Pronomes Pessoais (Bloqueado)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- ===== TOAST NOTIFICATION ===== -->
-    <div id="toast" class="toast"><i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i><div><div class="font-bold" id="toastTitle">Sucesso!</div><div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div></div></div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check text-lg" id="toastIcon"></i>
+        <div>
+            <div class="font-bold" id="toastTitle">Sucesso!</div>
+            <div class="text-sm c-text-muted" id="toastMessage">Operação realizada.</div>
+        </div>
+    </div>
 
     <!-- ===== FIREBASE + APP LOGIC ===== -->
-<script type="module">
-    // ===== FIREBASE IMPORTS =====
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, deleteDoc, arrayUnion, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <script type="module">
+        // ===== IMPORTS =====
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, setDoc, orderBy, limit, deleteDoc, arrayUnion, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // ===== FIREBASE CONFIG =====
-    const firebaseConfig = {
-        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
-        authDomain: "englishpath-2d558.firebaseapp.com",
-        projectId: "englishpath-2d558",
-        storageBucket: "englishpath-2d558.firebasestorage.app",
-        messagingSenderId: "384301599670",
-        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
-    };
-
-    // ===== INITIALIZE =====
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // ===== CONSTANTS =====
-    const SUPER_ADMIN_EMAIL = 'marcellospropaganda@gmail.com';
-
-    // ===== ACHIEVEMENTS DEFINITIONS =====
-    const ACHIEVEMENTS = {
-        first_steps: { id: 'first_steps', name: 'Primeiros Passos', desc: 'Complete sua primeira lição', icon: 'fa-seedling', type: 'medal', requirement: { type: 'lessonsCompleted', value: 1 } },
-        week_warrior: { id: 'week_warrior', name: 'Guerreiro da Semana', desc: 'Mantenha 7 dias seguidos', icon: 'fa-fire', type: 'trophy', requirement: { type: 'streak', value: 7 } },
-        xp_hunter: { id: 'xp_hunter', name: 'Caçador de XP', desc: 'Alcance 1000 XP', icon: 'fa-bolt', type: 'medal', requirement: { type: 'xp', value: 1000 } },
-        level_up: { id: 'level_up', name: 'Evolução', desc: 'Alcance o nível A2', icon: 'fa-arrow-up', type: 'trophy', requirement: { type: 'level', value: 'A2' } },
-        top_student: { id: 'top_student', name: 'Top Student', desc: 'Fique no Top 3 do ranking', icon: 'fa-crown', type: 'trophy', requirement: { type: 'rank', value: 3 } },
-        dedicated: { id: 'dedicated', name: 'Dedicado', desc: 'Complete 50 lições', icon: 'fa-book-open', type: 'medal', requirement: { type: 'lessonsCompleted', value: 50 } },
-        perfect_week: { id: 'perfect_week', name: 'Semana Perfeita', desc: 'Mantenha 30 dias seguidos', icon: 'fa-star', type: 'trophy', requirement: { type: 'streak', value: 30 } },
-        master: { id: 'master', name: 'Mestre', desc: 'Alcance o nível C2', icon: 'fa-crown', type: 'trophy', requirement: { type: 'level', value: 'C2' } }
-    };
-
-    // ===== STATE =====
-    let currentUser = null;
-    let userData = null;
-    let allStudents = [];
-    let charts = {};
-    let userAchievements = [];
-    let deferredPrompt = null;
-
-    // ===== EXPOSE FUNCTIONS =====
-    window.openModal = openModal;
-    window.closeModal = closeModal;
-    window.switchModal = switchModal;
-    window.toggleTheme = toggleTheme;
-    window.handleLogin = handleLogin;
-    window.handleRegister = handleRegister;
-    window.logout = logout;
-    window.showAdminTab = showAdminTab;
-    window.filterStudents = filterStudents;
-    window.loadStudentReport = loadStudentReport;
-    window.exportData = exportData;
-    window.approveUser = approveUser;
-    window.rejectUser = rejectUser;
-    window.showForgotPassword = showForgotPassword;
-    window.openCourseWhatsapp = openCourseWhatsapp;
-    window.loadDynamicLessons = loadDynamicLessons;
-    window.openStudentDetails = openStudentDetails;
-    window.generatePDFReport = generatePDFReport;
-    window.showAddCourseModal = showAddCourseModal;
-    window.updateUserRole = updateUserRole;
-    window.fixDatabaseRoles = fixDatabaseRoles;
-    window.removeUser = removeUser;
-    window.openLeaderboard = openLeaderboard;
-    window.openAchievements = openAchievements;
-    window.checkAchievements = checkAchievements;
-    window.resetWeeklyRanking = resetWeeklyRanking;
-    window.openActiveUsersModal = openActiveUsersModal;
-    window.openContentTab = openContentTab;
-    window.installPWA = installPWA;
-    window.requestNotificationPermission = requestNotificationPermission;
-    window.dismissNotificationBanner = dismissNotificationBanner;
-
-    // ===== PWA INSTALL =====
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('installBtn').style.display = 'flex';
-    });
-
-    async function installPWA() {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            showToast('App instalado!', 'EnglishPath adicionado à tela inicial', 'success');
-            document.getElementById('installBtn').style.display = 'none';
-        }
-        deferredPrompt = null;
-    }
-
-    // ===== NOTIFICATIONS =====
-    function requestNotificationPermission() {
-        if ('Notification' in window) {
-            Notification.requestPermission().then(permission => {
-                if (permission === 'granted') {
-                    showToast('Notificações ativadas!', 'Você receberá lembretes de estudo', 'success');
-                    dismissNotificationBanner();
-                    setInterval(checkInactiveUsers, 3600000);
+        // ===== PWA MANIFEST GENERATION =====
+        const manifestData = {
+            name: "EnglishPath - Learn English",
+            short_name: "EnglishPath",
+            start_url: ".",
+            display: "standalone",
+            background_color: "#0f172a",
+            theme_color: "#22c55e",
+            icons: [
+                {
+                    src: "https://cdn-icons-png.flaticon.com/512/2997/2997258.png",
+                    sizes: "192x192",
+                    type: "image/png"
+                },
+                {
+                    src: "https://cdn-icons-png.flaticon.com/512/2997/2997258.png",
+                    sizes: "512x512",
+                    type: "image/png"
                 }
-            });
-        }
-    }
+            ]
+        };
+        const stringManifest = JSON.stringify(manifestData);
+        const blobManifest = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blobManifest);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
 
-    function dismissNotificationBanner() {
-        document.getElementById('notificationBanner').classList.remove('show');
-        localStorage.setItem('ep_notification_dismissed', 'true');
-    }
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+            authDomain: "englishpath-2d558.firebaseapp.com",
+            projectId: "englishpath-2d558",
+            storageBucket: "englishpath-2d558.firebasestorage.app",
+            messagingSenderId: "384301599670",
+            appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+        };
 
-    async function checkInactiveUsers() {
-        if (!userData || userData.role !== 'admin') return;
-        const now = Date.now();
-        const q = query(collection(db, "usuarios"), where("status", "==", "approved"));
-        const snapshot = await getDocs(q);
-        snapshot.docs.forEach(async (docSnap) => {
-            const user = docSnap.data();
-            const lastLogin = user.ultimoLogin?.seconds * 1000 || 0;
-            if (now - lastLogin > 86400000 && user.uid !== currentUser.uid) {
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    new Notification('Volte a estudar! 🔥', {
-                        body: `${user.nome} está perdendo seu streak!`,
-                        icon: 'icon-192x192.png'
-                    });
-                }
+        // ===== INITIALIZE =====
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const SUPER_ADMIN_EMAIL = 'marcellospropaganda@gmail.com';
+
+        // ===== STATE =====
+        let currentUser = null;
+        let userData = null;
+        let allStudents = [];
+        let charts = {};
+
+        // ===== EXPOSE FUNCTIONS =====
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.switchModal = switchModal;
+        window.toggleTheme = toggleTheme;
+        window.handleLogin = handleLogin;
+        window.handleRegister = handleRegister;
+        window.logout = logout;
+        window.showAdminTab = showAdminTab;
+        window.loadStudentReport = loadStudentReport;
+        window.showStudyTab = showStudyTab;
+        window.generatePDFReport = generatePDFReport;
+        window.fixDatabaseRoles = fixDatabaseRoles;
+        window.showActiveUsersList = showActiveUsersList;
+
+        // ===== AUTH STATE LISTENER =====
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                    if (userDoc.exists()) {
+                        let data = userDoc.data();
+                        const isSuperAdmin = user.email.toLowerCase().trim() === SUPER_ADMIN_EMAIL;
+
+                        // Inactivity Check (24h)
+                        const now = Date.now();
+                        const lastLogin = data.ultimoLogin ? data.ultimoLogin.toMillis() : 0;
+                        const diffHours = (now - lastLogin) / (1000 * 60 * 60);
+
+                        if (diffHours > 24) {
+                            setTimeout(() => showToast('Bem-vindo de volta!', 'Sentimos sua falta! Vamos recuperar o streak?', 'success'), 1000);
+                        }
+
+                        // Update Last Login
+                        await updateDoc(doc(db, "usuarios", user.uid), { ultimoLogin: serverTimestamp() });
+                        
+                        // Role Fix
+                        if (!isSuperAdmin && data.role === 'admin') {
+                            await updateDoc(doc(db, "usuarios", user.uid), { role: 'student' });
+                            data.role = 'student';
+                        }
+                        if (isSuperAdmin && data.role !== 'admin') {
+                            await updateDoc(doc(db, "usuarios", user.uid), { role: 'admin' });
+                            data.role = 'admin';
+                        }
+
+                        userData = { uid: user.uid, ...data };
+                        currentUser = user;
+                        updateUI();
+                        
+                        if (data.role === 'admin') {
+                            updateAdminBadge();
+                        }
+
+                    } else {
+                        // Create doc if missing
+                        await setDoc(doc(db, "usuarios", user.uid), {
+                            nome: user.displayName || 'Aluno',
+                            email: user.email,
+                            role: 'student',
+                            status: 'pending', // Requires approval (unless changed logic)
+                            xp: 0, level: 'A1', streak: 0, gems: 0,
+                            ultimoLogin: serverTimestamp()
+                        });
+                    }
+                } catch (error) { console.error('Auth Error:', error); }
+            } else {
+                currentUser = null;
+                userData = null;
+                updateUI();
             }
         });
-    }
 
-    // ===== AUTH STATE LISTENER =====
-    onAuthStateChanged(auth, async (user) => {
-        console.log('🔄 Auth state changed:', user ? 'LOGGED IN' : 'LOGGED OUT');
-        
-        if (user) {
-            try {
-                console.log('🔍 Buscando dados do usuário...');
-                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+        // ===== UI FUNCTIONS =====
+        function updateUI() {
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const guestView = document.getElementById('guestView');
+            const loggedInView = document.getElementById('loggedInView');
+            const adminBtn = document.getElementById('adminBtn');
+            
+            if (userData) {
+                authButtons.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                document.getElementById('displayUserName').textContent = userData.nome || 'Aluno';
                 
-                if (userDoc.exists()) {
-                    let data = userDoc.data();
-                    const userEmail = user.email.toLowerCase().trim();
-                    const isSuperAdmin = userEmail === SUPER_ADMIN_EMAIL;
+                // Stats
+                const xp = userData.xp || 0;
+                document.getElementById('userXp').textContent = xp.toLocaleString();
+                document.getElementById('userStreak').textContent = userData.streak || 0;
+                document.getElementById('userGems').textContent = userData.gems || 0;
+                document.getElementById('userLevel').textContent = userData.level || 'A1';
+                document.getElementById('currentXp').textContent = xp;
+                document.getElementById('xpBar').style.width = Math.min((xp / 2500) * 100, 100) + '%';
 
-                    if (!isSuperAdmin && data.role === 'admin') {
-                        console.warn('⚠️ USUÁRIO COM EMAIL INVÁLIDO TINHA ROLE DE ADMIN. CORRIGINDO...');
-                        await updateDoc(doc(db, "usuarios", user.uid), { role: 'student' });
-                        data.role = 'student';
-                    }
-                    if (isSuperAdmin && data.role !== 'admin') {
-                        console.log('👑 SUPER ADMIN DETECTADO. FORÇANDO ROLE ADMIN.');
-                        await updateDoc(doc(db, "usuarios", user.uid), { role: 'admin' });
-                        data.role = 'admin';
-                    }
-
-                    if (data.status === 'banned') {
-                        showToast('Bloqueado', 'Sua conta foi desativada.', 'error');
-                        await signOut(auth);
-                        return;
-                    }
-
-                    userData = { uid: user.uid, ...data };
-                    currentUser = user;
-
-                    if (!userData.achievements) {
-                        await updateDoc(doc(db, "usuarios", user.uid), { achievements: [], activities: [] });
-                        userData.achievements = [];
-                        userData.activities = [];
-                    }
-
-                    console.log('✅ Dados carregados:', userData);
-                    await updateDoc(doc(db, "usuarios", user.uid), { ultimoLogin: serverTimestamp() });
-                    
-                    if (userData.status === 'approved') {
-                        updateUI();
-                        loadDynamicLessons();
-                        loadUserAchievements();
-                        checkAchievements();
-                        checkNotificationPermission();
-                        showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
-                    } else {
-                        showToast('Aguarde', `Seu cadastro está "${userData.status}".`, 'warning');
-                        await logout();
-                    }
-                } else {
-                    const isSuperAdmin = user.email.toLowerCase().trim() === SUPER_ADMIN_EMAIL;
-                    await setDoc(doc(db, "usuarios", user.uid), {
-                        nome: user.displayName || 'Usuário', email: user.email,
-                        role: isSuperAdmin ? 'admin' : 'student',
-                        status: isSuperAdmin ? 'approved' : 'pending',
-                        createdAt: serverTimestamp(), xp: 0, level: 'A1', streak: 0, gems: 0,
-                        tempoTotal: 0, ultimoLogin: serverTimestamp(),
-                        achievements: [], activities: [], lessonsCompleted: 0
-                    });
-                }
-            } catch (error) {
-                console.error('❌ Erro ao carregar usuário:', error);
-                showToast('Erro', 'Falha ao carregar dados.', 'error');
-            }
-        } else {
-            currentUser = null;
-            userData = null;
-            updateUI();
-        }
-    });
-
-    function checkNotificationPermission() {
-        if ('Notification' in window && Notification.permission === 'default' && !localStorage.getItem('ep_notification_dismissed')) {
-            document.getElementById('notificationBanner').classList.add('show');
-        }
-    }
-
-    // ===== UI UPDATES =====
-    function updateUI() {
-        const authButtons = document.getElementById('authButtons');
-        const userInfo = document.getElementById('userInfo');
-        const guestView = document.getElementById('guestView');
-        const loggedInView = document.getElementById('loggedInView');
-        const adminBtn = document.getElementById('adminBtn');
-        
-        const isSuperAdmin = userData && userData.email && userData.email.trim().toLowerCase() === SUPER_ADMIN_EMAIL;
-        const canAccessAdmin = isSuperAdmin;
-
-        if (userData) {
-            authButtons.classList.add('hidden');
-            userInfo.classList.remove('hidden');
-            document.getElementById('displayUserName').textContent = userData.nome || 'Usuário';
-            document.getElementById('welcomeName').textContent = userData.nome || 'Usuário';
-            
-            const userXP = userData.xp ?? userData.totalXP ?? 0;
-            document.getElementById('userXp').textContent = userXP.toLocaleString();
-            document.getElementById('userStreak').textContent = userData.streak ?? 0;
-            document.getElementById('userGems').textContent = userData.gems ?? 0;
-            document.getElementById('userLevel').textContent = userData.level || 'A1';
-            document.getElementById('currentLevel').textContent = userData.level || 'A1';
-            document.getElementById('currentXp').textContent = userXP;
-            document.getElementById('xpBar').style.width = Math.min(userXP / 2500 * 100, 100) + '%';
-            
-            if (adminBtn) {
-                if (canAccessAdmin) {
+                if (userData.role === 'admin') {
                     adminBtn.classList.remove('hidden');
                     adminBtn.classList.remove('force-hidden');
-                    adminBtn.style.display = 'flex';
-                    listenForPendingUsers();
                 } else {
                     adminBtn.classList.add('hidden');
                     adminBtn.classList.add('force-hidden');
-                    adminBtn.style.display = 'none';
                 }
-            }
-            guestView.classList.add('hidden');
-            loggedInView.classList.remove('hidden');
-        } else {
-            authButtons.classList.remove('hidden');
-            userInfo.classList.add('hidden');
-            guestView.classList.remove('hidden');
-            loggedInView.classList.add('hidden');
-            if (adminBtn) {
-                adminBtn.classList.add('hidden');
-                adminBtn.classList.add('force-hidden');
-                adminBtn.style.display = 'none';
-            }
-        }
-    }
 
-    // ===== LISTEN FOR PENDING USERS (ADMIN NOTIFICATION) =====
-    function listenForPendingUsers() {
-        const q = query(collection(db, "usuarios"), where("status", "==", "pending"));
-        onSnapshot(q, (snapshot) => {
-            const count = snapshot.size;
-            const badge = document.getElementById('adminBadge');
-            if (count > 0) {
-                badge.textContent = count;
-                badge.classList.remove('hidden');
-                showToast('🔔 Novos cadastros!', `${count} aluno(s) aguardando aprovação`, 'warning');
+                guestView.classList.add('hidden');
+                loggedInView.classList.remove('hidden');
+                
+                loadLeaderboard();
             } else {
-                badge.classList.add('hidden');
+                authButtons.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+                guestView.classList.remove('hidden');
+                loggedInView.classList.add('hidden');
+                adminBtn.classList.add('hidden');
             }
-        });
-    }
-
-    // ===== ACHIEVEMENTS SYSTEM =====
-    function loadUserAchievements() {
-        userAchievements = userData.achievements || [];
-        renderRecentAchievements();
-    }
-
-    function renderRecentAchievements() {
-        const container = document.getElementById('recentAchievements');
-        if (!container) return;
-        const recent = userAchievements.slice(-3).reverse();
-        if (recent.length === 0) {
-            container.innerHTML = `<div class="col-span-3 text-center c-text-muted py-8"><i class="fa-solid fa-medal text-4xl mb-2 opacity-50"></i><p>Você ainda não tem conquistas. Continue estudando!</p></div>`;
-            return;
         }
-        container.innerHTML = recent.map(ach => {
-            const def = ACHIEVEMENTS[ach.id];
-            return `<div class="achievement-card"><div class="achievement-icon achievement-${def.type}"><i class="fa-solid ${def.icon}"></i></div><h4 class="font-bold mb-1">${def.name}</h4><p class="text-sm c-text-muted">${def.desc}</p><p class="text-xs c-text-muted mt-2">Desbloqueado em ${new Date(ach.unlockedAt?.seconds * 1000).toLocaleDateString('pt-BR')}</p></div>`;
-        }).join('');
-    }
 
-    async function checkAchievements() {
-        if (!userData) return;
-        const newAchievements = [];
-        const currentAchievements = userData.achievements || [];
-        const currentIds = currentAchievements.map(a => a.id);
-        for (const [id, def] of Object.entries(ACHIEVEMENTS)) {
-            if (currentIds.includes(id)) continue;
-            let unlocked = false;
-            const req = def.requirement;
-            switch(req.type) {
-                case 'lessonsCompleted': unlocked = (userData.lessonsCompleted || 0) >= req.value; break;
-                case 'streak': unlocked = (userData.streak || 0) >= req.value; break;
-                case 'xp': unlocked = (userData.xp || 0) >= req.value; break;
-                case 'level': unlocked = userData.level === req.value; break;
-                case 'rank': break;
-            }
-            if (unlocked) newAchievements.push({ id, unlockedAt: serverTimestamp() });
+        async function updateAdminBadge() {
+            try {
+                const q = query(collection(db, "usuarios"), where("status", "==", "pending"));
+                const snapshot = await getDocs(q);
+                const count = snapshot.size;
+                const badge = document.getElementById('adminBadge');
+                if (count > 0) {
+                    badge.textContent = count;
+                    badge.classList.remove('force-hidden');
+                } else {
+                    badge.classList.add('force-hidden');
+                }
+            } catch (e) { console.error(e); }
         }
-        if (newAchievements.length > 0) {
-            await updateDoc(doc(db, "usuarios", userData.uid), { achievements: arrayUnion(...newAchievements) });
-            newAchievements.forEach(ach => {
-                const def = ACHIEVEMENTS[ach.id];
-                showToast('🏆 Conquista Desbloqueada!', `${def.name}: ${def.desc}`, 'success');
-            });
-            userData.achievements = [...currentAchievements, ...newAchievements];
-            loadUserAchievements();
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (id === 'adminModal') loadDashboardData();
         }
-    }
-
-    function openAchievements() {
-        const container = document.getElementById('achievementsList');
-        if (!container) return;
-        const all = Object.values(ACHIEVEMENTS);
-        const unlockedIds = (userData.achievements || []).map(a => a.id);
-        container.innerHTML = all.map(ach => {
-            const isUnlocked = unlockedIds.includes(ach.id);
-            const unlockedData = userData.achievements?.find(a => a.id === ach.id);
-            return `<div class="achievement-card ${isUnlocked ? '' : 'achievement-locked'}"><div class="flex items-start gap-4"><div class="achievement-icon achievement-${ach.type} flex-shrink-0"><i class="fa-solid ${ach.icon}"></i></div><div class="flex-1"><div class="flex items-center justify-between mb-1"><h4 class="font-bold text-lg">${ach.name}</h4>${isUnlocked ? '<span class="status-badge status-approved"><i class="fa-solid fa-check"></i> Desbloqueado</span>' : '<span class="status-badge status-pending"><i class="fa-solid fa-lock"></i> Bloqueado</span>'}</div><p class="c-text-muted mb-2">${ach.desc}</p>${isUnlocked && unlockedData ? `<p class="text-xs c-text-muted">Desbloqueado em ${new Date(unlockedData.unlockedAt?.seconds * 1000).toLocaleDateString('pt-BR')}</p>` : `<p class="text-xs c-text-muted">Requisito: ${getRequirementText(ach.requirement)}</p>`}</div></div></div>`;
-        }).join('');
-        openModal('achievementsModal');
-    }
-
-    function getRequirementText(req) {
-        const texts = { lessonsCompleted: `Complete ${req.value} lições`, streak: `Mantenha ${req.value} dias seguidos`, xp: `Alcance ${req.value} XP`, level: `Alcance o nível ${req.value}`, rank: `Fique entre os top ${req.value}` };
-        return texts[req.type] || req.type;
-    }
-
-    // ===== LEADERBOARD SYSTEM =====
-    async function openLeaderboard() {
-        await loadLeaderboardData();
-        openModal('leaderboardModal');
-    }
-
-    async function loadLeaderboardData() {
-        try {
-            const q = query(collection(db, "usuarios"), where("status", "==", "approved"), orderBy("xp", "desc"), limit(10));
-            const snapshot = await getDocs(q);
-            const topUsers = snapshot.docs.map((doc, index) => ({ id: doc.id, rank: index + 1, ...doc.data() }));
-            renderPodium(topUsers.slice(0, 3));
-            renderRankingList(topUsers);
-            const userRank = topUsers.findIndex(u => u.id === userData?.uid);
-            const congratsDiv = document.getElementById('congratsMessage');
-            if (congratsDiv) {
-                if (userRank >= 0 && userRank < 3) congratsDiv.classList.remove('hidden');
-                else congratsDiv.classList.add('hidden');
-            }
-        } catch (error) {
-            console.error('Erro ao carregar ranking:', error);
-            showToast('Erro', 'Falha ao carregar ranking: ' + error.message, 'error');
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
         }
-    }
-
-    function renderPodium(top3) {
-        const container = document.getElementById('podiumContainer');
-        if (!container || top3.length === 0) {
-            container.innerHTML = '<div class="text-center c-text-muted py-8"><i class="fa-solid fa-trophy text-4xl mb-2 opacity-50"></i><p>Nenhum dado disponível no ranking.</p></div>';
-            return;
+        function switchModal(from, to) {
+            closeModal(from);
+            setTimeout(() => openModal(to), 200);
         }
-        const [first, second, third] = top3;
-        let html = '';
-        if (second) html += `<div class="podium-place"><div class="podium-avatar podium-2nd">${second.nome.charAt(0).toUpperCase()}</div><div class="podium-base base-2nd"><div class="font-bold">${second.nome.split(' ')[0]}</div><div class="text-sm">${(second.xp || 0).toLocaleString()} XP</div></div></div>`;
-        if (first) html += `<div class="podium-place"><i class="fa-solid fa-crown podium-crown" style="color: #ffd700;"></i><div class="podium-avatar podium-1st">${first.nome.charAt(0).toUpperCase()}</div><div class="podium-base base-1st"><div class="font-bold">${first.nome.split(' ')[0]}</div><div class="text-sm">${(first.xp || 0).toLocaleString()} XP</div></div></div>`;
-        if (third) html += `<div class="podium-place"><div class="podium-avatar podium-3rd">${third.nome.charAt(0).toUpperCase()}</div><div class="podium-base base-3rd"><div class="font-bold">${third.nome.split(' ')[0]}</div><div class="text-sm">${(third.xp || 0).toLocaleString()} XP</div></div></div>`;
-        container.innerHTML = html;
-    }
 
-    function renderRankingList(users) {
-        const container = document.getElementById('rankingList');
-        if (!container) return;
-        if (users.length === 0) {
-            container.innerHTML = '<div class="text-center c-text-muted py-8"><p>Nenhum usuário no ranking ainda.</p></div>';
-            return;
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('ep_theme', html.dataset.theme);
         }
-        container.innerHTML = users.map((user, index) => {
-            const isCurrentUser = user.id === userData?.uid;
-            const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
-            return `<div class="user-row ${isCurrentUser ? 'border-2 border-primary' : ''}"><div class="user-info"><div class="rank-badge ${rankClass}">${index + 1}</div><div class="user-avatar ${isCurrentUser ? 'c-primary-bg' : 'bg-gray-600'}">${user.nome.charAt(0).toUpperCase()}</div><div><div class="font-bold text-sm ${isCurrentUser ? 'c-primary' : ''}">${user.nome} ${isCurrentUser ? '(Você)' : ''}</div><div class="text-xs c-text-muted">Nível ${user.level || 'A1'}</div></div></div><div class="flex items-center gap-4"><div class="text-right"><div class="font-bold c-primary">${(user.xp || 0).toLocaleString()} XP</div><div class="text-xs c-text-muted">${user.streak || 0} dias seguidos</div></div></div></div>`;
-        }).join('');
-    }
 
-    // ===== ACTIVE USERS MODAL =====
-    async function openActiveUsersModal() {
-        const container = document.getElementById('activeUsersList');
-        container.innerHTML = '<div class="text-center c-text-muted py-8"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>Carregando...</p></div>';
-        openModal('activeUsersModal');
-        
-        try {
-            const now = Date.now();
-            const q = query(collection(db, "usuarios"), where("status", "==", "approved"));
-            const snapshot = await getDocs(q);
-            const activeUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-                .filter(u => {
-                    const lastLogin = u.ultimoLogin?.seconds * 1000 || 0;
-                    return now - lastLogin < 86400000; // 24h
-                })
-                .sort((a, b) => (b.ultimoLogin?.seconds || 0) - (a.ultimoLogin?.seconds || 0));
+        function showToast(title, message, type='success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ===== AUTH ACTIONS =====
+        async function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const nome = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const senha = document.getElementById('regPassword').value;
             
-            if (activeUsers.length === 0) {
-                container.innerHTML = '<div class="text-center c-text-muted py-8"><i class="fa-solid fa-user-slash text-4xl mb-2 opacity-50"></i><p>Nenhum aluno ativo nas últimas 24h.</p></div>';
-                return;
-            }
+            btn.classList.add('loading'); btn.disabled = true;
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, senha);
+                await setDoc(doc(db, "usuarios", cred.user.uid), {
+                    nome, email,
+                    role: 'student',
+                    status: 'pending', // Admin needs to approve
+                    createdAt: serverTimestamp(),
+                    xp: 0, level: 'A1', streak: 0, gems: 0,
+                    ultimoLogin: serverTimestamp()
+                });
+                showToast('Sucesso', 'Conta criada! Aguarde aprovação.', 'success');
+                closeModal('registerModal');
+            } catch (error) { showToast('Erro', error.message, 'error'); }
+            finally { btn.classList.remove('loading'); btn.disabled = false; }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginPassword').value;
             
-            container.innerHTML = activeUsers.map(u => `
-                <div class="active-user-item">
-                    <div class="user-avatar c-primary-bg">${u.nome.charAt(0).toUpperCase()}</div>
-                    <div class="flex-1">
-                        <div class="font-bold text-sm">${u.nome}</div>
-                        <div class="text-xs c-text-muted">Nível ${u.level || 'A1'} • ${(u.xp || 0).toLocaleString()} XP</div>
+            btn.classList.add('loading'); btn.disabled = true;
+            try {
+                await signInWithEmailAndPassword(auth, email, senha);
+                closeModal('loginModal');
+            } catch (error) { showToast('Erro', 'Dados inválidos.', 'error'); }
+            finally { btn.classList.remove('loading'); btn.disabled = false; }
+        }
+
+        async function logout() {
+            await signOut(auth);
+            closeModal('adminModal');
+            showToast('Logout', 'Até logo!', 'success');
+        }
+
+        // ===== TAB LOGIC =====
+        function showStudyTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden-section'));
+            document.getElementById(`tab-content-${tabName}`).classList.remove('hidden-section');
+            
+            document.querySelectorAll('.study-nav .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${tabName}`).classList.add('active');
+        }
+
+        function showAdminTab(tabName) {
+            document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden-section'));
+            document.getElementById(`admin-${tabName}`).classList.remove('hidden-section');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // ===== LEADERBOARD & DATA =====
+        async function loadLeaderboard() {
+            try {
+                // Active users query (24h logic is in dashboard, here we show top 10)
+                const q = query(collection(db, "usuarios"), orderBy("xp", "desc"), limit(10));
+                const snapshot = await getDocs(q);
+                const users = snapshot.docs.map((doc, index) => ({ id: doc.id, rank: index + 1, ...doc.data() }));
+                
+                renderPodium(users.slice(0, 3));
+                renderRankingList(users);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderPodium(top3) {
+            const container = document.getElementById('leaderboardContainer');
+            if(!top3.length) { container.innerHTML = '<p class="c-text-muted">Sem dados.</p>'; return; }
+            const [first, second, third] = top3;
+            
+            let html = '';
+            if (second) html += `<div class="podium-place"><div class="podium-avatar podium-2nd">${second.nome.charAt(0)}</div><div class="podium-base base-2nd">2º</div></div>`;
+            if (first) html += `<div class="podium-place"><div class="podium-avatar podium-1st">${first.nome.charAt(0)}</div><div class="podium-base base-1st">1º</div></div>`;
+            if (third) html += `<div class="podium-place"><div class="podium-avatar podium-3rd">${third.nome.charAt(0)}</div><div class="podium-base base-3rd">3º</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function renderRankingList(users) {
+            const list = document.getElementById('rankingList');
+            list.innerHTML = users.map(u => `
+                <div class="flex items-center justify-between p-2 border-b border-gray-700">
+                    <div class="flex items-center gap-3">
+                        <div class="font-bold w-6 text-center c-text-muted">#${u.rank}</div>
+                        <div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs">${u.nome.charAt(0)}</div>
+                        <div class="text-sm">
+                            <div class="font-bold ${u.id === currentUser?.uid ? 'c-primary' : ''}">${u.nome}</div>
+                            <div class="text-xs c-text-muted">Nível ${u.level}</div>
+                        </div>
                     </div>
-                    <div class="text-right text-xs c-text-muted">
-                        <div>${new Date(u.ultimoLogin?.seconds * 1000).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
-                        <div>${new Date(u.ultimoLogin?.seconds * 1000).toLocaleDateString('pt-BR')}</div>
+                    <div class="font-bold c-primary text-sm">${(u.xp||0).toLocaleString()} XP</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== ADMIN DASHBOARD =====
+        async function loadDashboardData() {
+            try {
+                const snapshot = await getDocs(collection(db, "usuarios"));
+                allStudents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                // Stats
+                document.getElementById('statTotal').textContent = allStudents.length;
+                const pending = allStudents.filter(u => u.status === 'pending').length;
+                document.getElementById('statPending').textContent = pending;
+                
+                // Active Users (Logic: logged in last 24h)
+                const oneDayAgo = new Date();
+                oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+                const activeUsers = allStudents.filter(u => u.ultimoLogin && u.ultimoLogin.toDate() > oneDayAgo);
+                document.getElementById('statActive').textContent = activeUsers.length;
+                window.activeUsersList = activeUsers; // Store for modal
+
+                // Students List
+                renderStudentsList();
+                
+                // Reports Select
+                const select = document.getElementById('reportStudentSelect');
+                select.innerHTML = '<option value="">-- Selecione --</option>' + 
+                    allStudents.map(u => `<option value="${u.id}">${u.nome}</option>`).join('');
+                
+                // Charts
+                renderCharts();
+                
+                // Update Badge
+                updateAdminBadge();
+
+            } catch (e) { console.error(e); showToast('Erro', 'Falha ao carregar dados.', 'error'); }
+        }
+
+        function renderStudentsList() {
+            const list = document.getElementById('studentsList');
+            list.innerHTML = allStudents.map(u => `
+                <div class="c-card p-3 flex items-center justify-between">
+                    <div>
+                        <div class="font-bold">${u.nome}</div>
+                        <div class="text-xs c-text-muted">${u.email}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold px-2 py-1 rounded ${u.status === 'approved' ? 'bg-green-900 text-green-300' : 'bg-yellow-900 text-yellow-300'}">${u.status}</span>
+                        ${u.status === 'pending' ? `<button onclick="approveUser('${u.id}')" class="btn btn-sm btn-primary"><i class="fa-solid fa-check"></i></button>` : ''}
                     </div>
                 </div>
             `).join('');
-        } catch (error) {
-            console.error('Erro ao carregar usuários ativos:', error);
-            container.innerHTML = '<div class="text-center c-text-muted py-8"><i class="fa-solid fa-triangle-exclamation text-4xl mb-2 c-danger"></i><p>Erro ao carregar lista.</p></div>';
         }
-    }
 
-    // ===== CONTENT TABS =====
-    function openContentTab(tab) {
-        showToast('Em desenvolvimento', `Conteúdo de ${tab} será lançado em breve!`, 'success');
-    }
-
-    // ===== MODAL FUNCTIONS =====
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; if (modalId === 'adminModal') loadDashboardData(); }
-    }
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
-    }
-    function switchModal(from, to) { closeModal(from); setTimeout(() => openModal(to), 200); }
-
-    // ===== THEME TOGGLE =====
-    function toggleTheme() {
-        const html = document.documentElement;
-        html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-        localStorage.setItem('ep_theme', html.dataset.theme);
-    }
-    (function(){ const saved = localStorage.getItem('ep_theme') || 'dark'; document.documentElement.setAttribute('data-theme', saved); })();
-
-    // ===== TOAST NOTIFICATIONS =====
-    function showToast(title, message, type = 'success') {
-        const toast = document.getElementById('toast');
-        const icons = { success: 'fa-circle-check c-primary', error: 'fa-circle-exclamation c-danger', warning: 'fa-triangle-exclamation c-accent' };
-        document.getElementById('toastTitle').textContent = title;
-        document.getElementById('toastMessage').textContent = message;
-        document.getElementById('toastIcon').className = `fa-solid ${icons[type]} text-2xl`;
-        toast.className = `toast ${type} show`;
-        setTimeout(() => toast.classList.remove('show'), 4000);
-    }
-
-    // ===== AUTH: REGISTER =====
-    async function handleRegister(e) {
-        e.preventDefault();
-        const btn = document.getElementById('registerBtn');
-        const nome = document.getElementById('regName').value;
-        const email = document.getElementById('regEmail').value;
-        const senha = document.getElementById('regPassword').value;
-        const confirm = document.getElementById('regConfirmPassword').value;
-        if (senha !== confirm) { showToast('Erro', 'As senhas não coincidem', 'error'); return; }
-        if (senha.length < 6) { showToast('Erro', 'Senha muito curta', 'error'); return; }
-        btn.classList.add('loading'); btn.disabled = true;
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-            const uid = userCredential.user.uid;
-            const isSuperAdmin = email.toLowerCase().trim() === SUPER_ADMIN_EMAIL;
-            await setDoc(doc(db, "usuarios", uid), {
-                nome, email, role: isSuperAdmin ? 'admin' : 'student',
-                status: isSuperAdmin ? 'approved' : 'pending', createdAt: serverTimestamp(),
-                xp: 0, level: 'A1', streak: 0, gems: 0, tempoTotal: 0, ultimoLogin: serverTimestamp(),
-                achievements: [], activities: [], lessonsCompleted: 0
-            });
-            closeModal('registerModal');
-            showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação.', 'success');
-            openModal('loginModal');
-        } catch (error) {
-            console.error(error);
-            showToast('Erro', 'Erro ao criar conta.', 'error');
-        } finally { btn.classList.remove('loading'); btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Criar conta'; }
-    }
-
-    // ===== AUTH: LOGIN =====
-    async function handleLogin(e) {
-        e.preventDefault();
-        const btn = document.getElementById('loginBtn');
-        const email = document.getElementById('loginEmail').value.trim();
-        const senha = document.getElementById('loginPassword').value;
-        btn.classList.add('loading'); btn.disabled = true;
-        try {
-            await signInWithEmailAndPassword(auth, email, senha);
-            showToast('Bem-vindo!', 'Login realizado!', 'success');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-            setTimeout(() => closeModal('loginModal'), 800);
-        } catch (error) {
-            console.error(error);
-            showToast('Erro', 'Email ou senha incorretos.', 'error');
-        } finally { btn.classList.remove('loading'); btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Entrar'; }
-    }
-
-    // ===== AUTH: LOGOUT =====
-    async function logout() { await signOut(auth); closeModal('adminModal'); closeModal('studentModal'); showToast('Logout', 'Você saiu.', 'success'); }
-    async function showForgotPassword() { const email = prompt('Digite seu email:'); if (!email) return; try { await sendPasswordResetEmail(auth, email); showToast('Enviado', 'Verifique seu email.', 'success'); } catch (error) { showToast('Erro', error.message, 'error'); } }
-    function openCourseWhatsapp(courseName) { const phone = "5541999653041"; const url = `https://wa.me/${phone}?text=${encodeURIComponent(`Olá! Gostaria do curso: ${courseName}`)}`; window.open(url, '_blank'); }
-
-    // ===== DYNAMIC LESSONS =====
-    function loadDynamicLessons() {
-        const container = document.getElementById('todayLessonsContainer');
-        const level = (userData.level || 'A1').toLowerCase();
-        const lessonMap = {
-            'a1': [
-                { title: 'Greetings & Introductions', desc: 'Saudações básicas', icon: 'comments', file: 'lesson-u01.html', xp: 50 },
-                { title: 'Numbers 1-100', desc: 'Contagem e quantidades', icon: 'hashtag', file: 'lesson-u02.html', xp: 50 },
-                { title: 'Colors', desc: 'Cores e adjetivos', icon: 'palette', file: 'lesson-u03.html', xp: 50 }
-            ],
-            'a2': [
-                { title: 'Daily Routine', desc: 'Rotina diária', icon: 'sun', file: 'a2-u01.html', xp: 60 },
-                { title: 'Family Members', desc: 'Família', icon: 'users', file: 'a2-u02.html', xp: 60 }
-            ]
+        window.approveUser = async (id) => {
+            await updateDoc(doc(db, "usuarios", id), { status: 'approved' });
+            showToast('Aprovado', 'Aluno liberado!', 'success');
+            loadDashboardData();
         };
-        const currentLessons = lessonMap[level] || lessonMap['a1'];
-        container.innerHTML = currentLessons.length > 0 
-            ? currentLessons.map(l => `<a href="${l.file}" class="c-card rounded-xl p-4 block hover:border-primary transition-all"><div class="flex items-center gap-4"><div class="w-12 h-12 rounded-xl c-primary-bg flex items-center justify-center text-xl text-white flex-shrink-0"><i class="fa-solid fa-${l.icon}"></i></div><div class="flex-1"><h4 class="font-bold mb-1">${l.title}</h4><p class="text-sm c-text-muted">${l.desc}</p></div><div class="c-primary-bg text-white px-3 py-1.5 rounded-full text-xs font-bold"><i class="fa-solid fa-bolt"></i> +${l.xp} XP</div></div></a>`).join('')
-            : '<div class="text-center c-text-muted py-4">Nenhuma lição disponível.</div>';
-    }
 
-    // ===== ADMIN FUNCTIONS =====
-    async function loadDashboardData() {
-        try {
-            console.log('📊 Carregando dados do dashboard...');
-            const q = query(collection(db, "usuarios"), orderBy("createdAt", "desc"));
-            const snapshot = await getDocs(q);
-            allStudents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log('✅ Dados carregados:', allStudents.length, 'alunos');
-            updateStats();
-            renderCharts();
-            renderStudentsList();
-            populateReportSelect();
-            updateCourseStats();
-            renderTopStudents();
-        } catch (error) {
-            console.error('❌ Erro ao carregar dashboard:', error);
-            showToast('Erro', 'Falha ao carregar dados: ' + error.message, 'error');
+        function showActiveUsersList() {
+            const container = document.getElementById('activeUsersListContent');
+            if (!window.activeUsersList || window.activeUsersList.length === 0) {
+                container.innerHTML = '<p class="c-text-muted text-center">Nenhum usuário ativo nas últimas 24h.</p>';
+            } else {
+                container.innerHTML = window.activeUsersList.map(u => `
+                    <div class="flex items-center gap-3 p-2 bg-gray-800 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-xs">${u.nome.charAt(0)}</div>
+                        <div>
+                            <div class="font-bold text-sm">${u.nome}</div>
+                            <div class="text-xs c-text-muted">Entrada: ${u.ultimoLogin ? u.ultimoLogin.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '--:--'}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            openModal('activeUsersModal');
         }
-    }
 
-    function updateStats() {
-        document.getElementById('statTotal').textContent = allStudents.length;
-        const now = Date.now();
-        const activeUsers = allStudents.filter(u => u.status === 'approved' && u.ultimoLogin && now - (u.ultimoLogin?.seconds * 1000 || 0) < 86400000);
-        document.getElementById('statActive').textContent = activeUsers.length;
-        document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
-        document.getElementById('statAvgTime').textContent = (allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1) / 3600000).toFixed(1) + 'h';
-    }
+        function renderCharts() {
+            // Levels
+            const levels = { A1:0, A2:0, B1:0, B2:0 };
+            allStudents.forEach(u => { if(levels[u.level] !== undefined) levels[u.level]++; });
+            
+            if (charts.level) charts.level.destroy();
+            const ctxL = document.getElementById('chartLevels').getContext('2d');
+            charts.level = new Chart(ctxL, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(levels),
+                    datasets: [{ label: 'Alunos', data: Object.values(levels), backgroundColor: '#22c55e' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+            
+            // Activity (Mock data for visual)
+             if (charts.act) charts.act.destroy();
+             const ctxA = document.getElementById('chartActivity').getContext('2d');
+             charts.act = new Chart(ctxA, {
+                type: 'line',
+                data: {
+                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    datasets: [{ label: 'Acessos', data: [12, 19, 3, 5, 2, 3, 10], borderColor: '#3b82f6', tension: 0.4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
 
-    function renderCharts() {
-        const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
-        allStudents.filter(u => u.status === 'approved').forEach(u => { if (levels[u.level] !== undefined) levels[u.level]++; });
-        const ctxLevels = document.getElementById('chartLevels').getContext('2d');
-        if (charts.levels) charts.levels.destroy();
-        charts.levels = new Chart(ctxLevels, { type: 'bar', data: { labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'], datasets: [{ label: 'Alunos', data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2], backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
-        const ctxActivity = document.getElementById('chartActivity').getContext('2d');
-        if (charts.activity) charts.activity.destroy();
-        charts.activity = new Chart(ctxActivity, { type: 'line', data: { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], datasets: [{ label: 'Atividade', data: [12, 19, 15, 22, 18, 10, 8], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
-        const ctxCourses = document.getElementById('chartCourses').getContext('2d');
-        if (charts.courses) charts.courses.destroy();
-        charts.courses = new Chart(ctxCourses, { type: 'doughnut', data: { labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'], datasets: [{ data: [45, 30, 60, 25, 35], backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } } });
-    }
+        // ===== PDF REPORT (SCHOOL BULLETIN STYLE) =====
+        function loadStudentReport(id) {
+            const preview = document.getElementById('studentReportPreview');
+            if (!id) { preview.innerHTML = ''; return; }
+            const student = allStudents.find(u => u.id === id);
+            if (student) {
+                preview.innerHTML = `
+                    <div class="text-center p-4 border border-gray-600 rounded">
+                        <h4 class="font-bold text-lg">${student.nome}</h4>
+                        <p class="c-text-muted">Nível: ${student.level} | XP: ${student.xp}</p>
+                        <p class="text-xs text-gray-500 mt-2">Clique em Baixar para gerar o PDF.</p>
+                    </div>
+                `;
+            }
+        }
 
-    function updateCourseStats() { document.getElementById('courseBusiness').textContent = '45'; document.getElementById('courseBiblico').textContent = '30'; document.getElementById('courseKids').textContent = '60'; document.getElementById('courseAirport').textContent = '25'; document.getElementById('courseTravel').textContent = '35'; }
+        function generatePDFReport() {
+            const id = document.getElementById('reportStudentSelect').value;
+            if (!id) return showToast('Erro', 'Selecione um aluno.', 'error');
+            
+            const student = allStudents.find(u => u.id === id);
+            if (!student) return;
 
-    function renderTopStudents() {
-        const top10 = [...allStudents].filter(u => u.status === 'approved').sort((a, b) => (b.xp ?? b.totalXP ?? 0) - (a.xp ?? a.totalXP ?? 0)).slice(0, 10);
-        document.getElementById('topStudents').innerHTML = top10.map((u, i) => `<div class="flex items-center justify-between p-2 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">${i + 1}</div><div><div class="font-bold text-sm truncate max-w-[120px]">${u.nome}</div><div class="text-xs c-text-muted">${u.level || 'A1'}</div></div></div><div class="text-right"><div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</div><div class="text-xs c-text-muted">XP</div></div></div>`).join('');
-    }
-
-    function renderStudentsList() {
-        const container = document.getElementById('studentsList');
-        if (!allStudents.length) { container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>'; return; }
-        container.innerHTML = allStudents.map(u => `<div class="user-row" onclick="openStudentDetails('${u.id}')"><div class="user-info"><div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome.charAt(0).toUpperCase()}</div><div class="hidden sm:block"><div class="font-bold text-sm">${u.nome}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div></div></div><div class="user-meta"><div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div><div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span></div></div><div class="flex items-center gap-3"><span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span><div class="user-actions">${u.status === 'pending' ? `<button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Aprovar"><i class="fa-solid fa-check"></i></button><button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>` : `<button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button>`}</div></div></div>`).join('');
-    }
-
-    function populateReportSelect() { document.getElementById('reportStudentSelect').innerHTML = '<option value="">-- Selecione --</option>' + allStudents.filter(u => u.status === 'approved').map(u => `<option value="${u.id}">${u.nome} (${u.email})</option>`).join(''); }
-
-    async function approveUser(userId) { try { await updateDoc(doc(db, "usuarios", userId), { status: 'approved' }); showToast('Sucesso', 'Aluno aprovado!', 'success'); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); } }
-    async function rejectUser(userId) { if (!confirm('Rejeitar?')) return; try { await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' }); showToast('Rejeitado', 'Cadastro rejeitado.', 'error'); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); } }
-
-    function filterStudents() {
-        const search = document.getElementById('searchStudent').value.toLowerCase();
-        const level = document.getElementById('filterLevel').value;
-        const status = document.getElementById('filterStatus').value;
-        let filtered = allStudents.filter(u => (u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search)) && (level === 'all' || u.level === level) && (status === 'all' || u.status === status));
-        document.getElementById('studentsList').innerHTML = filtered.map(u => `<div class="user-row" onclick="openStudentDetails('${u.id}')"><div class="user-info"><div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome.charAt(0).toUpperCase()}</div><div class="hidden sm:block"><div class="font-bold text-sm">${u.nome}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div></div></div><div class="user-meta"><div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div><div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span></div></div><div class="flex items-center gap-3"><span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span><div class="user-actions"><button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button></div></div></div>`).join('');
-    }
-
-    async function updateUserRole(userId, newRole) { try { await updateDoc(doc(db, "usuarios", userId), { role: newRole }); showToast('Sucesso', `Cargo atualizado para ${newRole}`, 'success'); openStudentDetails(userId); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); } }
-    async function removeUser(userId) { if (!confirm('⚠️ ATENÇÃO: Isso irá REMOVER permanentemente o usuário e todos os seus dados. Esta ação NÃO pode ser desfeita. Deseja continuar?')) return; const btn = event.target.closest('button'); const originalHTML = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Removendo...'; btn.disabled = true; try { await deleteDoc(doc(db, "usuarios", userId)); showToast('Removido', 'Usuário excluído permanentemente.', 'success'); closeModal('studentModal'); loadDashboardData(); } catch (error) { console.error('Erro ao remover:', error); showToast('Erro', 'Falha ao remover usuário: ' + error.message, 'error'); } finally { btn.innerHTML = originalHTML; btn.disabled = false; } }
-    async function fixDatabaseRoles() { if (!confirm(`ATENÇÃO: Resetar todos para 'student' exceto ${SUPER_ADMIN_EMAIL}?`)) return; const btn = document.querySelector('button[onclick="fixDatabaseRoles()"]'); const originalText = btn.innerHTML; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Corrigindo...'; btn.disabled = true; try { let count = 0; const q = query(collection(db, "usuarios")); const snapshot = await getDocs(q); const batch = snapshot.docs.map(async (docSnap) => { const data = docSnap.data(); if (data.email?.toLowerCase().trim() !== SUPER_ADMIN_EMAIL && data.role === 'admin') { await updateDoc(doc(db, "usuarios", docSnap.id), { role: 'student' }); count++; } }); await Promise.all(batch); showToast('Sucesso', `${count} usuários corrigidos.`, 'success'); loadDashboardData(); } catch (error) { console.error(error); showToast('Erro', 'Falha ao corrigir.', 'error'); } finally { btn.innerHTML = originalText; btn.disabled = false; } }
-
-    async function openStudentDetails(userId) {
-        const student = allStudents.find(u => u.id === userId);
-        if (!student) return;
-        const content = document.getElementById('studentDetailsContent');
-        const userXP = student.xp ?? student.totalXP ?? 0;
-        const isSuperAdmin = userData.email === SUPER_ADMIN_EMAIL;
-        const activities = student.activities || [];
-        const recentActivities = activities.slice(-10).reverse();
-        content.innerHTML = `<div class="space-y-4"><div class="flex items-center gap-4"><div class="w-16 h-16 rounded-full ${student.status === 'banned' ? 'bg-gray-700' : 'c-primary-bg'} flex items-center justify-center text-2xl text-white font-bold">${student.nome.charAt(0).toUpperCase()}</div><div><h3 class="font-bold text-xl">${student.nome}</h3><p class="c-text-muted">${student.email}</p><div class="flex items-center gap-2 mt-1"><span class="status-badge status-${student.status}">${student.status}</span><span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300">Role: ${student.role}</span></div></div></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4"><div class="stat-card text-center"><div class="text-2xl font-bold c-xp">${userXP.toLocaleString()}</div><div class="text-xs c-text-muted">XP Total</div></div><div class="stat-card text-center"><div class="text-2xl font-bold c-streak">${student.streak ?? 0}</div><div class="text-xs c-text-muted">Dias Seguidos</div></div><div class="stat-card text-center"><div class="text-2xl font-bold c-gem">${student.gems ?? 0}</div><div class="text-xs c-text-muted">Gemas</div></div><div class="stat-card text-center"><div class="text-2xl font-bold c-primary">${student.level || 'A1'}</div><div class="text-xs c-text-muted">Nível</div></div></div><div class="stat-card"><h4 class="font-bold mb-3">⏱️ Tempo de Estudo</h4><p class="c-text-muted">Total: <span class="font-bold">${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas</span></p><p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin.seconds * 1000).toLocaleString('pt-BR') : 'Nunca'}</span></p></div><div class="stat-card"><h4 class="font-bold mb-3">📜 Última Atividade</h4>${recentActivities.length > 0 ? `<div class="activity-timeline">${recentActivities.map(act => `<div class="activity-item"><div class="activity-time">${new Date(act.timestamp?.seconds * 1000).toLocaleString('pt-BR')}</div><div class="activity-title">${act.lessonName || 'Atividade'}</div><div class="activity-desc">${act.description || ''} • +${act.xp || 0} XP</div></div>`).join('')}</div>` : '<p class="c-text-muted">Nenhuma atividade registrada.</p>'}</div><div class="stat-card"><h4 class="font-bold mb-3">📊 Progresso por Habilidade</h4><div class="space-y-3">${['reading', 'listening', 'speaking', 'writing'].map(skill => { const progress = Math.floor(Math.random() * 100); return `<div><div class="flex justify-between text-sm mb-1"><span class="capitalize">${skill}</span><span class="c-text-muted">${progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div></div>`; }).join('')}</div></div>${isSuperAdmin ? `<div class="mt-4 p-4 bg-gray-800 rounded-xl border border-gray-700"><label class="block text-sm font-bold mb-2 text-yellow-400"><i class="fa-solid fa-crown mr-1"></i> Gerenciar Cargo</label><div class="flex gap-2 items-center"><select id="editRoleSelect" class="input-field flex-1"><option value="student" ${student.role === 'student' ? 'selected' : ''}>Student</option><option value="admin" ${student.role === 'admin' ? 'selected' : ''}>Admin</option></select><button onclick="updateUserRole('${student.id}', document.getElementById('editRoleSelect').value)" class="btn btn-primary btn-sm">Salvar</button></div></div>` : ''}<div class="flex gap-2 pt-4 border-t border-gray-700">${student.status === 'pending' ? `<button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1"><i class="fa-solid fa-check"></i> Aprovar</button><button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>` : `<button class="btn btn-secondary flex-1"><i class="fa-solid fa-key"></i> Resetar Senha</button><button onclick="removeUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-trash-alt"></i> Remover</button>`}</div></div>`;
-        openModal('studentModal');
-    }
-
-    async function loadStudentReport(userId) {
-        if (!userId) { document.getElementById('studentReport').classList.add('hidden-section'); return; }
-        const student = allStudents.find(u => u.id === userId);
-        if (!student) return;
-        const container = document.getElementById('studentReport');
-        container.classList.remove('hidden-section');
-        container.innerHTML = `<div class="stat-card mb-4"><h4 class="font-bold mb-3">${student.nome} - Relatório</h4><div class="space-y-3"><div><div class="flex justify-between text-sm mb-1"><span>Reading</span><span>80%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Listening</span><span>65%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Speaking</span><span>45%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div></div><div><div class="flex justify-between text-sm mb-1"><span>Writing</span><span>70%</span></div><div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div></div></div></div><div class="stat-card"><h5 class="font-bold mb-3">Histórico Recente</h5><div class="space-y-2 text-sm"><div class="flex justify-between"><span>Hoje: A1.1</span><span class="c-primary">+50 XP</span></div><div class="flex justify-between"><span>Ontem: A1.2</span><span class="c-primary">+50 XP</span></div></div></div>`;
-    }
-
-    // ===== GENERATE PDF REPORT =====
-    async function generatePDFReport() {
-        const userId = document.getElementById('reportStudentSelect').value;
-        if (!userId) { showToast('Erro', 'Selecione um aluno', 'error'); return; }
-        const student = allStudents.find(u => u.id === userId);
-        if (!student) return;
-        const includeAchievements = document.getElementById('includeAchievements').checked;
-        showToast('Gerando PDF...', 'Aguarde...', 'success');
-
-        try {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            doc.setFillColor(34, 197, 94);
+            // 1. Header with School Style
+            doc.setFillColor(34, 197, 94); // Green Header
             doc.rect(0, 0, 210, 40, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(24);
+            doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
-            doc.text('EnglishPath — Boletim de Progresso', 105, 20, { align: 'center' });
+            doc.text('EnglishPath - Boletim Escolar', 105, 20, { align: 'center' });
             doc.setFontSize(12);
-            doc.text('Relatório de Desempenho e Conquistas', 105, 30, { align: 'center' });
+            doc.setFont('helvetica', 'normal');
+            doc.text('Relatório Individual de Desempenho', 105, 30, { align: 'center' });
             
-            doc.setTextColor(0, 0, 0);
-            doc.setFillColor(240, 253, 244);
-            doc.rect(14, 45, 182, 40, 'F');
-            doc.setFillColor(34, 197, 94);
-            doc.circle(24, 65, 15, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
-            doc.text(student.nome.charAt(0).toUpperCase(), 24, 70, { align: 'center' });
+            // 2. Student Info Box
+            doc.setFillColor(241, 245, 249);
+            doc.roundedRect(15, 50, 180, 30, 3, 3, 'F');
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text(student.nome, 45, 58);
-            doc.setFontSize(10);
+            doc.text(`Aluno: ${student.nome}`, 20, 65);
+            doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            doc.text(`Email: ${student.email}`, 45, 65);
-            doc.text(`Nível: ${student.level || 'A1'} • ${(student.xp || 0).toLocaleString()} XP`, 45, 72);
-            doc.text(`Streak: ${student.streak || 0} dias`, 45, 79);
+            doc.text(`Nível Atual: ${student.level}   |   XP Total: ${student.xp || 0}`, 20, 75);
+            doc.text(`Gemas: ${student.gems || 0}   |   Sequência: ${student.streak || 0} dias`, 20, 82);
             
-            let yPos = 95;
-            
-            doc.setFillColor(241, 245, 249);
-            doc.rect(14, yPos - 8, 182, 32, 'F');
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'bold');
-            doc.text('📊 Estatísticas Gerais', 18, yPos);
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'normal');
-            doc.text(`Tempo Total: ${((student.tempoTotal || 0) / 3600000).toFixed(1)}h`, 18, yPos + 10);
-            doc.text(`Lições: ${student.lessonsCompleted || 0}`, 100, yPos + 10);
-            doc.text(`Conquistas: ${(student.achievements || []).length}`, 18, yPos + 18);
-            doc.text(`Nível Atual: ${student.level || 'A1'}`, 100, yPos + 18);
-            yPos += 45;
-            
+            // 3. Grades / Skills Table
+            let y = 100;
             doc.setFillColor(59, 130, 246);
-            doc.rect(14, yPos - 8, 182, 45, 'F');
+            doc.rect(15, y, 180, 10, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text('📈 Habilidades', 18, yPos);
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'normal');
-            const skills = [{ name: 'Reading', color: '#22c55e', progress: 80 }, { name: 'Listening', color: '#3b82f6', progress: 65 }, { name: 'Speaking', color: '#f59e0b', progress: 45 }, { name: 'Writing', color: '#8b5cf6', progress: 70 }];
-            skills.forEach((skill, idx) => {
-                doc.text(skill.name, 18, yPos + 12 + (idx * 8));
-                doc.setFillColor(226, 232, 240);
-                doc.rect(60, yPos + 8 + (idx * 8), 120, 6, 'F');
-                doc.setFillColor(skill.color);
-                doc.rect(60, yPos + 8 + (idx * 8), skill.progress * 1.2, 6, 'F');
-                doc.text(`${skill.progress}%`, 185, yPos + 13 + (idx * 8), { align: 'right' });
-            });
-            yPos += 60;
+            doc.text('Habilidade', 20, y + 7);
+            doc.text('Proficiência (%)', 140, y + 7);
             
-            if (includeAchievements && student.achievements && student.achievements.length > 0) {
-                doc.setFillColor(251, 191, 36);
-                doc.rect(14, yPos - 8, 182, 25, 'F');
-                doc.setTextColor(120, 53, 15);
-                doc.setFontSize(12);
-                doc.setFont('helvetica', 'bold');
-                doc.text('🏅 Conquistas', 18, yPos);
-                doc.setTextColor(0, 0, 0);
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                const achList = student.achievements.slice(0, 4);
-                achList.forEach((ach, idx) => {
-                    const def = ACHIEVEMENTS[ach.id];
-                    if (def) {
-                        doc.text(`• ${def.name}`, 18, yPos + 10 + (idx * 6));
-                    }
-                });
-                yPos += 20 + (achList.length * 6);
+            y += 10;
+            const skills = [
+                { name: 'Reading', score: 85 },
+                { name: 'Listening', score: 70 },
+                { name: 'Speaking', score: 60 },
+                { name: 'Grammar', score: 90 },
+                { name: 'Vocabulary', score: 75 }
+            ];
+            
+            doc.setTextColor(0, 0, 0);
+            doc.setFont('helvetica', 'normal');
+            
+            skills.forEach((skill, idx) => {
+                // Row background (alternating)
+                if (idx % 2 === 0) {
+                    doc.setFillColor(248, 250, 252);
+                    doc.rect(15, y, 180, 10, 'F');
+                }
+                doc.text(skill.name, 20, y + 7);
+                
+                // Progress Bar in PDF
+                doc.setFillColor(200, 200, 200);
+                doc.rect(140, y + 3, 50, 4, 'F'); // Background bar
+                doc.setFillColor(34, 197, 94);
+                doc.rect(140, y + 3, (skill.score / 100) * 50, 4, 'F'); // Foreground bar
+                doc.text(`${skill.score}%`, 195, y + 7);
+                
+                y += 10;
+            });
+            
+            // 4. Lined Notes Area
+            y += 20;
+            doc.setFont('helvetica', 'bold');
+            doc.text('Observações do Professor:', 15, y);
+            y += 10;
+            doc.setFont('helvetica', 'normal');
+            
+            // Draw lines
+            for (let i = 0; i < 5; i++) {
+                doc.setDrawColor(200);
+                doc.line(15, y, 195, y);
+                y += 10;
             }
             
-            doc.setFillColor(241, 245, 249);
-            doc.rect(0, 280, 210, 17, 'F');
-            doc.setTextColor(100, 116, 139);
-            doc.setFontSize(9);
-            doc.text(`Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, 105, 290, { align: 'center' });
-            doc.text('EnglishPath — Plataforma de Ensino de Inglês', 105, 295, { align: 'center' });
+            // 5. Footer
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Gerado em: ${new Date().toLocaleDateString()}`, 15, 280);
+            doc.text('EnglishPath Platform', 105, 285, { align: 'center' });
             
-            doc.save(`boletim-${student.nome.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`);
-            showToast('Sucesso', 'PDF gerado e baixado!', 'success');
-        } catch (error) {
-            console.error('Erro ao gerar PDF:', error);
-            showToast('Erro', 'Falha ao gerar PDF: ' + error.message, 'error');
+            // Signature line
+            doc.setDrawColor(0);
+            doc.line(130, 260, 190, 260);
+            doc.text('Assinatura Coord.', 160, 265, { align: 'center' });
+            
+            doc.save(`boletim-${student.nome}.pdf`);
+            showToast('Sucesso', 'PDF baixado com sucesso!', 'success');
         }
-    }
 
-    function showAdminTab(tab) {
-        document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
-        document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`tab-${tab}`).classList.add('active');
-        if (tab === 'leaderboard') loadLeaderboardData();
-    }
+        async function fixDatabaseRoles() {
+            if (!confirm('Resetar todos para student exceto super admin?')) return;
+            const batch = allStudents.map(async u => {
+                if (u.email !== SUPER_ADMIN_EMAIL && u.role === 'admin') {
+                    await updateDoc(doc(db, "usuarios", u.id), { role: 'student' });
+                }
+            });
+            await Promise.all(batch);
+            showToast('Corrigido', 'Cargos resetados.', 'success');
+            loadDashboardData();
+        }
 
-    function exportData(format) {
-        const data = JSON.stringify(allStudents, null, 2);
-        const blob = new Blob([data], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `englishpath-backup-${new Date().toISOString().split('T')[0]}.${format}`;
-        a.click();
-        showToast('Sucesso', `Exportado em ${format.toUpperCase()}!`, 'success');
-    }
+        // Init Theme
+        (function(){
+            const saved = localStorage.getItem('ep_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
 
-    function showAddCourseModal() { showToast('Em desenvolvimento', 'Funcionalidade em breve!', 'warning'); }
-    async function resetWeeklyRanking() { if (!confirm('Resetar ranking semanal?')) return; try { const q = query(collection(db, "usuarios")); const snapshot = await getDocs(q); const batch = snapshot.docs.map(async (docSnap) => { await updateDoc(doc(db, "usuarios", docSnap.id), { weeklyXP: 0, lastWeekReset: serverTimestamp() }); }); await Promise.all(batch); showToast('Sucesso', 'Ranking semanal resetado!', 'success'); loadDashboardData(); } catch (error) { showToast('Erro', 'Falha ao resetar: ' + error.message, 'error'); } }
-
-    // ===== INIT =====
-    window.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { document.querySelectorAll('.modal.active').forEach(m => { m.classList.remove('active'); document.body.style.overflow = ''; }); }
-        });
-    });
-</script>
+    </script>
 </body>
 </html>
