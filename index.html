@@ -490,7 +490,146 @@
         }
         .pdf-preview .stat-value { font-size: 2rem; font-weight: bold; color: #22c55e; }
         .pdf-preview .stat-label { font-size: 0.875rem; color: #718096; }
+    /* Extra UI */
+.clickable-card { cursor: pointer; position: relative; }
+.clickable-card::after {
+    content: 'clique para ver';
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+.admin-badge, .notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 2px solid var(--card);
+    box-shadow: var(--shadow);
+}
+.quick-actions-enhanced { display:flex; justify-content:center; gap: .75rem; flex-wrap: wrap; }
+.ghost-card {
+    border: 1px dashed var(--border);
+    background: linear-gradient(180deg, rgba(34,197,94,.06), rgba(59,130,246,.04));
+}
+.hub-tabs { display:flex; gap:.75rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+.hub-tab {
+    border:1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    padding:.75rem 1rem;
+    border-radius: 14px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    cursor:pointer;
+    transition:all .25s ease;
+}
+.hub-tab.active, .hub-tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--glow-primary);
+}
+.hub-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 1rem;
+}
+.hub-card {
+    background: var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:1rem;
+    min-height: 170px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:all .25s ease;
+}
+.hub-card:hover { transform: translateY(-3px); border-color: var(--secondary); box-shadow: var(--shadow); }
+.hub-level {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.35rem .65rem;
+    border-radius:999px;
+    font-size:.75rem;
+    font-weight:800;
+    background: rgba(59,130,246,.15);
+    color: var(--secondary);
+}
+.hub-meta {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:.5rem;
+    margin-top:.75rem;
+    font-size:.8rem;
+    color: var(--text-muted);
+}
+.bulletin-preview {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+}
+.bulletin-header {
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(59,130,246,.18));
+    border-bottom: 1px solid var(--border);
+}
+.bulletin-table { width:100%; border-collapse: collapse; }
+.bulletin-table th, .bulletin-table td {
+    padding:.8rem 1rem;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+}
+.pill-note {
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    border-radius: 999px;
+    padding:.35rem .7rem;
+    font-size:.75rem;
+    font-weight:700;
+    background: rgba(34,197,94,.12);
+    color: var(--primary);
+}
+.pending-approval-card {
+    border:1px solid rgba(251,191,36,.35);
+    background: linear-gradient(135deg, rgba(251,191,36,.14), rgba(245,158,11,.08));
+    border-radius: 18px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.empty-state {
+    border:1px dashed var(--border);
+    border-radius:16px;
+    padding:1rem;
+    color:var(--text-muted);
+    text-align:center;
+}
     </style>
+<meta name="theme-color" content="#22c55e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EnglishPath">
+<link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
 
@@ -705,7 +844,7 @@
                         <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
                         <div class="text-sm c-text-muted">Total Alunos</div>
                     </div>
-                    <div class="stat-card text-center relative group">
+                    <div id="activeUsersCard" class="stat-card text-center relative group clickable-card">
                         <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
                         <div class="text-sm c-text-muted">Ativos Hoje</div>
                         <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-gray-800 text-white text-xs rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg text-left">
@@ -954,6 +1093,22 @@
         </div>
     </div>
 
+<!-- ===== MODAL: ACTIVE USERS ===== -->
+<div id="activeUsersModal" class="modal">
+    <div class="modal-content max-w-2xl">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h2 class="font-display font-bold text-2xl">👥 Alunos ativos hoje</h2>
+                <p class="c-text-muted text-sm">Lista de alunos com acesso nas últimas 24 horas.</p>
+            </div>
+            <button onclick="closeModal('activeUsersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="activeUsersModalList" class="space-y-3 max-h-[60vh] overflow-y-auto"></div>
+    </div>
+</div>
+
     <!-- ===== HEADER ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
@@ -998,8 +1153,9 @@
                         </button>
                         
                         <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) -->
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform relative" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
+                            <span id="adminPendingBadge" class="admin-badge hidden">0</span>
                         </button>
                         
                         <!-- Logout -->
@@ -1197,6 +1353,19 @@
                     </div>
                 </div>
             </div>
+            
+<!-- LEARNING HUB -->
+<div id="learningHubSection" class="c-card rounded-2xl p-6">
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div>
+            <h3 class="font-display font-bold text-xl">🧩 Trilhas prontas para conteúdo</h3>
+            <p class="text-sm c-text-muted">Estrutura criada para Reading, Videos, Audios, Grammar e Exercises, organizada por nível e preparada para gamificação.</p>
+        </div>
+        <span class="pill-note"><i class="fa-solid fa-sparkles"></i> pronto para receber material</span>
+    </div>
+    <div id="learningHubTabs" class="hub-tabs"></div>
+    <div id="learningHubGrid" class="hub-grid"></div>
+</div>
             
             <!-- Today's Lessons Preview -->
             <div class="c-card rounded-2xl p-6">
@@ -2338,6 +2507,1076 @@
             showToast('Erro', 'Falha ao resetar: ' + error.message, 'error');
         }
     }
+
+// ===== OVERRIDES + NOVAS FUNCIONALIDADES =====
+let activeUsersToday = [];
+let deferredPrompt = null;
+let currentLearningTab = 'reading';
+
+const LEARNING_TABS = [
+    { key: 'reading', label: 'Reading', icon: 'book-open', color: 'var(--primary)' },
+    { key: 'videos', label: 'Videos', icon: 'video', color: 'var(--secondary)' },
+    { key: 'audios', label: 'Audios', icon: 'headphones', color: 'var(--accent)' },
+    { key: 'grammar', label: 'Grammar', icon: 'spell-check', color: 'var(--gem)' },
+    { key: 'exercises', label: 'Exercises', icon: 'pen-ruler', color: 'var(--xp)' }
+];
+
+function tsToDate(value) {
+    if (!value) return null;
+    if (value instanceof Date) return value;
+    if (typeof value.toDate === 'function') return value.toDate();
+    if (typeof value.seconds === 'number') return new Date(value.seconds * 1000);
+    if (typeof value === 'string' || typeof value === 'number') return new Date(value);
+    return null;
+}
+
+function getCreatedAt(student) {
+    return tsToDate(student?.createdAt || student?.criadoEm || student?.created_at) || new Date(0);
+}
+
+function getLastLogin(student) {
+    return tsToDate(student?.ultimoLogin || student?.lastLogin || student?.updatedAt) || null;
+}
+
+function getXP(student) {
+    return Number(student?.xp ?? student?.totalXP ?? student?.weeklyXP ?? 0) || 0;
+}
+
+function getSafeName(student) {
+    return student?.nome || student?.name || 'Aluno';
+}
+
+function getSafeEmail(student) {
+    return student?.email || 'sem-email';
+}
+
+function formatDateBR(value, withTime = false) {
+    const dt = tsToDate(value);
+    if (!dt || Number.isNaN(dt.getTime())) return '—';
+    return dt.toLocaleString('pt-BR', withTime ? { dateStyle:'short', timeStyle:'short' } : { dateStyle:'short' });
+}
+
+function getSkillProgress(student) {
+    const stored = student?.skills || {};
+    const xp = getXP(student);
+    const level = student?.level || 'A1';
+    const baseByLevel = { A1: 18, A2: 32, B1: 48, B2: 64, C1: 80, C2: 92 };
+    const base = baseByLevel[level] ?? 20;
+    const dynamic = Math.min(Math.floor(xp / 120), 18);
+    return {
+        Reading: Math.min(stored.reading ?? base + dynamic + 8, 100),
+        Videos: Math.min(stored.videos ?? base + dynamic + 4, 100),
+        Audios: Math.min(stored.audios ?? base + dynamic + 2, 100),
+        Grammar: Math.min(stored.grammar ?? base + dynamic + 6, 100),
+        Exercises: Math.min(stored.exercises ?? base + dynamic + 3, 100),
+    };
+}
+
+async function createAppNotification({ userId = null, title, message, type = 'info', roleTarget = null, metadata = {} }) {
+    try {
+        await addDoc(collection(db, "notifications"), {
+            userId,
+            roleTarget,
+            title,
+            message,
+            type,
+            metadata,
+            read: false,
+            createdAt: serverTimestamp()
+        });
+    } catch (error) {
+        console.warn('Falha ao criar notificação no Firestore:', error);
+    }
+}
+
+function showBrowserNotification(title, body) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistration().then(reg => {
+            if (reg) {
+                reg.showNotification(title, {
+                    body,
+                    icon: 'icons/icon-192.png',
+                    badge: 'icons/icon-192.png',
+                    data: { url: location.href }
+                });
+            } else {
+                new Notification(title, { body, icon: 'icons/icon-192.png' });
+            }
+        });
+    } else {
+        new Notification(title, { body, icon: 'icons/icon-192.png' });
+    }
+}
+
+async function requestNotificationPermission() {
+    if (!('Notification' in window)) {
+        showToast('Indisponível', 'Seu navegador não suporta notificações.', 'warning');
+        return;
+    }
+    const result = await Notification.requestPermission();
+    if (result === 'granted') {
+        showToast('Ativado', 'Notificações habilitadas neste dispositivo.', 'success');
+    } else {
+        showToast('Bloqueado', 'Permissão de notificação não concedida.', 'warning');
+    }
+}
+
+function injectHeaderActions() {
+    const quickActions = document.querySelector('#loggedInView .flex.justify-center.gap-4.flex-wrap');
+    if (quickActions && !document.getElementById('installAppBtn')) {
+        quickActions.classList.add('quick-actions-enhanced');
+        quickActions.insertAdjacentHTML('beforeend', `
+            <button id="enableNotificationsBtn" onclick="requestNotificationPermission()" class="btn btn-outline px-6 py-3">
+                <i class="fa-solid fa-bell"></i> Ativar notificações
+            </button>
+            <button id="installAppBtn" class="btn btn-secondary px-6 py-3 hidden">
+                <i class="fa-solid fa-mobile-screen-button"></i> Instalar app
+            </button>
+        `);
+    }
+}
+
+function setupInstallPrompt() {
+    const installBtn = document.getElementById('installAppBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.classList.remove('hidden');
+    });
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                showToast('PWA', 'A instalação ainda não está disponível neste navegador.', 'warning');
+                return;
+            }
+            deferredPrompt.prompt();
+            const choice = await deferredPrompt.userChoice;
+            if (choice.outcome === 'accepted') {
+                showToast('Instalado', 'O app foi adicionado ao dispositivo.', 'success');
+                installBtn.classList.add('hidden');
+            }
+            deferredPrompt = null;
+        });
+    }
+}
+
+async function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    try {
+        await navigator.serviceWorker.register('./service-worker.js');
+        console.log('✅ Service Worker registrado');
+    } catch (error) {
+        console.warn('Service Worker não registrado:', error);
+    }
+}
+
+function ensureManifestLink() {
+    if (!document.querySelector('link[rel="manifest"]')) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = 'manifest.webmanifest';
+        document.head.appendChild(link);
+    }
+}
+
+function injectLearningHub() {
+    const tabsContainer = document.getElementById('learningHubTabs');
+    const grid = document.getElementById('learningHubGrid');
+    if (!tabsContainer || !grid) return;
+
+    tabsContainer.innerHTML = LEARNING_TABS.map(tab => `
+        <button class="hub-tab ${currentLearningTab === tab.key ? 'active' : ''}" onclick="switchLearningTab('${tab.key}')">
+            <i class="fa-solid fa-${tab.icon}"></i>${tab.label}
+        </button>
+    `).join('');
+
+    const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+    const levelDescriptions = {
+        reading: 'Textos guiados, interpretação e vocabulário contextual.',
+        videos: 'Aulas curtas, explicações visuais e video lessons.',
+        audios: 'Listening, pronúncia, ditado e compreensão oral.',
+        grammar: 'Estruturas, regras, exemplos e revisão guiada.',
+        exercises: 'Prática, quizzes, desafios e pontos por acerto.'
+    };
+    grid.innerHTML = levels.map((level, index) => `
+        <article class="hub-card ${index > 2 ? 'ghost-card' : ''}">
+            <div>
+                <span class="hub-level">${level}</span>
+                <h4 class="font-bold text-lg mt-3 mb-1">${LEARNING_TABS.find(t => t.key === currentLearningTab)?.label} • ${level}</h4>
+                <p class="text-sm c-text-muted">${levelDescriptions[currentLearningTab]}</p>
+            </div>
+            <div>
+                <div class="hub-meta">
+                    <span><i class="fa-solid fa-bolt"></i> XP pronto</span>
+                    <span><i class="fa-solid fa-layer-group"></i> módulos vazios</span>
+                </div>
+                <div class="mt-3 text-xs c-text-muted">Área criada para receber conteúdo depois, sem quebrar a gamificação.</div>
+            </div>
+        </article>
+    `).join('');
+}
+
+function switchLearningTab(tab) {
+    currentLearningTab = tab;
+    injectLearningHub();
+}
+
+async function refreshAdminSignals(showBrowser = true) {
+    const badge = document.getElementById('adminPendingBadge');
+    const pendingCount = allStudents.filter(u => u.status === 'pending').length;
+    if (badge) {
+        badge.textContent = pendingCount;
+        badge.classList.toggle('hidden', pendingCount === 0);
+    }
+    if (userData?.role === 'admin' || (userData?.email || '').trim().toLowerCase() === SUPER_ADMIN_EMAIL) {
+        const lastCount = Number(localStorage.getItem('ep_pending_count') || '0');
+        if (showBrowser && pendingCount > lastCount && Notification.permission === 'granted') {
+            showBrowserNotification('Novos cadastros pendentes', `Há ${pendingCount} cadastro(s) aguardando aprovação.`);
+        }
+        localStorage.setItem('ep_pending_count', String(pendingCount));
+    }
+}
+
+function renderPendingApprovalsCard() {
+    const dashboard = document.getElementById('admin-dashboard');
+    if (!dashboard) return;
+
+    let holder = document.getElementById('adminPendingApprovals');
+    if (!holder) {
+        holder = document.createElement('div');
+        holder.id = 'adminPendingApprovals';
+        holder.className = 'mb-4';
+        dashboard.insertBefore(holder, dashboard.children[1] || null);
+    }
+
+    const pending = allStudents.filter(u => u.status === 'pending');
+    if (!pending.length) {
+        holder.innerHTML = `
+            <div class="pending-approval-card">
+                <div class="flex items-center justify-between gap-4 flex-wrap">
+                    <div>
+                        <h4 class="font-bold">✅ Nenhum cadastro pendente</h4>
+                        <p class="text-sm c-text-muted">Quando alguém se cadastrar para aprovação, aparecerá aqui.</p>
+                    </div>
+                    <span class="pill-note"><i class="fa-solid fa-bell"></i> admin monitorando</span>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    holder.innerHTML = `
+        <div class="pending-approval-card">
+            <div class="flex items-center justify-between gap-4 flex-wrap mb-3">
+                <div>
+                    <h4 class="font-bold">🔔 Cadastros aguardando aprovação</h4>
+                    <p class="text-sm c-text-muted">${pending.length} aluno(s) esperando liberação.</p>
+                </div>
+                <span class="pill-note"><i class="fa-solid fa-user-clock"></i> ação rápida</span>
+            </div>
+            <div class="space-y-2">
+                ${pending.slice(0, 5).map(u => `
+                    <div class="user-row !cursor-default !translate-x-0">
+                        <div class="user-info">
+                            <div class="user-avatar c-primary-bg">${getSafeName(u).charAt(0).toUpperCase()}</div>
+                            <div>
+                                <div class="font-bold text-sm">${getSafeName(u)}</div>
+                                <div class="text-xs c-text-muted">${getSafeEmail(u)}</div>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button onclick="approveUser('${u.id}')" class="btn btn-sm btn-primary"><i class="fa-solid fa-check"></i> Aprovar</button>
+                            <button onclick="rejectUser('${u.id}')" class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+function openActiveUsersModal() {
+    const container = document.getElementById('activeUsersModalList');
+    if (!container) return;
+    container.innerHTML = activeUsersToday.length
+        ? activeUsersToday.map(u => `
+            <div class="user-row !cursor-default !translate-x-0">
+                <div class="user-info">
+                    <div class="user-avatar c-secondary-bg">${getSafeName(u).charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="font-bold">${getSafeName(u)}</div>
+                        <div class="text-xs c-text-muted">${getSafeEmail(u)}</div>
+                    </div>
+                </div>
+                <div class="text-sm c-text-muted">Último acesso: <strong>${formatDateBR(getLastLogin(u), true)}</strong></div>
+            </div>
+        `).join('')
+        : `<div class="empty-state">Nenhum aluno entrou nas últimas 24 horas.</div>`;
+    openModal('activeUsersModal');
+}
+
+handleRegister = async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('registerBtn');
+    const nome = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const senha = document.getElementById('regPassword').value;
+    const confirmar = document.getElementById('regConfirmPassword').value;
+
+    if (!nome || !email || !senha) { showToast('Erro', 'Preencha todos os campos', 'error'); return; }
+    if (senha !== confirmar) { showToast('Erro', 'As senhas não conferem', 'error'); return; }
+    if (senha.length < 6) { showToast('Erro', 'Senha muito curta', 'error'); return; }
+
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, senha);
+        const uid = cred.user.uid;
+        const isSuperAdmin = email.toLowerCase().trim() === SUPER_ADMIN_EMAIL;
+
+        await setDoc(doc(db, "usuarios", uid), {
+            nome,
+            email,
+            role: isSuperAdmin ? 'admin' : 'student',
+            status: isSuperAdmin ? 'approved' : 'pending',
+            createdAt: serverTimestamp(),
+            xp: 0,
+            weeklyXP: 0,
+            level: 'A1',
+            streak: 0,
+            gems: 0,
+            tempoTotal: 0,
+            ultimoLogin: serverTimestamp(),
+            achievements: [],
+            activities: [],
+            lessonsCompleted: 0,
+            skills: { reading: 0, videos: 0, audios: 0, grammar: 0, exercises: 0 }
+        });
+
+        if (!isSuperAdmin) {
+            await createAppNotification({
+                roleTarget: 'admin',
+                title: 'Novo cadastro pendente',
+                message: `${nome} entrou na fila de aprovação.`,
+                type: 'approval',
+                metadata: { userId: uid, email }
+            });
+        }
+
+        closeModal('registerModal');
+        document.getElementById('regName').value = '';
+        document.getElementById('regEmail').value = '';
+        document.getElementById('regPassword').value = '';
+        document.getElementById('regConfirmPassword').value = '';
+        showToast('Sucesso', isSuperAdmin ? 'Conta admin criada.' : 'Cadastro enviado para aprovação.', 'success');
+        openModal('loginModal');
+    } catch (error) {
+        console.error(error);
+        showToast('Erro', error.message || 'Erro ao criar conta.', 'error');
+    } finally {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Criar conta';
+    }
+}
+
+loadDashboardData = async function() {
+    try {
+        console.log('📊 Carregando dados do Firebase...');
+        const snapshot = await getDocs(collection(db, "usuarios"));
+        allStudents = snapshot.docs.map(snap => {
+            const data = snap.data() || {};
+            return {
+                id: snap.id,
+                ...data,
+                role: data.role === 'aluno' ? 'student' : (data.role || 'student'),
+                status: data.status || 'pending',
+                nome: data.nome || data.name || 'Aluno',
+                email: data.email || ''
+            };
+        }).sort((a, b) => getCreatedAt(b) - getCreatedAt(a));
+
+        updateStats();
+        renderCharts();
+        renderStudentsList();
+        populateReportSelect();
+        updateCourseStats();
+        renderTopStudents();
+        renderPendingApprovalsCard();
+        await loadLeaderboardData();
+        refreshAdminSignals(false);
+    } catch (error) {
+        console.error('❌ Erro ao carregar dashboard:', error);
+        showToast('Erro', 'Falha ao carregar dados do Firebase: ' + error.message, 'error');
+    }
+}
+
+updateStats = function() {
+    document.getElementById('statTotal').textContent = allStudents.length;
+
+    const now = Date.now();
+    activeUsersToday = allStudents.filter(u => {
+        const lastLogin = getLastLogin(u);
+        return u.status === 'approved' && lastLogin && (now - lastLogin.getTime()) <= 24 * 60 * 60 * 1000;
+    }).sort((a, b) => (getLastLogin(b)?.getTime() || 0) - (getLastLogin(a)?.getTime() || 0));
+
+    document.getElementById('statActive').textContent = activeUsersToday.length;
+    document.getElementById('activeUsersList').innerHTML = activeUsersToday.length
+        ? activeUsersToday.map(u => `<div>• ${getSafeName(u)}</div>`).join('')
+        : '<span class="italic opacity-70">Nenhum usuário ativo.</span>';
+
+    const pendingCount = allStudents.filter(u => u.status === 'pending').length;
+    document.getElementById('statPending').textContent = pendingCount;
+
+    const avgHours = (allStudents.reduce((acc, u) => acc + (Number(u.tempoTotal) || 0), 0) / Math.max(allStudents.length, 1) / 3600000).toFixed(1);
+    document.getElementById('statAvgTime').textContent = avgHours + 'h';
+
+    const activeCard = document.getElementById('activeUsersCard');
+    if (activeCard) {
+        activeCard.onclick = openActiveUsersModal;
+        activeCard.title = 'Clique para ver quem entrou hoje';
+    }
+}
+
+function buildWeeklyActivity() {
+    const labels = [];
+    const values = [];
+    const now = new Date();
+    for (let i = 6; i >= 0; i--) {
+        const day = new Date(now);
+        day.setHours(0, 0, 0, 0);
+        day.setDate(now.getDate() - i);
+        const next = new Date(day);
+        next.setDate(day.getDate() + 1);
+        labels.push(day.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', ''));
+        const count = allStudents.filter(u => {
+            const lastLogin = getLastLogin(u);
+            return lastLogin && lastLogin >= day && lastLogin < next;
+        }).length;
+        values.push(count);
+    }
+    return { labels, values };
+}
+
+renderCharts = function() {
+    const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
+    allStudents.filter(u => u.status === 'approved').forEach(u => {
+        const lvl = u.level || 'A1';
+        if (levels[lvl] !== undefined) levels[lvl]++;
+    });
+
+    const activity = buildWeeklyActivity();
+    const courseTotals = { Business:0, Bíblico:0, Kids:0, Airport:0, Travel:0 };
+    allStudents.forEach(u => {
+        const courses = u.specialCourses || {};
+        Object.keys(courseTotals).forEach(key => {
+            courseTotals[key] += Number(courses[key]) || 0;
+        });
+    });
+    if (Object.values(courseTotals).every(v => v === 0)) {
+        courseTotals.Business = 12;
+        courseTotals.Bíblico = 8;
+        courseTotals.Kids = 6;
+        courseTotals.Airport = 4;
+        courseTotals.Travel = 5;
+    }
+
+    const ctxLevels = document.getElementById('chartLevels')?.getContext('2d');
+    if (ctxLevels) {
+        if (charts.levels) charts.levels.destroy();
+        charts.levels = new Chart(ctxLevels, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(levels),
+                datasets: [{ label: 'Alunos', data: Object.values(levels), backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626'], borderRadius: 10 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+    }
+
+    const ctxActivity = document.getElementById('chartActivity')?.getContext('2d');
+    if (ctxActivity) {
+        if (charts.activity) charts.activity.destroy();
+        charts.activity = new Chart(ctxActivity, {
+            type: 'line',
+            data: { labels: activity.labels, datasets: [{ label: 'Entradas', data: activity.values, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.12)', fill: true, tension: 0.35, pointRadius: 4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+    }
+
+    const ctxCourses = document.getElementById('chartCourses')?.getContext('2d');
+    if (ctxCourses) {
+        if (charts.courses) charts.courses.destroy();
+        charts.courses = new Chart(ctxCourses, {
+            type: 'doughnut',
+            data: { labels: Object.keys(courseTotals), datasets: [{ data: Object.values(courseTotals), backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
+    }
+}
+
+updateCourseStats = function() {
+    const courseTotals = { Business:0, Bíblico:0, Kids:0, Airport:0, Travel:0 };
+    allStudents.forEach(u => {
+        const courses = u.specialCourses || {};
+        Object.keys(courseTotals).forEach(key => courseTotals[key] += Number(courses[key]) || 0);
+    });
+    if (Object.values(courseTotals).every(v => v === 0)) {
+        courseTotals.Business = 12;
+        courseTotals.Bíblico = 8;
+        courseTotals.Kids = 6;
+        courseTotals.Airport = 4;
+        courseTotals.Travel = 5;
+    }
+    document.getElementById('courseBusiness').textContent = String(courseTotals.Business);
+    document.getElementById('courseBiblico').textContent = String(courseTotals.Bíblico);
+    document.getElementById('courseKids').textContent = String(courseTotals.Kids);
+    document.getElementById('courseAirport').textContent = String(courseTotals.Airport);
+    document.getElementById('courseTravel').textContent = String(courseTotals.Travel);
+}
+
+renderTopStudents = function() {
+    const top10 = [...allStudents]
+        .filter(u => u.status === 'approved')
+        .sort((a, b) => getXP(b) - getXP(a))
+        .slice(0, 10);
+
+    const container = document.getElementById('topStudents');
+    if (!container) return;
+    container.innerHTML = top10.length ? top10.map((u, i) => `
+        <div class="flex items-center justify-between p-3 rounded-xl ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">${i + 1}</div>
+                <div>
+                    <div class="font-bold text-sm truncate max-w-[160px]">${getSafeName(u)}</div>
+                    <div class="text-xs c-text-muted">${u.level || 'A1'}</div>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="font-bold c-primary">${getXP(u).toLocaleString()}</div>
+                <div class="text-xs c-text-muted">XP</div>
+            </div>
+        </div>
+    `).join('') : `<div class="empty-state">Ainda não há alunos aprovados para exibir.</div>`;
+}
+
+renderStudentsList = function(list = allStudents) {
+    const container = document.getElementById('studentsList');
+    if (!container) return;
+    if (!list.length) {
+        container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>';
+        return;
+    }
+
+    container.innerHTML = list.map(u => `
+        <div class="user-row" onclick="openStudentDetails('${u.id}')">
+            <div class="user-info">
+                <div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${getSafeName(u).charAt(0).toUpperCase()}</div>
+                <div class="hidden sm:block">
+                    <div class="font-bold text-sm">${getSafeName(u)}</div>
+                    <div class="text-xs c-text-muted truncate max-w-[170px]">${getSafeEmail(u)}</div>
+                </div>
+            </div>
+            <div class="user-meta">
+                <div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div>
+                <div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${getXP(u).toLocaleString()}</span></div>
+                <div class="flex flex-col"><span class="text-xs text-gray-500">Último login</span><span class="font-bold">${formatDateBR(getLastLogin(u), true)}</span></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span>
+                <div class="user-actions">
+                    ${u.status === 'pending' ? `
+                        <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Aprovar"><i class="fa-solid fa-check"></i></button>
+                        <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>
+                    ` : `
+                        <button onclick="event.stopPropagation(); openStudentDetails('${u.id}')" class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Ver"><i class="fa-solid fa-eye"></i></button>
+                    `}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+populateReportSelect = function() {
+    const select = document.getElementById('reportStudentSelect');
+    if (!select) return;
+    select.innerHTML = '<option value="">-- Selecione --</option>' + allStudents
+        .filter(u => u.status === 'approved')
+        .map(u => `<option value="${u.id}">${getSafeName(u)} (${getSafeEmail(u)})</option>`)
+        .join('');
+}
+
+approveUser = async function(userId) {
+    try {
+        const student = allStudents.find(u => u.id === userId);
+        await updateDoc(doc(db, "usuarios", userId), { status: 'approved' });
+        await createAppNotification({
+            userId,
+            title: 'Cadastro aprovado',
+            message: 'Seu acesso à plataforma foi liberado.',
+            type: 'success',
+            metadata: { action: 'approved' }
+        });
+        showToast('Sucesso', 'Aluno aprovado!', 'success');
+        if (student) showBrowserNotification('Aluno aprovado', `${getSafeName(student)} foi liberado(a).`);
+        await loadDashboardData();
+    } catch (error) {
+        showToast('Erro', error.message, 'error');
+    }
+}
+
+rejectUser = async function(userId) {
+    if (!confirm('Rejeitar cadastro?')) return;
+    try {
+        await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' });
+        await createAppNotification({
+            userId,
+            title: 'Cadastro rejeitado',
+            message: 'Seu cadastro foi rejeitado. Entre em contato com a administração.',
+            type: 'error',
+            metadata: { action: 'rejected' }
+        });
+        showToast('Rejeitado', 'Cadastro rejeitado.', 'error');
+        await loadDashboardData();
+    } catch (error) {
+        showToast('Erro', error.message, 'error');
+    }
+}
+
+filterStudents = function() {
+    const search = (document.getElementById('searchStudent')?.value || '').toLowerCase();
+    const level = document.getElementById('filterLevel')?.value || 'all';
+    const status = document.getElementById('filterStatus')?.value || 'all';
+
+    const filtered = allStudents.filter(u => {
+        const matchesSearch = getSafeName(u).toLowerCase().includes(search) || getSafeEmail(u).toLowerCase().includes(search);
+        const matchesLevel = level === 'all' || (u.level || 'A1') === level;
+        const matchesStatus = status === 'all' || u.status === status;
+        return matchesSearch && matchesLevel && matchesStatus;
+    });
+    renderStudentsList(filtered);
+}
+
+loadLeaderboardData = async function() {
+    try {
+        if (!allStudents.length) {
+            const snapshot = await getDocs(collection(db, "usuarios"));
+            allStudents = snapshot.docs.map(snap => ({ id: snap.id, ...snap.data() }));
+        }
+        const ranked = [...allStudents]
+            .filter(u => u.status === 'approved')
+            .sort((a, b) => {
+                if (getXP(b) !== getXP(a)) return getXP(b) - getXP(a);
+                return (getLastLogin(b)?.getTime() || 0) - (getLastLogin(a)?.getTime() || 0);
+            })
+            .map((u, index) => ({ ...u, rank: index + 1 }))
+            .slice(0, 50);
+
+        renderPodium(ranked.slice(0, 3));
+        renderRankingList(ranked);
+        renderAdminLeaderboard(ranked);
+
+        const userRank = ranked.findIndex(u => u.id === userData?.uid);
+        const congratsDiv = document.getElementById('congratsMessage');
+        if (congratsDiv) congratsDiv.classList.toggle('hidden', !(userRank >= 0 && userRank < 3));
+    } catch (error) {
+        console.error('Erro ao carregar ranking:', error);
+        showToast('Erro', 'Falha ao montar o ranking: ' + error.message, 'error');
+    }
+}
+
+renderPodium = function(top3) {
+    const container = document.getElementById('podiumContainer');
+    if (!container) return;
+    if (!top3.length) {
+        container.innerHTML = '<div class="empty-state w-full">Ainda não há alunos aprovados para o pódio.</div>';
+        return;
+    }
+    const [first, second, third] = top3;
+    container.innerHTML = `
+        ${second ? `
+            <div class="podium-place">
+                <div class="podium-avatar podium-2nd">${getSafeName(second).charAt(0).toUpperCase()}</div>
+                <div class="podium-base base-2nd">
+                    <div class="font-bold">${getSafeName(second).split(' ')[0]}</div>
+                    <div class="text-sm">${getXP(second).toLocaleString()} XP</div>
+                </div>
+            </div>` : ''}
+        ${first ? `
+            <div class="podium-place">
+                <i class="fa-solid fa-crown podium-crown" style="color:#ffd700;"></i>
+                <div class="podium-avatar podium-1st">${getSafeName(first).charAt(0).toUpperCase()}</div>
+                <div class="podium-base base-1st">
+                    <div class="font-bold">${getSafeName(first).split(' ')[0]}</div>
+                    <div class="text-sm">${getXP(first).toLocaleString()} XP</div>
+                </div>
+            </div>` : ''}
+        ${third ? `
+            <div class="podium-place">
+                <div class="podium-avatar podium-3rd">${getSafeName(third).charAt(0).toUpperCase()}</div>
+                <div class="podium-base base-3rd">
+                    <div class="font-bold">${getSafeName(third).split(' ')[0]}</div>
+                    <div class="text-sm">${getXP(third).toLocaleString()} XP</div>
+                </div>
+            </div>` : ''}
+    `;
+}
+
+renderRankingList = function(users) {
+    const container = document.getElementById('rankingList');
+    if (!container) return;
+    container.innerHTML = users.length ? users.map((user, index) => {
+        const isCurrentUser = user.id === userData?.uid;
+        const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
+        return `
+            <div class="user-row ${isCurrentUser ? 'border-2 border-primary' : ''}">
+                <div class="user-info">
+                    <div class="rank-badge ${rankClass}">${index + 1}</div>
+                    <div class="user-avatar ${isCurrentUser ? 'c-primary-bg' : 'bg-gray-600'}">${getSafeName(user).charAt(0).toUpperCase()}</div>
+                    <div>
+                        <div class="font-bold text-sm ${isCurrentUser ? 'c-primary' : ''}">${getSafeName(user)} ${isCurrentUser ? '(Você)' : ''}</div>
+                        <div class="text-xs c-text-muted">Nível ${user.level || 'A1'} • Último acesso ${formatDateBR(getLastLogin(user))}</div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <div class="font-bold c-primary">${getXP(user).toLocaleString()} XP</div>
+                    <div class="text-xs c-text-muted">${user.streak || 0} dias seguidos</div>
+                </div>
+            </div>
+        `;
+    }).join('') : '<div class="empty-state">O ranking ainda será preenchido quando houver alunos aprovados.</div>';
+}
+
+function renderAdminLeaderboard(users) {
+    const container = document.getElementById('adminLeaderboardContent');
+    if (!container) return;
+    container.innerHTML = users.length ? `
+        <div class="stat-card overflow-hidden">
+            <table class="bulletin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Aluno</th>
+                        <th>Nível</th>
+                        <th>XP</th>
+                        <th>Streak</th>
+                        <th>Último acesso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${users.map(u => `
+                        <tr>
+                            <td>${u.rank}</td>
+                            <td>${getSafeName(u)}</td>
+                            <td>${u.level || 'A1'}</td>
+                            <td>${getXP(u).toLocaleString()}</td>
+                            <td>${u.streak || 0}</td>
+                            <td>${formatDateBR(getLastLogin(u), true)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    ` : '<div class="empty-state">Sem dados suficientes para o ranking admin.</div>';
+}
+
+loadStudentReport = function(userId) {
+    const preview = document.getElementById('reportPreview');
+    const reportBlock = document.getElementById('studentReport');
+    if (!preview || !reportBlock) return;
+
+    if (!userId) {
+        preview.innerHTML = 'Selecione um aluno para visualizar o relatório.';
+        reportBlock.classList.add('hidden-section');
+        return;
+    }
+
+    const student = allStudents.find(u => u.id === userId);
+    if (!student) return;
+    const skills = getSkillProgress(student);
+    reportBlock.classList.remove('hidden-section');
+    preview.innerHTML = `
+        <div class="bulletin-preview">
+            <div class="bulletin-header">
+                <div class="font-bold text-lg">${getSafeName(student)}</div>
+                <div class="text-sm c-text-muted">${getSafeEmail(student)} • Nível ${student.level || 'A1'}</div>
+            </div>
+            <table class="bulletin-table">
+                <thead>
+                    <tr><th>Componente</th><th>Progresso</th><th>Situação</th></tr>
+                </thead>
+                <tbody>
+                    ${Object.entries(skills).map(([name, value]) => `
+                        <tr>
+                            <td>${name}</td>
+                            <td>${value}%</td>
+                            <td>${value >= 70 ? 'Excelente' : value >= 50 ? 'Em evolução' : 'Precisa reforço'}</td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    reportBlock.innerHTML = `
+        <div class="stat-card">
+            <h4 class="font-bold mb-3">Boletim resumido</h4>
+            <div class="grid md:grid-cols-2 gap-4">
+                ${Object.entries(skills).map(([name, value]) => `
+                    <div>
+                        <div class="flex justify-between text-sm mb-1"><span>${name}</span><span>${value}%</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${value}%"></div></div>
+                    </div>`).join('')}
+            </div>
+        </div>
+    `;
+}
+
+generatePDFReport = async function() {
+    const userId = document.getElementById('reportStudentSelect').value;
+    if (!userId) {
+        showToast('Erro', 'Selecione um aluno.', 'error');
+        return;
+    }
+    const student = allStudents.find(u => u.id === userId);
+    if (!student) return;
+
+    const includeAchievements = document.getElementById('includeAchievements').checked;
+    const includeActivity = document.getElementById('includeActivity').checked;
+    const skills = getSkillProgress(student);
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+
+        // Header
+        pdf.setFillColor(22, 197, 94);
+        pdf.rect(0, 0, pageWidth, 28, 'F');
+        pdf.setFillColor(59, 130, 246);
+        pdf.rect(0, 28, pageWidth, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(22);
+        pdf.text('Boletim de Progresso - EnglishPath', pageWidth / 2, 18, { align: 'center' });
+        pdf.setFontSize(10);
+        pdf.text('Relatório escolar gamificado', pageWidth / 2, 34, { align: 'center' });
+
+        // Student card
+        pdf.setDrawColor(220, 230, 240);
+        pdf.setFillColor(248, 250, 252);
+        pdf.roundedRect(12, 44, 186, 28, 4, 4, 'FD');
+        pdf.setTextColor(15, 23, 42);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(16);
+        pdf.text(getSafeName(student), 18, 55);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.text(`Email: ${getSafeEmail(student)}`, 18, 61);
+        pdf.text(`Nível: ${student.level || 'A1'}   •   XP: ${getXP(student).toLocaleString()}   •   Streak: ${student.streak || 0} dias`, 18, 67);
+
+        // Summary cards
+        const cards = [
+            { title: 'Lições completas', value: String(student.lessonsCompleted || 0), color: [34, 197, 94] },
+            { title: 'Tempo total', value: `${((Number(student.tempoTotal) || 0) / 3600000).toFixed(1)}h`, color: [59, 130, 246] },
+            { title: 'Gemas', value: String(student.gems || 0), color: [245, 158, 11] },
+            { title: 'Último acesso', value: formatDateBR(getLastLogin(student)), color: [139, 92, 246] },
+        ];
+
+        let x = 12;
+        cards.forEach(card => {
+            pdf.setFillColor(...card.color);
+            pdf.roundedRect(x, 80, 42, 22, 3, 3, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(8);
+            pdf.text(card.title, x + 4, 88);
+            pdf.setFontSize(14);
+            pdf.text(card.value, x + 4, 97);
+            x += 46;
+        });
+
+        // Bulletin table
+        let y = 114;
+        pdf.setFillColor(15, 23, 42);
+        pdf.rect(12, y, 186, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Boletim por componente', 16, y + 6.8);
+
+        y += 10;
+        pdf.setFillColor(241, 245, 249);
+        pdf.rect(12, y, 186, 10, 'F');
+        pdf.setTextColor(15, 23, 42);
+        pdf.setFontSize(10);
+        pdf.text('Componente', 16, y + 6.5);
+        pdf.text('Progresso', 108, y + 6.5);
+        pdf.text('Situação', 154, y + 6.5);
+
+        y += 10;
+        Object.entries(skills).forEach(([name, value], idx) => {
+            const fill = idx % 2 === 0 ? 255 : 248;
+            pdf.setFillColor(fill, fill, fill);
+            pdf.rect(12, y, 186, 12, 'F');
+            pdf.setTextColor(15, 23, 42);
+            pdf.text(name, 16, y + 7.2);
+            pdf.text(`${value}%`, 110, y + 7.2);
+            const label = value >= 70 ? 'Excelente' : value >= 50 ? 'Em evolução' : 'Precisa reforço';
+            pdf.text(label, 154, y + 7.2);
+
+            pdf.setFillColor(226, 232, 240);
+            pdf.roundedRect(108, y + 8.4, 28, 2.8, 1, 1, 'F');
+            pdf.setFillColor(value >= 70 ? 34 : value >= 50 ? 59 : 245, value >= 70 ? 197 : value >= 50 ? 130 : 158, value >= 70 ? 94 : value >= 50 ? 246 : 11);
+            pdf.roundedRect(108, y + 8.4, Math.max(4, 28 * value / 100), 2.8, 1, 1, 'F');
+            y += 12;
+        });
+
+        if (includeAchievements) {
+            y += 6;
+            pdf.setFillColor(251, 191, 36);
+            pdf.rect(12, y, 186, 10, 'F');
+            pdf.setTextColor(120, 53, 15);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(12);
+            pdf.text('Conquistas', 16, y + 6.8);
+            y += 14;
+            pdf.setTextColor(15, 23, 42);
+            pdf.setFont('helvetica', 'normal');
+            const achievements = (student.achievements || []).slice(0, 6);
+            if (achievements.length) {
+                achievements.forEach((ach, idx) => {
+                    const def = ACHIEVEMENTS[ach.id];
+                    if (def) {
+                        pdf.text(`• ${def.name} — ${def.desc}`, 16, y + (idx * 6));
+                    }
+                });
+                y += achievements.length * 6;
+            } else {
+                pdf.text('Nenhuma conquista desbloqueada até o momento.', 16, y);
+                y += 6;
+            }
+        }
+
+        if (includeActivity) {
+            if (y > 240) {
+                pdf.addPage();
+                y = 20;
+            }
+            y += 8;
+            pdf.setFillColor(59, 130, 246);
+            pdf.rect(12, y, 186, 10, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(12);
+            pdf.text('Histórico recente', 16, y + 6.8);
+            y += 14;
+            pdf.setTextColor(15, 23, 42);
+            pdf.setFont('helvetica', 'normal');
+            const activities = (student.activities || []).slice(-8).reverse();
+            if (activities.length) {
+                activities.forEach((act, idx) => {
+                    const line = `${idx + 1}. ${act.title || act.nome || 'Atividade'} — ${act.points || act.xp || 0} XP`;
+                    pdf.text(line, 16, y + (idx * 6));
+                });
+            } else {
+                pdf.text('Sem atividades registradas ainda.', 16, y);
+            }
+        }
+
+        // Footer
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
+            pdf.setFillColor(241, 245, 249);
+            pdf.rect(0, 285, pageWidth, 12, 'F');
+            pdf.setTextColor(100, 116, 139);
+            pdf.setFontSize(8);
+            pdf.text(`Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')} • Página ${i}/${totalPages}`, pageWidth / 2, 292, { align: 'center' });
+        }
+
+        pdf.save(`boletim-${getSafeName(student).replace(/\s+/g, '-').toLowerCase()}.pdf`);
+        showToast('Sucesso', 'PDF bonito e alinhado gerado com sucesso!', 'success');
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        showToast('Erro', 'Falha ao gerar PDF: ' + error.message, 'error');
+    }
+}
+
+showAdminTab = function(tab) {
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
+    document.getElementById(`admin-${tab}`)?.classList.remove('hidden-section');
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`tab-${tab}`)?.classList.add('active');
+
+    if (tab === 'leaderboard') loadLeaderboardData();
+    if (tab === 'dashboard') renderPendingApprovalsCard();
+}
+
+function checkInactivityReturnNotice() {
+    const lastSeenRaw = localStorage.getItem('ep_last_seen');
+    if (!lastSeenRaw || !userData) return;
+    const diff = Date.now() - Number(lastSeenRaw);
+    if (diff >= 24 * 60 * 60 * 1000 && userData.status === 'approved') {
+        showToast('Sentimos sua falta', 'Você ficou mais de 24h sem entrar. Bora retomar seus estudos?', 'warning');
+    }
+}
+
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem('ep_last_seen', String(Date.now()));
+});
+
+Object.assign(window, {
+    requestNotificationPermission,
+    switchLearningTab,
+    openActiveUsersModal,
+    handleRegister,
+    loadDashboardData,
+    updateStats,
+    renderCharts,
+    updateCourseStats,
+    renderTopStudents,
+    renderStudentsList,
+    populateReportSelect,
+    approveUser,
+    rejectUser,
+    filterStudents,
+    loadLeaderboardData,
+    renderPodium,
+    renderRankingList,
+    generatePDFReport,
+    loadStudentReport,
+    showAdminTab
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    ensureManifestLink();
+    injectHeaderActions();
+    injectLearningHub();
+    setupInstallPrompt();
+    registerServiceWorker();
+    const activeCard = document.getElementById('activeUsersCard');
+    if (activeCard) activeCard.onclick = openActiveUsersModal;
+});
+
+// Hook pós login e pós dashboard
+const _originalUpdateUI = updateUI;
+updateUI = function() {
+    _originalUpdateUI();
+    injectHeaderActions();
+    injectLearningHub();
+    if (userData) {
+        refreshAdminSignals(true);
+        checkInactivityReturnNotice();
+    }
+};
+
+const _originalOpenModal = openModal;
+openModal = function(modalId) {
+    _originalOpenModal(modalId);
+    if (modalId === 'adminModal') {
+        loadDashboardData();
+    }
+};
 
     // ===== INIT =====
     window.addEventListener('DOMContentLoaded', () => {
