@@ -2,35 +2,8 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnglishPath — Plataforma Completa de Inglês</title>
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#22c55e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-    
-    <!-- PWA Manifest Inline (Data URI) -->
-    <link rel="manifest" href='data:application/manifest+json,{
-        "name":"EnglishPath",
-        "short_name":"EnglishPath",
-        "start_url":"./",
-        "display":"standalone",
-        "background_color":"#0f172a",
-        "theme_color":"#22c55e",
-        "orientation":"portrait",
-        "icons":[{
-            "src":"https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-            "sizes":"192x192",
-            "type":"image/png",
-            "purpose":"any maskable"
-        },{
-            "src":"https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-            "sizes":"512x512",
-            "type":"image/png"
-        }]
-    }'>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -107,7 +80,6 @@
             transition: all 0.3s ease;
             min-height: 100vh;
             overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
@@ -197,12 +169,10 @@
         /* Modals */
         .modal {
             display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+            backdrop-filter: blur(8px);
         }
-        .modal.active { display: flex; animation: fadeIn 0.2s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
+        .modal.active { display: flex; }
         .modal-content {
             background: var(--card); border: 1px solid var(--border);
             border-radius: 24px; padding: 2rem;
@@ -242,8 +212,6 @@
             border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
         }
         .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-        .stat-card.clickable { cursor: pointer; }
-        .stat-card.clickable:hover { border-color: var(--accent); box-shadow: var(--glow-accent); }
         
         /* User Rows */
         .user-row {
@@ -335,8 +303,7 @@
             z-index: 3000; transform: translateX(150%); transition: transform 0.3s ease;
             max-width: 350px;
         }
-        .toast.show { transform: translateX(0); animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(150%); } to { transform: translateX(0); } }
+        .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: #22c55e; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warning { border-left-color: #f59e0b; }
@@ -523,86 +490,9 @@
         }
         .pdf-preview .stat-value { font-size: 2rem; font-weight: bold; color: #22c55e; }
         .pdf-preview .stat-label { font-size: 0.875rem; color: #718096; }
-
-        /* Library Section Styles */
-        .library-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.25rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .library-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .library-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-        .library-card:hover::before { opacity: 1; }
-        .library-card.coming-soon { opacity: 0.7; }
-        .library-card.coming-soon:hover { transform: none; border-color: var(--border); }
-        
-        .xp-badge {
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-        
-        /* PWA Install Banner */
-        #pwaInstallBanner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 1rem;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 2000;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
-        }
-        #pwaInstallBanner.show { display: flex; animation: slideUp 0.3s ease; }
-        
-        /* Animation for new content */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-        }
-        .new-feature { animation: pulse-glow 2s infinite; }
     </style>
 </head>
 <body>
-
-    <!-- ===== PWA INSTALL BANNER ===== -->
-    <div id="pwaInstallBanner">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                <i class="fa-solid fa-graduation-cap text-xl"></i>
-            </div>
-            <div>
-                <div class="font-bold text-sm">Instale o EnglishPath</div>
-                <div class="text-xs opacity-90">Acesso rápido no seu celular 📱</div>
-            </div>
-        </div>
-        <button onclick="installPWA()" class="btn btn-sm bg-white text-green-700 font-bold hover:bg-gray-100">
-            <i class="fa-solid fa-download"></i> Instalar
-        </button>
-    </div>
 
     <!-- ===== MODAL: LOGIN ===== -->
     <div id="loginModal" class="modal">
@@ -768,21 +658,6 @@
         </div>
     </div>
 
-    <!-- ===== MODAL: ACTIVE USERS TODAY ===== -->
-    <div id="activeUsersModal" class="modal">
-        <div class="modal-content max-w-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-display font-bold text-2xl">👥 Alunos Ativos Hoje</h2>
-                <button onclick="closeModal('activeUsersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div id="activeUsersListContent" class="space-y-3 max-h-96 overflow-y-auto">
-                <!-- Preenchido via JS -->
-            </div>
-        </div>
-    </div>
-
     <!-- ===== MODAL: ADMIN DASHBOARD (FULL) ===== -->
     <div id="adminModal" class="modal">
         <div class="modal-content full">
@@ -830,7 +705,7 @@
                         <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
                         <div class="text-sm c-text-muted">Total Alunos</div>
                     </div>
-                    <div class="stat-card text-center relative group clickable" onclick="openActiveUsersModal()" title="Clique para ver quem entrou hoje">
+                    <div class="stat-card text-center relative group">
                         <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
                         <div class="text-sm c-text-muted">Ativos Hoje</div>
                         <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-gray-800 text-white text-xs rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg text-left">
@@ -1123,9 +998,8 @@
                         </button>
                         
                         <!-- 👑 GOLDEN CROWN BUTTON (ADMIN ONLY) -->
-                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform relative" title="Painel Administrativo">
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
-                            <span id="adminBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse hidden">0</span>
                         </button>
                         
                         <!-- Logout -->
@@ -1323,123 +1197,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- ===== LIBRARY SECTION: READING, VIDEOS, AUDIOS, GRAMMAR, EXERCISES ===== -->
-            <div class="c-card rounded-2xl p-6" id="librarySection">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display font-bold text-xl">📚 Biblioteca de Conteúdo</h3>
-                    <span class="text-sm c-text-muted">Conteúdo por nível • Gamificado</span>
-                </div>
-                
-                <!-- Library Tabs -->
-                <div class="flex gap-1 mb-4 border-b border-gray-700 overflow-x-auto pb-1" role="tablist">
-                    <button onclick="showLibraryTab('reading')" id="tab-reading" class="tab-btn active" role="tab">
-                        <i class="fa-solid fa-book-open mr-2"></i>Reading
-                    </button>
-                    <button onclick="showLibraryTab('videos')" id="tab-videos" class="tab-btn" role="tab">
-                        <i class="fa-solid fa-video mr-2"></i>Vídeos
-                    </button>
-                    <button onclick="showLibraryTab('audios')" id="tab-audios" class="tab-btn" role="tab">
-                        <i class="fa-solid fa-headphones mr-2"></i>Áudios
-                    </button>
-                    <button onclick="showLibraryTab('grammar')" id="tab-grammar" class="tab-btn" role="tab">
-                        <i class="fa-solid fa-spell-check mr-2"></i>Grammar
-                    </button>
-                    <button onclick="showLibraryTab('exercises')" id="tab-exercises" class="tab-btn" role="tab">
-                        <i class="fa-solid fa-pen-to-square mr-2"></i>Exercises
-                    </button>
-                </div>
-                
-                <!-- Tab: Reading -->
-                <div id="library-reading" class="library-section">
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- A1 Reading Card -->
-                        <div class="library-card">
-                            <div class="flex items-start justify-between mb-3">
-                                <span class="status-badge status-approved text-xs">A1</span>
-                                <span class="xp-badge">+30 XP</span>
-                            </div>
-                            <h4 class="font-bold mb-2">📖 Short Stories: Daily Life</h4>
-                            <p class="text-sm c-text-muted mb-3">Textos curtos sobre rotina diária com vocabulário essencial.</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs c-text-muted"><i class="fa-regular fa-clock"></i> 10 min</span>
-                                <button class="btn btn-sm btn-outline" disabled>
-                                    <i class="fa-solid fa-lock"></i> Em Breve
-                                </button>
-                            </div>
-                        </div>
-                        <!-- A1 Reading Card 2 -->
-                        <div class="library-card">
-                            <div class="flex items-start justify-between mb-3">
-                                <span class="status-badge status-approved text-xs">A1</span>
-                                <span class="xp-badge">+25 XP</span>
-                            </div>
-                            <h4 class="font-bold mb-2">🍎 Food & Shopping</h4>
-                            <p class="text-sm c-text-muted mb-3">Vocabulário de comida, cores e compras com diálogos simples.</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs c-text-muted"><i class="fa-regular fa-clock"></i> 8 min</span>
-                                <button class="btn btn-sm btn-outline" disabled>
-                                    <i class="fa-solid fa-lock"></i> Em Breve
-                                </button>
-                            </div>
-                        </div>
-                        <!-- A2 Reading Card -->
-                        <div class="library-card coming-soon">
-                            <div class="flex items-start justify-between mb-3">
-                                <span class="status-badge bg-gray-600 text-xs">A2</span>
-                                <span class="bg-gray-600 text-white px-2 py-1 rounded text-xs font-bold">+40 XP</span>
-                            </div>
-                            <h4 class="font-bold mb-2">🌍 Travel Diaries</h4>
-                            <p class="text-sm c-text-muted mb-3">Histórias de viagem com expressões úteis e cultura.</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs c-text-muted"><i class="fa-regular fa-clock"></i> 15 min</span>
-                                <button class="btn btn-sm btn-outline" disabled>
-                                    <i class="fa-solid fa-lock"></i> Em Breve
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tab: Videos (hidden by default) -->
-                <div id="library-videos" class="library-section hidden-section">
-                    <div class="text-center c-text-muted py-12">
-                        <i class="fa-solid fa-video text-4xl mb-4 opacity-50"></i>
-                        <p class="font-bold mb-2">Vídeos em Desenvolvimento</p>
-                        <p class="text-sm max-w-md mx-auto">Conteúdo com legendas interativas, quizzes pós-vídeo e TTS nativo será adicionado em breve! 🎬</p>
-                        <button class="btn btn-sm btn-outline mt-4" onclick="showLibraryTab('reading')">
-                            <i class="fa-solid fa-arrow-left"></i> Ver Reading enquanto isso
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Tab: Audios -->
-                <div id="library-audios" class="library-section hidden-section">
-                    <div class="text-center c-text-muted py-12">
-                        <i class="fa-solid fa-headphones text-4xl mb-4 opacity-50"></i>
-                        <p class="font-bold mb-2">Áudios em Desenvolvimento</p>
-                        <p class="text-sm max-w-md mx-auto">Pronúncia nativa (US/UK/AU), diálogos situacionais e listening exercises com controle de velocidade. 🎧</p>
-                    </div>
-                </div>
-                
-                <!-- Tab: Grammar -->
-                <div id="library-grammar" class="library-section hidden-section">
-                    <div class="text-center c-text-muted py-12">
-                        <i class="fa-solid fa-spell-check text-4xl mb-4 opacity-50"></i>
-                        <p class="font-bold mb-2">Grammar em Desenvolvimento</p>
-                        <p class="text-sm max-w-md mx-auto">Explicações visuais, exemplos interativos e prática contextualizada com feedback imediato. ✏️</p>
-                    </div>
-                </div>
-                
-                <!-- Tab: Exercises -->
-                <div id="library-exercises" class="library-section hidden-section">
-                    <div class="text-center c-text-muted py-12">
-                        <i class="fa-solid fa-pen-to-square text-4xl mb-4 opacity-50"></i>
-                        <p class="font-bold mb-2">Exercises em Desenvolvimento</p>
-                        <p class="text-sm max-w-md mx-auto">Atividades gamificadas com sistema de tentativas, dicas inteligentes e recompensas de XP. 🎯</p>
-                    </div>
-                </div>
-            </div>
             
             <!-- Today's Lessons Preview -->
             <div class="c-card rounded-2xl p-6">
@@ -1511,7 +1268,6 @@
     let allStudents = [];
     let charts = {};
     let userAchievements = [];
-    let deferredPrompt = null;
 
     // ===== EXPOSE FUNCTIONS =====
     window.openModal = openModal;
@@ -1540,12 +1296,6 @@
     window.openAchievements = openAchievements;
     window.checkAchievements = checkAchievements;
     window.resetWeeklyRanking = resetWeeklyRanking;
-    window.openActiveUsersModal = openActiveUsersModal;
-    window.checkPendingRegistrations = checkPendingRegistrations;
-    window.setupPWA = setupPWA;
-    window.checkInactiveUsers = checkInactiveUsers;
-    window.installPWA = installPWA;
-    window.showLibraryTab = showLibraryTab;
 
     // ===== AUTH STATE LISTENER =====
     onAuthStateChanged(auth, async (user) => {
@@ -1605,7 +1355,6 @@
                         loadDynamicLessons();
                         loadUserAchievements();
                         checkAchievements();
-                        checkInactiveUsers();
                         showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                     } else {
                         showToast('Aguarde', `Seu cadastro está "${userData.status}".`, 'warning');
@@ -1670,8 +1419,6 @@
                     adminBtn.classList.remove('hidden');
                     adminBtn.classList.remove('force-hidden');
                     adminBtn.style.display = 'flex';
-                    // Check pending registrations for badge
-                    checkPendingRegistrations();
                 } else {
                     adminBtn.classList.add('hidden');
                     adminBtn.classList.add('force-hidden');
@@ -1681,9 +1428,6 @@
             
             guestView.classList.add('hidden');
             loggedInView.classList.remove('hidden');
-            
-            // Setup PWA after login
-            setupPWA();
             
         } else {
             authButtons.classList.remove('hidden');
@@ -1695,120 +1439,6 @@
                 adminBtn.classList.add('force-hidden');
                 adminBtn.style.display = 'none';
             }
-        }
-    }
-
-    // ===== PWA FUNCTIONS =====
-    function setupPWA() {
-        // Listen for beforeinstallprompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            // Show install banner
-            const banner = document.getElementById('pwaInstallBanner');
-            if (banner) banner.classList.add('show');
-        });
-
-        // Listen for app installed
-        window.addEventListener('appinstalled', () => {
-            deferredPrompt = null;
-            const banner = document.getElementById('pwaInstallBanner');
-            if (banner) banner.classList.remove('show');
-            showToast('🎉 Instalado!', 'EnglishPath adicionado à sua tela inicial!', 'success');
-        });
-
-        // Register service worker if supported
-        if ('serviceWorker' in navigator) {
-            const swCode = `
-                self.addEventListener('install', (e) => {
-                    self.skipWaiting();
-                });
-                self.addEventListener('fetch', (e) => {
-                    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-                });
-                self.addEventListener('push', (e) => {
-                    try {
-                        const data = e.data?.json() || {};
-                        self.registration.showNotification(data.title || 'EnglishPath', {
-                            body: data.body || 'Nova atualização disponível!',
-                            icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-                            badge: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-                            tag: 'englishpath-notification'
-                        });
-                    } catch(err) { console.log('Push error:', err); }
-                });
-            `;
-            const blob = new Blob([swCode], {type: 'application/javascript'});
-            const swUrl = URL.createObjectURL(blob);
-            
-            navigator.serviceWorker.register(swUrl)
-                .then(reg => {
-                    console.log('✅ Service Worker registrado:', reg.scope);
-                    // Request notification permission (non-intrusive)
-                    if ('Notification' in window && Notification.permission === 'default') {
-                        console.log('🔔 Notificações disponíveis - usuário pode ativar nas configurações');
-                    }
-                })
-                .catch(err => console.log('⚠️ SW não registrado:', err));
-        }
-    }
-
-    function installPWA() {
-        if (!deferredPrompt) {
-            showToast('Info', 'Seu navegador não suporta instalação PWA ou já está instalado.', 'warning');
-            return;
-        }
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                showToast('🎉 Sucesso!', 'EnglishPath instalado!', 'success');
-            }
-            deferredPrompt = null;
-            const banner = document.getElementById('pwaInstallBanner');
-            if (banner) banner.classList.remove('show');
-        });
-    }
-
-    // ===== NOTIFICATION FUNCTIONS =====
-    async function checkPendingRegistrations() {
-        if (!userData || userData.role !== 'admin') return;
-        
-        try {
-            const q = query(collection(db, "usuarios"), where("status", "==", "pending"));
-            const snapshot = await getDocs(q);
-            const count = snapshot.size;
-            
-            const badge = document.getElementById('adminBadge');
-            if (badge) {
-                if (count > 0) {
-                    badge.textContent = count > 9 ? '9+' : count;
-                    badge.classList.remove('hidden');
-                    // Toast notification for admin (only once per session)
-                    if (count > 0 && !sessionStorage.getItem('pendingNotified')) {
-                        showToast('📋 Cadastros Pendentes', `${count} aluno(s) aguardando aprovação`, 'warning');
-                        sessionStorage.setItem('pendingNotified', 'true');
-                    }
-                } else {
-                    badge.classList.add('hidden');
-                }
-            }
-        } catch (error) {
-            console.error('Erro ao verificar pendentes:', error);
-        }
-    }
-
-    function checkInactiveUsers() {
-        if (!userData) return;
-        
-        const lastLogin = userData.ultimoLogin?.seconds ? new Date(userData.ultimoLogin.seconds * 1000) : null;
-        const now = new Date();
-        const hoursDiff = lastLogin ? (now - lastLogin) / (1000 * 60 * 60) : 999;
-        
-        // Show reminder if inactive for 24+ hours and less than 7 days (avoid spam)
-        if (hoursDiff >= 24 && hoursDiff < 168) {
-            const streak = userData.streak || 0;
-            const days = Math.round(hoursDiff / 24);
-            showToast('💙 Sentimos sua falta!', `Você está há ${days} dia(s) sem estudar. Que tal retomar sua sequência de ${streak} dias?`, 'warning');
         }
     }
 
@@ -2002,9 +1632,9 @@
         if (second) {
             html += `
                 <div class="podium-place">
-                    <div class="podium-avatar podium-2nd">${second.nome?.charAt(0)?.toUpperCase() || '?'}</div>
+                    <div class="podium-avatar podium-2nd">${second.nome.charAt(0).toUpperCase()}</div>
                     <div class="podium-base base-2nd">
-                        <div class="font-bold">${second.nome?.split(' ')[0] || 'Usuário'}</div>
+                        <div class="font-bold">${second.nome.split(' ')[0]}</div>
                         <div class="text-sm">${(second.xp || 0).toLocaleString()} XP</div>
                     </div>
                 </div>
@@ -2016,9 +1646,9 @@
             html += `
                 <div class="podium-place">
                     <i class="fa-solid fa-crown podium-crown" style="color: #ffd700;"></i>
-                    <div class="podium-avatar podium-1st">${first.nome?.charAt(0)?.toUpperCase() || '?'}</div>
+                    <div class="podium-avatar podium-1st">${first.nome.charAt(0).toUpperCase()}</div>
                     <div class="podium-base base-1st">
-                        <div class="font-bold">${first.nome?.split(' ')[0] || 'Usuário'}</div>
+                        <div class="font-bold">${first.nome.split(' ')[0]}</div>
                         <div class="text-sm">${(first.xp || 0).toLocaleString()} XP</div>
                     </div>
                 </div>
@@ -2029,9 +1659,9 @@
         if (third) {
             html += `
                 <div class="podium-place">
-                    <div class="podium-avatar podium-3rd">${third.nome?.charAt(0)?.toUpperCase() || '?'}</div>
+                    <div class="podium-avatar podium-3rd">${third.nome.charAt(0).toUpperCase()}</div>
                     <div class="podium-base base-3rd">
-                        <div class="font-bold">${third.nome?.split(' ')[0] || 'Usuário'}</div>
+                        <div class="font-bold">${third.nome.split(' ')[0]}</div>
                         <div class="text-sm">${(third.xp || 0).toLocaleString()} XP</div>
                     </div>
                 </div>
@@ -2041,109 +1671,37 @@
         container.innerHTML = html;
     }
 
-    // ===== FIXED RANKING LIST RENDER =====
     function renderRankingList(users) {
         const container = document.getElementById('rankingList');
-        if (!container) {
-            console.error('❌ Container rankingList não encontrado');
-            return;
-        }
-        
-        if (!users || users.length === 0) {
-            container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum dado de ranking disponível.</div>';
-            return;
-        }
+        if (!container) return;
         
         container.innerHTML = users.map((user, index) => {
             const isCurrentUser = user.id === userData?.uid;
             const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
-            const userXP = user.xp ?? user.totalXP ?? 0;
-            const userName = user.nome || 'Usuário';
-            const userLevel = user.level || 'A1';
-            const userStreak = user.streak || 0;
             
             return `
-                <div class="user-row ${isCurrentUser ? 'border-2 border-primary bg-primary/5' : ''}" style="cursor: default;">
+                <div class="user-row ${isCurrentUser ? 'border-2 border-primary' : ''}">
                     <div class="user-info">
-                        <div class="rank-badge ${rankClass} flex-shrink-0">${index + 1}º</div>
-                        <div class="user-avatar ${isCurrentUser ? 'c-primary-bg' : 'bg-gray-600'} flex-shrink-0">
-                            ${userName.charAt(0).toUpperCase()}
+                        <div class="rank-badge ${rankClass}">${index + 1}</div>
+                        <div class="user-avatar ${isCurrentUser ? 'c-primary-bg' : 'bg-gray-600'}">
+                            ${user.nome.charAt(0).toUpperCase()}
                         </div>
-                        <div class="min-w-0">
-                            <div class="font-bold text-sm truncate ${isCurrentUser ? 'c-primary' : ''}">
-                                ${userName} ${isCurrentUser ? '<span class="text-xs font-normal">(Você)</span>' : ''}
+                        <div>
+                            <div class="font-bold text-sm ${isCurrentUser ? 'c-primary' : ''}">
+                                ${user.nome} ${isCurrentUser ? '(Você)' : ''}
                             </div>
-                            <div class="text-xs c-text-muted">Nível ${userLevel}</div>
+                            <div class="text-xs c-text-muted">Nível ${user.level || 'A1'}</div>
                         </div>
                     </div>
-                    <div class="text-right flex-shrink-0">
-                        <div class="font-bold c-primary">${userXP.toLocaleString()} XP</div>
-                        <div class="text-xs c-text-muted">${userStreak} 🔥</div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-right">
+                            <div class="font-bold c-primary">${(user.xp || 0).toLocaleString()} XP</div>
+                            <div class="text-xs c-text-muted">${user.streak || 0} dias seguidos</div>
+                        </div>
                     </div>
                 </div>
             `;
         }).join('');
-        
-        console.log('✅ Ranking renderizado:', users.length, 'usuários');
-    }
-
-    // ===== ACTIVE USERS MODAL =====
-    async function openActiveUsersModal() {
-        const container = document.getElementById('activeUsersListContent');
-        if (!container) return;
-        
-        container.innerHTML = '<div class="text-center c-text-muted py-4"><i class="fa-solid fa-spinner fa-spin"></i> Carregando...</div>';
-        openModal('activeUsersModal');
-        
-        try {
-            const now = new Date();
-            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            
-            const q = query(
-                collection(db, "usuarios"),
-                where("status", "==", "approved"),
-                orderBy("ultimoLogin", "desc")
-            );
-            const snapshot = await getDocs(q);
-            
-            const activeToday = snapshot.docs.filter(doc => {
-                const data = doc.data();
-                if (!data.ultimoLogin?.seconds) return false;
-                const lastLogin = new Date(data.ultimoLogin.seconds * 1000);
-                return lastLogin >= todayStart;
-            });
-            
-            if (activeToday.length === 0) {
-                container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno ativo hoje ainda. Seja o primeiro! 🌟</div>';
-                return;
-            }
-            
-            container.innerHTML = activeToday.map(doc => {
-                const u = doc.data();
-                const loginTime = new Date(u.ultimoLogin.seconds * 1000).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-                const userXP = u.xp ?? u.totalXP ?? 0;
-                return `
-                    <div class="user-row">
-                        <div class="user-info">
-                            <div class="user-avatar c-primary-bg">${u.nome?.charAt(0)?.toUpperCase() || '?'}</div>
-                            <div>
-                                <div class="font-bold text-sm">${u.nome || 'Usuário'}</div>
-                                <div class="text-xs c-text-muted truncate max-w-[150px]">${u.email || ''}</div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-xs c-text-muted">Entrou às</div>
-                            <div class="font-bold c-primary">${loginTime}</div>
-                            <div class="text-xs c-text-muted mt-1">Nível ${u.level || 'A1'} • ${userXP.toLocaleString()} XP</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-        } catch (error) {
-            console.error('Erro ao carregar ativos:', error);
-            container.innerHTML = '<div class="text-center c-danger py-4">Erro ao carregar dados. Tente novamente.</div>';
-        }
     }
 
     // ===== MODAL FUNCTIONS =====
@@ -2189,19 +1747,6 @@
         setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
-    // ===== LIBRARY TABS =====
-    window.showLibraryTab = function(tab) {
-        // Hide all sections
-        document.querySelectorAll('.library-section').forEach(s => s.classList.add('hidden-section'));
-        // Show selected
-        const target = document.getElementById(`library-${tab}`);
-        if (target) target.classList.remove('hidden-section');
-        // Update tab buttons
-        document.querySelectorAll('#librarySection .tab-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = document.getElementById(`tab-${tab}`);
-        if (activeBtn) activeBtn.classList.add('active');
-    };
-
     // ===== AUTH: REGISTER =====
     async function handleRegister(e) {
         e.preventDefault();
@@ -2234,11 +1779,11 @@
             });
             
             closeModal('registerModal');
-            showToast('Sucesso', 'Cadastro realizado! Aguarde aprovação.', 'success');
+            showToast('Sucesso', 'Cadastro realizado!', 'success');
             openModal('loginModal');
         } catch (error) {
             console.error(error);
-            showToast('Erro', 'Erro ao criar conta: ' + error.message, 'error');
+            showToast('Erro', 'Erro ao criar conta.', 'error');
         } finally {
             btn.classList.remove('loading'); btn.disabled = false;
             btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Criar conta';
@@ -2274,7 +1819,6 @@
         await signOut(auth);
         closeModal('adminModal');
         closeModal('studentModal');
-        closeModal('activeUsersModal');
         showToast('Logout', 'Você saiu.', 'success');
     }
 
@@ -2345,8 +1889,6 @@
             populateReportSelect();
             updateCourseStats();
             renderTopStudents();
-            // Check pending for badge
-            checkPendingRegistrations();
         } catch (error) {
             console.error('❌ Erro ao carregar dashboard:', error);
             showToast('Erro', 'Falha ao carregar dados: ' + error.message, 'error');
@@ -2355,21 +1897,9 @@
 
     function updateStats() {
         document.getElementById('statTotal').textContent = allStudents.length;
-        const now = new Date();
-        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        
-        const activeUsers = allStudents.filter(u => {
-            if (u.status !== 'approved') return false;
-            if (!u.ultimoLogin?.seconds) return false;
-            const lastLogin = new Date(u.ultimoLogin.seconds * 1000);
-            return lastLogin >= todayStart;
-        });
-        
+        const activeUsers = allStudents.filter(u => u.status === 'approved' && u.ultimoLogin && new Date(u.ultimoLogin?.seconds * 1000 || 0) > new Date(Date.now() - 86400000));
         document.getElementById('statActive').textContent = activeUsers.length;
-        document.getElementById('activeUsersList').innerHTML = activeUsers.length 
-            ? activeUsers.slice(0, 5).map(u => `<div class="truncate">• ${u.nome}</div>`).join('') + (activeUsers.length > 5 ? `<div class="text-xs opacity-70">+${activeUsers.length - 5} mais...</div>` : '')
-            : '<span class="italic opacity-70">Nenhum usuário ativo.</span>';
-        
+        document.getElementById('activeUsersList').innerHTML = activeUsers.length ? activeUsers.map(u => `<div>• ${u.nome}</div>`).join('') : '<span class="italic opacity-70">Nenhum usuário ativo.</span>';
         document.getElementById('statPending').textContent = allStudents.filter(u => u.status === 'pending').length;
         document.getElementById('statAvgTime').textContent = (allStudents.reduce((acc, u) => acc + (u.tempoTotal || 0), 0) / (allStudents.length || 1) / 3600000).toFixed(1) + 'h';
     }
@@ -2378,35 +1908,29 @@
         const levels = { A1:0, A2:0, B1:0, B2:0, C1:0, C2:0 };
         allStudents.filter(u => u.status === 'approved').forEach(u => { if (levels[u.level] !== undefined) levels[u.level]++; });
         
-        const ctxLevels = document.getElementById('chartLevels')?.getContext('2d');
-        if (ctxLevels) {
-            if (charts.levels) charts.levels.destroy();
-            charts.levels = new Chart(ctxLevels, {
-                type: 'bar',
-                data: { labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'], datasets: [{ label: 'Alunos', data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2], backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626'] }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-        }
+        const ctxLevels = document.getElementById('chartLevels').getContext('2d');
+        if (charts.levels) charts.levels.destroy();
+        charts.levels = new Chart(ctxLevels, {
+            type: 'bar',
+            data: { labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'], datasets: [{ label: 'Alunos', data: [levels.A1, levels.A2, levels.B1, levels.B2, levels.C1, levels.C2], backgroundColor: ['#22c55e', '#10b981', '#06b6d4', '#f59e0b', '#f97316', '#dc2626'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
         
-        const ctxActivity = document.getElementById('chartActivity')?.getContext('2d');
-        if (ctxActivity) {
-            if (charts.activity) charts.activity.destroy();
-            charts.activity = new Chart(ctxActivity, {
-                type: 'line',
-                data: { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], datasets: [{ label: 'Atividade', data: [12, 19, 15, 22, 18, 10, 8], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-        }
+        const ctxActivity = document.getElementById('chartActivity').getContext('2d');
+        if (charts.activity) charts.activity.destroy();
+        charts.activity = new Chart(ctxActivity, {
+            type: 'line',
+            data: { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], datasets: [{ label: 'Atividade', data: [12, 19, 15, 22, 18, 10, 8], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
 
-        const ctxCourses = document.getElementById('chartCourses')?.getContext('2d');
-        if (ctxCourses) {
-            if (charts.courses) charts.courses.destroy();
-            charts.courses = new Chart(ctxCourses, {
-                type: 'doughnut',
-                data: { labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'], datasets: [{ data: [45, 30, 60, 25, 35], backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e'] }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
+        const ctxCourses = document.getElementById('chartCourses').getContext('2d');
+        if (charts.courses) charts.courses.destroy();
+        charts.courses = new Chart(ctxCourses, {
+            type: 'doughnut',
+            data: { labels: ['Business', 'Bíblico', 'Kids', 'Airport', 'Travel'], datasets: [{ data: [45, 30, 60, 25, 35], backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#06b6d4', '#22c55e'] }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
     }
 
     function updateCourseStats() {
@@ -2419,107 +1943,86 @@
 
     function renderTopStudents() {
         const top10 = [...allStudents].filter(u => u.status === 'approved').sort((a, b) => (b.xp ?? b.totalXP ?? 0) - (a.xp ?? a.totalXP ?? 0)).slice(0, 10);
-        const container = document.getElementById('topStudents');
-        if (!container) return;
-        
-        container.innerHTML = top10.map((u, i) => {
-            const userXP = u.xp ?? u.totalXP ?? 0;
-            return `
-                <div class="flex items-center justify-between p-2 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">${i + 1}</div>
-                        <div><div class="font-bold text-sm truncate max-w-[120px]">${u.nome || 'Usuário'}</div><div class="text-xs c-text-muted">${u.level || 'A1'}</div></div>
-                    </div>
-                    <div class="text-right"><div class="font-bold c-primary">${userXP.toLocaleString()}</div><div class="text-xs c-text-muted">XP</div></div>
+        document.getElementById('topStudents').innerHTML = top10.map((u, i) => `
+            <div class="flex items-center justify-between p-2 rounded-lg ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-gray-700/30'}">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full ${i === 0 ? 'bg-yellow-500' : i === 1 ? 'bg-gray-400' : i === 2 ? 'bg-orange-600' : 'bg-gray-600'} flex items-center justify-center text-white font-bold text-sm">${i + 1}</div>
+                    <div><div class="font-bold text-sm truncate max-w-[120px]">${u.nome}</div><div class="text-xs c-text-muted">${u.level || 'A1'}</div></div>
                 </div>
-            `;
-        }).join('');
+                <div class="text-right"><div class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</div><div class="text-xs c-text-muted">XP</div></div>
+            </div>
+        `).join('');
     }
 
     function renderStudentsList() {
         const container = document.getElementById('studentsList');
-        if (!container) return;
         if (!allStudents.length) { container.innerHTML = '<div class="text-center c-text-muted py-8">Nenhum aluno encontrado</div>'; return; }
-        container.innerHTML = allStudents.map(u => {
-            const userXP = u.xp ?? u.totalXP ?? 0;
-            return `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="user-info">
-                        <div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome?.charAt(0)?.toUpperCase() || '?'}</div>
-                        <div class="hidden sm:block"><div class="font-bold text-sm">${u.nome || 'Usuário'}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email || ''}</div></div>
-                    </div>
-                    <div class="user-meta">
-                        <div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div>
-                        <div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${userXP.toLocaleString()}</span></div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span>
-                        <div class="user-actions">
-                            ${u.status === 'pending' ? `
-                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Aprovar"><i class="fa-solid fa-check"></i></button>
-                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>
-                            ` : `<button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button>`}
-                        </div>
+        container.innerHTML = allStudents.map(u => `
+            <div class="user-row" onclick="openStudentDetails('${u.id}')">
+                <div class="user-info">
+                    <div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome.charAt(0).toUpperCase()}</div>
+                    <div class="hidden sm:block"><div class="font-bold text-sm">${u.nome}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div></div>
+                </div>
+                <div class="user-meta">
+                    <div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div>
+                    <div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span>
+                    <div class="user-actions">
+                        ${u.status === 'pending' ? `
+                            <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Aprovar"><i class="fa-solid fa-check"></i></button>
+                            <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>
+                        ` : `<button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button>`}
                     </div>
                 </div>
-            `;
-        }).join('');
+            </div>
+        `).join('');
     }
 
     function populateReportSelect() {
-        const select = document.getElementById('reportStudentSelect');
-        if (!select) return;
-        select.innerHTML = '<option value="">-- Selecione --</option>' + allStudents.filter(u => u.status === 'approved').map(u => `<option value="${u.id}">${u.nome} (${u.email})</option>`).join('');
+        document.getElementById('reportStudentSelect').innerHTML = '<option value="">-- Selecione --</option>' + allStudents.filter(u => u.status === 'approved').map(u => `<option value="${u.id}">${u.nome} (${u.email})</option>`).join('');
     }
 
     async function approveUser(userId) {
         try { await updateDoc(doc(db, "usuarios", userId), { status: 'approved' }); showToast('Sucesso', 'Aluno aprovado!', 'success'); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); }
     }
     async function rejectUser(userId) {
-        if (!confirm('Rejeitar este cadastro?')) return;
+        if (!confirm('Rejeitar?')) return;
         try { await updateDoc(doc(db, "usuarios", userId), { status: 'rejected' }); showToast('Rejeitado', 'Cadastro rejeitado.', 'error'); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); }
     }
 
     function filterStudents() {
-        const search = document.getElementById('searchStudent')?.value.toLowerCase() || '';
-        const level = document.getElementById('filterLevel')?.value || 'all';
-        const status = document.getElementById('filterStatus')?.value || 'all';
-        const container = document.getElementById('studentsList');
-        if (!container) return;
-        
-        let filtered = allStudents.filter(u => 
-            (u.nome?.toLowerCase().includes(search) || u.email?.toLowerCase().includes(search)) && 
-            (level === 'all' || u.level === level) && 
-            (status === 'all' || u.status === status)
-        );
-        
-        container.innerHTML = filtered.map(u => {
-            const userXP = u.xp ?? u.totalXP ?? 0;
-            return `
-                <div class="user-row" onclick="openStudentDetails('${u.id}')">
-                    <div class="user-info"><div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome?.charAt(0)?.toUpperCase() || '?'}</div><div class="hidden sm:block"><div class="font-bold text-sm">${u.nome || 'Usuário'}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email || ''}</div></div></div>
-                    <div class="user-meta"><div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div><div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${userXP.toLocaleString()}</span></div></div>
-                    <div class="flex items-center gap-3"><span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span><div class="user-actions"><button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button></div></div>
-                </div>
-            `;
-        }).join('');
+        const search = document.getElementById('searchStudent').value.toLowerCase();
+        const level = document.getElementById('filterLevel').value;
+        const status = document.getElementById('filterStatus').value;
+        let filtered = allStudents.filter(u => (u.nome.toLowerCase().includes(search) || u.email.toLowerCase().includes(search)) && (level === 'all' || u.level === level) && (status === 'all' || u.status === status));
+        document.getElementById('studentsList').innerHTML = filtered.map(u => `
+            <div class="user-row" onclick="openStudentDetails('${u.id}')">
+                <div class="user-info"><div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome.charAt(0).toUpperCase()}</div><div class="hidden sm:block"><div class="font-bold text-sm">${u.nome}</div><div class="text-xs c-text-muted truncate max-w-[150px]">${u.email}</div></div></div>
+                <div class="user-meta"><div class="flex flex-col"><span class="text-xs text-gray-500">Nível</span><span class="font-bold">${u.level || 'A1'}</span></div><div class="flex flex-col"><span class="text-xs text-gray-500">XP</span><span class="font-bold c-primary">${(u.xp ?? u.totalXP ?? 0).toLocaleString()}</span></div></div>
+                <div class="flex items-center gap-3"><span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : u.status === 'banned' ? 'Banido' : 'Rejeitado'}</span><div class="user-actions"><button class="w-8 h-8 rounded-lg bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Editar"><i class="fa-solid fa-pen"></i></button></div></div>
+            </div>
+        `).join('');
     }
 
     async function updateUserRole(userId, newRole) {
         try { await updateDoc(doc(db, "usuarios", userId), { role: newRole }); showToast('Sucesso', `Cargo atualizado para ${newRole}`, 'success'); openStudentDetails(userId); loadDashboardData(); } catch (error) { showToast('Erro', error.message, 'error'); }
     }
 
+    // ===== REMOVE USER (DELETE COMPLETELY) =====
     async function removeUser(userId) {
         if (!confirm('⚠️ ATENÇÃO: Isso irá REMOVER permanentemente o usuário e todos os seus dados. Esta ação NÃO pode ser desfeita. Deseja continuar?')) return;
         
         const btn = event.target.closest('button');
-        if (!btn) return;
         const originalHTML = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Removendo...';
         btn.disabled = true;
         
         try {
+            // Delete from Firestore
             await deleteDoc(doc(db, "usuarios", userId));
+            
             showToast('Removido', 'Usuário excluído permanentemente.', 'success');
             closeModal('studentModal');
             loadDashboardData();
@@ -2535,7 +2038,6 @@
     async function fixDatabaseRoles() {
         if (!confirm(`ATENÇÃO: Resetar todos para 'student' exceto ${SUPER_ADMIN_EMAIL}?`)) return;
         const btn = document.querySelector('button[onclick="fixDatabaseRoles()"]');
-        if (!btn) return;
         const originalText = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Corrigindo...';
         btn.disabled = true;
@@ -2560,21 +2062,20 @@
         const student = allStudents.find(u => u.id === userId);
         if (!student) return;
         const content = document.getElementById('studentDetailsContent');
-        if (!content) return;
-        
         const userXP = student.xp ?? student.totalXP ?? 0;
-        const isSuperAdmin = userData?.email === SUPER_ADMIN_EMAIL;
+        const isSuperAdmin = userData.email === SUPER_ADMIN_EMAIL;
         
+        // Get recent activities
         const activities = student.activities || [];
         const recentActivities = activities.slice(-10).reverse();
         
         content.innerHTML = `
             <div class="space-y-4">
                 <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 rounded-full ${student.status === 'banned' ? 'bg-gray-700' : 'c-primary-bg'} flex items-center justify-center text-2xl text-white font-bold">${student.nome?.charAt(0)?.toUpperCase() || '?'}</div>
+                    <div class="w-16 h-16 rounded-full ${student.status === 'banned' ? 'bg-gray-700' : 'c-primary-bg'} flex items-center justify-center text-2xl text-white font-bold">${student.nome.charAt(0).toUpperCase()}</div>
                     <div>
-                        <h3 class="font-bold text-xl">${student.nome || 'Usuário'}</h3>
-                        <p class="c-text-muted">${student.email || ''}</p>
+                        <h3 class="font-bold text-xl">${student.nome}</h3>
+                        <p class="c-text-muted">${student.email}</p>
                         <div class="flex items-center gap-2 mt-1">
                             <span class="status-badge status-${student.status}">${student.status}</span>
                             <span class="text-xs bg-gray-700 px-2 py-1 rounded text-gray-300">Role: ${student.role}</span>
@@ -2595,13 +2096,14 @@
                     <p class="c-text-muted">Último login: <span class="font-bold">${student.ultimoLogin ? new Date(student.ultimoLogin.seconds * 1000).toLocaleString('pt-BR') : 'Nunca'}</span></p>
                 </div>
 
+                <!-- LAST ACTIVITY -->
                 <div class="stat-card">
                     <h4 class="font-bold mb-3">📜 Última Atividade</h4>
                     ${recentActivities.length > 0 ? `
                         <div class="activity-timeline">
                             ${recentActivities.map(act => `
                                 <div class="activity-item">
-                                    <div class="activity-time">${act.timestamp?.seconds ? new Date(act.timestamp.seconds * 1000).toLocaleString('pt-BR') : '-'}</div>
+                                    <div class="activity-time">${new Date(act.timestamp?.seconds * 1000).toLocaleString('pt-BR')}</div>
                                     <div class="activity-title">${act.lessonName || 'Atividade'}</div>
                                     <div class="activity-desc">${act.description || ''} • +${act.xp || 0} XP</div>
                                 </div>
@@ -2647,16 +2149,10 @@
     }
 
     async function loadStudentReport(userId) {
-        if (!userId) { 
-            const container = document.getElementById('studentReport');
-            if (container) container.classList.add('hidden-section'); 
-            return; 
-        }
+        if (!userId) { document.getElementById('studentReport').classList.add('hidden-section'); return; }
         const student = allStudents.find(u => u.id === userId);
         if (!student) return;
         const container = document.getElementById('studentReport');
-        if (!container) return;
-        
         container.classList.remove('hidden-section');
         const userXP = student.xp ?? student.totalXP ?? 0;
         container.innerHTML = `
@@ -2670,201 +2166,138 @@
         `;
     }
 
-    // ===== IMPROVED PDF GENERATION (SCHOOL REPORT STYLE) =====
+    // ===== GENERATE PDF REPORT - CORRECTED ALIGNMENT =====
     async function generatePDFReport() {
-        const userId = document.getElementById('reportStudentSelect')?.value;
-        if (!userId) { showToast('Erro', 'Selecione um aluno', 'error'); return; }
-        
+        const userId = document.getElementById('reportStudentSelect').value;
+        if (!userId) {
+            showToast('Erro', 'Selecione um aluno', 'error');
+            return;
+        }
+
         const student = allStudents.find(u => u.id === userId);
         if (!student) return;
-        
-        showToast('Gerando boletim...', 'Aguarde...', 'success');
-        
+
+        const includeAchievements = document.getElementById('includeAchievements').checked;
+        const includeActivity = document.getElementById('includeActivity').checked;
+
+        showToast('Gerando PDF...', 'Aguarde...', 'success');
+
         try {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const doc = new jsPDF();
             
-            // 🎨 COLOR SCHEME
-            const colors = {
-                primary: [34, 197, 94],    // green-500
-                secondary: [59, 130, 246], // blue-500
-                accent: [251, 191, 36],    // amber-400
-                dark: [15, 23, 42],        // slate-900
-                light: [248, 250, 252]     // slate-50
-            };
-            
-            // 🏫 HEADER - SCHOOL REPORT STYLE
-            doc.setFillColor(...colors.primary);
-            doc.roundedRect(10, 10, 190, 35, 3, 3, 'F');
-            
-            // Logo/Icon
-            doc.setFillColor(255, 255, 255);
-            doc.circle(25, 27, 8, 'F');
-            doc.setTextColor(...colors.primary);
-            doc.setFontSize(20);
-            doc.text('🎓', 22, 31);
-            
-            // Title
+            // Header - CORRECTED
+            doc.setFillColor(34, 197, 94);
+            doc.rect(0, 0, 210, 40, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
+            doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            doc.text('ENGLISHPATH', 45, 23);
+            doc.text('EnglishPath - Relatório do Aluno', 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text('Relatório de Progresso e Desempenho', 105, 30, { align: 'center' });
+            
+            // Student Info - CORRECTED POSITIONING
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text(student.nome, 14, 55);
+            
             doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            doc.text('Boletim de Progresso em Inglês', 45, 29);
+            doc.text(`Email: ${student.email}`, 14, 63);
+            doc.text(`Nível: ${student.level || 'A1'} | XP Total: ${student.xp || 0}`, 14, 70);
+            doc.text(`Streak: ${student.streak || 0} dias | Gemas: ${student.gems || 0}`, 14, 77);
             
-            // Date badge
-            doc.setFillColor(...colors.accent);
-            doc.roundedRect(165, 15, 30, 12, 2, 2, 'F');
-            doc.setTextColor(120, 53, 15);
-            doc.setFontSize(9);
-            doc.text(new Date().toLocaleDateString('pt-BR'), 180, 22, {align: 'center'});
+            let yPos = 95; // CORRECTED starting position
             
-            // 👤 STUDENT INFO CARD
-            doc.setFillColor(...colors.light);
-            doc.roundedRect(10, 50, 190, 25, 2, 2, 'F');
-            doc.setTextColor(...colors.dark);
+            // Stats - CORRECTED
+            doc.setFillColor(241, 245, 249);
+            doc.rect(14, yPos - 10, 182, 30, 'F');
             doc.setFontSize(14);
             doc.setFont('helvetica', 'bold');
-            doc.text(student.nome || 'Usuário', 15, 63);
+            doc.text('📊 Estatísticas', 18, yPos);
             
-            doc.setFontSize(10);
+            doc.setFontSize(11);
             doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 116, 139);
-            doc.text(`📧 ${student.email || ''}`, 15, 69);
-            doc.text(`🎯 Nível: ${student.level || 'A1'} | ⚡ ${(student.xp || 0).toLocaleString()} XP`, 105, 69);
+            doc.text(`Tempo Total: ${((student.tempoTotal || 0) / 3600000).toFixed(1)} horas`, 18, yPos + 10);
+            doc.text(`Lições Completadas: ${student.lessonsCompleted || 0}`, 100, yPos + 10);
             
-            // 📊 SKILLS PROGRESS - VISUAL BARS
-            let yPos = 85;
-            doc.setTextColor(...colors.dark);
-            doc.setFontSize(13);
-            doc.setFont('helvetica', 'bold');
-            doc.text('📈 Desempenho por Habilidade', 15, yPos);
+            yPos += 40; // CORRECTED spacing
             
-            const skills = [
-                { name: 'Reading', progress: 85, color: [34, 197, 94], icon: '📖' },
-                { name: 'Listening', progress: 72, color: [59, 130, 246], icon: '🎧' },
-                { name: 'Speaking', progress: 58, color: [251, 191, 36], icon: '🗣️' },
-                { name: 'Writing', progress: 79, color: [139, 92, 246], icon: '✍️' }
-            ];
-            
-            yPos += 8;
-            skills.forEach(skill => {
-                // Skill name + icon
+            // Achievements - CORRECTED
+            if (includeAchievements && student.achievements && student.achievements.length > 0) {
+                doc.setFillColor(251, 191, 36);
+                doc.rect(14, yPos - 10, 182, 25, 'F');
+                doc.setTextColor(120, 53, 15);
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.text('🏅 Conquistas Desbloqueadas', 18, yPos);
+                
+                doc.setTextColor(0, 0, 0);
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'normal');
-                doc.text(`${skill.icon} ${skill.name}`, 15, yPos);
                 
-                // Progress percentage
-                doc.setFont('helvetica', 'bold');
-                doc.text(`${skill.progress}%`, 185, yPos, {align: 'right'});
-                
-                // Progress bar background
-                doc.setFillColor(226, 232, 240);
-                doc.roundedRect(50, yPos - 4, 130, 6, 3, 3, 'F');
-                
-                // Progress bar fill
-                doc.setFillColor(...skill.color);
-                doc.roundedRect(50, yPos - 4, skill.progress * 1.3, 6, 3, 3, 'F');
-                
-                yPos += 12;
-            });
-            
-            // 🏆 ACHIEVEMENTS SECTION
-            yPos += 5;
-            doc.setFillColor(...colors.secondary);
-            doc.roundedRect(10, yPos, 190, 8, 2, 2, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(11);
-            doc.setFont('helvetica', 'bold');
-            doc.text('🏅 Conquistas Recentes', 15, yPos + 5);
-            
-            yPos += 12;
-            doc.setTextColor(...colors.dark);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'normal');
-            
-            const recentAch = (student.achievements || []).slice(-3);
-            if (recentAch.length > 0) {
-                recentAch.forEach((ach, idx) => {
+                const achList = student.achievements.slice(0, 5);
+                achList.forEach((ach, idx) => {
                     const def = ACHIEVEMENTS[ach.id];
                     if (def) {
-                        doc.text(`• ${def.name} - ${def.desc}`, 15, yPos + 10 + (idx * 6));
+                        doc.text(`• ${def.name}: ${def.desc}`, 18, yPos + 10 + (idx * 6));
                     }
                 });
-            } else {
-                doc.setTextColor(100, 116, 139);
-                doc.text('Nenhuma conquista desbloqueada ainda. Continue estudando!', 15, yPos);
+                
+                yPos += 20 + (achList.length * 6);
             }
             
-            // 📅 ACTIVITY SUMMARY
-            yPos += recentAch.length * 6 + 15;
-            doc.setFillColor(...colors.light);
-            doc.roundedRect(10, yPos, 190, 20, 2, 2, 'F');
-            doc.setTextColor(...colors.dark);
+            // Skills Progress - CORRECTED
+            doc.setFillColor(59, 130, 246);
+            doc.rect(14, yPos - 10, 182, 25, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'bold');
+            doc.text('📈 Progresso por Habilidade', 18, yPos);
+            
+            doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
-            doc.setFont('helvetica', 'bold');
-            doc.text('📅 Resumo da Semana', 15, yPos + 7);
+            doc.setFont('helvetica', 'normal');
+            const skills = [
+                { name: 'Reading', progress: 80 },
+                { name: 'Listening', progress: 65 },
+                { name: 'Speaking', progress: 45 },
+                { name: 'Writing', progress: 70 }
+            ];
             
+            skills.forEach((skill, idx) => {
+                doc.text(`${skill.name}: ${skill.progress}%`, 18, yPos + 10 + (idx * 7));
+                doc.setFillColor(34, 197, 94);
+                doc.rect(70, yPos + 6 + (idx * 7), skill.progress, 4, 'F');
+            });
+            
+            yPos += 50; // CORRECTED spacing
+            
+            // Footer - CORRECTED
+            doc.setFillColor(241, 245, 249);
+            doc.rect(0, 280, 210, 17, 'F');
+            doc.setTextColor(100, 116, 139);
             doc.setFontSize(9);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 116, 139);
-            doc.text(`⏱️ Tempo estudado: ${((student.tempoTotal || 0) / 3600000).toFixed(1)}h`, 15, yPos + 14);
-            doc.text(`✅ Lições completadas: ${student.lessonsCompleted || 0}`, 105, yPos + 14);
-            doc.text(`🔥 Sequência atual: ${student.streak || 0} dias`, 15, yPos + 20);
+            doc.text(`Relatório gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, 105, 290, { align: 'center' });
+            doc.text('EnglishPath - Plataforma de Ensino de Inglês', 105, 295, { align: 'center' });
             
-            // ✍️ TEACHER'S NOTE
-            yPos += 28;
-            doc.setFillColor(254, 249, 195); // yellow-100
-            doc.roundedRect(10, yPos, 190, 25, 2, 2, 'F');
-            doc.setFillColor(...colors.accent);
-            doc.circle(15, yPos + 12, 4, 'F');
-            doc.setTextColor(120, 53, 15);
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'bold');
-            doc.text('💡 Observação do Professor', 25, yPos + 10);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(71, 85, 105);
-            doc.text('Continue praticando speaking diariamente. Seu reading está excelente!', 25, yPos + 17);
-            doc.text('Dica: Use os áudios TTS para melhorar pronúncia. 🎧', 25, yPos + 22);
+            // Save
+            doc.save(`relatorio-${student.nome.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.pdf`);
             
-            // 🖋️ FOOTER - OFFICIAL LOOK
-            doc.setDrawColor(203, 213, 225);
-            doc.line(10, 275, 200, 275);
-            
-            doc.setTextColor(100, 116, 139);
-            doc.setFontSize(8);
-            doc.text('EnglishPath • Plataforma de Ensino de Inglês', 105, 280, {align: 'center'});
-            doc.text(`Relatório gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, 105, 284, {align: 'center'});
-            
-            // Digital signature area
-            doc.setTextColor(34, 197, 94);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'bold');
-            doc.text('✍️ Assinatura Digital', 150, 272);
-            doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 116, 139);
-            doc.text('englishpath.app', 150, 276);
-            
-            // Save with beautiful filename
-            const safeName = (student.nome || 'aluno').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-').toLowerCase();
-            doc.save(`boletim-englishpath-${safeName}-${new Date().toISOString().split('T')[0]}.pdf`);
-            
-            showToast('✅ Boletim Pronto!', 'PDF baixado com sucesso!', 'success');
+            showToast('Sucesso', 'PDF gerado e baixado!', 'success');
             
         } catch (error) {
-            console.error('Erro PDF:', error);
+            console.error('Erro ao gerar PDF:', error);
             showToast('Erro', 'Falha ao gerar PDF: ' + error.message, 'error');
         }
     }
 
     function showAdminTab(tab) {
         document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden-section'));
-        const target = document.getElementById(`admin-${tab}`);
-        if (target) target.classList.remove('hidden-section');
+        document.getElementById(`admin-${tab}`).classList.remove('hidden-section');
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = document.getElementById(`tab-${tab}`);
-        if (activeBtn) activeBtn.classList.add('active');
+        document.getElementById(`tab-${tab}`).classList.add('active');
         
         if (tab === 'leaderboard') {
             loadLeaderboardData();
@@ -2908,7 +2341,6 @@
 
     // ===== INIT =====
     window.addEventListener('DOMContentLoaded', () => {
-        // Modal close on backdrop click
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -2917,8 +2349,6 @@
                 }
             });
         });
-        
-        // Close on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal.active').forEach(m => {
@@ -2927,72 +2357,7 @@
                 });
             }
         });
-        
-        // Make "Active Today" stat clickable
-        const activeStatCard = document.querySelector('#statActive')?.closest('.stat-card');
-        if (activeStatCard) {
-            activeStatCard.classList.add('clickable');
-            activeStatCard.title = 'Clique para ver lista de alunos ativos hoje';
-        }
-        
-        // Initialize theme
-        const saved = localStorage.getItem('ep_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', saved);
     });
 </script>
-
-<!-- Teacher's Guide (Hidden in HTML Comments) -->
-<!-- 
-📚 ENGLISHPATH - GUIA DO PROFESSOR
-====================================
-
-⏱️ TIMING SUGERIDO:
-• Login/Cadastro: 2-3 min
-• Dashboard inicial: 3-5 min
-• Navegação por níveis: 5 min
-• Biblioteca (novas abas): 10 min para explorar
-• Ranking/Conquistas: 5 min para motivar
-
-🎯 POTENCIAIS DESAFIOS DOS ALUNOS:
-• Firebase pode demorar em conexões lentas → mostrar loading
-• PWA install pode não aparecer em todos os navegadores → banner alternativo
-• PDF grande pode travar em mobiles antigos → otimizar com jsPDF configs
-
-💡 IDEIAS DE EXPANSÃO:
-1. Adicionar web push notifications reais via Firebase Cloud Functions
-2. Criar backend para enviar notificações automáticas de lembrete 24h
-3. Integrar com Google Classroom para sincronizar notas
-4. Adicionar modo offline com IndexedDB para lições em cache
-
-🔧 MANUTENÇÃO DO CÓDIGO:
-• Todas as funções estão expostas via window para debug no console
-• Use console.log() para rastrear fluxos de autenticação
-• Para testar PWA: abra em localhost ou HTTPS, use Chrome DevTools > Application
-
-🎨 PERSONALIZAÇÃO DE CORES:
-• Altere as variáveis CSS :root para mudar o tema global
-• O PDF usa cores hard-coded no array 'colors' para consistência na impressão
-
-✅ TESTES RECOMENDADOS:
-1. Cadastro novo → verificar badge admin aparece
-2. Login como admin → clicar em "Ativos Hoje" → ver lista
-3. Gerar PDF → verificar alinhamento e cores
-4. Mobile: testar install PWA e notificações
-
-📱 PWA CHECKLIST:
-☑ manifest.json inline configurado
-☑ Service Worker registrado com cache básico
-☑ Ícones 192x192 e 512x512 definidos
-☑ Theme color e display: standalone
-☑ Banner de instalação com fallback
-
-🔔 NOTIFICAÇÕES:
-• Frontend: estrutura pronta para Firebase Cloud Messaging
-• Backend necessário: Cloud Function para enviar mensagens com tokens
-• Alternativa simples: usar toast + email para lembretes
-
-Boa aula! 🚀
--->
-
 </body>
 </html>
