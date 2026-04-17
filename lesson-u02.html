@@ -341,7 +341,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     // ===== FIREBASE =====
     const firebaseConfig = {
@@ -750,8 +750,11 @@
     // ===== STATE =====
     let currentTab = 'video';
     let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, grammar: 0 };
-    let score = 0, streak = 0, totalXP = 0;
+    let xp = 0;
+    let streak = 0;
     let isAnswered = false, selectedOption = null, hintsUsed = 0;
+    let savedSectionProgress = { reading: 0, listening: 0, speaking: 0, writing: 0, grammar: 0 };
+    let lessonAlreadyCompleted = false;
     let recognition = null, ttsPlaying = false, currentTTS = null;
     let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
 
@@ -773,19 +776,21 @@
                 const userDoc = await getDoc(doc(db, "usuarios", user.uid));
                 if (userDoc.exists()) {
                     const data = userDoc.data();
-                    score = Number(data.xp) || 0;
+                    xp = Number(data.xp ?? data.totalXP ?? 0) || 0;
                     streak = Number(data.streak) || 0;
-                    totalXP = Number(data.totalXP) || 0;
-                    xpDisplay.textContent = String(totalXP);
+                    xpDisplay.textContent = String(xp);
                     streakDisplay.textContent = String(streak);
                     cefrBadge.textContent = lessonData.unitInfo.level;
-                    
+
                     if (data.progresso) {
                         const prefix = 'u02_';
                         Object.keys(questionIndex).forEach(sec => {
                             const key = `${prefix}${sec}`;
-                            if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
+                            const savedValue = typeof data.progresso[key] === 'number' ? data.progresso[key] : 0;
+                            questionIndex[sec] = savedValue;
+                            savedSectionProgress[sec] = savedValue;
                         });
+                        lessonAlreadyCompleted = !!data.progresso.u02_completed;
                     }
                     userNotes = data.notes?.u02 || {};
                 }
@@ -798,8 +803,11 @@
     // ===== NAVIGATION =====
     window.switchTab = (tab) => {
         currentTab = tab;
+        const order = ['video','reading','listening','speaking','writing','grammar'];
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.closest('.tab-btn').classList.add('active');
+        const idx = order.indexOf(tab);
+        const btns = document.querySelectorAll('.tab-btn');
+        if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
         renderCurrentTab();
     };
 
@@ -974,6 +982,7 @@
                 <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
                 <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
                 <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+                <div class="feedback" id="feedback"></div>
             </div>
             <div class="actions">
                 <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
@@ -1124,21 +1133,24 @@
     window.nextSection = () => { const sections=['reading','listening','speaking','writing','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
 
     function showCompletion() {
-        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
+        const completionBonus = lessonAlreadyCompleted ? 0 : 600;
+        const perfectBonus = !lessonAlreadyCompleted && xp >= 600 ? 200 : 0;
+        const final = xp + completionBonus + perfectBonus;
+
         mainContent.innerHTML = `
             <div class="completion-screen">
                 <i class="fa-solid fa-trophy"></i>
                 <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">🎉 Lesson Complete!</h2>
                 <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
-                <div class="xp-reward">+600 XP</div>
-                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
+                <div class="xp-reward">${completionBonus > 0 ? `+${completionBonus} XP` : 'Lesson already completed'}</div>
+                ${perfectBonus>0?`<p style="color:#f59e0b;font-weight:700;">+${perfectBonus} XP Perfect Score!</p>`:''}
                 
                 <div class="report-card">
                     <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;"> Performance Report</h3>
                     <div class="report-grid">
                         <div class="report-item">
                             <div class="report-value">${final}</div>
-                            <div class="report-label">Total XP Earned</div>
+                            <div class="report-label">Total XP</div>
                         </div>
                         <div class="report-item">
                             <div class="report-value">${streak}</div>
@@ -1149,8 +1161,8 @@
                             <div class="report-label">Questions Completed</div>
                         </div>
                         <div class="report-item">
-                            <div class="report-value">${Math.round((final/800)*100)}%</div>
-                            <div class="report-label">Success Rate</div>
+                            <div class="report-value">${Math.round((Object.values(questionIndex).reduce((a,b)=>a+b,0)/60)*100)}%</div>
+                            <div class="report-label">Progress</div>
                         </div>
                     </div>
                     <div style="margin-top:2rem;">
@@ -1186,26 +1198,63 @@
                 </div>
             </div>
         `;
-        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u02_completed`]:true,[`progresso.u02_date`]:new Date().toISOString(),[`progresso.u02_score`]:final}).catch(console.error);
+        if(currentUser){
+            const payload = {
+                [`progresso.u02_completed`]: true,
+                [`progresso.u02_date`]: new Date().toISOString(),
+                [`progresso.u02_score`]: final,
+                ultimoLogin: serverTimestamp()
+            };
+            if (!lessonAlreadyCompleted) {
+                xp = final;
+                xpDisplay.textContent = String(xp);
+                payload.xp = xp;
+                payload.totalXP = xp;
+                lessonAlreadyCompleted = true;
+            }
+            updateDoc(doc(db,"usuarios",currentUser.uid), payload).catch(console.error);
+        }
     }
 
     // ===== XP & PROGRESS =====
-    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
-    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function addXP(amount){
+        const savedCount = savedSectionProgress[currentTab] || 0;
+        const shouldAward = questionIndex[currentTab] >= savedCount;
+        if (shouldAward) {
+            xp += amount;
+            streak += 1;
+            xpDisplay.textContent = String(xp);
+            streakDisplay.textContent = String(streak);
+            checkBadges();
+        }
+    }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(xp>=1000) unlockBadge('xp_1000'); }
     function unlockBadge(id){ console.log(`Badge: ${id}`); }
     
     function updateProgress(){
         const total=60; let done=0; Object.values(questionIndex).forEach(v=>done+=v);
         const pct=Math.round((done/total)*100);
         progressBar.style.width=`${pct}%`; currentQEl.textContent=String(done); totalQEl.textContent=String(total); progressPercentEl.textContent=`${pct}%`;
-        document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ const sections=['video','reading','listening','speaking','writing','grammar'], sec=sections[i]; if(sec!=='video'&&questionIndex[sec]>=lessonData.tabs[sec].length) btn.classList.add('completed'); });
+        document.querySelectorAll('.tab-btn').forEach((btn,i)=>{ const sections=['video','reading','listening','speaking','writing','grammar'], sec=sections[i]; if(sec!=='video'&&questionIndex[sec]>=lessonData.tabs[sec].length) btn.classList.add('completed'); else btn.classList.remove('completed'); });
     }
 
     function saveProgress(){
         if(!currentUser) return;
         const data={}; const prefix='u02_';
-        Object.keys(questionIndex).forEach(sec=>{ data[`progresso.${prefix}${sec}`]=questionIndex[sec]; });
-        updateDoc(doc(db,"usuarios",currentUser.uid),{ xp:score, streak:streak, totalXP:totalXP, ...data, 'progresso.lastUpdate':new Date().toISOString(), 'notes':{ u02:userNotes } }).catch(console.error);
+        Object.keys(questionIndex).forEach(sec=>{
+            const best = Math.max(savedSectionProgress[sec] || 0, questionIndex[sec] || 0);
+            savedSectionProgress[sec] = best;
+            data[`progresso.${prefix}${sec}`]=best;
+        });
+        updateDoc(doc(db,"usuarios",currentUser.uid),{
+            xp: xp,
+            totalXP: xp,
+            streak: streak,
+            ...data,
+            'progresso.lastUpdate':new Date().toISOString(),
+            'notes.u02': userNotes,
+            ultimoLogin: serverTimestamp()
+        }).catch(console.error);
     }
 
     // ===== HINTS =====
@@ -1225,7 +1274,7 @@
     window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
     window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
     window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
-    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; saveProgress(); renderCurrentTab(); } };
+    window.resetProgress = () => { if(confirm('Restart lesson? This will only restart in review mode and will not erase saved progress.')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); } };
 
     document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
 
