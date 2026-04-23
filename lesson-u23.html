@@ -1,2342 +1,1530 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EnglishPath A1 - U22: Time & Clock | Ultimate</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script>
-tailwind.config = {
-    darkMode: 'class',
-    theme: {
-        extend: {
-            fontFamily: { sans: ['Inter', 'sans-serif'] },
-            colors: {
-                primary: '#0ea5e9', secondary: '#38bdf8', accent: '#f59e0b',
-                success: '#22c55e', danger: '#ef4444', dark: '#1e293b',
-                'primary-dark': '#0284c7', 'surface': '#ffffff', 'surface-dark': '#1e293b'
-            },
-            animation: {
-                'float': 'float 3s ease-in-out infinite',
-                'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-            },
-            keyframes: {
-                float: {
-                    '0%, 100%': { transform: 'translateY(0)' },
-                    '50%': { transform: 'translateY(-10px)' }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U23: Daily Routine | EnglishPath A1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#7c3aed', secondary: '#8b5cf6', accent: '#f59e0b', danger: '#ef4444' }
                 }
             }
         }
-    }
-}
-</script>
-<style>
-    :root {
-        --surface: #ffffff;
-        --surface-secondary: #f8fafc;
-        --text-primary: #1e293b;
-        --text-secondary: #64748b;
-        --border-color: #e2e8f0;
-        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
-        --shadow-hover: 0 8px 30px rgba(14, 165, 233, 0.15);
-    }
-    
-    .dark {
-        --surface: #1e293b;
-        --surface-secondary: #0f172a;
-        --text-primary: #f1f5f9;
-        --text-secondary: #94a3b8;
-        --border-color: #334155;
-        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
-        --shadow-hover: 0 8px 30px rgba(14, 165, 233, 0.3);
-    }
-    
-    body { 
-        font-family: 'Inter', sans-serif; 
-        background: var(--surface-secondary); 
-        color: var(--text-primary); 
-        transition: background 0.3s, color 0.3s;
-        line-height: 1.5;
-    }
-    
-    .card {
-        background: var(--surface);
-        border-radius: 1.5rem;
-        box-shadow: var(--shadow-soft);
-        border: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-    }
-    
-    .card:hover {
-        box-shadow: var(--shadow-hover);
-        transform: translateY(-2px);
-    }
-    
-    .tab-btn {
-        position: relative;
-        transition: all 0.2s ease;
-    }
-    
-    .tab-btn.active {
-        background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-        color: white;
-        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-    }
-    
-    .tab-btn.active::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 8px;
-        height: 8px;
-        background: #0ea5e9;
-        border-radius: 50%;
-    }
-    
-    .option {
-        transition: all 0.2s ease;
-        cursor: pointer;
-        border: 2px solid var(--border-color);
-        border-radius: 1rem;
-        padding: 1rem;
-        background: var(--surface);
-    }
-    
-    .option:hover {
-        border-color: #0ea5e9;
-        background: rgba(14, 165, 233, 0.05);
-        transform: translateX(4px);
-    }
-    
-    .option.selected {
-        border-color: #0ea5e9;
-        background: rgba(14, 165, 233, 0.1);
-        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
-    }
-    
-    .option.correct {
-        border-color: #22c55e;
-        background: rgba(34, 197, 94, 0.1);
-        animation: pulse-correct 0.5s;
-    }
-    
-    .option.wrong {
-        border-color: #ef4444;
-        background: rgba(239, 68, 68, 0.1);
-        animation: shake 0.5s;
-    }
-    
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-6px); }
-        75% { transform: translateX(6px); }
-    }
-    
-    @keyframes pulse-correct {
-        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
-    
-    /* Interactive Subtitles */
-    .subtitle-container {
-        background: linear-gradient(135deg, #1e293b, #0f172a);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        color: white;
-        font-family: monospace;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        min-height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-    
-    .subtitle-word {
-        display: inline-block;
-        cursor: pointer;
-        padding: 0.15rem 0.3rem;
-        margin: 0 0.1rem;
-        border-radius: 0.3rem;
-        transition: all 0.2s ease;
-        position: relative;
-    }
-    
-    .subtitle-word:hover {
-        background: rgba(14, 165, 233, 0.4);
-        transform: scale(1.05);
-        z-index: 10;
-    }
-    
-    .translation-tooltip {
-        position: fixed;
-        background: #1e293b;
-        color: #f1f5f9;
-        padding: 0.75rem 1.25rem;
-        border-radius: 0.75rem;
-        font-size: 0.9rem;
-        z-index: 10000;
-        pointer-events: none;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        animation: fadeInUp 0.2s ease;
-        max-width: 250px;
-        text-align: center;
-    }
-    
-    @keyframes fadeInUp {
-        from { 
-            opacity: 0; 
-            transform: translateY(10px) scale(0.95); 
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
+        .header {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
+        .logo { display: flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.25rem; color: #7c3aed; cursor: pointer; }
+        .logo:hover { color: #6d28d9; }
+        .cefr-badge {
+            padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+            background: #f3e8ff; color: #6b21a8;
         }
-    }
-
-    /* Vocabulary Flip Card */
-    .vocab-flip-card {
-        perspective: 1000px;
-        cursor: pointer;
-        height: 280px;
-        max-width: 320px;
-        margin: 0 auto;
-    }
-    
-    .vocab-flip-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        transform-style: preserve-3d;
-    }
-    
-    .vocab-flip-card.flipped .vocab-flip-inner {
-        transform: rotateY(180deg);
-    }
-    
-    .vocab-flip-front, .vocab-flip-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 1.5rem;
-        border: 2px solid var(--border-color);
-        box-shadow: var(--shadow-soft);
-    }
-    
-    .vocab-flip-front {
-        background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-        color: white;
-    }
-    
-    .vocab-flip-back {
-        background: var(--surface);
-        color: var(--text-primary);
-        transform: rotateY(180deg);
-        border-color: #0ea5e9;
-    }
-
-    /* Board Game */
-    .board-game {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.75rem;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 1rem;
-    }
-    
-    @media (min-width: 640px) {
-        .board-game {
-            grid-template-columns: repeat(6, 1fr);
+        .progress-section { flex: 1; max-width: 500px; margin: 0 2rem; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 0.25rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #6d28d9); transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; }
+        .stats { display: flex; gap: 1rem; align-items: center; }
+        .stat { display: flex; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: 8px; }
+        .stat-fire { background: #fff7ed; color: #f59e0b; }
+        .stat-bolt { background: #f3e8ff; color: #8b5cf6; }
+        .stat-xp { background: #f0fdf4; color: #22c55e; }
+        .menu-btn { background: none; border: none; font-size: 1.25rem; color: #64748b; cursor: pointer; padding: 0.5rem; border-radius: 8px; }
+        .menu-btn:hover { background: #f1f5f9; }
+        .tabs-container {
+            background: white; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 2rem;
+            display: flex; justify-content: center; position: sticky; top: 72px; z-index: 99;
         }
-    }
-    
-    .board-cell {
-        aspect-ratio: 1;
-        background: var(--surface);
-        border: 2px solid var(--border-color);
-        border-radius: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        position: relative;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-    }
-    
-    .board-cell.player {
-        background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-        color: white;
-        border-color: #0284c7;
-        box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
-        z-index: 10;
-        transform: scale(1.05);
-    }
-    
-    .board-cell.completed {
-        background: #dcfce7;
-        color: #166534;
-        border-color: #22c55e;
-    }
-    
-    .dark .board-cell.completed {
-        background: rgba(34, 197, 94, 0.15);
-        color: #86efac;
-    }
-
-    /* Drag Drop */
-    .draggable-word {
-        display: inline-block;
-        padding: 0.5rem 1.25rem;
-        margin: 0.25rem;
-        background: rgba(14, 165, 233, 0.1);
-        border: 2px solid #0ea5e9;
-        border-radius: 2rem;
-        cursor: grab;
-        user-select: none;
-        font-weight: 500;
-        transition: all 0.2s ease;
-    }
-    
-    .draggable-word:active {
-        cursor: grabbing;
-        transform: scale(1.05);
-    }
-    
-    .drag-drop-area {
-        min-height: 120px;
-        border: 3px dashed var(--border-color);
-        border-radius: 1.25rem;
-        padding: 1.5rem;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        background: var(--surface-secondary);
-    }
-    
-    .drag-drop-area.drag-over {
-        border-color: #0ea5e9;
-        background: rgba(14, 165, 233, 0.05);
-        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
-    }
-
-    /* Floating Elements */
-    .floating-btn {
-        position: fixed;
-        bottom: 1.5rem;
-        right: 1.5rem;
-        z-index: 100;
-        animation: float 3s ease-in-out infinite;
-        box-shadow: var(--shadow-hover);
-        transition: all 0.2s ease;
-    }
-    
-    .floating-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 12px 40px rgba(14, 165, 233, 0.4);
-    }
-    
-    .floating-btn:active {
-        transform: translateY(1px) scale(0.98);
-    }
-
-    /* Buttons */
-    .btn-primary {
-        background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-        color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 1rem;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 0 #0284c7;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 0 #0284c7;
-    }
-    
-    .btn-primary:active {
-        transform: translateY(2px);
-        box-shadow: none;
-    }
-    
-    .btn-primary:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: 0 4px 0 #0284c7;
-    }
-    
-    .btn-secondary {
-        background: var(--surface);
-        color: var(--text-primary);
-        font-weight: 500;
-        padding: 0.75rem 1.5rem;
-        border-radius: 1rem;
-        border: 2px solid var(--border-color);
-        transition: all 0.2s ease;
-        cursor: pointer;
-    }
-    
-    .btn-secondary:hover {
-        border-color: #0ea5e9;
-        background: rgba(14, 165, 233, 0.05);
-    }
-
-    /* Feedback & Hints */
-    .feedback-box {
-        padding: 1rem;
-        border-radius: 1rem;
-        margin: 1rem 0;
-        font-weight: 500;
-        animation: slideIn 0.3s ease;
-    }
-    
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .feedback-correct {
-        background: rgba(34, 197, 94, 0.15);
-        border-left: 4px solid #22c55e;
-        color: #166534;
-    }
-    
-    .feedback-wrong {
-        background: rgba(239, 68, 68, 0.15);
-        border-left: 4px solid #ef4444;
-        color: #b91c1c;
-    }
-    
-    .dark .feedback-correct {
-        color: #86efac;
-    }
-    
-    .dark .feedback-wrong {
-        color: #fca5a5;
-    }
-    
-    .enter-hint kbd {
-        background: var(--surface);
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.375rem;
-        font-family: monospace;
-        font-weight: 600;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 2px 0 var(--border-color);
-        display: inline-block;
-        margin: 0 0.1rem;
-    }
-
-    /* Utilities */
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    
-    .animate-fade-in {
-        animation: fadeIn 0.2s ease forwards;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .board-game {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
+        .tabs {
+            display: flex; gap: 0.25rem; overflow-x: auto; max-width: 900px;
         }
-        .vocab-flip-card {
-            height: 240px;
+        .tab-btn {
+            padding: 0.75rem 1rem; border: none; background: none; font-weight: 600; font-size: 0.85rem;
+            color: #64748b; cursor: pointer; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-        .subtitle-container {
-            font-size: 1rem;
-            padding: 1rem;
+        .tab-btn:hover { background: #f8fafc; color: #1e293b; }
+        .tab-btn.active { background: #7c3aed; color: white; }
+        .tab-btn.completed { color: #6d28d9; }
+        .tab-btn.completed::after { content: '✓'; margin-left: 0.25rem; }
+        .difficulty {
+            display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
         }
-    }
-    
-    @media (max-width: 480px) {
-        .board-game {
-            grid-template-columns: repeat(3, 1fr);
+        .difficulty.easy { background: #dcfce7; color: #166534; }
+        .difficulty.medium { background: #fef3c7; color: #92400e; }
+        .difficulty.hard { background: #fed7aa; color: #c2410c; }
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem; min-height: calc(100vh - 220px); }
+        .section-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; text-align: center; }
+        .section-subtitle { color: #64748b; margin-bottom: 1.5rem; text-align: center; }
+        .objective-box {
+            background: #f3e8ff; border-left: 4px solid #7c3aed; padding: 1rem; border-radius: 8px;
+            margin-bottom: 2rem; font-size: 0.9rem;
         }
-        .tab-btn span {
-            display: none;
+        .card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 2rem;
+            margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .tab-btn i {
-            margin: 0;
+        .vocab-card {
+            display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center;
+            padding: 1rem; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 1rem;
+            background: white; transition: all 0.2s;
         }
-        .floating-btn {
-            bottom: 1rem;
-            right: 1rem;
-            padding: 0.75rem !important;
+        .vocab-card:hover { border-color: #7c3aed; transform: translateX(4px); }
+        .vocab-word { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+        .vocab-pron { font-size: 0.9rem; color: #64748b; font-style: italic; }
+        .vocab-meaning { font-size: 1rem; color: #7c3aed; font-weight: 600; margin-top: 0.25rem; }
+        .vocab-example { font-size: 0.9rem; color: #475569; margin-top: 0.5rem; font-style: italic; }
+        .vocab-audio-btn {
+            width: 40px; height: 40px; border-radius: 50%; background: #f3e8ff; color: #7c3aed;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.2s; border: none;
         }
-    }
-</style>
+        .vocab-audio-btn:hover { background: #7c3aed; color: white; }
+        .vocab-audio-btn.playing { animation: pulse 1s infinite; background: #ef4444; color: white; }
+        .tts-controls {
+            display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; justify-content: center;
+        }
+        .tts-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: #7c3aed; color: white; border: none; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .tts-btn.playing { background: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 50% { opacity: 0.7; } }
+        .speed-select {
+            padding: 0.4rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 6px;
+            background: white; font-size: 0.85rem; cursor: pointer;
+        }
+        .transcript {
+            background: #f8fafc; padding: 1rem; border-radius: 8px; margin-top: 0.75rem;
+            font-size: 0.9rem; color: #475569; border: 1px solid #e2e8f0; display: none;
+        }
+        .transcript.show { display: block; }
+        
+        /* READING STYLES */
+        .reading-card {
+            background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+            border: 1px solid #e9d5ff;
+            box-shadow: 0 8px 24px rgba(124,58,237,0.08);
+        }
+        .reading-header {
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+            flex-wrap: wrap; margin-bottom: 1rem;
+        }
+        .reading-label {
+            display: inline-flex; align-items: center; gap: 0.5rem; background: #f3e8ff; color: #6b21a8;
+            padding: 0.5rem 0.85rem; border-radius: 999px; font-weight: 700; font-size: 0.85rem;
+        }
+        .reading-focus {
+            display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 1.25rem;
+        }
+        .focus-chip {
+            padding: 0.4rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+            background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0;
+        }
+        .reading-text.rich {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0; border-left: 6px solid #7c3aed; border-radius: 14px;
+            padding: 1.5rem 1.5rem; line-height: 2.1; font-size: 1.1rem;
+            text-align: justify;
+        }
+        .reading-keyword {
+            display: inline-block; padding: 0 0.35rem; border-radius: 0.5rem; font-weight: 800;
+            box-decoration-break: clone; -webkit-box-decoration-break: clone;
+            transition: transform 0.2s; cursor: default;
+        }
+        .reading-keyword:hover { transform: scale(1.05); }
+        .keyword-purple { background: #f3e8ff; color: #6b21a8; }
+        .keyword-blue { background: #dbeafe; color: #1d4ed8; }
+        .keyword-orange { background: #ffedd5; color: #c2410c; }
+        .keyword-green { background: #dcfce7; color: #15803d; }
+        
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 12px; margin: 1rem 0; background: #000;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .options { display: grid; gap: 1rem; margin-top: 1.5rem; }
+        .option {
+            padding: 1.25rem; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer;
+            transition: all 0.2s; font-weight: 600; display: flex; align-items: center; gap: 1rem;
+        }
+        .option:hover { border-color: #7c3aed; background: #f8fafc; transform: translateX(4px); }
+        .option.selected { border-color: #7c3aed; background: #f3e8ff; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); }
+        .option.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option.wrong { border-color: #ef4444; background: #fef2f2; animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        .record-btn {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+            display: flex; align-items: center; justify-content: center; font-size: 3rem;
+            margin: 2rem auto; cursor: pointer; border: none;
+            box-shadow: 0 8px 0 #b91c1c, 0 12px 24px rgba(239, 68, 68, 0.3);
+        }
+        .record-btn:active { transform: translateY(8px); box-shadow: none; }
+        .record-btn.recording { animation: recording-pulse 1s infinite; }
+        @keyframes recording-pulse { 50% { transform: scale(1.05); } }
+        .score-display { text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0; }
+        .score-display.good { color: #22c55e; }
+        .score-display.bad { color: #ef4444; }
+        .writing-area {
+            width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e2e8f0;
+            border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical;
+        }
+        .writing-area:focus { outline: none; border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); }
+        .char-count { text-align: right; font-size: 0.8rem; color: #64748b; margin-top: 0.5rem; }
+        .grammar-explanation {
+            background: #f3e8ff; border: 2px solid #7c3aed; border-radius: 12px;
+            padding: 1.5rem; margin: 1.5rem 0;
+        }
+        .grammar-explanation h4 { font-weight: 700; margin-bottom: 0.75rem; color: #5b21b6; display: flex; align-items: center; gap: 0.5rem; }
+        .grammar-explanation .rule { background: white; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; }
+        .grammar-explanation .formula {
+            background: #e9d5ff; padding: 0.75rem; border-radius: 8px; font-family: monospace;
+            font-weight: 600; margin: 0.75rem 0; text-align: center; color: #4c1d95;
+        }
+        .grammar-explanation ul { margin-left: 1.5rem; color: #475569; }
+        .grammar-explanation li { margin-bottom: 0.5rem; }
+        .grammar-explanation .tip {
+            background: #fef3c7; border-left: 4px solid #f59e0b; padding: 0.75rem 1rem;
+            margin: 0.75rem 0; font-size: 0.9rem;
+        }
+        .actions { display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            padding: 1rem 1.5rem; border: none; border-radius: 12px; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-width: 120px;
+        }
+        .btn-primary { background: #7c3aed; color: white; box-shadow: 0 4px 0 #6d28d9; }
+        .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #6d28d9; }
+        .btn-primary:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 2px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-retry { background: #f59e0b; color: white; box-shadow: 0 4px 0 #d97706; }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #d97706; }
+        .btn-skip { background: #64748b; color: white; box-shadow: 0 4px 0 #475569; }
+        .btn-skip:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #475569; }
+        .btn-hint { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .btn-next-section { 
+            background: #7c3aed; 
+            color: white; 
+            box-shadow: 0 4px 0 #6d28d9;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .btn-refazer { 
+            background: #f59e0b; 
+            color: white; 
+            box-shadow: 0 4px 0 #d97706;
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+        }
+        .feedback { padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; display: none; }
+        .feedback.show { display: block; animation: slideUp 0.3s ease; }
+        .feedback.correct { background: #f0fdf4; border: 2px solid #22c55e; }
+        .feedback.wrong { background: #fef2f2; border: 2px solid #ef4444; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hint-box {
+            background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0; display: none;
+        }
+        .hint-box.show { display: block; }
+        .hint-cost { font-size: 0.8rem; color: #92400e; margin-left: 0.5rem; }
+        .notes-area {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 1rem; margin: 1rem 0;
+        }
+        .notes-area textarea {
+            width: 100%; min-height: 80px; padding: 0.75rem; border: 1px solid #e2e8f0;
+            border-radius: 8px; font-family: inherit; resize: vertical;
+        }
+        .settings-menu {
+            position: fixed; top: 80px; right: 2rem; background: white; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            z-index: 200; display: none; min-width: 220px;
+        }
+        .settings-menu.show { display: block; }
+        .settings-item {
+            padding: 0.75rem; border-radius: 8px; cursor: pointer; display: flex;
+            align-items: center; gap: 0.75rem; font-size: 0.9rem;
+        }
+        .settings-item:hover { background: #f8fafc; }
+        .completion-screen {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .completion-screen i { font-size: 5rem; color: #7c3aed; margin-bottom: 1.5rem; }
+        .xp-reward { font-size: 3rem; font-weight: 800; color: #7c3aed; margin: 1rem 0; }
+        .section-complete {
+            text-align: center; padding: 3rem 1rem;
+        }
+        .section-complete i { font-size: 4rem; color: #7c3aed; margin-bottom: 1rem; }
+        .section-complete h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .section-complete p { color: #64748b; margin-bottom: 2rem; }
+        .enter-hint {
+            text-align: center; color: #64748b; margin-top: 1rem; font-size: 0.85rem;
+        }
+        .enter-hint kbd {
+            background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 4px;
+            font-family: monospace; font-weight: 600;
+        }
+        @media (max-width: 768px) {
+            .header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .progress-section { margin: 0; width: 100%; }
+            .main { padding: 1rem; }
+            .card { padding: 1.5rem; }
+            .actions { flex-direction: column; }
+            .tabs-container { padding: 0.5rem 1rem; }
+            .btn { min-width: 100px; padding: 0.75rem 1rem; }
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-<!-- HEADER -->
-<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b sticky top-0 z-50 px-4 py-3 shadow-sm">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()" aria-label="Voltar para Home">
-            <i class="fa-solid fa-graduation-cap text-2xl text-sky-500"></i>
-            <span class="font-extrabold text-xl text-sky-600 dark:text-sky-400">EnglishPath</span>
-            <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-full text-xs font-bold">A1</span>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo" onclick="goHome()">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>EnglishPath</span>
+            <span class="cefr-badge" id="cefrBadge">A1</span>
         </div>
         
-        <div class="flex-1 max-w-md mx-4">
-            <div class="h-2 bg-gray-200 dark:bg-slate-700 rounded-full overflow-hidden mb-1">
-                <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-blue-600 transition-all duration-500" style="width: 0%"></div>
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div id="progressBar" class="progress-fill" style="width: 0%"></div>
             </div>
-            <div class="flex justify-between text-xs text-gray-500 dark:text-slate-400">
-                <span><span id="currentQ">0</span>/<span id="totalQ">0</span> atividades</span>
+            <div class="progress-stats">
+                <span><span id="currentQ">0</span>/<span id="totalQ">60</span> questões</span>
                 <span id="progressPercent">0%</span>
             </div>
         </div>
-
-        <div class="flex items-center gap-2">
-            <div class="bg-orange-50 dark:bg-orange-900/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-orange-100 dark:border-orange-800">
-                <i class="fa-solid fa-fire text-orange-500"></i>
-                <span id="streakDisplay" class="font-bold">0</span>
-            </div>
-            <div class="bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-blue-100 dark:border-blue-800">
-                <i class="fa-solid fa-bolt text-blue-500"></i>
-                <span id="xpDisplay" class="font-bold">0</span>
-            </div>
-            <button class="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg text-gray-600 dark:text-slate-300 transition" onclick="toggleSettings()" aria-label="Configurações">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
+        
+        <div class="stats">
+            <div class="stat stat-fire"><i class="fa-solid fa-fire"></i><span id="streakDisplay">0</span></div>
+            <div class="stat stat-bolt"><i class="fa-solid fa-bolt"></i><span id="xpDisplay">0</span></div>
+            <button class="menu-btn" onclick="toggleSettings()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
         </div>
     </div>
-</header>
 
-<!-- SETTINGS MENU -->
-<div id="settingsMenu" class="hidden fixed top-20 right-4 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl shadow-xl p-3 z-[60] min-w-[220px] animate-fade-in">
-    <div class="space-y-1 text-sm">
-        <button class="w-full text-left p-2.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer flex items-center gap-2.5 transition" onclick="goHome()">
-            <i class="fa-solid fa-house text-gray-400"></i> Voltar Home
-        </button>
-        <button class="w-full text-left p-2.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer flex items-center gap-2.5 transition" onclick="resetProgress()">
-            <i class="fa-solid fa-rotate-right text-gray-400"></i> Reiniciar Lição
-        </button>
-        <button class="w-full text-left p-2.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer flex items-center gap-2.5 transition" onclick="toggleVoice()">
-            <i class="fa-solid fa-language text-gray-400"></i> Voz: <span id="voiceLabel" class="font-medium">US</span>
-        </button>
-        <button class="w-full text-left p-2.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer flex items-center gap-2.5 transition" onclick="exportData()">
-            <i class="fa-solid fa-download text-gray-400"></i> Exportar Dados
-        </button>
-        <div class="border-t border-gray-200 dark:border-slate-700 my-1"></div>
-        <button class="w-full text-left p-2.5 hover:bg-gray-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer flex items-center gap-2.5 transition" onclick="toggleTheme()">
-            <i class="fa-solid fa-moon text-gray-400"></i> Tema: <span id="themeLabel">Claro</span>
-        </button>
+    <!-- SETTINGS MENU -->
+    <div class="settings-menu" id="settingsMenu">
+        <div class="settings-item" onclick="goHome()"><i class="fa-solid fa-house"></i> Voltar para Home</div>
+        <div class="settings-item" onclick="resetProgress()"><i class="fa-solid fa-rotate-right"></i> Reiniciar Lição</div>
+        <div class="settings-item" onclick="toggleVoice()"><i class="fa-solid fa-volume-high"></i> Voz: <span id="voiceLabel">US</span></div>
+        <div class="settings-item" onclick="showNotes()"><i class="fa-solid fa-note-sticky"></i> Minhas Anotações</div>
     </div>
-</div>
 
-<!-- TABS NAVIGATION -->
-<nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b sticky top-[73px] z-40 overflow-x-auto hide-scrollbar">
-    <div class="max-w-7xl mx-auto px-2 flex gap-1 min-w-max py-2">
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="video" onclick="switchTab('video')" aria-label="Aba de Vídeo">
-            <i class="fa-solid fa-video"></i> <span class="hidden sm:inline">Video</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="reading" onclick="switchTab('reading')" aria-label="Aba de Leitura">
-            <i class="fa-solid fa-book-open"></i> <span class="hidden sm:inline">Reading</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="listening" onclick="switchTab('listening')" aria-label="Aba de Escuta">
-            <i class="fa-solid fa-headphones"></i> <span class="hidden sm:inline">Listening</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="speaking" onclick="switchTab('speaking')" aria-label="Aba de Fala">
-            <i class="fa-solid fa-microphone"></i> <span class="hidden sm:inline">Speaking</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="writing" onclick="switchTab('writing')" aria-label="Aba de Escrita">
-            <i class="fa-solid fa-pen"></i> <span class="hidden sm:inline">Writing</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="vocabulary" onclick="switchTab('vocabulary')" aria-label="Aba de Vocabulário">
-            <i class="fa-solid fa-spell-check"></i> <span class="hidden sm:inline">Vocabulary</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="grammar" onclick="switchTab('grammar')" aria-label="Aba de Gramática">
-            <i class="fa-solid fa-book"></i> <span class="hidden sm:inline">Grammar</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="daily" onclick="switchTab('daily')" aria-label="Aba de Desafio Diário">
-            <i class="fa-solid fa-calendar-day"></i> <span class="hidden sm:inline">Daily</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="story" onclick="switchTab('story')" aria-label="Aba de História">
-            <i class="fa-solid fa-book-open-reader"></i> <span class="hidden sm:inline">Story</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="mistakes" onclick="switchTab('mistakes')" aria-label="Aba de Erros Comuns">
-            <i class="fa-solid fa-triangle-exclamation"></i> <span class="hidden sm:inline">Mistakes</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="tenses" onclick="switchTab('tenses')" aria-label="Aba de Tempos Verbais">
-            <i class="fa-solid fa-chart-line"></i> <span class="hidden sm:inline">Tense Map</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="dictation" onclick="switchTab('dictation')" aria-label="Aba de Ditado">
-            <i class="fa-solid fa-keyboard"></i> <span class="hidden sm:inline">Dictation</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="boardgame" onclick="switchTab('boardgame')" aria-label="Aba de Jogo de Tabuleiro">
-            <i class="fa-solid fa-chess-board"></i> <span class="hidden sm:inline">Board Game</span>
-        </button>
-        <button class="tab-btn px-3 py-2 rounded-lg text-sm font-semibold text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-2" data-tab="translation" onclick="switchTab('translation')" aria-label="Aba de Tradução">
-            <i class="fa-solid fa-language"></i> <span class="hidden sm:inline">Translation</span>
-        </button>
-    </div>
-</nav>
-
-<!-- MAIN CONTENT -->
-<main id="mainContent" class="flex-1 max-w-4xl mx-auto w-full p-4 md:p-6 min-h-[calc(100vh-140px)]">
-    <!-- Content injected via JS -->
-    <div class="flex items-center justify-center h-64">
-        <div class="text-center">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-sky-500 border-t-transparent mb-4"></div>
-            <p class="text-gray-500 dark:text-slate-400">Carregando atividades...</p>
+    <!-- TABS -->
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="video" onclick="switchTab('video')"><i class="fa-solid fa-video"></i> Video</button>
+            <button class="tab-btn" data-tab="reading" onclick="switchTab('reading')"><i class="fa-solid fa-book-open"></i> Reading</button>
+            <button class="tab-btn" data-tab="listening" onclick="switchTab('listening')"><i class="fa-solid fa-headphones"></i> Listening</button>
+            <button class="tab-btn" data-tab="speaking" onclick="switchTab('speaking')"><i class="fa-solid fa-microphone"></i> Speaking</button>
+            <button class="tab-btn" data-tab="writing" onclick="switchTab('writing')"><i class="fa-solid fa-pen"></i> Writing</button>
+            <button class="tab-btn" data-tab="vocabulary" onclick="switchTab('vocabulary')"><i class="fa-solid fa-spell-check"></i> Vocabulary</button>
+            <button class="tab-btn" data-tab="grammar" onclick="switchTab('grammar')"><i class="fa-solid fa-book"></i> Grammar</button>
         </div>
     </div>
-</main>
 
-<!-- Floating Action Button -->
-<button id="floatingNextBtn" class="floating-btn btn-primary px-6 py-3 rounded-full font-bold text-white hidden" onclick="nextQuestion()" aria-label="Próxima atividade">
-    <i class="fa-solid fa-arrow-right mr-2"></i> Próximo
-</button>
+    <!-- MAIN CONTENT -->
+    <div class="main" id="mainContent"></div>
 
-<!-- FIREBASE & LOGIC -->
-<script>
-// ===== CONFIGURAÇÃO SIMPLIFICADA (sem Firebase para standalone) =====
-// Nota: Para produção, reative o Firebase conforme necessário
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ===== DADOS DA LIÇÃO U22: TIME & CLOCK =====
-const lessonData = {
-    unitInfo: { 
-        level: 'A1', 
-        theme: 'Time & Clock', 
-        videoId: 'ozKvUYkc5q0',
-        description: 'Learn to tell time, ask about schedules, and talk about daily routines'
-    },
-    
-    // Video com subtítulos interativos
-    video: {
-        subtitles: [
-            { start: 0, end: 4, text: "Hello everyone! Welcome to EnglishPath." },
-            { start: 4, end: 9, text: "Today we will learn about time and clocks." },
-            { start: 9, end: 14, text: "What time is it? It's three o'clock." },
-            { start: 14, end: 19, text: "The short hand shows the hour." },
-            { start: 19, end: 24, text: "The long hand shows the minutes." },
-            { start: 24, end: 29, text: "Half past two means two thirty." },
-            { start: 29, end: 34, text: "Quarter past six is six fifteen." },
-            { start: 34, end: 39, text: "Quarter to nine is eight forty-five." }
-        ],
-        questions: [
-            {
-                id: 'v1',
-                text: "What does the short hand show?",
-                options: ["Minutes", "Hours", "Seconds", "Days"],
-                answer: 1,
-                explanation: "The short hand on a clock shows the hour."
+    // ===== FIREBASE =====
+    const firebaseConfig = {
+        apiKey: "AIzaSyCwnWDz0aCImvQNKdW6xzSRjkK_VVomGq4",
+        authDomain: "englishpath-2d558.firebaseapp.com",
+        projectId: "englishpath-2d558",
+        storageBucket: "englishpath-2d558.firebasestorage.app",
+        messagingSenderId: "384301599670",
+        appId: "1:384301599670:web:f16d2adf8a1714fd034f17"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+
+    // ===== LESSON DATA (U23: DAILY ROUTINE) =====
+    const lessonData = {
+        unitInfo: {
+            level: 'A1',
+            theme: 'Daily Routine',
+            videoId: 'L31ExXwlsVc',
+            objectives: [
+                'Use Simple Present for habits and routines',
+                'Tell time with o\'clock, half past, quarter to',
+                'Use prepositions of time: at, in, on',
+                'Describe your day with sequence words: first, then, after that, finally'
+            ]
+        },
+
+        tabs: {
+            video: {
+                type: 'embed',
+                videoId: 'L31ExXwlsVc',
+                instructions: 'Watch the video about daily routines. Listen for verbs and time expressions.'
             },
-            {
-                id: 'v2',
-                text: "What time is 'half past two'?",
-                options: ["2:00", "2:15", "2:30", "2:45"],
-                answer: 2,
-                explanation: "'Half past' means 30 minutes after the hour."
-            }
-        ]
-    },
-    
-    // Reading com perguntas de compreensão
-    reading: [
-        {
-            id: 'r1', difficulty: 'easy', xp: 10,
-            text: "The clock says <span class='text-sky-600 dark:text-sky-400 font-bold'>three o'clock</span>. In the morning, I wake up at seven o'clock.",
-            q: "What time is mentioned first?",
-            options: ["Seven o'clock", "Three o'clock", "Half past two", "Quarter past six"],
-            answer: 1,
-            explanation: "The text starts by saying 'The clock says three o'clock'."
-        },
-        {
-            id: 'r2', difficulty: 'easy', xp: 10,
-            text: "It is <span class='text-sky-600 dark:text-sky-400 font-bold'>half past two</span>. School starts soon at three o'clock.",
-            q: "What time does school start?",
-            options: ["Two o'clock", "Half past two", "Three o'clock", "Quarter past three"],
-            answer: 2,
-            explanation: "The text says 'School starts soon at three o'clock'."
-        },
-        {
-            id: 'r3', difficulty: 'medium', xp: 15,
-            text: "My bus comes at <span class='text-sky-600 dark:text-sky-400 font-bold'>quarter to nine</span>. I need to leave home at eight thirty.",
-            q: "What time does the bus come?",
-            options: ["8:15", "8:30", "8:45", "9:00"],
-            answer: 2,
-            explanation: "'Quarter to nine' means 15 minutes before 9:00, which is 8:45."
-        }
-    ],
-    
-    // Listening com áudio TTS
-    listening: [
-        {
-            id: 'l1', difficulty: 'easy', xp: 10,
-            tts: "It's three o'clock.",
-            q: "Listen and choose the correct time:",
-            options: ["Three o'clock", "Half past two", "Quarter past six", "Quarter to nine"],
-            answer: 0
-        },
-        {
-            id: 'l2', difficulty: 'easy', xp: 10,
-            tts: "It's half past two.",
-            q: "What time is it?",
-            options: ["Two o'clock", "Half past two", "Quarter past two", "Two thirty-five"],
-            answer: 1
-        },
-        {
-            id: 'l3', difficulty: 'medium', xp: 15,
-            tts: "The meeting starts at quarter to nine.",
-            q: "When does the meeting start?",
-            options: ["8:15", "8:30", "8:45", "9:00"],
-            answer: 2
-        }
-    ],
-    
-    // Speaking com reconhecimento de voz
-    speaking: [
-        {
-            id: 's1', difficulty: 'medium', xp: 15,
-            prompt: "Repeat: 'It's three o'clock.'",
-            expected: ["it's three o'clock", "it is three o'clock", "three o'clock"],
-            hint: "Focus on clear pronunciation of 'o'clock'"
-        },
-        {
-            id: 's2', difficulty: 'medium', xp: 15,
-            prompt: "Say: 'What time is it?'",
-            expected: ["what time is it", "what time is it?"],
-            hint: "Remember the question word order"
-        },
-        {
-            id: 's3', difficulty: 'hard', xp: 20,
-            prompt: "Ask: 'What time does the bus leave?'",
-            expected: ["what time does the bus leave", "what time does the bus leave?"],
-            hint: "Use 'does' for third person questions"
-        }
-    ],
-    
-    // Writing com validação inteligente
-    writing: [
-        {
-            id: 'w1', difficulty: 'easy', xp: 15,
-            prompt: "Write the time in words: 3:00",
-            answer: ["three o'clock", "3 o'clock"],
-            example: "It's three o'clock.",
-            minLength: 5,
-            hint: "Use 'o'clock' for exact hours"
-        },
-        {
-            id: 'w2', difficulty: 'medium', xp: 20,
-            prompt: "Write: 'I wake up at seven thirty.'",
-            answer: ["i wake up at seven thirty", "i wake up at 7:30", "i wake up at seven thirty."],
-            example: "I wake up at seven thirty.",
-            minLength: 15,
-            hint: "Remember capital letter at start and period at end"
-        }
-    ],
-    
-    // Vocabulary com flashcards
-    vocabulary: [
-        { word: 'Time', meaning: 'Tempo/Hora', emoji: '⏰', example: 'What time is it?' },
-        { word: 'Clock', meaning: 'Relógio (de parede)', emoji: '🕐', example: 'The clock is on the wall.' },
-        { word: 'Watch', meaning: 'Relógio de pulso', emoji: '⌚', example: 'I wear a watch.' },
-        { word: 'Hour', meaning: 'Hora (60 minutos)', emoji: '⏱️', example: 'One hour has 60 minutes.' },
-        { word: 'Minute', meaning: 'Minuto', emoji: '⏲️', example: 'Wait a minute, please.' },
-        { word: 'O\'clock', meaning: 'Em ponto', emoji: '🕛', example: 'It\'s three o\'clock.' },
-        { word: 'Half past', meaning: 'Meia e...', emoji: '🕧', example: 'Half past two is 2:30.' },
-        { word: 'Quarter past', meaning: 'Quinze minutos após', emoji: '🕑', example: 'Quarter past six is 6:15.' },
-        { word: 'Quarter to', meaning: 'Quinze minutos antes', emoji: '🕘', example: 'Quarter to nine is 8:45.' },
-        { word: 'Morning', meaning: 'Manhã', emoji: '🌅', example: 'I drink coffee in the morning.' }
-    ],
-    
-    // Grammar com explicações claras
-    grammar: [
-        {
-            id: 'g1', 
-            title: 'It\'s ... o\'clock',
-            explanation: 'Use "It\'s" + hour + "o\'clock" for exact hours.',
-            formula: "It's + [hour] + o'clock",
-            examples: ["It's three o'clock.", "It's seven o'clock in the morning."]
-        },
-        {
-            id: 'g2', 
-            title: 'Half past / Quarter past/to',
-            explanation: 'Use "half past" for :30, "quarter past" for :15, and "quarter to" for :45.',
-            formula: "[half/quarter] + [past/to] + [hour]",
-            examples: ["It's half past two (2:30).", "It's quarter to nine (8:45)."]
-        },
-        {
-            id: 'g3', 
-            title: 'Asking about time',
-            explanation: 'Use "What time is it?" to ask for the current time.',
-            formula: "What time + is it?",
-            examples: ["What time is it?", "What time does the bus leave?"]
-        }
-    ],
-    
-    // Daily challenges
-    daily: [
-        { title: 'Set your alarm', xp: 20, desc: 'Set an alarm for tomorrow using English time expressions.', task: 'alarm' },
-        { title: 'Time diary', xp: 25, desc: 'Write 3 activities with their times: "I eat breakfast at seven o\'clock."', task: 'diary' },
-        { title: 'Ask a friend', xp: 30, desc: 'Ask someone "What time is it?" in English today.', task: 'ask' }
-    ],
-    
-    // Story interativa
-    story: [
-        {
-            title: 'Chapter 1: Morning Rush',
-            dialogue: 'You wake up and look at the clock. It\'s 7:45! Your bus leaves at 8:00.',
-            choices: [
-                { text: 'Get up quickly', next: 1, xp: 10 },
-                { text: 'Check the time again', next: 1, xp: 5 }
-            ]
-        },
-        {
-            title: 'Chapter 2: Catching the Bus',
-            dialogue: 'You run to the bus stop. The bus arrives at quarter to eight.',
-            choices: [
-                { text: 'Get on the bus', next: null, xp: 15, complete: true },
-                { text: 'Wait for the next one', next: null, xp: 5, complete: true }
-            ]
-        }
-    ],
-    
-    // Common mistakes
-    mistakes: [
-        { 
-            error: "It's three clock", 
-            correct: "It's three o'clock", 
-            explain: "Always use 'o'clock' after the hour for exact times." 
-        },
-        { 
-            error: "What time it is?", 
-            correct: "What time is it?", 
-            explain: "Questions with 'what' use inversion: verb before subject." 
-        },
-        { 
-            error: "half to two", 
-            correct: "half past two", 
-            explain: "We say 'half past' for 30 minutes after the hour, not 'half to'." 
-        }
-    ],
-    
-    // Tense reference
-    tenses: [
-        { tense: "Present Simple", use: "For routines and schedules", example: "I wake up at seven o'clock every day." },
-        { tense: "Present Continuous", use: "For actions happening now", example: "I am checking the time right now." }
-    ],
-    
-    // Dictation exercises
-    dictation: [
-        { audio: "It is three o'clock", expected: ["it is three o'clock", "it's three o'clock"] },
-        { audio: "What time is it", expected: ["what time is it", "what time is it?"] },
-        { audio: "The bus leaves at quarter to nine", expected: ["the bus leaves at quarter to nine", "the bus leaves at 8:45"] }
-    ],
-    
-    // Board game questions
-    boardgame: {
-        cells: 15,
-        questions: [
-            { text: "What time is lunch?", answer: ["twelve o'clock", "12:00", "noon"] },
-            { text: "How do you say 2:30?", answer: ["half past two", "two thirty"] },
-            { text: "What time do you wake up?", answer: ["open"] }, // Open answer
-            { text: "Is 'quarter to five' 4:45 or 5:15?", answer: ["4:45", "four forty-five"] },
-            { text: "Ask me what time it is", answer: ["what time is it", "what time is it?"] }
-        ]
-    },
-    
-    // Translation practice
-    translation: [
-        { pt: "Que horas são?", en: "What time is it?", options: ["What time is it?", "How are you?", "Where is the clock?"] },
-        { pt: "É meia e duas", en: "It's half past two", options: ["It's two thirty", "It's half past two", "It's quarter past two"] },
-        { pt: "O ônibus sai às nove em ponto", en: "The bus leaves at nine o'clock", options: ["The bus leaves at nine o'clock", "The bus leaves at quarter to nine", "The bus leaves at half past nine"] }
-    ]
-};
 
-// ===== ESTADO GLOBAL =====
-const state = {
-    currentTab: 'video',
-    questionIndex: {
-        video: 0, reading: 0, listening: 0, speaking: 0, writing: 0,
-        vocabulary: 0, grammar: 0, daily: 0, story: 0, mistakes: 0,
-        tenses: 0, dictation: 0, boardgame: 0, translation: 0
-    },
-    totalXP: 0,
-    streak: 0,
-    voice: 'en-US',
-    ttsRate: 0.9,
-    theme: 'light',
-    selectedOption: null,
-    isRecording: false,
-    recognition: null,
-    speechSynthesis: window.speechSynthesis,
-    // Cache de progresso no localStorage
-    progress: JSON.parse(localStorage.getItem('englishpath_progress_u22') || '{}')
-};
-
-// ===== INICIALIZAÇÃO =====
-document.addEventListener('DOMContentLoaded', () => {
-    // Carregar tema salvo
-    if (localStorage.getItem('englishpath_theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-        state.theme = 'dark';
-        document.getElementById('themeLabel').textContent = 'Escuro';
-    }
-    
-    // Carregar progresso salvo
-    if (state.progress.xp) state.totalXP = state.progress.xp;
-    if (state.progress.streak) state.streak = state.progress.streak;
-    if (state.progress.questionIndex) {
-        Object.assign(state.questionIndex, state.progress.questionIndex);
-    }
-    
-    // Atualizar UI inicial
-    updateStats();
-    updateProgress();
-    
-    // Renderizar primeira aba
-    switchTab('video');
-    
-    // Setup de teclado global
-    setupKeyboardShortcuts();
-    
-    // Mensagem de boas-vindas via TTS (opcional)
-    setTimeout(() => {
-        if (state.speechSynthesis) {
-            const msg = new SpeechSynthesisUtterance("Welcome to Time and Clock lesson");
-            msg.lang = state.voice;
-            msg.rate = state.ttsRate;
-            state.speechSynthesis.speak(msg);
-        }
-    }, 1000);
-});
-
-// ===== NAVEGAÇÃO E RENDERIZAÇÃO =====
-window.switchTab = (tab) => {
-    // Atualizar estado
-    state.currentTab = tab;
-    
-    // Atualizar UI das tabs
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.tab === tab) {
-            btn.classList.add('active');
-        }
-    });
-    
-    // Renderizar conteúdo
-    renderCurrentTab();
-    
-    // Atualizar progresso
-    updateProgress();
-    
-    // Esconder botão flutuante inicialmente
-    document.getElementById('floatingNextBtn').classList.add('hidden');
-};
-
-function renderCurrentTab() {
-    const main = document.getElementById('mainContent');
-    const tab = state.currentTab;
-    const idx = state.questionIndex[tab];
-    const sectionData = lessonData[tab];
-    
-    // Verificar se completou a seção
-    if (Array.isArray(sectionData) && idx >= sectionData.length) {
-        renderSectionComplete(tab);
-        return;
-    }
-    
-    // Renderizar baseado na aba atual
-    switch(tab) {
-        case 'video': renderVideo(main); break;
-        case 'reading': renderReading(main, sectionData[idx]); break;
-        case 'listening': renderListening(main, sectionData[idx]); break;
-        case 'speaking': renderSpeaking(main, sectionData[idx]); break;
-        case 'writing': renderWriting(main, sectionData[idx]); break;
-        case 'vocabulary': renderVocabulary(main, sectionData[idx]); break;
-        case 'grammar': renderGrammar(main, sectionData[idx]); break;
-        case 'daily': renderDaily(main, sectionData[idx]); break;
-        case 'story': renderStory(main, sectionData[idx]); break;
-        case 'mistakes': renderMistakes(main, sectionData[idx]); break;
-        case 'tenses': renderTenses(main, sectionData[idx]); break;
-        case 'dictation': renderDictation(main, sectionData[idx]); break;
-        case 'boardgame': renderBoardGame(main); break;
-        case 'translation': renderTranslation(main, sectionData[idx]); break;
-        default: 
-            main.innerHTML = `<div class="card p-8 text-center">
-                <i class="fa-solid fa-circle-exclamation text-4xl text-amber-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Conteúdo não encontrado</h3>
-                <p class="text-gray-500 dark:text-slate-400 mb-4">A aba "${tab}" não tem conteúdo disponível.</p>
-                <button class="btn-primary" onclick="switchTab('video')">Voltar ao início</button>
-            </div>`;
-    }
-}
-
-// ===== RENDERIZADORES =====
-
-function renderVideo(container) {
-    const sub = lessonData.video.subtitles[state.questionIndex.video] || lessonData.video.subtitles[0];
-    const isLast = state.questionIndex.video >= lessonData.video.subtitles.length - 1;
-    
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="flex justify-between items-start mb-4">
-                <h2 class="text-2xl font-bold text-sky-600 dark:text-sky-400">🎬 Video Lesson</h2>
-                <span class="px-3 py-1 bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 rounded-full text-xs font-medium">
-                    ${state.questionIndex.video + 1}/${lessonData.video.subtitles.length}
-                </span>
-            </div>
-            
-            <div class="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden mb-5 relative group">
-                <iframe 
-                    class="w-full h-full" 
-                    src="https://www.youtube.com/embed/${lessonData.unitInfo.videoId}?rel=0&modestbranding=1" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen
-                    title="Time & Clock Lesson"
-                ></iframe>
-                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span class="text-white text-lg font-medium">Clique para assistir</span>
-                </div>
-            </div>
-            
-            <div class="subtitle-container mb-6" id="subtitleDisplay">
-                ${sub.text.split(' ').map(word => {
-                    const clean = word.replace(/[^\w']/g, '');
-                    return `<span class="subtitle-word" data-word="${clean}" onclick="translateWord('${word.replace(/'/g, "\\'")}')">${word}</span>`;
-                }).join(' ')}
-            </div>
-            
-            <div class="flex flex-wrap justify-center gap-3 mb-6">
-                <button class="btn-secondary px-5 py-2.5 rounded-xl font-medium flex items-center gap-2" 
-                        onclick="prevSubtitle()" 
-                        ${state.questionIndex.video === 0 ? 'disabled' : ''}>
-                    <i class="fa-solid fa-arrow-left"></i> Anterior
-                </button>
-                <button class="btn-primary px-5 py-2.5 rounded-xl font-medium flex items-center gap-2" 
-                        onclick="nextSubtitle()">
-                    Próximo <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-            
-            ${isLast ? `
-            <div class="bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 p-5 rounded-xl border border-amber-200 dark:border-amber-700 mb-6">
-                <div class="flex items-start gap-3">
-                    <i class="fa-solid fa-lightbulb text-amber-500 text-xl mt-1"></i>
-                    <div>
-                        <h4 class="font-bold text-amber-800 dark:text-amber-200 mb-1">Pronto para praticar?</h4>
-                        <p class="text-amber-700 dark:text-amber-300 text-sm">Agora que você assistiu ao vídeo, vamos praticar com atividades interativas!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center">
-                <button class="btn-primary w-full py-4 text-lg font-bold shadow-lg" onclick="startActivities()">
-                    ▶ Iniciar Atividades Completas
-                </button>
-            </div>
-            ` : ''}
-            
-            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-slate-700">
-                <p class="text-sm text-gray-500 dark:text-slate-400 text-center">
-                    <i class="fa-solid fa-info-circle mr-1"></i>
-                    Clique em qualquer palavra para ver a tradução
-                </p>
-            </div>
-        </div>
-    `;
-}
-
-function renderReading(container, q) {
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-                <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800">
-                    READING • +${q.xp} XP
-                </span>
-                <span class="text-gray-400 dark:text-slate-500 text-sm font-medium">
-                    ${state.questionIndex.reading + 1}/${lessonData.reading.length}
-                </span>
-            </div>
-            
-            <div class="prose dark:prose-invert max-w-none mb-6 bg-gray-50 dark:bg-slate-800/50 p-5 rounded-xl border-l-4 border-sky-400">
-                ${q.text}
-            </div>
-            
-            <h3 class="font-bold text-lg mb-3 text-gray-800 dark:text-slate-200">${q.q}</h3>
-            
-            <div class="grid gap-3 mb-6" id="optionsContainer">
-                ${q.options.map((opt, i) => `
-                    <div class="option" data-index="${i}" onclick="handleOptionSelect(${i}, '${q.answer}', '${q.explanation.replace(/'/g, "\\'")}', ${q.xp})" role="button" tabindex="0" aria-label="Opção ${String.fromCharCode(65+i)}: ${opt}">
-                        <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
-                                ${String.fromCharCode(65+i)}
-                            </span>
-                            <span class="flex-1">${opt}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-            
-            <div id="feedback" class="hidden feedback-box"></div>
-            
-            <div class="flex justify-between items-center mt-4 flex-wrap gap-2">
-                <button class="btn-secondary px-4 py-2 rounded-lg font-medium flex items-center gap-2" onclick="retrySection('reading')">
-                    <i class="fa-solid fa-rotate"></i> Refazer
-                </button>
-                <div class="flex gap-2">
-                    <button class="btn-primary px-5 py-2 rounded-lg font-bold" id="checkBtn" onclick="checkAnswer()" disabled>
-                        Verificar
-                    </button>
-                </div>
-            </div>
-            
-            <div class="enter-hint text-center text-gray-400 dark:text-slate-500 text-xs mt-3">
-                Pressione <kbd>Enter</kbd> para verificar após selecionar uma opção
-            </div>
-        </div>
-    `;
-    
-    // Resetar estado da opção selecionada
-    state.selectedOption = null;
-}
-
-function renderListening(container, q) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <div class="mb-6">
-                <button class="w-20 h-20 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 text-white text-2xl hover:from-sky-600 hover:to-blue-700 transition shadow-lg mx-auto flex items-center justify-center group relative overflow-hidden" 
-                        onclick="playAudio('${q.tts.replace(/'/g, "\\'")}')"
-                        aria-label="Ouvir áudio">
-                    <i class="fa-solid fa-play group-hover:scale-110 transition-transform"></i>
-                    <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </button>
-                <p class="mt-3 text-gray-500 dark:text-slate-400 text-sm font-medium">Clique para ouvir</p>
-            </div>
-            
-            <h3 class="font-bold text-lg mb-4 text-gray-800 dark:text-slate-200">${q.q}</h3>
-            
-            <div class="grid gap-3 mb-6" id="optionsContainer">
-                ${q.options.map((opt, i) => `
-                    <div class="option" data-index="${i}" onclick="handleOptionSelect(${i}, '${q.answer}', '', ${q.xp})" role="button" tabindex="0" aria-label="Opção ${String.fromCharCode(65+i)}: ${opt}">
-                        ${opt}
-                    </div>
-                `).join('')}
-            </div>
-            
-            <div id="feedback" class="hidden feedback-box"></div>
-            
-            <div class="flex justify-between items-center flex-wrap gap-2">
-                <button class="btn-secondary px-4 py-2 rounded-lg font-medium flex items-center gap-2" onclick="retrySection('listening')">
-                    <i class="fa-solid fa-rotate"></i> Refazer
-                </button>
-                <button class="btn-primary px-5 py-2 rounded-lg font-bold" id="checkBtn" onclick="checkAnswer()" disabled>
-                    Verificar
-                </button>
-            </div>
-            <div class="enter-hint text-center text-gray-400 dark:text-slate-500 text-xs mt-2">
-                Pressione <kbd>Enter</kbd> para verificar
-            </div>
-        </div>
-    `;
-    state.selectedOption = null;
-}
-
-function renderSpeaking(container, q) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <div class="mb-2">
-                <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full text-xs font-bold">
-                    SPEAKING • +${q.xp} XP
-                </span>
-            </div>
-            <h3 class="font-bold text-lg mb-3 text-gray-800 dark:text-slate-200">🎤 Speaking Practice</h3>
-            <p class="text-gray-600 dark:text-slate-300 mb-4 text-lg">${q.prompt}</p>
-            
-            ${q.hint ? `
-            <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-5 text-left">
-                <p class="text-sm text-blue-700 dark:text-blue-300">
-                    <i class="fa-solid fa-lightbulb mr-1"></i> ${q.hint}
-                </p>
-            </div>
-            ` : ''}
-            
-            <button class="w-24 h-24 rounded-full bg-gradient-to-br from-red-500 to-rose-600 text-white text-3xl hover:from-red-600 hover:to-rose-700 transition shadow-lg mx-auto flex items-center justify-center mb-4 relative overflow-hidden group" 
-                    id="recordBtn" 
-                    onclick="toggleRecording('${JSON.stringify(q.expected).replace(/'/g, "\\'")}', ${q.xp})"
-                    aria-label="Iniciar gravação">
-                <i class="fa-solid fa-microphone group-hover:scale-110 transition-transform"></i>
-                <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </button>
-            <p id="recordStatus" class="text-gray-500 dark:text-slate-400 mb-4 font-medium">Clique e fale claramente...</p>
-            
-            <div id="scoreDisplay" class="text-2xl font-bold mb-4 hidden"></div>
-            
-            <div class="flex justify-center gap-3 flex-wrap">
-                <button class="btn-secondary px-4 py-2 rounded-lg font-medium flex items-center gap-2" onclick="retrySection('speaking')">
-                    <i class="fa-solid fa-rotate"></i> Refazer
-                </button>
-                <button class="btn-primary px-5 py-2 rounded-lg font-bold" id="continueBtn" onclick="nextQuestion()" disabled>
-                    Continuar <i class="fa-solid fa-arrow-right ml-1"></i>
-                </button>
-            </div>
-            <div class="enter-hint text-center text-gray-400 dark:text-slate-500 text-xs mt-3">
-                Pressione <kbd>Enter</kbd> para continuar após acertar
-            </div>
-        </div>
-    `;
-}
-
-function renderWriting(container, q) {
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="mb-2">
-                <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-bold">
-                    WRITING • +${q.xp} XP
-                </span>
-            </div>
-            <h3 class="font-bold text-lg mb-2 text-gray-800 dark:text-slate-200">✍️ Writing Practice</h3>
-            <p class="text-gray-600 dark:text-slate-300 mb-4">${q.prompt}</p>
-            
-            ${q.hint ? `
-            <div class="bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg p-3 mb-4 text-left">
-                <p class="text-sm text-amber-700 dark:text-amber-300">
-                    <i class="fa-solid fa-lightbulb mr-1"></i> ${q.hint}
-                </p>
-            </div>
-            ` : ''}
-            
-            <textarea id="writingInput" 
-                      class="w-full p-4 border-2 border-gray-200 dark:border-slate-700 rounded-xl focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:focus:ring-sky-800 outline-none resize-none h-32 bg-white dark:bg-slate-800 text-gray-800 dark:text-slate-200" 
-                      placeholder="Type your answer here..."
-                      aria-label="Campo de resposta"></textarea>
-            <div class="flex justify-end text-xs text-gray-400 dark:text-slate-500 mt-1">
-                <span id="charCount">0</span> caracteres
-            </div>
-            
-            <div id="feedback" class="hidden feedback-box"></div>
-            
-            <div class="flex justify-between items-center mt-4 flex-wrap gap-2">
-                <button class="btn-secondary px-4 py-2 rounded-lg font-medium flex items-center gap-2" onclick="retrySection('writing')">
-                    <i class="fa-solid fa-rotate"></i> Refazer
-                </button>
-                <button class="btn-primary px-5 py-2 rounded-lg font-bold" id="checkBtn" onclick="checkWriting('${JSON.stringify(q.answer).replace(/'/g, "\\'")}', ${q.xp})" disabled>
-                    Enviar
-                </button>
-            </div>
-            <div class="enter-hint text-center text-gray-400 dark:text-slate-500 text-xs mt-2">
-                Pressione <kbd>Enter</kbd> para enviar
-            </div>
-        </div>
-    `;
-    
-    // Setup do textarea
-    const textarea = document.getElementById('writingInput');
-    const charCount = document.getElementById('charCount');
-    const checkBtn = document.getElementById('checkBtn');
-    
-    textarea.addEventListener('input', () => {
-        charCount.textContent = textarea.value.length;
-        checkBtn.disabled = textarea.value.trim().length < (q.minLength || 1);
-    });
-    
-    // Foco automático
-    setTimeout(() => textarea.focus(), 300);
-}
-
-function renderVocabulary(container, item) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <h3 class="font-bold text-lg mb-6 text-gray-800 dark:text-slate-200"> Vocabulary Flashcard</h3>
-            
-            <div class="vocab-flip-card mx-auto" onclick="this.classList.toggle('flipped')" role="button" tabindex="0" aria-label="Cartão de vocabulário: clique para virar">
-                <div class="vocab-flip-inner">
-                    <div class="vocab-flip-front">
-                        <div class="text-7xl mb-4 animate-float">${item.emoji}</div>
-                        <div class="text-3xl font-bold mb-2">${item.word}</div>
-                        <div class="text-sm opacity-90 mt-2 bg-white/20 px-3 py-1 rounded-full inline-block">
-                            (Clique para ver significado)
-                        </div>
-                    </div>
-                    <div class="vocab-flip-back">
-                        <div class="text-4xl mb-3">📖</div>
-                        <div class="text-2xl font-bold mb-3 text-gray-800 dark:text-slate-200">${item.meaning}</div>
-                        <div class="text-gray-600 dark:text-slate-300 mb-4 italic">"${item.example}"</div>
-                        <button class="btn-secondary text-sm py-2 px-4 rounded-lg flex items-center gap-2 mx-auto" 
-                                onclick="event.stopPropagation(); playAudio('${item.word}')"
-                                aria-label="Ouvir pronúncia">
-                            <i class="fa-solid fa-volume-high"></i> Ouvir
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="flex gap-4 mt-8 justify-center flex-wrap">
-                <button class="btn bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-600 dark:text-red-300 px-6 py-3 rounded-xl font-bold transition flex items-center gap-2" 
-                        onclick="markVocab(false)">
-                    <i class="fa-solid fa-rotate"></i> Ainda não sei
-                </button>
-                <button class="btn-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2" 
-                        onclick="markVocab(true, ${item.xp || 10})">
-                    Já sei! <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-function renderGrammar(container, g) {
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid fa-book text-sky-600 dark:text-sky-400"></i>
-                </div>
-                <h3 class="font-bold text-2xl text-sky-600 dark:text-sky-400">${g.title}</h3>
-            </div>
-            
-            <div class="bg-sky-50 dark:bg-sky-900/30 p-5 rounded-xl mb-6 border border-sky-200 dark:border-sky-800">
-                <p class="mb-3 text-gray-700 dark:text-slate-300"><strong class="text-sky-700 dark:text-sky-300">Regra:</strong> ${g.explanation}</p>
-                <div class="font-mono bg-white dark:bg-slate-800 p-3 rounded-lg border border-sky-200 dark:border-sky-700 text-center text-sky-700 dark:text-sky-300 mb-4 text-lg">
-                    ${g.formula}
-                </div>
-                <ul class="list-disc pl-5 space-y-2 text-gray-700 dark:text-slate-300">
-                    ${g.examples.map(ex => `<li class="pl-1">${ex}</li>`).join('')}
-                </ul>
-            </div>
-            
-            <div class="flex justify-end">
-                <button class="btn-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2" onclick="nextQuestion()">
-                    Entendi, Próximo <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-            <div class="enter-hint text-center text-gray-400 dark:text-slate-500 text-xs mt-3">
-                Pressione <kbd>Enter</kbd> para continuar
-            </div>
-        </div>
-    `;
-}
-
-// Renderizadores simplificados para outras abas
-function renderDaily(container, d) {
-    container.innerHTML = `
-        <div class="card p-8 text-center">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mx-auto mb-4 text-white text-2xl shadow-lg">
-                <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <h2 class="text-2xl font-bold mb-2 text-gray-800 dark:text-slate-200">🎯 ${d.title}</h2>
-            <p class="text-gray-600 dark:text-slate-300 mb-6 max-w-md mx-auto">${d.desc}</p>
-            <button class="btn-primary px-6 py-3 rounded-xl text-white font-bold shadow-md hover:shadow-lg transition" 
-                    onclick="completeTask('daily', ${d.xp})">
-                Completar (+${d.xp} XP)
-            </button>
-        </div>
-    `;
-}
-
-function renderStory(container, s) {
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid fa-book-open text-purple-600 dark:text-purple-400"></i>
-                </div>
-                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200">📖 ${s.title}</h2>
-            </div>
-            <p class="mb-6 text-gray-700 dark:text-slate-300 leading-relaxed">${s.dialogue}</p>
-            <div class="space-y-3">
-                ${s.choices.map((choice, i) => `
-                    <button class="w-full p-4 border-2 border-gray-200 dark:border-slate-700 rounded-xl hover:border-sky-400 dark:hover:border-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 text-left transition flex items-center gap-3 group" 
-                            onclick="handleStoryChoice(${i}, ${choice.xp}, ${choice.complete})">
-                        <span class="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center font-bold text-sky-700 dark:text-sky-300 flex-shrink-0 group-hover:bg-sky-200 dark:group-hover:bg-sky-800 transition">
-                            ${i+1}
-                        </span>
-                        <span class="font-medium">${choice.text}</span>
-                        <span class="ml-auto text-xs bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-1 rounded-full">
-                            +${choice.xp} XP
-                        </span>
-                    </button>
-                `).join('')}
-            </div>
-        </div>
-    `;
-}
-
-function renderMistakes(container, m) {
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="flex items-start gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0 mt-1">
-                    <i class="fa-solid fa-triangle-exclamation text-red-500"></i>
-                </div>
-                <h2 class="text-xl font-bold text-red-600 dark:text-red-400">⚠️ Erro Comum</h2>
-            </div>
-            
-            <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 rounded-r-lg mb-4">
-                <p class="font-medium text-red-800 dark:text-red-200 mb-1">❌ ${m.error}</p>
-                <p class="text-red-600 dark:text-red-300 text-sm">${m.explain}</p>
-            </div>
-            
-            <div class="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 p-4 rounded-r-lg mb-6">
-                <p class="font-bold text-green-800 dark:text-green-200">✅ ${m.correct}</p>
-            </div>
-            
-            <div class="flex justify-end">
-                <button class="btn-primary px-6 py-2.5 rounded-lg font-medium" onclick="nextQuestion()">
-                    Entendi, Próximo <i class="fa-solid fa-arrow-right ml-1"></i>
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-function renderTenses(container, t) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-4 text-white text-xl shadow-lg">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-            </div>
-            <h2 class="text-xl font-bold mb-2 text-gray-800 dark:text-slate-200">⏳ ${t.tense}</h2>
-            <p class="text-gray-600 dark:text-slate-300 mb-1 font-medium">${t.use}</p>
-            <p class="text-2xl font-mono mb-6 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 inline-block">
-                ${t.example}
-            </p>
-            <button class="btn-primary px-6 py-2.5 rounded-lg font-medium" onclick="nextQuestion()">
-                Próximo <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-        </div>
-    `;
-}
-
-function renderDictation(container, d) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-slate-200">🎧 Dictation Challenge</h2>
-            <p class="text-gray-600 dark:text-slate-300 mb-5">Ouça e digite exatamente o que ouvir:</p>
-            
-            <button class="btn-secondary mb-5 py-3 px-6 rounded-xl font-medium flex items-center gap-2 mx-auto" 
-                    onclick="playAudio('${d.audio.replace(/'/g, "\\'")}')">
-                <i class="fa-solid fa-volume-high"></i> Ouvir frase
-            </button>
-            
-            <input type="text" 
-                   id="dictInput" 
-                   class="border-2 border-gray-200 dark:border-slate-700 p-4 rounded-xl w-full mb-4 text-center text-lg bg-white dark:bg-slate-800 text-gray-800 dark:text-slate-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 dark:focus:ring-sky-800 outline-none" 
-                   placeholder="Digite o que ouviu..."
-                   aria-label="Campo para ditado">
-            
-            <button class="btn-primary px-6 py-2.5 rounded-lg font-medium" 
-                    onclick="checkDictation('${JSON.stringify(d.expected).replace(/'/g, "\\'")}', ${d.xp || 15})">
-                Verificar
-            </button>
-            <div id="fb" class="mt-4 font-medium min-h-[24px]"></div>
-        </div>
-    `;
-    
-    // Foco no input
-    setTimeout(() => document.getElementById('dictInput')?.focus(), 300);
-}
-
-function renderBoardGame(container) {
-    const pos = state.questionIndex.boardgame;
-    const q = lessonData.boardgame.questions[pos] || { text: "Parabéns! Você completou o jogo!", answer: [] };
-    const isLast = pos >= lessonData.boardgame.questions.length - 1;
-    
-    container.innerHTML = `
-        <div class="card p-6">
-            <div class="text-center mb-6">
-                <h2 class="text-xl font-bold text-gray-800 dark:text-slate-200 mb-1">🎲 Board Game</h2>
-                <p class="text-gray-500 dark:text-slate-400 text-sm">Casa ${pos + 1} de ${lessonData.boardgame.questions.length}</p>
-            </div>
-            
-            <div class="board-game mb-6">
-                ${Array(lessonData.boardgame.cells).fill().map((_, i) => {
-                    let cellClass = 'board-cell';
-                    if (i === pos) cellClass += ' player';
-                    else if (i < pos) cellClass += ' completed';
-                    return `<div class="${cellClass}" aria-label="Casa ${i+1}">${i+1}</div>`;
-                }).join('')}
-            </div>
-            
-            <div class="bg-gray-50 dark:bg-slate-800/50 p-5 rounded-xl mb-5 border border-gray-200 dark:border-slate-700">
-                <p class="font-bold mb-2 text-gray-800 dark:text-slate-200">Pergunta:</p>
-                <p class="mb-3 text-gray-700 dark:text-slate-300">${q.text}</p>
-                
-                ${q.answer[0] !== 'open' ? `
-                <input type="text" 
-                       id="boardInput" 
-                       class="border-2 border-gray-200 dark:border-slate-700 p-3 rounded-lg w-full mb-3 bg-white dark:bg-slate-800 text-gray-800 dark:text-slate-200 focus:border-sky-500 outline-none" 
-                       placeholder="Digite sua resposta..."
-                       aria-label="Campo de resposta">
-                <button class="btn-primary px-5 py-2.5 rounded-lg font-medium w-full" 
-                        onclick="checkBoardAnswer('${JSON.stringify(q.answer).replace(/'/g, "\\'")}', ${q.xp || 15})">
-                    Responder
-                </button>
-                ` : `
-                <textarea id="boardInput" 
-                          class="border-2 border-gray-200 dark:border-slate-700 p-3 rounded-lg w-full mb-3 bg-white dark:bg-slate-800 text-gray-800 dark:text-slate-200 focus:border-sky-500 outline-none h-24" 
-                          placeholder="Digite sua resposta em inglês..."
-                          aria-label="Campo de resposta aberta"></textarea>
-                <button class="btn-primary px-5 py-2.5 rounded-lg font-medium w-full" 
-                        onclick="checkBoardAnswerOpen(${q.xp || 15})">
-                    Enviar Resposta
-                </button>
-                `}
-            </div>
-            
-            ${isLast ? `
-            <div class="text-center p-4 bg-gradient-to-r from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30 rounded-xl border border-amber-200 dark:border-amber-700">
-                <p class="font-bold text-amber-800 dark:text-amber-200 mb-1">🎉 Parabéns!</p>
-                <p class="text-amber-700 dark:text-amber-300 text-sm">Você completou o Board Game!</p>
-            </div>
-            ` : ''}
-        </div>
-    `;
-}
-
-function renderTranslation(container, t) {
-    container.innerHTML = `
-        <div class="card p-6 text-center">
-            <div class="mb-2">
-                <span class="px-3 py-1 bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 rounded-full text-xs font-bold">
-                    TRANSLATION • +15 XP
-                </span>
-            </div>
-            <h2 class="text-xl font-bold mb-2 text-gray-800 dark:text-slate-200">🌐 Tradução</h2>
-            <p class="text-2xl mb-6 font-bold text-gray-700 dark:text-slate-200 p-3 bg-gray-50 dark:bg-slate-800/50 rounded-lg inline-block">
-                ${t.pt}
-            </p>
-            <div class="grid gap-3 max-w-md mx-auto mb-4">
-                ${t.options.map((opt, i) => `
-                    <button class="p-4 border-2 border-gray-200 dark:border-slate-700 rounded-xl hover:border-sky-400 dark:hover:border-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 text-left transition font-medium" 
-                            onclick="checkTranslation(this, '${t.en.replace(/'/g, "\\'")}', ${t.xp || 15})"
-                            aria-label="Opção de tradução: ${opt}">
-                        ${opt}
-                    </button>
-                `).join('')}
-            </div>
-            <div id="fb" class="font-medium min-h-[24px]"></div>
-        </div>
-    `;
-}
-
-// ===== RENDERIZAÇÃO DE SEÇÃO COMPLETA =====
-function renderSectionComplete(tab) {
-    const tabs = ['video','reading','listening','speaking','writing','vocabulary','grammar','daily','story','mistakes','tenses','dictation','boardgame','translation'];
-    const idx = tabs.indexOf(tab);
-    const next = tabs[idx+1];
-    
-    document.getElementById('mainContent').innerHTML = `
-        <div class="card p-8 text-center border-2 border-sky-200 dark:border-sky-800">
-            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center mx-auto mb-5 text-white text-3xl shadow-lg animate-pulse-slow">
-                <i class="fa-solid fa-trophy"></i>
-            </div>
-            <h2 class="text-3xl font-bold mb-3 text-gray-800 dark:text-slate-200">Seção Concluída! 🎉</h2>
-            <p class="text-gray-600 dark:text-slate-300 mb-6 max-w-md mx-auto">
-                Você completou todas as atividades de <strong class="text-sky-600 dark:text-sky-400">${tab.toUpperCase()}</strong>.
-                ${next ? `Agora vamos para <strong>${next.toUpperCase()}</strong>!` : 'Você completou toda a lição!'}
-            </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                ${next ? `
-                <button class="btn-primary px-6 py-3 rounded-xl text-white font-bold shadow-md hover:shadow-lg transition flex items-center gap-2" 
-                        onclick="switchTab('${next}')">
-                    Ir para ${next.toUpperCase()} <i class="fa-solid fa-arrow-right"></i>
-                </button>
-                ` : ''}
-                <button class="btn-secondary px-6 py-3 rounded-xl font-bold flex items-center gap-2" 
-                        onclick="retrySection('${tab}')">
-                    <i class="fa-solid fa-rotate"></i> Refazer Tudo
-                </button>
-            </div>
-            
-            ${!next ? `
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-slate-700">
-                <p class="font-bold text-gray-800 dark:text-slate-200 mb-2">🏆 Lição Completa!</p>
-                <p class="text-gray-600 dark:text-slate-300 mb-4">Você ganhou <span class="font-bold text-amber-600 dark:text-amber-400">${state.totalXP} XP</span> e manteve uma sequência de <span class="font-bold text-orange-600 dark:text-orange-400">${state.streak}</span> acertos!</p>
-                <button class="btn-primary px-6 py-3 rounded-xl font-bold" onclick="goHome()">
-                    Voltar para Home
-                </button>
-            </div>
-            ` : ''}
-        </div>
-    `;
-}
-
-// ===== LÓGICA DE INTERAÇÃO =====
-
-window.handleOptionSelect = (index, correctAnswer, explanation, xp) => {
-    // Se já respondeu, ignorar
-    if (document.getElementById('feedback')?.classList.contains('feedback-correct') || 
-        document.getElementById('feedback')?.classList.contains('feedback-wrong')) {
-        return;
-    }
-    
-    // Atualizar UI da opção selecionada
-    document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
-    document.querySelector(`.option[data-index="${index}"]`)?.classList.add('selected');
-    
-    // Verificar resposta imediatamente
-    const isCorrect = index == correctAnswer;
-    const feedbackEl = document.getElementById('feedback');
-    
-    feedbackEl.classList.remove('hidden', 'feedback-correct', 'feedback-wrong');
-    feedbackEl.classList.add(isCorrect ? 'feedback-correct' : 'feedback-wrong');
-    
-    if (isCorrect) {
-        feedbackEl.innerHTML = `<strong>✅ Correto!</strong> ${explanation || 'Great job!'}`;
-        addXP(xp);
-        
-        // Mostrar botão de próximo após delay
-        setTimeout(() => {
-            document.getElementById('floatingNextBtn').classList.remove('hidden');
-            // Auto-avançar após 2 segundos
-            setTimeout(() => {
-                if (document.getElementById('floatingNextBtn')?.offsetParent !== null) {
-                    nextQuestion();
+            // READING: 10 questions - DAILY ROUTINE FOCUS
+            reading: [
+                {
+                    id: 'r1', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `<span class="reading-keyword keyword-green">I wake up</span> at <span class="reading-keyword keyword-blue">7 o'clock</span>. <span class="reading-keyword keyword-green">I brush</span> my teeth. <span class="reading-keyword keyword-green">I have</span> breakfast. Then <span class="reading-keyword keyword-green">I go</span> to work.`,
+                    q: 'What time does the person wake up?',
+                    options: ['6 o\'clock', '7 o\'clock', '8 o\'clock', '9 o\'clock'],
+                    answer: 1,
+                    tts: 'I wake up at 7 o\'clock.',
+                    explanation: 'The text says "I wake up at 7 o\'clock."',
+                    cefr: 'Can identify time in a routine.',
+                    focusWords: ['wake up', '7 o\'clock', 'brush', 'breakfast', 'go']
+                },
+                {
+                    id: 'r2', type: 'scanning', difficulty: 'easy', xp: 10,
+                    text: `<span class="reading-keyword keyword-orange">Maria</span> <span class="reading-keyword keyword-green">gets dressed</span> at <span class="reading-keyword keyword-blue">7:30</span>. She <span class="reading-keyword keyword-green">takes</span> the bus at <span class="reading-keyword keyword-blue">8:00</span>. She <span class="reading-keyword keyword-green">starts</span> work at <span class="reading-keyword keyword-blue">9:00</span>.`,
+                    q: 'What time does Maria start work?',
+                    options: ['7:30', '8:00', '8:30', '9:00'],
+                    answer: 3,
+                    tts: 'She starts work at 9:00.',
+                    explanation: 'The text says "She starts work at 9:00."',
+                    cefr: 'Can scan for specific times.',
+                    focusWords: ['Maria', 'gets dressed', '7:30', 'starts', '9:00']
+                },
+                {
+                    id: 'r3', type: 'vocab', difficulty: 'easy', xp: 10,
+                    text: `<span class="reading-keyword keyword-purple">In the morning</span>, I <span class="reading-keyword keyword-green">drink</span> coffee. <span class="reading-keyword keyword-purple">In the afternoon</span>, I <span class="reading-keyword keyword-green">have</span> lunch. <span class="reading-keyword keyword-purple">In the evening</span>, I <span class="reading-keyword keyword-green">watch</span> TV.`,
+                    q: 'When does the person watch TV?',
+                    options: ['In the morning', 'In the afternoon', 'In the evening', 'At night'],
+                    answer: 2,
+                    tts: 'In the evening, I watch TV.',
+                    explanation: 'The text says "In the evening, I watch TV."',
+                    cefr: 'Can identify time periods.',
+                    focusWords: ['In the morning', 'In the afternoon', 'In the evening']
+                },
+                {
+                    id: 'r4', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-orange">Carlos</span> <span class="reading-keyword keyword-green">gets up</span> at <span class="reading-keyword keyword-blue">6 AM</span>. He <span class="reading-keyword keyword-green">exercises</span> for 30 minutes. Then he <span class="reading-keyword keyword-green">takes</span> a shower. He is always on time.`,
+                    q: 'What does Carlos do first?',
+                    options: ['Takes a shower', 'Exercises', 'Gets up', 'Has breakfast'],
+                    answer: 2,
+                    tts: 'Carlos gets up at 6 AM.',
+                    explanation: 'The text says he gets up first, then exercises.',
+                    cefr: 'Can understand sequence of actions.',
+                    focusWords: ['Carlos', 'gets up', '6 AM', 'exercises', 'shower']
+                },
+                {
+                    id: 'r5', type: 'skimming', difficulty: 'easy', xp: 10,
+                    text: `<span class="reading-keyword keyword-green">We have</span> lunch at <span class="reading-keyword keyword-blue">12:30</span>. <span class="reading-keyword keyword-green">We finish</span> work at <span class="reading-keyword keyword-blue">5 PM</span>. <span class="reading-keyword keyword-green">We go</span> home and <span class="reading-keyword keyword-green">cook</span> dinner.`,
+                    q: 'What time do they finish work?',
+                    options: ['12:30', '4 PM', '5 PM', '6 PM'],
+                    answer: 2,
+                    tts: 'We finish work at 5 PM.',
+                    explanation: 'The text says "We finish work at 5 PM."',
+                    cefr: 'Can identify end time of activities.',
+                    focusWords: ['have lunch', '12:30', 'finish', '5 PM', 'go home']
+                },
+                {
+                    id: 'r6', type: 'scanning', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-purple">On Mondays</span>, Ana <span class="reading-keyword keyword-green">goes</span> to the gym. <span class="reading-keyword keyword-purple">On Wednesdays</span>, she <span class="reading-keyword keyword-green">studies</span> English. <span class="reading-keyword keyword-purple">On weekends</span>, she <span class="reading-keyword keyword-green">visits</span> her family.`,
+                    q: 'When does Ana study English?',
+                    options: ['On Mondays', 'On Tuesdays', 'On Wednesdays', 'On weekends'],
+                    answer: 2,
+                    tts: 'On Wednesdays, she studies English.',
+                    explanation: 'The text says "On Wednesdays, she studies English."',
+                    cefr: 'Can identify days of the week for routines.',
+                    focusWords: ['On Mondays', 'On Wednesdays', 'On weekends']
+                },
+                {
+                    id: 'r7', type: 'vocab', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-green">I always</span> <span class="reading-keyword keyword-green">brush</span> my teeth. <span class="reading-keyword keyword-green">I usually</span> <span class="reading-keyword keyword-green">walk</span> to work. <span class="reading-keyword keyword-green">I sometimes</span> <span class="reading-keyword keyword-green">cook</span> dinner. <span class="reading-keyword keyword-green">I never</span> <span class="reading-keyword keyword-green">sleep</span> late.`,
+                    q: 'How often does the person sleep late?',
+                    options: ['Always', 'Usually', 'Sometimes', 'Never'],
+                    answer: 3,
+                    tts: 'I never sleep late.',
+                    explanation: 'The text says "I never sleep late."',
+                    cefr: 'Can understand adverbs of frequency.',
+                    focusWords: ['always', 'usually', 'sometimes', 'never']
+                },
+                {
+                    id: 'r8', type: 'inference', difficulty: 'medium', xp: 20,
+                    text: `<span class="reading-keyword keyword-orange">Pedro</span> <span class="reading-keyword keyword-green">wakes up</span> at <span class="reading-keyword keyword-blue">5:30 AM</span>. He <span class="reading-keyword keyword-green">drives</span> 1 hour to work. He <span class="reading-keyword keyword-green">starts</span> at <span class="reading-keyword keyword-blue">7 AM</span>. He is a baker.`,
+                    q: 'Why does Pedro wake up so early?',
+                    options: ['He likes mornings', 'He drives 1 hour to work', 'He is a baker', 'He exercises'],
+                    answer: 1,
+                    tts: 'He drives 1 hour to work.',
+                    explanation: 'The text says he drives 1 hour, so he wakes up early.',
+                    cefr: 'Can infer reasons from routine details.',
+                    focusWords: ['Pedro', '5:30 AM', 'drives', '1 hour', 'baker']
+                },
+                {
+                    id: 'r9', type: 'scanning', difficulty: 'hard', xp: 30,
+                    text: `<span class="reading-keyword keyword-green">First</span>, I <span class="reading-keyword keyword-green">check</span> my email. <span class="reading-keyword keyword-green">Then</span>, I <span class="reading-keyword keyword-green">write</span> reports. <span class="reading-keyword keyword-green">After that</span>, I <span class="reading-keyword keyword-green">have</span> a meeting. <span class="reading-keyword keyword-green">Finally</span>, I <span class="reading-keyword keyword-green">go</span> home.`,
+                    q: 'What does the person do after writing reports?',
+                    options: ['Checks email', 'Has a meeting', 'Goes home', 'Has lunch'],
+                    answer: 1,
+                    tts: 'After that, I have a meeting.',
+                    explanation: 'The text says "After that, I have a meeting."',
+                    cefr: 'Can follow sequence words in routines.',
+                    focusWords: ['First', 'Then', 'After that', 'Finally']
+                },
+                {
+                    id: 'r10', type: 'inference', difficulty: 'hard', xp: 30,
+                    text: `<span class="reading-keyword keyword-orange">Lucia</span> <span class="reading-keyword keyword-green">gets up</span> at <span class="reading-keyword keyword-blue">6 AM</span>. She <span class="reading-keyword keyword-green">prepares</span> breakfast for her family. She <span class="reading-keyword keyword-green">takes</span> the kids to school. Then she <span class="reading-keyword keyword-green">goes</span> to her job. She is very busy!`,
+                    q: 'What can we infer about Lucia?',
+                    options: ['She is a teacher', 'She has a family', 'She works at night', 'She lives alone'],
+                    answer: 1,
+                    tts: 'She prepares breakfast for her family.',
+                    explanation: 'The text mentions "her family" and "the kids", so she has a family.',
+                    cefr: 'Can infer personal information from routines.',
+                    focusWords: ['Lucia', 'family', 'kids', 'busy']
                 }
-            }, 2000);
-        }, 800);
-    } else {
-        const q = lessonData[state.currentTab][state.questionIndex[state.currentTab]];
-        feedbackEl.innerHTML = `<strong>❌ Quase!</strong> A resposta certa era: <strong>${q.options[correctAnswer]}</strong><br><small class="block mt-1 opacity-90">${explanation || 'Tente novamente!'}</small>`;
-        
-        // Resetar botão de verificar
-        const checkBtn = document.getElementById('checkBtn');
-        if (checkBtn) {
-            checkBtn.disabled = false;
-            checkBtn.innerHTML = 'Tentar Novamente';
-            checkBtn.onclick = () => retrySection(state.currentTab);
-        }
-        
-        // Resetar streak ao errar
-        state.streak = 0;
-        updateStats();
-    }
-    
-    // Atualizar estado
-    state.selectedOption = index;
-};
+            ],
 
-window.checkAnswer = () => {
-    if (state.selectedOption === null) return;
-    
-    const q = lessonData[state.currentTab][state.questionIndex[state.currentTab]];
-    handleOptionSelect(state.selectedOption, q.answer, q.explanation, q.xp);
-};
+            // LISTENING: 10 questions
+            listening: [
+                { id: 'l1', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'What time do you hear?', tts: 'I wake up at seven o\'clock.', options: ['6 o\'clock', '7 o\'clock', '8 o\'clock', '9 o\'clock'], answer: 1, speed: 0.85 },
+                { id: 'l2', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'Listen and choose the activity:', tts: 'I brush my teeth.', options: ['I wash my face', 'I brush my teeth', 'I comb my hair', 'I take a shower'], answer: 1, speed: 0.85 },
+                { id: 'l3', type: 'gist', difficulty: 'easy', xp: 10,
+                    q: 'When does this happen?', tts: 'I have lunch at twelve thirty.', options: ['11:30', '12:00', '12:30', '1:00'], answer: 2, speed: 0.85 },
+                { id: 'l4', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'Listen carefully:', tts: 'She goes to work at eight fifteen.', options: ['8:00', '8:15', '8:30', '8:45'], answer: 1, speed: 0.85 },
+                { id: 'l5', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'What is missing?', tts: 'I always get up early.', options: ['I always get up late', 'I usually get up early', 'I always get up early', 'I never get up early'], answer: 2, speed: 0.85 },
+                { id: 'l6', type: 'specific', difficulty: 'medium', xp: 20,
+                    q: 'Listen to the sentence:', tts: 'On weekends, I visit my grandparents.', options: ['On Mondays', 'On Wednesdays', 'On weekends', 'On Fridays'], answer: 2, speed: 0.85 },
+                { id: 'l7', type: 'repeat', difficulty: 'medium', xp: 20,
+                    q: 'Which phrase do you hear?', tts: 'I take a shower.', options: ['I take a shower', 'I take a bath', 'I wash my face', 'I brush my teeth'], answer: 0, speed: 0.85 },
+                { id: 'l8', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'I go to bed at ten.'", tts: 'I go to bed at eleven.', options: ['True', 'False'], answer: 1, speed: 0.85 },
+                { id: 'l9', type: 'truefalse', difficulty: 'hard', xp: 30,
+                    q: "True or False: The speaker says 'I sometimes cook dinner.'", tts: 'I sometimes cook dinner.', options: ['True', 'False'], answer: 0, speed: 0.85 },
+                { id: 'l10', type: 'specific', difficulty: 'hard', xp: 30,
+                    q: 'Which is correct?', tts: 'He usually takes the bus.', options: ['He always takes the bus', 'He usually takes the bus', 'He sometimes takes the bus', 'He never takes the bus'], answer: 1, speed: 0.85 }
+            ],
 
-window.checkWriting = (validAnswersJson, xp) => {
-    const input = document.getElementById('writingInput').value.trim().toLowerCase();
-    const validAnswers = JSON.parse(validAnswersJson.replace(/'/g, '"'));
-    
-    // Verificar se a resposta está na lista de respostas válidas
-    const isCorrect = validAnswers.some(ans => 
-        input.includes(ans.toLowerCase()) || ans.toLowerCase().includes(input)
-    );
-    
-    const fb = document.getElementById('feedback');
-    fb.classList.remove('hidden', 'feedback-correct', 'feedback-wrong');
-    
-    if (isCorrect) {
-        fb.classList.add('feedback-correct');
-        fb.innerHTML = '<strong>✅ Excelente escrita!</strong> Sua resposta está correta.';
-        addXP(xp);
-        
-        // Auto-avançar
-        setTimeout(() => {
-            document.getElementById('floatingNextBtn').classList.remove('hidden');
-            setTimeout(() => nextQuestion(), 1500);
-        }, 1000);
-    } else {
-        fb.classList.add('feedback-wrong');
-        const q = lessonData.writing[state.questionIndex.writing];
-        fb.innerHTML = `<strong>❌ Quase lá.</strong> Tente algo como: "<em>${q.example}</em>"`;
-        
-        // Manter botão ativo para nova tentativa
-        document.getElementById('checkBtn').disabled = false;
-    }
-};
+            // SPEAKING: 10 activities
+            speaking: [
+                { id: 's1', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "I wake up at seven o\'clock."', model: 'I wake up at seven o\'clock.', expected: 'i wake up at seven o clock' },
+                { id: 's2', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "I brush my teeth."', model: 'I brush my teeth.', expected: 'i brush my teeth' },
+                { id: 's3', type: 'pronunciation', difficulty: 'easy', xp: 10,
+                    prompt: 'Repeat: "I go to work at eight."', model: 'I go to work at eight.', expected: 'i go to work at eight' },
+                { id: 's4', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Morning routine',
+                    prompt: 'Say: "First, I get up. Then, I take a shower."',
+                    model: 'First, I get up. Then, I take a shower.',
+                    expected: 'first i get up then i take a shower' },
+                { id: 's5', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Afternoon',
+                    prompt: 'Say: "I have lunch at twelve thirty."',
+                    model: 'I have lunch at twelve thirty.',
+                    expected: 'i have lunch at twelve thirty' },
+                { id: 's6', type: 'roleplay', difficulty: 'medium', xp: 20,
+                    scenario: 'Evening',
+                    prompt: 'Say: "In the evening, I watch TV."',
+                    model: 'In the evening, I watch TV.',
+                    expected: 'in the evening i watch tv' },
+                { id: 's7', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe: [Image of Alarm Clock]. Say: "I wake up at..."',
+                    expected: 'wake up at', minWords: 4 },
+                { id: 's8', type: 'picture', difficulty: 'medium', xp: 20,
+                    prompt: 'Describe: [Image of Toothbrush]. Say: "I brush my teeth."',
+                    expected: 'brush my teeth', minWords: 3 },
+                { id: 's9', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'Tell me your morning routine. Use: First, Then, After that.', minWords: 8, expectedPattern: 'first then after' },
+                { id: 's10', type: 'open', difficulty: 'hard', xp: 30,
+                    prompt: 'What time do you go to bed? Say a complete sentence.', minWords: 5, expectedPattern: 'go to bed' }
+            ],
 
-window.markVocab = (known, xp = 10) => {
-    if (known) addXP(xp);
-    nextQuestion();
-};
+            // WRITING: 10 tasks
+            writing: [
+                { id: 'w1', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "I ___ up at 7 o\'clock." (wake)', answer: 'wake', example: 'I wake up at 7 o\'clock.' },
+                { id: 'w2', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "I ___ my teeth." (brush)', answer: 'brush', example: 'I brush my teeth.' },
+                { id: 'w3', type: 'fillblank', difficulty: 'easy', xp: 10,
+                    prompt: 'Complete: "I have ___ at 12:30." (lunch)', answer: 'lunch', example: 'I have lunch at 12:30.' },
+                { id: 'w4', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Reorder: up / I / at / wake / 7', answer: 'I wake up at 7', example: 'I wake up at 7.' },
+                { id: 'w5', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Reorder: teeth / brush / I / my', answer: 'I brush my teeth', example: 'I brush my teeth.' },
+                { id: 'w6', type: 'transform', difficulty: 'medium', xp: 20,
+                    prompt: 'Reorder: work / to / go / I / at / 8', answer: 'I go to work at 8', example: 'I go to work at 8.' },
+                { id: 'w7', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write 3 sentences about your morning routine.', example: 'I wake up at 7. I brush my teeth. I have breakfast.', minLength: 15, maxLength: 60 },
+                { id: 'w8', type: 'guided', difficulty: 'medium', xp: 20,
+                    prompt: 'Write: "I ___ (verb) at ___ (time)." Use a routine verb.', example: 'I study at 6 PM.', minLength: 8, maxLength: 30 },
+                { id: 'w9', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Write about your evening routine. Use: First, Then, Finally.', minLength: 20, maxLength: 80 },
+                { id: 'w10', type: 'free', difficulty: 'hard', xp: 30,
+                    prompt: 'Describe your perfect day. What time do you do things?', minLength: 25, maxLength: 100 }
+            ],
 
-window.completeTask = (tab, xp) => {
-    addXP(xp);
-    nextQuestion();
-};
+            // VOCABULARY: 30 Words - DAILY ROUTINE
+            vocabulary: [
+                { word: 'wake up', pron: '/weɪk ʌp/', meaning: 'acordar', example: 'I wake up at 7 AM.' },
+                { word: 'get up', pron: '/ɡet ʌp/', meaning: 'levantar-se', example: 'I get up and stretch.' },
+                { word: 'brush', pron: '/brʌʃ/', meaning: 'escovar', example: 'I brush my teeth.' },
+                { word: 'teeth', pron: '/tiːθ/', meaning: 'dentes', example: 'Brush your teeth twice a day.' },
+                { word: 'take a shower', pron: '/teɪk ə ˈʃaʊər/', meaning: 'tomar banho', example: 'I take a shower every morning.' },
+                { word: 'get dressed', pron: '/ɡet drest/', meaning: 'vestir-se', example: 'I get dressed for work.' },
+                { word: 'have breakfast', pron: '/hæv ˈbrekfəst/', meaning: 'tomar café da manhã', example: 'I have breakfast at 7:30.' },
+                { word: 'have lunch', pron: '/hæv lʌntʃ/', meaning: 'almoçar', example: 'I have lunch at 12:30.' },
+                { word: 'have dinner', pron: '/hæv ˈdɪnər/', meaning: 'jantar', example: 'We have dinner at 7 PM.' },
+                { word: 'go to work', pron: '/ɡoʊ tu wɜːrk/', meaning: 'ir ao trabalho', example: 'I go to work by bus.' },
+                { word: 'go to school', pron: '/ɡoʊ tu skuːl/', meaning: 'ir à escola', example: 'She goes to school at 8.' },
+                { word: 'come home', pron: '/kʌm hoʊm/', meaning: 'voltar para casa', example: 'I come home at 6 PM.' },
+                { word: 'do homework', pron: '/duː ˈhoʊmwɜːrk/', meaning: 'fazer lição de casa', example: 'I do homework after dinner.' },
+                { word: 'watch TV', pron: '/wɒtʃ ˌtiː ˈviː/', meaning: 'assistir TV', example: 'I watch TV in the evening.' },
+                { word: 'go to bed', pron: '/ɡoʊ tu bed/', meaning: 'ir para a cama', example: 'I go to bed at 10 PM.' },
+                { word: 'sleep', pron: '/sliːp/', meaning: 'dormir', example: 'I sleep 8 hours every night.' },
+                { word: 'morning', pron: '/ˈmɔːrnɪŋ/', meaning: 'manhã', example: 'Good morning!' },
+                { word: 'afternoon', pron: '/ˌæftərˈnuːn/', meaning: 'tarde', example: 'Good afternoon!' },
+                { word: 'evening', pron: '/ˈiːvnɪŋ/', meaning: 'noite (fim de dia)', example: 'Good evening!' },
+                { word: 'night', pron: '/naɪt/', meaning: 'noite (para dormir)', example: 'Good night!' },
+                { word: 'o\'clock', pron: '/ə klɒk/', meaning: 'horas exatas', example: 'It\'s 7 o\'clock.' },
+                { word: 'half past', pron: '/hæf pæst/', meaning: 'e meia', example: 'It\'s half past three.' },
+                { word: 'quarter to', pron: '/ˈkwɔːrtər tuː/', meaning: 'quinze para', example: 'It\'s quarter to six.' },
+                { word: 'always', pron: '/ˈɔːlweɪz/', meaning: 'sempre', example: 'I always brush my teeth.' },
+                { word: 'usually', pron: '/ˈjuːʒuəli/', meaning: 'geralmente', example: 'I usually walk to work.' },
+                { word: 'sometimes', pron: '/ˈsʌmtaɪmz/', meaning: 'às vezes', example: 'I sometimes cook dinner.' },
+                { word: 'never', pron: '/ˈnevər/', meaning: 'nunca', example: 'I never sleep late.' },
+                { word: 'first', pron: '/fɜːrst/', meaning: 'primeiro', example: 'First, I wake up.' },
+                { word: 'then', pron: '/ðen/', meaning: 'depois', example: 'Then, I have breakfast.' },
+                { word: 'finally', pron: '/ˈfaɪnəli/', meaning: 'finalmente', example: 'Finally, I go to bed.' }
+            ],
 
-window.handleStoryChoice = (choiceIndex, xp, isComplete) => {
-    addXP(xp);
-    
-    if (isComplete) {
-        // Completar a seção de story
-        state.questionIndex.story = lessonData.story.length;
-        saveProgress();
-        renderSectionComplete('story');
-    } else {
-        nextQuestion();
-    }
-};
-
-window.checkDictation = (validAnswersJson, xp) => {
-    const input = document.getElementById('dictInput').value.toLowerCase().trim();
-    const validAnswers = JSON.parse(validAnswersJson.replace(/'/g, '"'));
-    
-    const isCorrect = validAnswers.some(ans => 
-        input === ans.toLowerCase() || input.includes(ans.toLowerCase()) || ans.toLowerCase().includes(input)
-    );
-    
-    const fb = document.getElementById('fb');
-    
-    if (isCorrect) {
-        fb.innerHTML = '<span class="text-green-600 dark:text-green-400 font-bold">✅ Correto! Excelente ouvido!</span>';
-        addXP(xp);
-        setTimeout(() => nextQuestion(), 1200);
-    } else {
-        const d = lessonData.dictation[state.questionIndex.dictation];
-        fb.innerHTML = `<span class="text-red-600 dark:text-red-400">❌ Era: "<strong>${d.audio}</strong>"</span>`;
-    }
-};
-
-window.checkBoardAnswer = (validAnswersJson, xp) => {
-    const input = document.getElementById('boardInput').value.toLowerCase().trim();
-    const validAnswers = JSON.parse(validAnswersJson.replace(/'/g, '"'));
-    
-    // Respostas abertas são sempre aceitas (para prática)
-    if (validAnswers[0] === 'open' || validAnswers.some(ans => 
-        input.includes(ans.toLowerCase()) || ans.toLowerCase().includes(input)
-    )) {
-        addXP(xp);
-        state.questionIndex.boardgame++;
-        saveProgress();
-        
-        // Verificar se completou
-        if (state.questionIndex.boardgame >= lessonData.boardgame.questions.length) {
-            renderSectionComplete('boardgame');
-        } else {
-            renderBoardGame(document.getElementById('mainContent'));
-        }
-    } else {
-        alert('Quase! Tente novamente com outra formulação.');
-        document.getElementById('boardInput').focus();
-    }
-};
-
-window.checkBoardAnswerOpen = (xp) => {
-    // Para respostas abertas, aceitar qualquer entrada não vazia
-    const input = document.getElementById('boardInput').value.trim();
-    if (input.length > 3) {
-        addXP(xp);
-        state.questionIndex.boardgame++;
-        saveProgress();
-        
-        if (state.questionIndex.boardgame >= lessonData.boardgame.questions.length) {
-            renderSectionComplete('boardgame');
-        } else {
-            renderBoardGame(document.getElementById('mainContent'));
-        }
-    } else {
-        alert('Por favor, digite uma resposta mais completa em inglês.');
-    }
-};
-
-window.checkTranslation = (btn, correctAnswer, xp) => {
-    // Desabilitar todos os botões após seleção
-    document.querySelectorAll('#mainContent button[onclick*="checkTranslation"]').forEach(b => {
-        b.disabled = true;
-        b.classList.add('opacity-60', 'cursor-not-allowed');
-    });
-    
-    if (btn.textContent.trim() === correctAnswer) {
-        btn.classList.add('bg-green-100', 'dark:bg-green-900/40', 'border-green-500', 'dark:border-green-400');
-        document.getElementById('fb').innerHTML = '<span class="text-green-600 dark:text-green-400 font-bold">✅ Correct! Perfect translation!</span>';
-        addXP(xp);
-        setTimeout(() => nextQuestion(), 1200);
-    } else {
-        btn.classList.add('bg-red-100', 'dark:bg-red-900/40', 'border-red-500', 'dark:border-red-400');
-        document.getElementById('fb').innerHTML = `<span class="text-red-600 dark:text-red-400">❌ Correct answer: <strong>${correctAnswer}</strong></span>`;
-        
-        // Mostrar a resposta correta
-        setTimeout(() => {
-            document.querySelectorAll('#mainContent button[onclick*="checkTranslation"]').forEach(b => {
-                if (b.textContent.trim() === correctAnswer) {
-                    b.classList.add('bg-green-100', 'dark:bg-green-900/40', 'border-green-500', 'dark:border-green-400');
+            // GRAMMAR: Simple Present for Routines
+            grammar: [
+                {
+                    id: 'g1', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Simple Present: I/You/We/They',
+                    explanation: {
+                        theory: 'Use Simple Present for habits and routines. With I/You/We/They, use the base verb.',
+                        formula: 'I/You/We/They + verb',
+                        examples: [
+                            'I wake up at 7.',
+                            'You brush your teeth.',
+                            'We go to work.',
+                            'They have lunch at 12.'
+                        ],
+                        exceptions: 'None for these subjects.',
+                        tip: 'I/You/We/They = verb without -s.',
+                        usage: 'Talking about your routine or habits.'
+                    }
+                },
+                {
+                    id: 'g2', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Simple Present: He/She/It',
+                    explanation: {
+                        theory: 'With He/She/It, add -s or -es to the verb.',
+                        formula: 'He/She/It + verb-s/-es',
+                        examples: [
+                            'She wakes up at 7.',
+                            'He brushes his teeth.',
+                            'It starts at 9.',
+                            'Maria goes to work.'
+                        ],
+                        exceptions: 'Verbs ending in -ch, -sh, -s, -x, -o add -es (go→goes, watch→watches).',
+                        tip: 'He/She/It = verb + s (or es).',
+                        usage: 'Talking about someone else\'s routine.'
+                    }
+                },
+                {
+                    id: 'g3', type: 'explanation', difficulty: 'easy', xp: 0,
+                    title: 'Telling Time: o\'clock',
+                    explanation: {
+                        theory: 'Use "o\'clock" for exact hours.',
+                        formula: 'at + number + o\'clock',
+                        examples: [
+                            'I wake up at 7 o\'clock.',
+                            'She starts work at 9 o\'clock.',
+                            'We have dinner at 8 o\'clock.',
+                            'He goes to bed at 10 o\'clock.'
+                        ],
+                        exceptions: 'Don\'t use "o\'clock" with minutes (7:30 = seven thirty).',
+                        tip: 'Exact hour? Use o\'clock!',
+                        usage: 'Saying exact times.'
+                    }
+                },
+                {
+                    id: 'g4', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Telling Time: half past / quarter to',
+                    explanation: {
+                        theory: 'Use "half past" for :30 and "quarter to" for :45.',
+                        formula: 'half past + hour\nquarter to + next hour',
+                        examples: [
+                            '7:30 = half past seven',
+                            '8:45 = quarter to nine',
+                            'I have lunch at half past twelve.',
+                            'She comes home at quarter to six.'
+                        ],
+                        exceptions: 'In digital format, just say the numbers (7:30 = seven thirty).',
+                        tip: '30 = half past. 45 = quarter to.',
+                        usage: 'Talking about time in conversation.'
+                    }
+                },
+                {
+                    id: 'g5', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Prepositions of Time: AT',
+                    explanation: {
+                        theory: 'Use AT for exact times and night.',
+                        formula: 'at + time / at night',
+                        examples: [
+                            'at 7 o\'clock',
+                            'at 12:30',
+                            'at night',
+                            'at noon'
+                        ],
+                        exceptions: 'Don\'t use "at" with morning/afternoon/evening.',
+                        tip: 'AT = specific time or night.',
+                        usage: 'When something happens at a precise time.'
+                    }
+                },
+                {
+                    id: 'g6', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Prepositions of Time: IN / ON',
+                    explanation: {
+                        theory: 'Use IN for parts of day. Use ON for days.',
+                        formula: 'in the morning/afternoon/evening\non + day',
+                        examples: [
+                            'in the morning',
+                            'in the afternoon',
+                            'on Monday',
+                            'on weekends'
+                        ],
+                        exceptions: 'Use "at night" (not "in the night" for routines).',
+                        tip: 'IN = part of day. ON = day of week.',
+                        usage: 'Talking about when routines happen.'
+                    }
+                },
+                {
+                    id: 'g7', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Adverbs of Frequency',
+                    explanation: {
+                        theory: 'Place adverbs of frequency BEFORE the main verb, but AFTER "be".',
+                        formula: 'Subject + always/usually/sometimes/never + verb\nSubject + be + always/usually...',
+                        examples: [
+                            'I always brush my teeth.',
+                            'She usually takes the bus.',
+                            'He is never late.',
+                            'We are sometimes tired.'
+                        ],
+                        exceptions: 'With "be" verb, the adverb comes after.',
+                        tip: 'Before action verb. After "be".',
+                        usage: 'Saying how often you do things.'
+                    }
+                },
+                {
+                    id: 'g8', type: 'explanation', difficulty: 'medium', xp: 0,
+                    title: 'Sequence Words',
+                    explanation: {
+                        theory: 'Use First, Then, After that, Finally to order your routine.',
+                        formula: 'First → Then → After that → Finally',
+                        examples: [
+                            'First, I wake up.',
+                            'Then, I brush my teeth.',
+                            'After that, I have breakfast.',
+                            'Finally, I go to work.'
+                        ],
+                        exceptions: 'You can skip steps, but keep the order logical.',
+                        tip: 'Think of your day as a story with steps.',
+                        usage: 'Describing routines in order.'
+                    }
+                },
+                {
+                    id: 'g9', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Negative Sentences',
+                    explanation: {
+                        theory: 'Use don\'t/doesn\'t + base verb for negative routines.',
+                        formula: 'I/You/We/They + don\'t + verb\nHe/She/It + doesn\'t + verb',
+                        examples: [
+                            'I don\'t wake up early on weekends.',
+                            'She doesn\'t have lunch at home.',
+                            'We don\'t watch TV in the morning.',
+                            'He doesn\'t go to work on Sundays.'
+                        ],
+                        exceptions: 'Doesn\'t = does not. The main verb stays in base form.',
+                        tip: 'Don\'t/Doesn\'t + verb (no -s!).',
+                        usage: 'Saying what you DON\'T do.'
+                    }
+                },
+                {
+                    id: 'g10', type: 'explanation', difficulty: 'hard', xp: 0,
+                    title: 'Questions about Routines',
+                    explanation: {
+                        theory: 'Use Do/Does + subject + base verb to ask about routines.',
+                        formula: 'Do + I/you/we/they + verb?\nDoes + he/she/it + verb?',
+                        examples: [
+                            'Do you wake up early?',
+                            'Does she go to work by bus?',
+                            'What time do you have lunch?',
+                            'When does he go to bed?'
+                        ],
+                        exceptions: 'With question words (What/When/Where), put them first.',
+                        tip: 'Do/Does at the start = question about habit.',
+                        usage: 'Asking about someone\'s routine.'
+                    }
                 }
-            });
-        }, 800);
-    }
-};
+            ]
+        }
+    };
 
-// ===== CONTROLES GERAIS =====
+    // ===== STATE =====
+    let currentTab = 'video';
+    let questionIndex = { reading: 0, listening: 0, speaking: 0, writing: 0, vocabulary: 0, grammar: 0 };
+    let score = 0, streak = 0, totalXP = 0;
+    let isAnswered = false, selectedOption = null, hintsUsed = 0;
+    let recognition = null, ttsPlaying = false, currentTTS = null;
+    let userNotes = {}, voice = 'en-US', ttsRate = 0.85;
+    let vocabQuizSet = [];
+    let currentVocabQuizIndex = 0;
 
-window.nextQuestion = () => {
-    state.questionIndex[state.currentTab]++;
-    saveProgress();
-    renderCurrentTab();
-    updateProgress();
-    
-    // Esconder botão flutuante
-    document.getElementById('floatingNextBtn').classList.add('hidden');
-};
+    // ===== DOM =====
+    const mainContent = document.getElementById('mainContent');
+    const progressBar = document.getElementById('progressBar');
+    const currentQEl = document.getElementById('currentQ');
+    const totalQEl = document.getElementById('totalQ');
+    const progressPercentEl = document.getElementById('progressPercent');
+    const xpDisplay = document.getElementById('xpDisplay');
+    const streakDisplay = document.getElementById('streakDisplay');
+    const cefrBadge = document.getElementById('cefrBadge');
 
-window.retrySection = (tab) => {
-    if (confirm("Reiniciar esta atividade? Seu progresso nesta seção será resetado.")) {
-        state.questionIndex[tab] = 0;
-        saveProgress();
+    // ===== INIT =====
+    onAuthStateChanged(auth, async (user) => {
+        currentUser = user || null;
+        if (user) {
+            try {
+                const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    score = Number(data.xp) || 0;
+                    streak = Number(data.streak) || 0;
+                    totalXP = Number(data.totalXP) || 0;
+                    xpDisplay.textContent = String(totalXP);
+                    streakDisplay.textContent = String(streak);
+                    cefrBadge.textContent = lessonData.unitInfo.level;
+                    
+                    if (data.progresso) {
+                        const prefix = 'u23_';
+                        Object.keys(questionIndex).forEach(sec => {
+                            const key = `${prefix}${sec}`;
+                            if (typeof data.progresso[key] === 'number') questionIndex[sec] = data.progresso[key];
+                        });
+                    }
+                    userNotes = data.notes?.u23 || {};
+                }
+            } catch (error) { console.error("Load error:", error); }
+        } else { cefrBadge.textContent = lessonData.unitInfo.level; }
         renderCurrentTab();
-    }
-};
-
-window.startActivities = () => {
-    switchTab('reading');
-};
-
-window.nextSubtitle = () => {
-    if (state.questionIndex.video < lessonData.video.subtitles.length - 1) {
-        state.questionIndex.video++;
-        renderVideo(document.getElementById('mainContent'));
         updateProgress();
-    }
-};
-
-window.prevSubtitle = () => {
-    if (state.questionIndex.video > 0) {
-        state.questionIndex.video--;
-        renderVideo(document.getElementById('mainContent'));
-        updateProgress();
-    }
-};
-
-// ===== ÁUDIO E VOZ =====
-
-window.playAudio = (text) => {
-    if (!state.speechSynthesis) {
-        alert("Seu navegador não suporta síntese de voz. Tente Chrome, Edge ou Safari.");
-        return;
-    }
-    
-    // Cancelar qualquer áudio em reprodução
-    state.speechSynthesis.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = state.voice;
-    utterance.rate = state.ttsRate;
-    utterance.pitch = 1.0;
-    
-    // Fallback de voz se a selecionada não estiver disponível
-    utterance.onstart = () => {
-        // Feedback visual opcional
-    };
-    
-    utterance.onerror = (event) => {
-        console.warn("TTS error:", event);
-        // Tentar com voz padrão
-        if (state.voice !== 'en-US') {
-            utterance.lang = 'en-US';
-            state.speechSynthesis.speak(utterance);
-        }
-    };
-    
-    state.speechSynthesis.speak(utterance);
-};
-
-window.toggleRecording = (expectedPhrasesJson, xp) => {
-    const expectedPhrases = JSON.parse(expectedPhrasesJson.replace(/'/g, '"'));
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
-    if (!SR) {
-        alert("Seu navegador não suporta reconhecimento de voz. Tente Chrome ou Edge com permissões ativadas.");
-        return;
-    }
-    
-    // Limpar reconhecimento anterior
-    if (state.recognition) {
-        state.recognition.stop();
-        state.recognition = null;
-    }
-    
-    const rec = new SR();
-    rec.lang = state.voice;
-    rec.continuous = false;
-    rec.interimResults = false;
-    rec.maxAlternatives = 3;
-    
-    const btn = document.getElementById('recordBtn');
-    const status = document.getElementById('recordStatus');
-    const originalBtnHTML = btn.innerHTML;
-    
-    // UI de gravação
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-circle text-red-300 animate-pulse"></i>';
-    btn.classList.add('bg-red-600', 'animate-pulse');
-    status.textContent = "🎤 Ouvindo... Fale claramente!";
-    status.classList.add('text-red-600', 'dark:text-red-400', 'font-bold');
-    
-    rec.onstart = () => {
-        state.isRecording = true;
-    };
-    
-    rec.onend = () => {
-        state.isRecording = false;
-        btn.disabled = false;
-        btn.innerHTML = originalBtnHTML;
-        btn.classList.remove('bg-red-600', 'animate-pulse');
-        status.textContent = "Clique para gravar novamente";
-        status.classList.remove('text-red-600', 'dark:text-red-400', 'font-bold');
-    };
-    
-    rec.onresult = (event) => {
-        const transcript = event.results[0][0].transcript.toLowerCase().trim();
-        const scoreDiv = document.getElementById('scoreDisplay');
-        
-        // Matching fuzzy: verificar se alguma frase esperada está contida ou contém o transcript
-        const isMatch = expectedPhrases.some(expected => 
-            transcript.includes(expected) || expected.includes(transcript) ||
-            // Matching mais flexível para variações
-            transcript.replace(/[^\w\s]/g, '').includes(expected.replace(/[^\w\s]/g, '')) ||
-            expected.replace(/[^\w\s]/g, '').includes(transcript.replace(/[^\w\s]/g, ''))
-        );
-        
-        scoreDiv.classList.remove('hidden');
-        
-        if (isMatch) {
-            scoreDiv.innerHTML = `<span class="text-green-600 dark:text-green-400 font-bold">✅ ${Math.min(100, 85 + Math.floor(Math.random() * 15))}% Match</span>`;
-            addXP(xp);
-            document.getElementById('continueBtn').disabled = false;
-            
-            // Auto-avançar após sucesso
-            setTimeout(() => {
-                if (!document.getElementById('continueBtn').disabled) {
-                    nextQuestion();
-                }
-            }, 1500);
-        } else {
-            scoreDiv.innerHTML = `<span class="text-red-600 dark:text-red-400">❌ Ouvi: "<em>${transcript}</em>"<br><small class="block mt-1 text-xs opacity-90">Tente falar mais devagar e claro</small></span>`;
-            document.getElementById('continueBtn').disabled = true;
-        }
-    };
-    
-    rec.onerror = (event) => {
-        console.error("Speech recognition error", event.error);
-        status.textContent = "❌ Erro ao ouvir. Tente novamente.";
-        status.classList.add('text-red-600', 'dark:text-red-400');
-        btn.disabled = false;
-        btn.innerHTML = originalBtnHTML;
-        btn.classList.remove('bg-red-600', 'animate-pulse');
-    };
-    
-    try {
-        rec.start();
-        state.recognition = rec;
-    } catch (e) {
-        console.error("Erro ao iniciar reconhecimento:", e);
-        alert("Não foi possível iniciar o microfone. Verifique as permissões do navegador.");
-        btn.disabled = false;
-        btn.innerHTML = originalBtnHTML;
-        btn.classList.remove('bg-red-600', 'animate-pulse');
-        status.textContent = "Clique para tentar novamente";
-    }
-};
-
-// ===== UTILITÁRIOS =====
-
-function addXP(amount) {
-    state.totalXP += amount;
-    state.streak++;
-    updateStats();
-    saveProgress();
-    
-    // Efeito visual de XP ganho
-    showXPNotification(amount);
-}
-
-function showXPNotification(amount) {
-    const notification = document.createElement('div');
-    notification.className = 'fixed top-4 right-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-2 rounded-xl font-bold shadow-lg z-[100] animate-fade-in flex items-center gap-2';
-    notification.innerHTML = `<i class="fa-solid fa-bolt"></i> +${amount} XP!`;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(-10px)';
-        setTimeout(() => notification.remove(), 300);
-    }, 2000);
-}
-
-function updateStats() {
-    document.getElementById('xpDisplay').textContent = state.totalXP;
-    document.getElementById('streakDisplay').textContent = state.streak;
-    
-    // Efeito visual para streaks longas
-    if (state.streak >= 5) {
-        document.getElementById('streakDisplay').parentElement.classList.add('ring-2', 'ring-orange-400', 'animate-pulse');
-    } else {
-        document.getElementById('streakDisplay').parentElement.classList.remove('ring-2', 'ring-orange-400', 'animate-pulse');
-    }
-}
-
-function updateProgress() {
-    // Calcular progresso total
-    let totalQuestions = 0;
-    let completedQuestions = 0;
-    
-    Object.keys(lessonData).forEach(key => {
-        const section = lessonData[key];
-        if (Array.isArray(section)) {
-            totalQuestions += section.length;
-            completedQuestions += Math.min(state.questionIndex[key], section.length);
-        } else if (key === 'video' && section.subtitles) {
-            totalQuestions += section.subtitles.length;
-            completedQuestions += Math.min(state.questionIndex.video, section.subtitles.length);
-        } else if (key === 'boardgame' && section.questions) {
-            totalQuestions += section.questions.length;
-            completedQuestions += Math.min(state.questionIndex.boardgame, section.questions.length);
-        }
     });
-    
-    const percent = totalQuestions > 0 ? Math.round((completedQuestions / totalQuestions) * 100) : 0;
-    
-    // Atualizar UI
-    document.getElementById('progressBar').style.width = `${percent}%`;
-    document.getElementById('currentQ').textContent = completedQuestions;
-    document.getElementById('totalQ').textContent = totalQuestions;
-    document.getElementById('progressPercent').textContent = `${percent}%`;
-}
 
-function saveProgress() {
-    // Salvar no localStorage para standalone
-    const progressData = {
-        xp: state.totalXP,
-        streak: state.streak,
-        questionIndex: { ...state.questionIndex },
-        lastUpdated: new Date().toISOString()
+    // ===== NAVIGATION =====
+    window.switchTab = (tab) => {
+        currentTab = tab;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        renderCurrentTab();
+        updateProgress();
     };
-    
-    localStorage.setItem('englishpath_progress_u22', JSON.stringify(progressData));
-    
-    // Em produção com Firebase, descomente e configure:
-    /*
-    if (currentUser) {
-        // Lógica de salvamento no Firestore
-    }
-    */
-}
 
-window.translateWord = (word) => {
-    const clean = word.toLowerCase().replace(/[^\w']/g, '');
-    
-    // Dicionário simplificado para U22
-    const dict = {
-        'hello': 'olá', 'everyone': 'todos', 'welcome': 'bem-vindos', 
-        'time': 'tempo/hora', 'clock': 'relógio', 'watch': 'relógio de pulso',
-        'three': 'três', 'o\'clock': 'em ponto', 'half': 'meia', 
-        'past': 'passado/depois', 'quarter': 'quarto/15 minutos',
-        'to': 'para/antes de', 'nine': 'nove', 'two': 'dois',
-        'short': 'curto', 'hand': 'ponteiro', 'shows': 'mostra',
-        'hour': 'hora', 'long': 'longo', 'minutes': 'minutos',
-        'morning': 'manhã', 'wake': 'acordar', 'up': 'acima/levantar',
-        'school': 'escola', 'starts': 'começa', 'soon': 'em breve',
-        'bus': 'ônibus', 'comes': 'vem', 'leave': 'sair', 'home': 'casa'
-    };
-    
-    const translation = dict[clean] || `[${clean}]`;
-    
-    // Criar tooltip
-    const tooltip = document.createElement('div');
-    tooltip.className = 'translation-tooltip';
-    tooltip.innerHTML = `<strong>${word}</strong><br><span class="text-sky-300">➡️</span> ${translation}`;
-    document.body.appendChild(tooltip);
-    
-    // Posicionar próximo ao mouse
-    const rect = event.target.getBoundingClientRect();
-    tooltip.style.left = `${Math.min(rect.right + 10, window.innerWidth - 260)}px`;
-    tooltip.style.top = `${Math.max(rect.bottom + 5, 10)}px`;
-    
-    // Remover após delay
-    setTimeout(() => {
-        tooltip.style.opacity = '0';
-        tooltip.style.transform = 'translateY(5px)';
-        setTimeout(() => tooltip.remove(), 200);
-    }, 2000);
-};
-
-// ===== TECLAS DE ATALHO =====
-function setupKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-        // Ignorar se estiver digitando em input/textarea
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+    function renderCurrentTab() {
+        if (currentTab === 'video') { renderVideo(); return; }
+        const section = lessonData.tabs[currentTab];
+        const index = questionIndex[currentTab];
+        
+        if (currentTab === 'vocabulary') {
+            if (index < lessonData.tabs.vocabulary.length) {
+                renderVocabularyList();
+            } else {
+                if (vocabQuizSet.length === 0) initVocabQuiz();
+                renderVocabularyQuiz();
+            }
             return;
         }
+
+        if (index >= section.length) { renderSectionComplete(currentTab); return; }
         
-        // Enter: verificar/responder
-        if (e.key === 'Enter' && !e.repeat) {
-            const checkBtn = document.getElementById('checkBtn');
-            const continueBtn = document.getElementById('continueBtn');
-            const floatingBtn = document.getElementById('floatingNextBtn');
-            
-            if (checkBtn && !checkBtn.disabled && !checkBtn.classList.contains('hidden')) {
-                e.preventDefault();
-                checkBtn.click();
-            } else if (continueBtn && !continueBtn.disabled && !continueBtn.classList.contains('hidden')) {
-                e.preventDefault();
-                continueBtn.click();
-            } else if (floatingBtn && !floatingBtn.classList.contains('hidden')) {
-                e.preventDefault();
-                floatingBtn.click();
-            } else if (['grammar', 'video', 'vocabulary', 'daily', 'story', 'mistakes', 'tenses'].includes(state.currentTab)) {
-                // Avançar direto em seções sem verificação
-                e.preventDefault();
-                nextQuestion();
-            }
+        switch(currentTab) {
+            case 'reading': renderReading(section[index]); break;
+            case 'listening': renderListening(section[index]); break;
+            case 'speaking': renderSpeaking(section[index]); break;
+            case 'writing': renderWriting(section[index]); break;
+            case 'grammar': renderGrammar(section[index]); break;
         }
-        
-        // Espaço: reproduzir áudio em listening/video
-        if (e.key === ' ' && !e.repeat && state.currentTab === 'listening') {
-            e.preventDefault();
-            const playBtn = document.querySelector('button[onclick*="playAudio"]');
-            if (playBtn) playBtn.click();
-        }
-        
-        // Esc: fechar menus
-        if (e.key === 'Escape') {
-            document.getElementById('settingsMenu')?.classList.add('hidden');
-            document.querySelectorAll('.translation-tooltip').forEach(el => el.remove());
-        }
-    });
-}
-
-// ===== CONFIGURAÇÕES E UTILITÁRIOS =====
-
-window.toggleSettings = () => {
-    const menu = document.getElementById('settingsMenu');
-    menu.classList.toggle('hidden');
-    
-    // Fechar ao clicar fora
-    if (!menu.classList.contains('hidden')) {
-        const closeHandler = (e) => {
-            if (!menu.contains(e.target) && !e.target.closest('[onclick="toggleSettings()"]')) {
-                menu.classList.add('hidden');
-                document.removeEventListener('click', closeHandler);
-            }
-        };
-        setTimeout(() => document.addEventListener('click', closeHandler), 10);
-    }
-};
-
-window.toggleVoice = () => {
-    state.voice = state.voice === 'en-US' ? 'en-GB' : 'en-US';
-    document.getElementById('voiceLabel').textContent = state.voice === 'en-US' ? 'US' : 'UK';
-    
-    // Feedback visual
-    const btn = event.currentTarget;
-    btn.classList.add('scale-95');
-    setTimeout(() => btn.classList.remove('scale-95'), 150);
-    
-    // Testar com frase curta
-    playAudio("Voice changed to " + (state.voice === 'en-US' ? 'American' : 'British') + " English");
-};
-
-window.toggleTheme = () => {
-    state.theme = state.theme === 'light' ? 'dark' : 'light';
-    
-    if (state.theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.getElementById('themeLabel').textContent = 'Escuro';
-        localStorage.setItem('englishpath_theme', 'dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('themeLabel').textContent = 'Claro';
-        localStorage.setItem('englishpath_theme', 'light');
-    }
-    
-    // Feedback visual
-    const btn = event.currentTarget;
-    btn.classList.add('scale-95');
-    setTimeout(() => btn.classList.remove('scale-95'), 150);
-};
-
-window.goHome = () => {
-    saveProgress();
-    // Em produção: window.location.href = 'index.html';
-    // Para demo: recarregar na aba inicial
-    switchTab('video');
-    alert("Voltando para Home (em produção, redirecionaria para index.html)");
-};
-
-window.resetProgress = () => {
-    if (confirm('Tem certeza que deseja reiniciar TODO o progresso desta lição? Esta ação não pode ser desfeita.')) {
-        // Resetar índices
-        Object.keys(state.questionIndex).forEach(key => {
-            state.questionIndex[key] = 0;
-        });
-        state.totalXP = 0;
-        state.streak = 0;
-        
-        // Salvar e recarregar
-        saveProgress();
-        updateStats();
         updateProgress();
-        renderCurrentTab();
-        
-        // Feedback
-        alert('✅ Progresso reiniciado com sucesso!');
     }
-};
 
-window.exportData = () => {
-    const data = {
-        unit: 'u22',
-        level: 'A1',
-        theme: lessonData.unitInfo.theme,
-        progress: {
-            xp: state.totalXP,
-            streak: state.streak,
-            questionIndex: state.questionIndex,
-            completedAt: new Date().toISOString()
-        },
-        exportDate: new Date().toISOString()
-    };
-    
-    const dataStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([dataStr], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `englishpath_u22_progress_${new Date().toISOString().slice(0,10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    
-    // Limpar
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 100);
-    
-    // Feedback
-    alert('✅ Dados exportados com sucesso! Verifique sua pasta de downloads.');
-};
-
-// ===== INICIALIZAÇÃO FINAL =====
-// Garantir que o botão flutuante esteja oculto inicialmente
-document.getElementById('floatingNextBtn').classList.add('hidden');
-
-// Mensagem de carregamento concluído
-setTimeout(() => {
-    const loadingEl = document.querySelector('#mainContent .animate-spin');
-    if (loadingEl) {
-        loadingEl.parentElement.innerHTML = `
-            <div class="text-center p-8">
-                <i class="fa-solid fa-check-circle text-5xl text-green-500 mb-4"></i>
-                <h3 class="text-xl font-bold mb-2">Pronto para aprender!</h3>
-                <p class="text-gray-500 dark:text-slate-400">Selecione uma aba acima para começar.</p>
+    function renderVideo() {
+        const video = lessonData.tabs.video;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📺 Video Lesson</h1>
+            <p class="section-subtitle">Watch and learn about Daily Routines</p>
+            <div class="objective-box">
+                <strong>🎯 Learning Objectives:</strong><br>
+                ${lessonData.unitInfo.objectives.map(o => `• ${o}`).join('<br>')}
+            </div>
+            <div class="card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${video.videoId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <p style="text-align:center;color:#64748b;">${video.instructions}</p>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startActivities()">
+                    Iniciar as atividades <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         `;
     }
-}, 800);
+
+    window.startActivities = () => {
+        currentTab = 'reading';
+        saveProgress();
+        switchTab('reading');
+    };
+
+    function renderSectionComplete(tabName) {
+        const tabNames = {
+            reading: 'Reading',
+            listening: 'Listening', 
+            speaking: 'Speaking',
+            writing: 'Writing',
+            vocabulary: 'Vocabulary',
+            grammar: 'Grammar'
+        };
+        
+        mainContent.innerHTML = `
+            <div class="section-complete">
+                <i class="fa-solid fa-check-circle"></i>
+                <h2>${tabNames[tabName]} Complete! ✓</h2>
+                <p>Great progress! Move to the next section.</p>
+                <div class="actions" style="justify-content:center; gap: 1rem;">
+                    <button class="btn btn-next-section" onclick="nextSection()">
+                        Next Section ➡️
+                    </button>
+                    <button class="btn btn-refazer" onclick="retrySection('${tabName}')">
+                        Refazer Atividade 🔄
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    window.retrySection = (tabName) => {
+        questionIndex[tabName] = 0;
+        if (tabName === 'vocabulary') vocabQuizSet = [];
+        saveProgress();
+        renderCurrentTab();
+    };
+
+    // ===== RENDERERS =====
+    function renderReading(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Reading</h1>
+            <p class="section-subtitle">Read and answer the questions</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card reading-card">
+                <div class="reading-header">
+                    <div class="reading-label"><i class="fa-solid fa-font"></i> Daily Routine</div>
+                    <div class="reading-label" style="background:#fef3c7;color:#92400e;"><i class="fa-solid fa-clock"></i> Focus on Time</div>
+                </div>
+                ${q.focusWords ? `<div class="reading-focus">${q.focusWords.map(word => `<span class="focus-chip">${word}</span>`).join('')}</div>` : ''}
+                <div class="reading-text rich">${q.text}</div>
+                <div class="tts-controls">
+                    <button class="tts-btn" id="ttsBtn" onclick="toggleTTS('${q.tts.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-volume-high"></i> Listen
+                    </button>
+                    <select class="speed-select" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="0.85" selected>0.85x</option><option value="1">1x</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+                <div class="hint-box" id="hintBox"><strong>💡 Hint:</strong> <span id="hintText"></span></div>
+            </div>
+            <div class="notes-area"><strong>📝 My Notes:</strong><textarea id="notesInput" placeholder="Notes..." oninput="saveCurrentNote('${q.id}', this.value)">${userNotes[q.id]||''}</textarea></div>
+            <div class="actions">
+                <button class="btn btn-hint" onclick="showHint()">💡 Hint <span class="hint-cost">(-5 XP)</span></button>
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderListening(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">🎧 Listening</h1>
+            <p class="section-subtitle">Train your ear for routine phrases</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <button class="audio-btn" id="audioBtn" onclick="playAudio('${q.tts}')"><i class="fa-solid fa-volume-high"></i><span style="display:block;margin-top:0.5rem;font-size:0.9rem;">▶ Play Audio</span></button>
+                <div class="tts-controls" style="justify-content:center;">
+                    <select class="speed-select" id="speedSelect" onchange="changeSpeed(this.value)">
+                        <option value="0.75">0.75x</option><option value="${q.speed||0.85}" selected>${q.speed||0.85}x</option><option value="1">1x</option>
+                    </select>
+                </div>
+                <div class="transcript" id="transcript"><strong>Transcript:</strong> ${q.tts}</div>
+                <button class="btn btn-secondary" style="margin-top:0.5rem;" onclick="toggleTranscript()"><i class="fa-solid fa-align-left"></i> Show Transcript</button>
+            </div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.q}</h3>
+                <div class="options">${q.options.map((opt,i) => `<div class="option" onclick="selectOption(${i})"><span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span><span>${opt}</span></div>`).join('')}</div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()" disabled>Check Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to check & continue</div>
+        `;
+    }
+
+    function renderSpeaking(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">💬 Speaking</h1>
+            <p class="section-subtitle">Practice your daily routine pronunciation</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:1.1rem;margin-bottom:1rem;color:#475569;">${q.prompt}</p>
+                ${q.model ? `<button class="tts-btn" onclick="playAudio('${q.model}')"><i class="fa-solid fa-volume-high"></i> Hear Example</button>` : ''}
+                <button class="record-btn" id="recordBtn" onclick="toggleRecording('${q.expected||''}')"><i class="fa-solid fa-microphone"></i></button>
+                <p id="recordStatus" style="color:#64748b;margin-bottom:1rem;">Click mic & speak. Auto-stops when you pause.</p>
+                <div id="scoreDisplay" class="score-display" style="display:none;"></div>
+                ${q.minWords ? `<p style="font-size:0.85rem;color:#64748b;margin-top:1rem;">Minimum ${q.minWords} words</p>` : ''}
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="continueBtn" onclick="nextQuestion()" disabled>Continue</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    function renderWriting(q) {
+        mainContent.innerHTML = `
+            <h1 class="section-title">✍️ Writing</h1>
+            <p class="section-subtitle">Practice writing about your routine</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()} • +${q.xp} XP</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.prompt}</h3>
+                ${q.example ? `<p style="color:#64748b;font-style:italic;margin-bottom:1rem;">Example: ${q.example}</p>` : ''}
+                <textarea class="writing-area" id="writingInput" placeholder="Write your answer..." oninput="updateCharCount('${q.minLength||0}', '${q.maxLength||200}')"></textarea>
+                <div class="char-count"><span id="charCount">0</span>${q.maxLength?` / ${q.maxLength}`:''} characters</div>
+                <div class="tts-controls"><button class="tts-btn" onclick="readAloud('writingInput')"><i class="fa-solid fa-volume-high"></i> Read My Answer</button></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-retry" onclick="retryQuestion()"><i class="fa-solid fa-rotate-right"></i> Retry</button>
+                <button class="btn btn-primary" id="checkBtn" onclick="checkWriting()" disabled>Submit Answer</button>
+                <button class="btn btn-skip" onclick="skipQuestion()">Skip ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to submit</div>
+        `;
+    }
+    
+    function initVocabQuiz() {
+        const allVocab = [...lessonData.tabs.vocabulary];
+        vocabQuizSet = allVocab.sort(() => 0.5 - Math.random()).slice(0, 5);
+        currentVocabQuizIndex = 0;
+    }
+
+    function renderVocabularyList() {
+        const vocabList = lessonData.tabs.vocabulary;
+        let html = `
+            <h1 class="section-title">📚 Vocabulary Study</h1>
+            <p class="section-subtitle">30 Words for Daily Routines</p>
+            <div class="card">
+                <p style="margin-bottom:1rem;">Review these words. Click the speaker icon to hear pronunciation.</p>
+                <div style="max-height:500px;overflow-y:auto;padding-right:0.5rem;">
+                    ${vocabList.map((item, idx) => `
+                        <div class="vocab-card">
+                            <div>
+                                <div class="vocab-word">${item.word} <span class="vocab-pron">${item.pron}</span></div>
+                                <div class="vocab-meaning">${item.meaning}</div>
+                                <div class="vocab-example">"${item.example}"</div>
+                            </div>
+                            <button class="vocab-audio-btn" onclick="playAudio('${item.word}')">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="startVocabQuiz()">Start Quiz ➡️</button>
+            </div>
+        `;
+        mainContent.innerHTML = html;
+    }
+
+    window.startVocabQuiz = () => {
+        questionIndex.vocabulary = lessonData.tabs.vocabulary.length;
+        initVocabQuiz();
+        saveProgress();
+        renderVocabularyQuiz();
+        updateProgress();
+    };
+
+    function renderVocabularyQuiz() {
+        if (currentVocabQuizIndex >= vocabQuizSet.length) {
+            questionIndex.vocabulary++;
+            saveProgress();
+            renderSectionComplete('vocabulary');
+            return;
+        }
+
+        const item = vocabQuizSet[currentVocabQuizIndex];
+        const correctMeaning = item.meaning;
+        const wrongOptions = lessonData.tabs.vocabulary
+            .filter(w => w.word !== item.word)
+            .map(w => w.meaning);
+        const shuffledWrong = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+        const allOptions = [correctMeaning, ...shuffledWrong].sort(() => 0.5 - Math.random());
+        
+        mainContent.innerHTML = `
+            <h1 class="section-title">📝 Vocabulary Quiz</h1>
+            <p class="section-subtitle">Question ${currentVocabQuizIndex + 1} of 5</p>
+            <div class="card">
+                <h3 style="font-size:1.5rem;text-align:center;margin-bottom:1rem;">${item.word}</h3>
+                <p style="text-align:center;color:#64748b;margin-bottom:1.5rem;">${item.pron}</p>
+                <button class="tts-btn" style="margin:0 auto;display:flex;" onclick="playAudio('${item.word}')">
+                    <i class="fa-solid fa-volume-high"></i> Listen
+                </button>
+                <div class="options" style="margin-top:2rem;">
+                    ${allOptions.map((opt, i) => `
+                        <div class="option" onclick="selectVocabOption(${i}, '${opt.replace(/'/g, "\\'")}', '${correctMeaning.replace(/'/g, "\\'")}')">
+                            <span style="width:32px;height:32px;background:#f1f5f9;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">${String.fromCharCode(65+i)}</span>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="checkBtn" onclick="checkVocabAnswer()" disabled>Check Answer</button>
+            </div>
+        `;
+        window.selectedVocabOption = null;
+        window.correctVocabAnswer = correctMeaning;
+    }
+
+    window.selectVocabOption = (idx, val, correct) => {
+        window.selectedVocabOption = idx;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.option')[idx].classList.add('selected');
+        document.getElementById('checkBtn').disabled = false;
+    };
+
+    window.checkVocabAnswer = () => {
+        const feedback = document.getElementById('feedback');
+        const opts = document.querySelectorAll('.option');
+        const selectedText = opts[window.selectedVocabOption].querySelector('span:last-child').textContent;
+        const isCorrect = selectedText === window.correctVocabAnswer;
+        
+        if (isCorrect) {
+            opts[window.selectedVocabOption].classList.add('correct');
+            feedback.className = 'feedback correct show';
+            feedback.innerHTML = `<strong>Correct!</strong> Great job.`;
+            addXP(10);
+            setTimeout(() => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            }, 1500);
+        } else {
+            opts[window.selectedVocabOption].classList.add('wrong');
+            Array.from(opts).forEach(opt => {
+                if (opt.querySelector('span:last-child').textContent === window.correctVocabAnswer) {
+                    opt.classList.add('correct');
+                }
+            });
+            feedback.className = 'feedback wrong show';
+            feedback.innerHTML = `<strong>Incorrect.</strong> The correct meaning is: ${window.correctVocabAnswer}`;
+            document.getElementById('checkBtn').disabled = true;
+            document.getElementById('checkBtn').innerHTML = 'Next Question ➡️';
+            document.getElementById('checkBtn').onclick = () => {
+                currentVocabQuizIndex++;
+                renderVocabularyQuiz();
+            };
+        }
+        saveProgress();
+    };
+
+    function renderGrammar(q) {
+        const exp = q.explanation;
+        mainContent.innerHTML = `
+            <h1 class="section-title">📖 Grammar</h1>
+            <p class="section-subtitle">Learn & practice</p>
+            <div class="difficulty ${q.difficulty}"><i class="fa-solid fa-star"></i> ${q.difficulty.toUpperCase()}</div>
+            <div class="card">
+                <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;">${q.title}</h3>
+            </div>
+            <div class="grammar-explanation">
+                <h4><i class="fa-solid fa-book"></i> Complete Explanation</h4>
+                <div class="rule"><strong>📖 Rule:</strong> ${exp.theory}</div>
+                <div class="formula"><strong>📐 Formula:</strong> ${exp.formula}</div>
+                <div><strong>💡 Examples:</strong><ul>${exp.examples.map(e => `<li>${e}</li>`).join('')}</ul></div>
+                ${exp.exceptions ? `<div><strong>⚠️ Exceptions:</strong> ${exp.exceptions}</div>` : ''}
+                <div class="tip"><strong>🧠 Memory Tip:</strong> ${exp.tip}</div>
+                <div><strong>🎯 When to Use:</strong> ${exp.usage}</div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="nextQuestion()">Next Topic ➡️</button>
+            </div>
+            <div class="enter-hint">Press <kbd>Enter</kbd> to continue</div>
+        `;
+    }
+
+    // ===== INTERACTIONS =====
+    window.selectOption = (i) => { if(isAnswered) return; document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected')); document.querySelectorAll('.option')[i].classList.add('selected'); selectedOption=i; document.getElementById('checkBtn').disabled=false; };
+    window.enableCheck = () => { const input=document.getElementById('fillInput'); if(input) document.getElementById('checkBtn').disabled=!input.value.trim(); };
+    window.updateCharCount = (min,max) => { const input=document.getElementById('writingInput'), count=document.getElementById('charCount'); if(input&&count){count.textContent=input.value.length; document.getElementById('checkBtn').disabled=input.value.length<(min||0);} };
+    
+    window.toggleTTS = (text) => {
+        const btn=document.getElementById('ttsBtn'); if(!btn) return;
+        if(ttsPlaying){ if(currentTTS) currentTTS.cancel(); ttsPlaying=false; btn.classList.remove('playing'); btn.innerHTML='<i class="fa-solid fa-volume-high"></i> Listen'; }
+        else { currentTTS=speakText(text); if(currentTTS){ ttsPlaying=true; btn.classList.add('playing'); btn.innerHTML='<i class="fa-solid fa-stop"></i> Stop'; } }
+    };
+    
+    window.playAudio = (text) => { const btn=document.getElementById('audioBtn'); if(btn){ btn.classList.add('playing'); setTimeout(()=>btn.classList.remove('playing'),1000); } speakText(text); };
+    window.readAloud = (id) => { const el=document.getElementById(id); if(el?.value) speakText(el.value); };
+    window.toggleTranscript = () => { const el=document.getElementById('transcript'); if(el) el.classList.toggle('show'); };
+    
+    function speakText(text) {
+        if(!('speechSynthesis' in window)){ alert('TTS not supported'); return null; }
+        window.speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,''));
+        u.lang=voice; u.rate=ttsRate;
+        const voices=window.speechSynthesis.getVoices(), v=voices.find(x=>x.lang===voice);
+        if(v) u.voice=v;
+        window.speechSynthesis.speak(u);
+        return window.speechSynthesis;
+    }
+    
+    window.changeSpeed = (rate) => { ttsRate=parseFloat(rate); };
+
+    window.toggleRecording = (expected) => {
+        const btn=document.getElementById('recordBtn'), status=document.getElementById('recordStatus'), scoreDiv=document.getElementById('scoreDisplay'), continueBtn=document.getElementById('continueBtn');
+        if(!btn) return;
+        if(!btn.classList.contains('recording')){
+            const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+            if(!SR){ alert('Use Chrome/Edge'); return; }
+            recognition=new SR(); recognition.lang=voice; recognition.continuous=false;
+            recognition.onspeechend=()=>recognition.stop();
+            btn.classList.add('recording'); status.textContent='🎤 Listening...'; if(scoreDiv) scoreDiv.style.display='none'; if(continueBtn) continueBtn.disabled=true;
+            recognition.onresult=(e)=>{
+                const transcript=e.results[0][0].transcript.trim().toLowerCase(), conf=e.results[0][0].confidence;
+                const clean=normalizeText(transcript), exp=normalizeText(expected||'');
+                const match=clean.includes(exp)||exp.includes(clean)||clean.replace(/[-\s]/g,'')===exp.replace(/[-\s]/g,'');
+                const acc=match?Math.round(conf*100):0;
+                if(scoreDiv){ scoreDiv.textContent=`${acc}% Accuracy`; scoreDiv.className=`score-display ${acc>=60?'good':'bad'}`; scoreDiv.style.display='block'; }
+                status.textContent=acc>=60?'✅ Great!':'🔄 Try again'; btn.classList.remove('recording');
+                if(acc>=50){ addXP(10); if(continueBtn) continueBtn.disabled=false; }
+            };
+            recognition.onerror=()=>{ btn.classList.remove('recording'); status.textContent='❌ Error. Try again.'; };
+            recognition.start();
+        }
+    };
+    
+    function normalizeText(t){ const map={'1':'one','2':'two','3':'three','4':'four','5':'five','6':'six','7':'seven','8':'eight','9':'nine','10':'ten','11':'eleven','12':'twelve','13':'thirteen','14':'fourteen','15':'fifteen','20':'twenty','30':'thirty','40':'forty','50':'fifty','100':'one hundred'}; let clean=t.toLowerCase().replace(/[^a-z0-9\s-]/g,''); Object.keys(map).forEach(k=>clean=clean.replace(new RegExp(`\\b${k}\\b`,'g'),map[k])); return clean; }
+
+    window.checkAnswer = () => {
+        if(isAnswered||selectedOption===null) return; isAnswered=true;
+        const section=lessonData.tabs[currentTab], q=section[questionIndex[currentTab]], options=document.querySelectorAll('.option'), feedback=document.getElementById('feedback');
+        const correct=selectedOption===q.answer;
+        if(correct){ 
+            options[selectedOption].classList.add('correct'); 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Correct!</strong><br>${q.explanation?.theory||q.explanation||'Well done!'}`; 
+            addXP(q.xp); 
+            setTimeout(() => { nextQuestion(); }, 1500);
+        }
+        else{ 
+            options[selectedOption].classList.add('wrong'); 
+            options[q.answer].classList.add('correct'); 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Not quite</strong><br>${q.explanation?.theory||q.explanation||`Correct: ${q.options[q.answer]}`}`; 
+            streak=0; streakDisplay.textContent='0'; 
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=correct?'<i class="fa-solid fa-check"></i> Correct!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.checkWriting = () => {
+        const input=document.getElementById('writingInput'); if(!input) return;
+        const section=lessonData.tabs.writing, q=section[questionIndex.writing], feedback=document.getElementById('feedback');
+        const valid=input.value.trim().length>=(q.minLength||0);
+        if(valid){ 
+            input.style.borderColor='#22c55e'; 
+            feedback.className='feedback correct show'; 
+            feedback.innerHTML=`<strong style="color:#166534;"><i class="fa-solid fa-check"></i> Submitted!</strong><br>Great effort!`; 
+            addXP(q.xp); 
+            setTimeout(() => { nextQuestion(); }, 1500);
+        }
+        else{ 
+            input.style.borderColor='#ef4444'; 
+            feedback.className='feedback wrong show'; 
+            feedback.innerHTML=`<strong style="color:#991b1b;"><i class="fa-solid fa-xmark"></i> Too short</strong><br>Try at least ${q.minLength} characters.<br><strong>Correct answer:</strong> ${q.example||q.answer}`; 
+        }
+        document.getElementById('checkBtn').disabled=true; 
+        document.getElementById('checkBtn').innerHTML=valid?'<i class="fa-solid fa-check"></i> Submitted!':'<i class="fa-solid fa-xmark"></i> Review';
+        saveProgress();
+    };
+
+    window.retryQuestion = () => { isAnswered=false; selectedOption=null; renderCurrentTab(); };
+    window.nextQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.skipQuestion = () => { questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); };
+    window.nextSection = () => { const sections=['reading','listening','speaking','writing','vocabulary','grammar'], i=sections.indexOf(currentTab); if(i<sections.length-1) switchTab(sections[i+1]); else showCompletion(); };
+
+    function showCompletion() {
+        const bonus=totalXP>=600?200:0, final=totalXP+600+bonus;
+        mainContent.innerHTML = `
+            <div class="completion-screen">
+                <i class="fa-solid fa-trophy"></i>
+                <h2 style="font-size:2rem;font-weight:800;margin-bottom:0.5rem;">🎉 Lesson Complete!</h2>
+                <p style="color:#64748b;margin-bottom:1rem;">${lessonData.unitInfo.theme} - ${lessonData.unitInfo.level}</p>
+                <div class="xp-reward">+600 XP</div>
+                ${bonus>0?`<p style="color:#f59e0b;font-weight:700;">+${bonus} XP Perfect Score!</p>`:''}
+                
+                <div class="report-card">
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem;">📊 Performance Report</h3>
+                    <div class="report-grid">
+                        <div class="report-item">
+                            <div class="report-value">${final}</div>
+                            <div class="report-label">Total XP Earned</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${streak}</div>
+                            <div class="report-label">Day Streak</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">60</div>
+                            <div class="report-label">Questions Completed</div>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-value">${Math.round((final/800)*100)}%</div>
+                            <div class="report-label">Success Rate</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:2rem;">
+                        <h4 style="font-weight:700;margin-bottom:1rem;">Skills Breakdown:</h4>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#22c55e;">Reading</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#3b82f6;">Listening</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#f59e0b;">Speaking</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#ef4444;">Writing</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10/10</div>
+                            </div>
+                            <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#8b5cf6;">Vocabulary</div>
+                                <div style="font-size:1.5rem;font-weight:800;">30 Words</div>
+                            </div>
+                             <div style="text-align:center;padding:1rem;background:#f8fafc;border-radius:8px;">
+                                <div style="font-weight:700;color:#7c3aed;">Grammar</div>
+                                <div style="font-size:1.5rem;font-weight:800;">10 Topics</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color:#64748b;margin:2rem 0;">Progress saved automatically!</p>
+                <div class="actions" style="justify-content:center;">
+                    <button class="btn btn-primary" onclick="goHome()"><i class="fa-solid fa-house"></i> Back to Home</button>
+                </div>
+            </div>
+        `;
+        if(currentUser) updateDoc(doc(db,"usuarios",currentUser.uid),{[`progresso.u23_completed`]:true,[`progresso.u23_date`]:new Date().toISOString(),[`progresso.u23_score`]:final}).catch(console.error);
+    }
+
+    function addXP(amount){ totalXP+=amount; score+=amount; streak++; xpDisplay.textContent=String(totalXP); streakDisplay.textContent=String(streak); checkBadges(); }
+    function checkBadges(){ if(streak>=7) unlockBadge('streak_master'); if(totalXP>=1000) unlockBadge('xp_1000'); }
+    function unlockBadge(id){ console.log(`Badge: ${id}`); }
+    
+    function getOverallProgress(){
+        const total = 60;
+        const rawDone = Object.values(questionIndex).reduce((acc, value) => acc + Number(value || 0), 0);
+        const done = Math.max(0, Math.min(rawDone, total));
+        const pct = Math.max(0, Math.min(Math.round((done / total) * 100), 100));
+        return { total, done, pct };
+    }
+
+    function updateProgress(){
+        const { total, done, pct } = getOverallProgress();
+        progressBar.style.width = `${pct}%`;
+        currentQEl.textContent = String(done);
+        totalQEl.textContent = String(total);
+        progressPercentEl.textContent = `${pct}%`;
+
+        document.querySelectorAll('.tab-btn').forEach((btn) => {
+            btn.classList.remove('completed');
+            const sec = btn.dataset.tab;
+            if (!sec || sec === 'video') return;
+            if (sec === 'vocabulary') {
+                if (questionIndex.vocabulary > lessonData.tabs.vocabulary.length) btn.classList.add('completed');
+                return;
+            }
+            if (questionIndex[sec] >= lessonData.tabs[sec].length) btn.classList.add('completed');
+        });
+    }
+
+    function saveProgress(){
+        if(!currentUser) return;
+        const data = {};
+        const prefix = 'u23_';
+        Object.keys(questionIndex).forEach(sec => {
+            data[`progresso.${prefix}${sec}`] = Number(questionIndex[sec] || 0);
+        });
+
+        const { total, done, pct } = getOverallProgress();
+        const status = pct >= 100 ? 'Concluído' : done > 0 ? 'Em andamento' : 'Começar';
+
+        updateDoc(doc(db, "usuarios", currentUser.uid), {
+            xp: Number(score || 0),
+            streak: Number(streak || 0),
+            totalXP: Number(totalXP || 0),
+            ...data,
+            'progresso.u23_total': total,
+            'progresso.u23_done': done,
+            'progresso.u23_percent': pct,
+            'progresso.u23_status': status,
+            'progresso.u23_completed': pct >= 100,
+            'progresso.lastUpdate': new Date().toISOString(),
+            'notes.u23': userNotes
+        }).catch(console.error);
+    }
+
+    window.saveCurrentNote = (questionId, value) => {
+        userNotes[questionId] = value;
+    };
+
+    window.showHint = () => {
+        if(hintsUsed>=3){ alert('Max hints reached'); return; }
+        const cost=hintsUsed===0?5:hintsUsed===1?10:20;
+        if(totalXP<cost){ alert(`Need ${cost} XP`); return; }
+        totalXP-=cost; hintsUsed++; xpDisplay.textContent=String(totalXP);
+        const hints=['Look for time words: o\'clock, morning, afternoon.', 'Is it about a person? Check He/She + verb-s.', 'Sequence words help: First → Then → Finally.'];
+        document.getElementById('hintText').textContent=hints[hintsUsed-1]||'Review the lesson.';
+        document.getElementById('hintBox').classList.add('show');
+        saveProgress();
+    };
+
+    window.goHome = () => { saveProgress(); window.location.href='index.html'; };
+    window.toggleSettings = () => document.getElementById('settingsMenu').classList.toggle('show');
+    window.toggleVoice = () => { voice=voice==='en-US'?'en-GB':'en-US'; document.getElementById('voiceLabel').textContent=voice==='en-US'?'US':'UK'; saveProgress(); };
+    window.showNotes = () => alert('Notes saved per question. Review in each question\'s notes section.');
+    window.resetProgress = () => { if(confirm('Restart lesson?')){ Object.keys(questionIndex).forEach(k=>questionIndex[k]=0); score=0; streak=0; vocabQuizSet=[]; saveProgress(); renderCurrentTab(); } };
+
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.menu-btn')&&!e.target.closest('.settings-menu')) document.getElementById('settingsMenu').classList.remove('show'); });
+
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Enter'&&!e.repeat&&currentTab!=='video'){
+            e.preventDefault();
+            const checkBtn=document.getElementById('checkBtn'), continueBtn=document.getElementById('continueBtn');
+
+            if(currentTab==='writing' && checkBtn && !checkBtn.disabled){
+                checkWriting();
+                return;
+            }
+
+            if(currentTab==='grammar'){
+                nextQuestion();
+                return;
+            }
+
+            if(currentTab==='speaking' && continueBtn && !continueBtn.disabled){
+                nextQuestion();
+                return;
+            }
+
+            if(checkBtn && !checkBtn.disabled && !isAnswered){
+                if(currentTab==='vocabulary' && typeof checkVocabAnswer === 'function') checkVocabAnswer();
+                else checkAnswer();
+            } else if((checkBtn && (checkBtn.textContent.includes('Correct') || checkBtn.textContent.includes('Next Question'))) || (continueBtn && !continueBtn.disabled)){
+                if(['speaking','writing','grammar'].includes(currentTab)) nextQuestion();
+                else{ questionIndex[currentTab]++; isAnswered=false; selectedOption=null; hintsUsed=0; saveProgress(); renderCurrentTab(); }
+            }
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        try { saveProgress(); } catch (error) { console.error(error); }
+    });
+
+    if('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged=()=>{};
 </script>
 
-<!-- TEACHER'S GUIDE (Hidden in HTML comments) -->
-<!--
-📚 ENGLISHPATH A1 - U22: TIME & CLOCK | TEACHER'S GUIDE
-========================================================
-
+<!-- 
+🧑‍🏫 TEACHER'S GUIDE - U23: Daily Routine (A1)
+================================================
 ⏱️ TIMING SUGGESTIONS:
-- Video section: 5-7 minutes (watch + subtitle interaction)
-- Reading: 8-10 minutes (3 passages with questions)
-- Listening: 6-8 minutes (3 audio exercises)
-- Speaking: 10-12 minutes (3 pronunciation drills with recording)
-- Writing: 8-10 minutes (2 writing tasks with feedback)
-- Vocabulary: 5-7 minutes (10 flashcards)
-- Grammar: 6-8 minutes (3 rule explanations)
-- Other sections: 3-5 minutes each
-→ Total estimated time: 60 minutes
+• Video: 5-7 min (watch + quick discussion)
+• Reading: 15 min (10 questions × ~1.5 min each)
+• Listening: 10 min (allow replay)
+• Speaking: 12 min (encourage retries for confidence)
+• Writing: 13 min (focus on sentence structure)
+• Vocabulary: 10 min (study) + 5 min (quiz)
+• Grammar: 10 min (read + reflect)
+TOTAL: ~60 minutes
 
-🎯 LEARNING OBJECTIVES:
-1. Tell time using "o'clock", "half past", "quarter past/to"
-2. Ask and answer "What time is it?"
-3. Use Present Simple for daily routines with time expressions
-4. Pronounce time expressions clearly
-5. Write times in word form
-
-⚠️ POTENTIAL STUDENT CHALLENGES:
-- Confusing "past" vs "to" (e.g., quarter to nine = 8:45)
-- Pronunciation of "o'clock" (schwa sound: /əˈklɒk/)
-- Writing times with correct spelling and punctuation
-- Speech recognition sensitivity (encourage clear, slow speech)
-- Understanding analog vs digital time expressions
+🎯 POTENTIAL STUDENT CHALLENGES:
+• Confusing "in the morning" vs "at night" prepositions
+• Forgetting -s on He/She/It verbs (She wake → She wakes)
+• Mixing up "half past" and "quarter to"
+• Pronunciation of "teeth" /tiːθ/ vs "teach" /tiːtʃ/
 
 💡 EXPANSION IDEAS:
-- Have students create their daily schedule using target language
-- Role-play: "Asking for the time" scenarios (tourist, bus stop, etc.)
-- Clock craft: Make paper clocks to practice moving hands
-- Time zone activity: "What time is it in London when it's 3pm here?"
-- Digital detox challenge: Practice telling time without devices
+• Have students draw their routine timeline and present
+• Create a class survey: "What time do you...?"
+• Connect to local context: "What time do buses run in Balsa Nova?"
+• Role-play: Interview a partner about their day
 
-🔧 TECHNICAL NOTES:
-- Speech Recognition requires HTTPS and user permission
-- TTS works best in Chrome/Edge/Safari (limited in Firefox)
-- All progress saved to localStorage for standalone use
-- Firebase integration ready (uncomment and configure for production)
-- Theme toggle persists via localStorage
-- Responsive design tested down to 320px width
-
-♿ ACCESSIBILITY FEATURES:
-- ARIA labels on interactive elements
-- Keyboard navigation support (Enter, Escape, Tab)
-- Sufficient color contrast in both themes
-- Focus indicators for keyboard users
-- Reduced motion preference respected (via CSS)
-
-✨ ENGAGEMENT BOOSTERS:
-- Floating animation on vocabulary cards
-- Confetti effect on section completion (add library if desired)
-- Streak counter with visual feedback for 5+ correct answers
-- XP notifications with subtle animation
-- Haptic feedback on mobile (if supported)
-
-✅ QUALITY CHECKLIST BEFORE DEPLOYMENT:
-[ ] Test speech recognition in target browsers
-[ ] Verify TTS voices available on user devices
-[ ] Check localStorage persistence across sessions
-[ ] Validate all answer validation logic
-[ ] Test keyboard navigation flow
-[ ] Confirm responsive layout on mobile devices
-[ ] Review color contrast for WCAG AA compliance
-[ ] Add analytics events if tracking desired
-
-Last updated: April 2026 | EnglishPath A1 Curriculum Team
+🔧 CODE NOTES:
+• All TTS uses Web Speech API with fallback
+• Firebase keys are embedded - replace with your config in production
+• Speech recognition requires Chrome/Edge and user permission
+• Progress saves to Firestore under "progresso.u23_*"
+• Vocabulary quiz randomly selects 5 of 30 words per session
+• Hints cost XP to encourage independent thinking
 -->
 
 </body>
