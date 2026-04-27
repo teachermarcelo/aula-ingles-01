@@ -693,6 +693,37 @@
         </div>
     </div>
 
+    <!-- ===== MODAL: CHANGE PASSWORD ===== -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">🔐 Mudar Senha</h2>
+                <button onclick="window.closeModal('changePasswordModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="changePasswordForm" onsubmit="return window.handleChangePassword(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Senha Atual</label>
+                        <input type="password" id="currentPassword" class="input-field" placeholder="•••••••••" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Nova Senha</label>
+                        <input type="password" id="newPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Confirmar Nova Senha</label>
+                        <input type="password" id="confirmNewPassword" class="input-field" placeholder="Digite novamente" required>
+                    </div>
+                    <button type="submit" id="changePasswordBtn" class="btn btn-primary w-full py-3">
+                        <i class="fa-solid fa-lock"></i> Atualizar Senha
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ===== HEADER ===== -->
     <header class="sticky top-0 z-50 c-card border-b border-gray-700 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
@@ -731,6 +762,10 @@
 
                         <button onclick="window.openAchievements()" class="w-10 h-10 rounded-full c-accent-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Conquistas">
                             <i class="fa-solid fa-medal text-white"></i>
+                        </button>
+
+                        <button onclick="window.openModal('changePasswordModal')" class="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Mudar Senha">
+                            <i class="fa-solid fa-lock"></i>
                         </button>
 
                         <button onclick="window.openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform relative" title="Painel Administrativo">
@@ -1004,7 +1039,17 @@
     <script type="module">
         // ===== IMPORTS =====
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged, 
+            sendPasswordResetEmail,
+            updatePassword,
+            EmailAuthProvider,
+            reauthenticateWithCredential
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, query, orderBy, serverTimestamp, arrayUnion, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ===== CONFIG =====
@@ -1047,6 +1092,7 @@
         window.toggleTheme = toggleTheme;
         window.handleLogin = handleLogin;
         window.handleRegister = handleRegister;
+        window.handleChangePassword = handleChangePassword;
         window.logout = logout;
         window.showAdminTab = showAdminTab;
         window.filterStudents = filterStudents;
@@ -1062,6 +1108,7 @@
         window.updateUserRole = updateUserRole;
         window.fixDatabaseRoles = fixDatabaseRoles;
         window.removeUser = removeUser;
+        window.resetUserPassword = resetUserPassword;
         window.openLeaderboard = openLeaderboard;
         window.openAchievements = openAchievements;
         window.checkAchievements = checkAchievements;
@@ -1628,6 +1675,55 @@
             return false;
         }
 
+        // ===== AUTH: CHANGE PASSWORD =====
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            console.log('🔑 Tentando mudar senha...');
+
+            const btn = document.getElementById('changePasswordBtn');
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            if (newPassword !== confirmNewPassword) {
+                showToast('Erro', 'As novas senhas não coincidem', 'error');
+                return false;
+            }
+            if (newPassword.length < 6) {
+                showToast('Erro', 'Senha muito curta (mínimo 6)', 'error');
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Atualizando...';
+
+            try {
+                const user = auth.currentUser;
+                
+                // Reautenticar usuário
+                const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                await reauthenticateWithCredential(user, credential);
+                
+                // Atualizar senha
+                await updatePassword(user, newPassword);
+                
+                closeModal('changePasswordModal');
+                document.getElementById('changePasswordForm').reset();
+                showToast('Sucesso', 'Senha atualizada com sucesso!', 'success');
+            } catch (error) {
+                console.error('❌ Erro ao mudar senha:', error);
+                let msg = 'Erro ao atualizar senha';
+                if (error.code === 'auth/wrong-password') msg = 'Senha atual incorreta';
+                else if (error.code === 'auth/weak-password') msg = 'Nova senha muito fraca';
+                else if (error.code === 'auth/requires-recent-login') msg = 'Faça login novamente por segurança';
+                showToast('Erro', msg, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-lock"></i> Atualizar Senha';
+            }
+            return false;
+        }
+
         // ===== AUTH: LOGOUT =====
         async function logout() {
             try {
@@ -1649,6 +1745,27 @@
                 showToast('Enviado', 'Verifique seu email.', 'success');
             } catch (error) {
                 showToast('Erro', error.message, 'error');
+            }
+        }
+
+        // ===== AUTH: RESET USER PASSWORD (ADMIN) =====
+        async function resetUserPassword(userId, userEmail) {
+            if (!confirm(`Resetar senha de ${userEmail}?\n\nUm email de redefinição será enviado para o usuário.`)) return;
+            
+            try {
+                // Enviar email de reset de senha
+                await sendPasswordResetEmail(auth, userEmail);
+                
+                // Registrar no Firestore que foi solicitado reset
+                await updateDoc(doc(db, "usuarios", userId), { 
+                    passwordResetRequested: serverTimestamp(),
+                    passwordResetBy: userData.uid
+                });
+                
+                showToast('Sucesso', `Email de reset enviado para ${userEmail}`, 'success');
+            } catch (error) {
+                console.error('Erro ao resetar senha:', error);
+                showToast('Erro', error.message || 'Falha ao enviar email de reset', 'error');
             }
         }
 
@@ -1970,13 +2087,16 @@
                     ${isSuperAdmin ? `
                     <div class="mt-4 p-4 bg-gray-800 rounded-xl border border-gray-700">
                         <label class="block text-sm font-bold mb-2 text-yellow-400"><i class="fa-solid fa-crown mr-1"></i> Gerenciar Cargo</label>
-                        <div class="flex gap-2 items-center">
+                        <div class="flex gap-2 items-center mb-3">
                             <select id="editRoleSelect" class="input-field flex-1">
                                 <option value="student" ${student.role === 'student' ? 'selected' : ''}>Student</option>
                                 <option value="admin" ${student.role === 'admin' ? 'selected' : ''}>Admin</option>
                             </select>
                             <button onclick="window.updateUserRole('${student.id}', document.getElementById('editRoleSelect').value)" class="btn btn-primary btn-sm">Salvar</button>
                         </div>
+                        <button onclick="window.resetUserPassword('${student.id}', '${student.email}')" class="btn btn-outline w-full">
+                            <i class="fa-solid fa-key"></i> Resetar Senha do Usuário
+                        </button>
                     </div>` : ''}
                     <div class="flex gap-2 pt-4 border-t border-gray-700">
                         ${student.status === 'pending' ? `
