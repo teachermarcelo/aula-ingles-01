@@ -358,7 +358,7 @@
                 <div class="text-xs opacity-90">Acesso rápido no celular 📱</div>
             </div>
         </div>
-        <button onclick="window.installPWA()" class="btn btn-sm bg-white text-green-700 font-bold">
+        <button onclick="installPWA()" class="btn btn-sm bg-white text-green-700 font-bold">
             <i class="fa-solid fa-download"></i> Instalar
         </button>
     </div>
@@ -368,11 +368,11 @@
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Bem-vindo de volta! 👋</h2>
-                <button onclick="window.closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('loginModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <form id="loginForm" onsubmit="return window.handleLogin(event)">
+            <form id="loginForm" onsubmit="return handleLogin(event)">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold mb-2">Email</label>
@@ -387,7 +387,7 @@
                             <input type="checkbox" class="rounded">
                             <span class="c-text-muted">Lembrar-me</span>
                         </label>
-                        <button type="button" onclick="window.showForgotPassword()" class="c-primary font-bold hover:underline">
+                        <button type="button" onclick="showForgotPassword()" class="c-primary font-bold hover:underline">
                             Esqueceu a senha?
                         </button>
                     </div>
@@ -398,7 +398,7 @@
             </form>
             <div class="mt-6 text-center">
                 <p class="c-text-muted">Não tem conta?
-                    <button onclick="window.switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">
+                    <button onclick="switchModal('loginModal', 'registerModal')" class="c-primary font-bold hover:underline">
                         Cadastre-se gratuitamente
                     </button>
                 </p>
@@ -411,11 +411,11 @@
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">Crie sua conta 🚀</h2>
-                <button onclick="window.closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('registerModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <form id="registerForm" onsubmit="return window.handleRegister(event)">
+            <form id="registerForm" onsubmit="return handleRegister(event)">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold mb-2">Nome completo</label>
@@ -446,11 +446,42 @@
             </form>
             <div class="mt-6 text-center">
                 <p class="c-text-muted">Já tem conta?
-                    <button onclick="window.switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">
+                    <button onclick="switchModal('registerModal', 'loginModal')" class="c-primary font-bold hover:underline">
                         Faça login
                     </button>
                 </p>
             </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: CHANGE PASSWORD ===== -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-display font-bold text-2xl">🔐 Mudar Senha</h2>
+                <button onclick="closeModal('changePasswordModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="changePasswordForm" onsubmit="return handleChangePassword(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Senha Atual</label>
+                        <input type="password" id="currentPassword" class="input-field" placeholder="•••••••••" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Nova Senha</label>
+                        <input type="password" id="newPassword" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">Confirmar Nova Senha</label>
+                        <input type="password" id="confirmNewPassword" class="input-field" placeholder="Digite novamente" required>
+                    </div>
+                    <button type="submit" id="changePasswordBtn" class="btn btn-primary w-full py-3">
+                        <i class="fa-solid fa-lock"></i> Atualizar Senha
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -467,7 +498,7 @@
                         <p class="c-text-muted text-sm">Competição entre alunos • Top 10</p>
                     </div>
                 </div>
-                <button onclick="window.closeModal('leaderboardModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('leaderboardModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -492,7 +523,7 @@
                         <p class="c-text-muted text-sm">Desbloqueie medalhas e troféus</p>
                     </div>
                 </div>
-                <button onclick="window.closeModal('achievementsModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('achievementsModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -505,7 +536,7 @@
         <div class="modal-content max-w-2xl">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">👥 Alunos Ativos Hoje</h2>
-                <button onclick="window.closeModal('activeUsersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('activeUsersModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -523,28 +554,28 @@
                     </div>
                     <h2 class="font-display font-bold text-2xl">Painel Administrativo</h2>
                 </div>
-                <button onclick="window.closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="flex gap-1 mb-0 border-b border-gray-700 overflow-x-auto pb-1">
-                <button onclick="window.showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active">
+                <button onclick="showAdminTab('dashboard')" id="tab-dashboard" class="tab-btn active">
                     <i class="fa-solid fa-chart-line mr-2"></i>Dashboard
                 </button>
-                <button onclick="window.showAdminTab('students')" id="tab-students" class="tab-btn">
+                <button onclick="showAdminTab('students')" id="tab-students" class="tab-btn">
                     <i class="fa-solid fa-users mr-2"></i>Alunos
                 </button>
-                <button onclick="window.showAdminTab('leaderboard')" id="tab-leaderboard" class="tab-btn">
+                <button onclick="showAdminTab('leaderboard')" id="tab-leaderboard" class="tab-btn">
                     <i class="fa-solid fa-trophy mr-2"></i>Ranking
                 </button>
-                <button onclick="window.showAdminTab('reports')" id="tab-reports" class="tab-btn">
+                <button onclick="showAdminTab('reports')" id="tab-reports" class="tab-btn">
                     <i class="fa-solid fa-file-alt mr-2"></i>Relatórios PDF
                 </button>
-                <button onclick="window.showAdminTab('courses')" id="tab-courses" class="tab-btn">
+                <button onclick="showAdminTab('courses')" id="tab-courses" class="tab-btn">
                     <i class="fa-solid fa-graduation-cap mr-2"></i>Cursos
                 </button>
-                <button onclick="window.showAdminTab('settings')" id="tab-settings" class="tab-btn">
+                <button onclick="showAdminTab('settings')" id="tab-settings" class="tab-btn">
                     <i class="fa-solid fa-cog mr-2"></i>Config
                 </button>
             </div>
@@ -557,7 +588,7 @@
                         <div class="text-3xl font-bold c-primary mb-1" id="statTotal">0</div>
                         <div class="text-sm c-text-muted">Total Alunos</div>
                     </div>
-                    <div class="stat-card text-center clickable" onclick="window.openActiveUsersModal()">
+                    <div class="stat-card text-center clickable" onclick="openActiveUsersModal()">
                         <div class="text-3xl font-bold c-secondary mb-1" id="statActive">0</div>
                         <div class="text-sm c-text-muted">Ativos Hoje (clique)</div>
                     </div>
@@ -597,14 +628,14 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
                     <h3 class="font-bold text-lg">👥 Gestão de Alunos</h3>
                     <div class="flex gap-2 flex-wrap">
-                        <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="window.filterStudents()">
-                        <select id="filterLevel" class="input-field" onchange="window.filterStudents()">
+                        <input type="text" id="searchStudent" class="input-field w-48" placeholder="Buscar aluno..." onkeyup="filterStudents()">
+                        <select id="filterLevel" class="input-field" onchange="filterStudents()">
                             <option value="all">Todos níveis</option>
                             <option value="A1">A1</option><option value="A2">A2</option>
                             <option value="B1">B1</option><option value="B2">B2</option>
                             <option value="C1">C1</option><option value="C2">C2</option>
                         </select>
-                        <select id="filterStatus" class="input-field" onchange="window.filterStudents()">
+                        <select id="filterStatus" class="input-field" onchange="filterStudents()">
                             <option value="all">Todos status</option>
                             <option value="approved">Aprovados</option>
                             <option value="pending">Pendentes</option>
@@ -630,7 +661,7 @@
                         <select id="reportStudentSelect" class="input-field mb-4">
                             <option value="">-- Selecione --</option>
                         </select>
-                        <button onclick="window.generatePDFReport()" class="btn btn-danger w-full">
+                        <button onclick="generatePDFReport()" class="btn btn-danger w-full">
                             <i class="fa-solid fa-file-pdf"></i> Gerar PDF Boletim
                         </button>
                     </div>
@@ -664,15 +695,15 @@
                 <h3 class="font-bold text-lg mb-4">⚙️ Configurações</h3>
                 <div class="stat-card border-red-900/50 bg-red-900/10 mb-4">
                     <h4 class="font-bold mb-4 text-red-400">🔥 Correção de Cargos</h4>
-                    <button onclick="window.fixDatabaseRoles()" class="btn btn-danger w-full">
+                    <button onclick="fixDatabaseRoles()" class="btn btn-danger w-full">
                         <i class="fa-solid fa-triangle-exclamation mr-2"></i> Forçar Reset
                     </button>
                 </div>
                 <div class="flex flex-wrap gap-3">
-                    <button onclick="window.exportData('json')" class="btn btn-outline">
+                    <button onclick="exportData('json')" class="btn btn-outline">
                         <i class="fa-solid fa-file-code mr-2"></i> Exportar JSON
                     </button>
-                    <button onclick="window.logout()" class="btn btn-danger ml-auto">
+                    <button onclick="logout()" class="btn btn-danger ml-auto">
                         <i class="fa-solid fa-sign-out-alt mr-2"></i> Sair
                     </button>
                 </div>
@@ -685,7 +716,7 @@
         <div class="modal-content max-w-3xl">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="font-display font-bold text-2xl">👤 Detalhes do Aluno</h2>
-                <button onclick="window.closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
+                <button onclick="closeModal('studentModal')" class="w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -708,13 +739,13 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button class="theme-toggle" onclick="window.toggleTheme()" aria-label="Alternar tema"></button>
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema"></button>
 
                     <div id="authButtons" class="flex items-center gap-2">
-                        <button onclick="window.openModal('loginModal')" class="btn btn-outline btn-sm">
+                        <button onclick="openModal('loginModal')" class="btn btn-outline btn-sm">
                             <i class="fa-solid fa-right-to-bracket"></i> Login
                         </button>
-                        <button onclick="window.openModal('registerModal')" class="btn btn-primary btn-sm">
+                        <button onclick="openModal('registerModal')" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-user-plus"></i> Cadastrar
                         </button>
                     </div>
@@ -725,20 +756,24 @@
                             <span id="displayUserName">Usuário</span>
                         </span>
 
-                        <button onclick="window.openLeaderboard()" class="w-10 h-10 rounded-full c-gold-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Ranking">
+                        <button onclick="openLeaderboard()" class="w-10 h-10 rounded-full c-gold-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Ranking">
                             <i class="fa-solid fa-trophy" style="color: #78350f;"></i>
                         </button>
 
-                        <button onclick="window.openAchievements()" class="w-10 h-10 rounded-full c-accent-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Conquistas">
+                        <button onclick="openAchievements()" class="w-10 h-10 rounded-full c-accent-bg flex items-center justify-center shadow-md hover:scale-105 transition-transform" title="Conquistas">
                             <i class="fa-solid fa-medal text-white"></i>
                         </button>
 
-                        <button onclick="window.openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform relative" title="Painel Administrativo">
+                        <button onclick="openModal('changePasswordModal')" class="w-9 h-9 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center transition-colors" title="Mudar Senha">
+                            <i class="fa-solid fa-lock"></i>
+                        </button>
+
+                        <button onclick="openModal('adminModal')" id="adminBtn" class="hidden force-hidden w-10 h-10 rounded-full crown-btn flex items-center justify-center shadow-md hover:scale-105 transition-transform relative" title="Painel Administrativo">
                             <i class="fa-solid fa-crown"></i>
                             <span id="adminBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse hidden">0</span>
                         </button>
 
-                        <button onclick="window.logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair">
+                        <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Sair">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
                     </div>
@@ -761,10 +796,10 @@
                     Compete com outros alunos, ganhe medalhas e suba no ranking!
                 </p>
                 <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="window.openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
+                    <button onclick="openModal('registerModal')" class="btn btn-primary text-lg px-10 py-4">
                         <i class="fa-solid fa-rocket"></i> Começar Agora — É Grátis!
                     </button>
-                    <button onclick="window.openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4">
+                    <button onclick="openModal('loginModal')" class="btn btn-outline text-lg px-10 py-4">
                         <i class="fa-solid fa-right-to-bracket"></i> Já tenho conta
                     </button>
                 </div>
@@ -815,10 +850,10 @@
             </div>
 
             <div class="flex justify-center gap-4 flex-wrap">
-                <button onclick="window.openLeaderboard()" class="btn btn-gold px-8 py-3 text-lg">
+                <button onclick="openLeaderboard()" class="btn btn-gold px-8 py-3 text-lg">
                     <i class="fa-solid fa-trophy"></i> Ver Ranking
                 </button>
-                <button onclick="window.openAchievements()" class="btn btn-outline px-8 py-3 text-lg">
+                <button onclick="openAchievements()" class="btn btn-outline px-8 py-3 text-lg">
                     <i class="fa-solid fa-medal c-accent"></i> Conquistas
                 </button>
             </div>
@@ -879,7 +914,7 @@
             <div class="c-card rounded-2xl p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="font-display font-bold text-xl">🏅 Conquistas Recentes</h3>
-                    <button onclick="window.openAchievements()" class="btn btn-sm btn-outline">Ver Todas</button>
+                    <button onclick="openAchievements()" class="btn btn-sm btn-outline">Ver Todas</button>
                 </div>
                 <div id="recentAchievements" class="grid md:grid-cols-3 gap-4"></div>
             </div>
@@ -888,23 +923,23 @@
             <div class="c-card rounded-2xl p-6">
                 <h3 class="font-display font-bold text-xl mb-6">🎓 Cursos Especiais</h3>
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    <div onclick="window.openCourseWhatsapp('Business')" class="course-card">
+                    <div onclick="openCourseWhatsapp('Business')" class="course-card">
                         <div class="course-icon course-business"><i class="fa-solid fa-briefcase"></i></div>
                         <h4 class="font-bold text-sm">Business</h4>
                     </div>
-                    <div onclick="window.openCourseWhatsapp('Bíblico')" class="course-card">
+                    <div onclick="openCourseWhatsapp('Bíblico')" class="course-card">
                         <div class="course-icon course-biblico"><i class="fa-solid fa-book-bible"></i></div>
                         <h4 class="font-bold text-sm">Bíblico</h4>
                     </div>
-                    <div onclick="window.openCourseWhatsapp('Kids')" class="course-card">
+                    <div onclick="openCourseWhatsapp('Kids')" class="course-card">
                         <div class="course-icon course-kids"><i class="fa-solid fa-child"></i></div>
                         <h4 class="font-bold text-sm">Kids</h4>
                     </div>
-                    <div onclick="window.openCourseWhatsapp('Airport')" class="course-card">
+                    <div onclick="openCourseWhatsapp('Airport')" class="course-card">
                         <div class="course-icon course-airport"><i class="fa-solid fa-plane"></i></div>
                         <h4 class="font-bold text-sm">Airport</h4>
                     </div>
-                    <div onclick="window.openCourseWhatsapp('Travel')" class="course-card">
+                    <div onclick="openCourseWhatsapp('Travel')" class="course-card">
                         <div class="course-icon course-travel"><i class="fa-solid fa-suitcase"></i></div>
                         <h4 class="font-bold text-sm">Travel</h4>
                     </div>
@@ -915,19 +950,19 @@
             <div class="c-card rounded-2xl p-6" id="librarySection">
                 <h3 class="font-display font-bold text-xl mb-6">📚 Biblioteca de Conteúdo</h3>
                 <div class="flex gap-1 mb-4 border-b border-gray-700 overflow-x-auto">
-                    <button onclick="window.showLibraryTab('reading')" id="tab-reading" class="tab-btn active">
+                    <button onclick="showLibraryTab('reading')" id="tab-reading" class="tab-btn active">
                         <i class="fa-solid fa-book-open mr-2"></i>Reading
                     </button>
-                    <button onclick="window.showLibraryTab('videos')" id="tab-videos" class="tab-btn">
+                    <button onclick="showLibraryTab('videos')" id="tab-videos" class="tab-btn">
                         <i class="fa-solid fa-video mr-2"></i>Vídeos
                     </button>
-                    <button onclick="window.showLibraryTab('audios')" id="tab-audios" class="tab-btn">
+                    <button onclick="showLibraryTab('audios')" id="tab-audios" class="tab-btn">
                         <i class="fa-solid fa-headphones mr-2"></i>Áudios
                     </button>
-                    <button onclick="window.showLibraryTab('grammar')" id="tab-grammar" class="tab-btn">
+                    <button onclick="showLibraryTab('grammar')" id="tab-grammar" class="tab-btn">
                         <i class="fa-solid fa-spell-check mr-2"></i>Grammar
                     </button>
-                    <button onclick="window.showLibraryTab('exercises')" id="tab-exercises" class="tab-btn">
+                    <button onclick="showLibraryTab('exercises')" id="tab-exercises" class="tab-btn">
                         <i class="fa-solid fa-pen-to-square mr-2"></i>Exercises
                     </button>
                 </div>
@@ -1004,7 +1039,17 @@
     <script type="module">
         // ===== IMPORTS =====
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged, 
+            sendPasswordResetEmail,
+            updatePassword,
+            EmailAuthProvider,
+            reauthenticateWithCredential
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, query, orderBy, serverTimestamp, arrayUnion, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ===== CONFIG =====
@@ -1040,13 +1085,14 @@
         let userAchievements = [];
         let deferredPrompt = null;
 
-        // ===== EXPOSE ALL FUNCTIONS =====
+        // ===== EXPOSE ALL FUNCTIONS TO WINDOW =====
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.switchModal = switchModal;
         window.toggleTheme = toggleTheme;
         window.handleLogin = handleLogin;
         window.handleRegister = handleRegister;
+        window.handleChangePassword = handleChangePassword;
         window.logout = logout;
         window.showAdminTab = showAdminTab;
         window.filterStudents = filterStudents;
@@ -1072,6 +1118,7 @@
         window.checkInactiveUsers = checkInactiveUsers;
         window.installPWA = installPWA;
         window.showLibraryTab = showLibraryTab;
+        window.showToast = showToast;
 
         console.log('🚀 EnglishPath iniciado!');
 
@@ -1101,7 +1148,7 @@
                         }
 
                         if (data.status === 'banned') {
-                            window.showToast('Bloqueado', 'Sua conta foi desativada.', 'error');
+                            showToast('Bloqueado', 'Sua conta foi desativada.', 'error');
                             await signOut(auth);
                             return;
                         }
@@ -1124,9 +1171,9 @@
                             loadDynamicLessons();
                             loadUserAchievements();
                             checkAchievements();
-                            window.showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
+                            showToast('Bem-vindo!', `Olá, ${userData.nome}!`, 'success');
                         } else {
-                            window.showToast('Aguarde', `Seu cadastro está "${userData.status}".`, 'warning');
+                            showToast('Aguarde', `Seu cadastro está "${userData.status}".`, 'warning');
                             await signOut(auth);
                         }
                     } else {
@@ -1239,13 +1286,13 @@
 
         function installPWA() {
             if (!deferredPrompt) {
-                window.showToast('Info', 'Seu navegador não suporta instalação PWA.', 'warning');
+                showToast('Info', 'Seu navegador não suporta instalação PWA.', 'warning');
                 return;
             }
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((result) => {
                 if (result.outcome === 'accepted') {
-                    window.showToast('🎉', 'EnglishPath instalado!', 'success');
+                    showToast('🎉', 'EnglishPath instalado!', 'success');
                 }
                 deferredPrompt = null;
                 const banner = document.getElementById('pwaInstallBanner');
@@ -1265,7 +1312,7 @@
                         badge.textContent = count > 9 ? '9+' : count;
                         badge.classList.remove('hidden');
                         if (!sessionStorage.getItem('pendingNotified')) {
-                            window.showToast('📋 Cadastros Pendentes', `${count} aluno(s) aguardando aprovação`, 'warning');
+                            showToast('📋 Cadastros Pendentes', `${count} aluno(s) aguardando aprovação`, 'warning');
                             sessionStorage.setItem('pendingNotified', 'true');
                         }
                     } else {
@@ -1286,7 +1333,7 @@
             if (hoursDiff >= 24 && hoursDiff < 168) {
                 const days = Math.round(hoursDiff / 24);
                 const streak = userData.streak || 0;
-                window.showToast('💙 Sentimos sua falta!', `Você está há ${days} dia(s) sem estudar. Sequência: ${streak} dias.`, 'warning');
+                showToast('💙 Sentimos sua falta!', `Você está há ${days} dia(s) sem estudar. Sequência: ${streak} dias.`, 'warning');
             }
         }
 
@@ -1346,7 +1393,7 @@
                 loadUserAchievements();
                 newAchievements.forEach(ach => {
                     const def = ACHIEVEMENTS[ach.id];
-                    if (def) window.showToast('🏆 Conquista!', `${def.name}: ${def.desc}`, 'success');
+                    if (def) showToast('🏆 Conquista!', `${def.name}: ${def.desc}`, 'success');
                 });
             }
         }
@@ -1528,7 +1575,6 @@
             toast.className = `toast ${type} show`;
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
-        window.showToast = showToast;
 
         // ===== AUTH: LOGIN =====
         async function handleLogin(e) {
@@ -1625,6 +1671,109 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Criar conta';
             }
+            return false;
+        }
+
+        // ===== AUTH: CHANGE PASSWORD =====
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            console.log('🔑 Iniciando mudança de senha...');
+
+            const btn = document.getElementById('changePasswordBtn');
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            // Validações
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                showToast('Erro', 'Preencha todos os campos', 'error');
+                return false;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                showToast('Erro', 'As novas senhas não coincidem', 'error');
+                return false;
+            }
+
+            if (newPassword.length < 6) {
+                showToast('Erro', 'Senha deve ter pelo menos 6 caracteres', 'error');
+                return false;
+            }
+
+            if (newPassword === currentPassword) {
+                showToast('Erro', 'A nova senha deve ser diferente da atual', 'error');
+                return false;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Atualizando...';
+
+            try {
+                const user = auth.currentUser;
+                
+                if (!user || !user.email) {
+                    throw new Error('Usuário não autenticado. Faça login novamente.');
+                }
+
+                console.log('📧 Usuário:', user.email);
+
+                // Criar credenciais com email e senha atual
+                const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                
+                console.log('🔄 Reautenticando usuário...');
+                // Reautenticar usuário (obrigatório para operações sensíveis)
+                await reauthenticateWithCredential(user, credential);
+                
+                console.log('✅ Reautenticação bem-sucedida');
+                
+                // Atualizar para nova senha
+                await updatePassword(user, newPassword);
+                
+                console.log('✅ Senha atualizada com sucesso!');
+                
+                // Fechar modal e limpar campos
+                closeModal('changePasswordModal');
+                document.getElementById('changePasswordForm').reset();
+                
+                showToast('Sucesso!', 'Senha atualizada com sucesso!', 'success');
+                
+            } catch (error) {
+                console.error('❌ Erro detalhado:', error);
+                console.error('Código do erro:', error.code);
+                console.error('Mensagem:', error.message);
+                
+                let msg = 'Erro ao atualizar senha';
+                
+                // Traduzir erros do Firebase
+                switch(error.code) {
+                    case 'auth/wrong-password':
+                        msg = 'Senha atual incorreta. Verifique e tente novamente.';
+                        break;
+                    case 'auth/requires-recent-login':
+                        msg = 'Por segurança, faça login novamente e tente mudar a senha.';
+                        break;
+                    case 'auth/weak-password':
+                        msg = 'Senha muito fraca. Use pelo menos 6 caracteres com letras e números.';
+                        break;
+                    case 'auth/user-not-found':
+                        msg = 'Usuário não encontrado. Faça login novamente.';
+                        break;
+                    case 'auth/invalid-email':
+                        msg = 'Email inválido.';
+                        break;
+                    case 'auth/network-request-failed':
+                        msg = 'Erro de conexão. Verifique sua internet.';
+                        break;
+                    default:
+                        msg = error.message || 'Erro desconhecido. Tente novamente.';
+                }
+                
+                showToast('Erro', msg, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-lock"></i> Atualizar Senha';
+            }
+            
             return false;
         }
 
@@ -1835,7 +1984,7 @@
             container.innerHTML = allStudents.map(u => {
                 const userXP = u.xp || 0;
                 return `
-                    <div class="user-row" onclick="window.openStudentDetails('${u.id}')">
+                    <div class="user-row" onclick="openStudentDetails('${u.id}')">
                         <div class="user-info">
                             <div class="user-avatar ${u.status === 'banned' ? 'bg-gray-800' : 'c-primary-bg'}">${u.nome?.charAt(0)?.toUpperCase() || '?'}</div>
                             <div>
@@ -1850,8 +1999,8 @@
                         <div class="flex items-center gap-3">
                             <span class="status-badge status-${u.status} shrink-0">${u.status === 'pending' ? 'Pendente' : u.status === 'approved' ? 'Aprovado' : 'Banido'}</span>
                             ${u.status === 'pending' ? `
-                                <button onclick="event.stopPropagation(); window.approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 text-white flex items-center justify-center" title="Aprovar"><i class="fa-solid fa-check"></i></button>
-                                <button onclick="event.stopPropagation(); window.rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 text-white flex items-center justify-center" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>
+                                <button onclick="event.stopPropagation(); approveUser('${u.id}')" class="w-8 h-8 rounded-lg bg-green-500 text-white flex items-center justify-center" title="Aprovar"><i class="fa-solid fa-check"></i></button>
+                                <button onclick="event.stopPropagation(); rejectUser('${u.id}')" class="w-8 h-8 rounded-lg bg-red-500 text-white flex items-center justify-center" title="Rejeitar"><i class="fa-solid fa-xmark"></i></button>
                             ` : ''}
                         </div>
                     </div>
@@ -1873,7 +2022,7 @@
             const container = document.getElementById('studentsList');
             if (container) {
                 container.innerHTML = filtered.map(u => `
-                    <div class="user-row" onclick="window.openStudentDetails('${u.id}')">
+                    <div class="user-row" onclick="openStudentDetails('${u.id}')">
                         <div class="user-info">
                             <div class="user-avatar c-primary-bg">${u.nome?.charAt(0)?.toUpperCase() || '?'}</div>
                             <div>
@@ -1970,20 +2119,23 @@
                     ${isSuperAdmin ? `
                     <div class="mt-4 p-4 bg-gray-800 rounded-xl border border-gray-700">
                         <label class="block text-sm font-bold mb-2 text-yellow-400"><i class="fa-solid fa-crown mr-1"></i> Gerenciar Cargo</label>
-                        <div class="flex gap-2 items-center">
+                        <div class="flex gap-2 items-center mb-3">
                             <select id="editRoleSelect" class="input-field flex-1">
                                 <option value="student" ${student.role === 'student' ? 'selected' : ''}>Student</option>
                                 <option value="admin" ${student.role === 'admin' ? 'selected' : ''}>Admin</option>
                             </select>
-                            <button onclick="window.updateUserRole('${student.id}', document.getElementById('editRoleSelect').value)" class="btn btn-primary btn-sm">Salvar</button>
+                            <button onclick="updateUserRole('${student.id}', document.getElementById('editRoleSelect').value)" class="btn btn-primary btn-sm">Salvar</button>
                         </div>
+                        <button onclick="resetUserPassword('${student.id}', '${student.email}')" class="btn btn-outline w-full">
+                            <i class="fa-solid fa-key"></i> Resetar Senha do Usuário
+                        </button>
                     </div>` : ''}
                     <div class="flex gap-2 pt-4 border-t border-gray-700">
                         ${student.status === 'pending' ? `
-                            <button onclick="window.approveUser('${student.id}')" class="btn btn-primary flex-1"><i class="fa-solid fa-check"></i> Aprovar</button>
-                            <button onclick="window.rejectUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
+                            <button onclick="approveUser('${student.id}')" class="btn btn-primary flex-1"><i class="fa-solid fa-check"></i> Aprovar</button>
+                            <button onclick="rejectUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-xmark"></i> Rejeitar</button>
                         ` : `
-                            <button onclick="window.removeUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-trash-alt"></i> Remover</button>
+                            <button onclick="removeUser('${student.id}')" class="btn btn-danger flex-1"><i class="fa-solid fa-trash-alt"></i> Remover</button>
                         `}
                     </div>
                 </div>
@@ -1999,6 +2151,24 @@
                 loadDashboardData();
             } catch (error) {
                 showToast('Erro', error.message, 'error');
+            }
+        }
+
+        async function resetUserPassword(userId, userEmail) {
+            if (!confirm(`Resetar senha de ${userEmail}?\n\nUm email de redefinição será enviado para o usuário.`)) return;
+            
+            try {
+                await sendPasswordResetEmail(auth, userEmail);
+                
+                await updateDoc(doc(db, "usuarios", userId), { 
+                    passwordResetRequested: serverTimestamp(),
+                    passwordResetBy: userData.uid
+                });
+                
+                showToast('Sucesso', `Email de reset enviado para ${userEmail}`, 'success');
+            } catch (error) {
+                console.error('Erro ao resetar senha:', error);
+                showToast('Erro', error.message || 'Falha ao enviar email de reset', 'error');
             }
         }
 
